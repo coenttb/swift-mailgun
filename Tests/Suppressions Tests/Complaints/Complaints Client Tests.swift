@@ -24,7 +24,7 @@ import Suppressions
 struct MailgunComplaintsTests {
     @Test("Should successfully import complaints list")
     func testImportComplaintsList() async throws {
-        @Dependency(\.suppressions!.complaints) var client
+        @Dependency(\.suppressions.complaints) var client
         let testData = Data("test@example.com".utf8)
         
         let response = try await client.importList(testData)
@@ -34,7 +34,7 @@ struct MailgunComplaintsTests {
     
     @Test("Should successfully get complaint record")
     func testGetComplaintRecord() async throws {
-        @Dependency(\.suppressions!.complaints) var client
+        @Dependency(\.suppressions.complaints) var client
         
         let complaint = try await client.get(try .init("test@example.com"))
         
@@ -44,7 +44,7 @@ struct MailgunComplaintsTests {
     
     @Test("Should successfully delete complaint record")
     func testDeleteComplaintRecord() async throws {
-        @Dependency(\.suppressions!.complaints) var client
+        @Dependency(\.suppressions.complaints) var client
         
         let response = try await client.delete(try .init("test@example.com"))
         
@@ -54,7 +54,7 @@ struct MailgunComplaintsTests {
     
     @Test("Should successfully list complaint records")
     func testListComplaintRecords() async throws {
-        @Dependency(\.suppressions!.complaints) var client
+        @Dependency(\.suppressions.complaints) var client
         
         let request = Complaints.List.Request(
             address: try .init("test@example.com"),
@@ -72,7 +72,7 @@ struct MailgunComplaintsTests {
     
     @Test("Should successfully create complaint record")
     func testCreateComplaintRecord() async throws {
-        @Dependency(\.suppressions!.complaints) var client
+        @Dependency(\.suppressions.complaints) var client
         
         let request = Complaints.Create.Request(
             address: try .init("test@example.com")
@@ -85,7 +85,7 @@ struct MailgunComplaintsTests {
     
     @Test("Should successfully delete all complaint records")
     func testDeleteAllComplaintRecords() async throws {
-        @Dependency(\.suppressions!.complaints) var client
+        @Dependency(\.suppressions.complaints) var client
         
         let response = try await client.deleteAll()
         

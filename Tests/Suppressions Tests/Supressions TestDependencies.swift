@@ -23,14 +23,14 @@ import FoundationNetworking
 typealias AuthenticatedClient = Authenticated.Client<Suppressions.API, Suppressions.API.Router, Suppressions.Client>
 
 extension AuthenticatedClient: TestDependencyKey {
-    public static var testValue: Self? {
-        return try? Authenticated.Client.test {
+    public static var testValue: Self {
+        try! Authenticated.Client.test {
             Suppressions.Client.testValue
         }
     }
     
-    public static var liveTest: Self? {
-        try? Authenticated.Client.test { apiKey, baseUrl, domain, makeRequest in
+    public static var liveTest: Self {
+        try! Authenticated.Client.test { apiKey, baseUrl, domain, makeRequest in
             .live(
                 apiKey: apiKey,
                 baseUrl: baseUrl,
@@ -46,7 +46,7 @@ extension Suppressions.API.Router: TestDependencyKey {
 }
 
 extension DependencyValues {
-    var suppressions: AuthenticatedClient? {
+    var suppressions: AuthenticatedClient {
         get { self[AuthenticatedClient.self] }
         set { self[AuthenticatedClient.self] = newValue }
     }

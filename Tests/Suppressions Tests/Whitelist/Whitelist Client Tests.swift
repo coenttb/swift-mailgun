@@ -26,7 +26,7 @@ import Suppressions
 struct SuppressionsWhitelistClientTests {
     @Test("Should successfully create whitelist record for domain")
     func testCreateDomainWhitelistRecord() async throws {
-        @Dependency(\.suppressions!.whitelist) var client
+        @Dependency(\.suppressions.whitelist) var client
         
         let request = Whitelist.Create.Request.domain(try .init("example.com"))
         
@@ -39,7 +39,7 @@ struct SuppressionsWhitelistClientTests {
     
     @Test("Should successfully create whitelist record for address")
     func testCreateAddressWhitelistRecord() async throws {
-        @Dependency(\.suppressions!.whitelist) var client
+        @Dependency(\.suppressions.whitelist) var client
         
         let request = Whitelist.Create.Request.address(try .init("test@example.com"))
         
@@ -52,7 +52,7 @@ struct SuppressionsWhitelistClientTests {
     
     @Test("Should successfully get whitelist record")
     func testGetWhitelistRecord() async throws {
-        @Dependency(\.suppressions!.whitelist) var client
+        @Dependency(\.suppressions.whitelist) var client
         
         let whitelist = try await client.get("example.com")
         
@@ -63,7 +63,7 @@ struct SuppressionsWhitelistClientTests {
     
     @Test("Should successfully delete whitelist record")
     func testDeleteWhitelistRecord() async throws {
-        @Dependency(\.suppressions!.whitelist) var client
+        @Dependency(\.suppressions.whitelist) var client
         
         let response = try await client.delete("example.com")
         
@@ -73,7 +73,7 @@ struct SuppressionsWhitelistClientTests {
     
     @Test("Should successfully list whitelist records")
     func testListWhitelistRecords() async throws {
-        @Dependency(\.suppressions!.whitelist) var client
+        @Dependency(\.suppressions.whitelist) var client
         
         let request = Whitelist.List.Request(
             address: try .init("test@example.com"),
@@ -91,37 +91,37 @@ struct SuppressionsWhitelistClientTests {
     
     @Test("Should successfully delete all whitelist records")
     func testDeleteAllWhitelistRecords() async throws {
-        @Dependency(\.suppressions!.whitelist) var client
+        @Dependency(\.suppressions.whitelist) var client
         
         let response = try await client.deleteAll()
         
         #expect(response.message == "Whitelist addresses/domains for this domain have been removed")
     }
     
-//    @Test(
-//        "Should successfully import whitelist"
-//    )
-//    func testImportWhitelist() async throws {
-//        @Dependency(\.suppressions!.whitelist) var client
-//        
-//        
-//        let csvContent = """
-//        address,domain
-//        test@example.com,example.com
-//        another@example.com,anotherdomain.com
-//        """
-//        let testData = Data(csvContent.utf8)
-//        
-//        let response = try await client.importList(testData)
-//        
-//        #expect(response.message == "file uploaded successfully")
-//    }
+    @Test(
+        "Should successfully import whitelist"
+    )
+    func testImportWhitelist() async throws {
+        @Dependency(\.suppressions.whitelist) var client
+        
+        
+        let csvContent = """
+        address,domain
+        test@example.com,example.com
+        another@example.com,anotherdomain.com
+        """
+        let testData = Data(csvContent.utf8)
+        
+        let response = try await client.importList(testData)
+        
+        #expect(response.message == "file uploaded successfully")
+    }
     
     @Test(
         "Should fail to import empty whitelist"
     )
     func testImportEmptyWhitelist() async throws {
-        @Dependency(\.suppressions!.whitelist) var client
+        @Dependency(\.suppressions.whitelist) var client
         
         let testData = Data("".utf8)
         

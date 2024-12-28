@@ -24,7 +24,7 @@ import Authenticated
 struct BouncesClientTests {
     @Test("Should successfully import bounce list")
     func testImportBounceList() async throws {
-        @Dependency(\.suppressions!.bounces) var client
+        @Dependency(\.suppressions.bounces) var client
         let testData = Data("test@example.com".utf8)
         
         let response = try await client.importList(testData)
@@ -34,7 +34,7 @@ struct BouncesClientTests {
     
     @Test("Should successfully get bounce record")
     func testGetBounceRecord() async throws {
-        @Dependency(\.suppressions!.bounces) var client
+        @Dependency(\.suppressions.bounces) var client
         
         let bounce = try await client.get(.init("test@example.com"))
         
@@ -46,7 +46,7 @@ struct BouncesClientTests {
     
     @Test("Should successfully delete bounce record")
     func testDeleteBounceRecord() async throws {
-        @Dependency(\.suppressions!.bounces) var client
+        @Dependency(\.suppressions.bounces) var client
         
         let response = try await client.delete(.init("test@example.com"))
         
@@ -56,7 +56,7 @@ struct BouncesClientTests {
     
     @Test("Should successfully list bounce records")
     func testListBounceRecords() async throws {
-        @Dependency(\.suppressions!.bounces) var client
+        @Dependency(\.suppressions.bounces) var client
         
         let request = Bounces.List.Request(
             limit: 25,
@@ -73,7 +73,7 @@ struct BouncesClientTests {
     
     @Test("Should successfully create bounce record")
     func testCreateBounceRecord() async throws {
-        @Dependency(\.suppressions!.bounces) var client
+        @Dependency(\.suppressions.bounces) var client
         
         let request = Bounces.Create.Request(
             address: try .init("test@example.com"),
@@ -88,7 +88,7 @@ struct BouncesClientTests {
     
     @Test("Should successfully delete all bounce records")
     func testDeleteAllBounceRecords() async throws {
-        @Dependency(\.suppressions!.bounces) var client
+        @Dependency(\.suppressions.bounces) var client
         
         let response = try await client.deleteAll()
         

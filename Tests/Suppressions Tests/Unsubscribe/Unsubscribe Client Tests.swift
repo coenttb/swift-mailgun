@@ -24,7 +24,7 @@ import Suppressions
 struct MailgunUnsubscribeTests {
     @Test("Should successfully import unsubscribe list")
     func testImportUnsubscribeList() async throws {
-        @Dependency(\.suppressions!.unsubscribe) var client
+        @Dependency(\.suppressions.unsubscribe) var client
         let testData = Data("test@example.com".utf8)
         
         let response = try await client.importList(testData)
@@ -34,7 +34,7 @@ struct MailgunUnsubscribeTests {
     
     @Test("Should successfully get unsubscribe record")
     func testGetUnsubscribeRecord() async throws {
-        @Dependency(\.suppressions!.unsubscribe) var client
+        @Dependency(\.suppressions.unsubscribe) var client
         
         let unsubscribe = try await client.get(.init("test@example.com"))
         
@@ -45,7 +45,7 @@ struct MailgunUnsubscribeTests {
     
     @Test("Should successfully delete unsubscribe record")
     func testDeleteUnsubscribeRecord() async throws {
-        @Dependency(\.suppressions!.unsubscribe) var client
+        @Dependency(\.suppressions.unsubscribe) var client
         
         let response = try await client.delete(try .init("test@example.com"))
         
@@ -55,7 +55,7 @@ struct MailgunUnsubscribeTests {
     
     @Test("Should successfully list unsubscribe records")
     func testListUnsubscribeRecords() async throws {
-        @Dependency(\.suppressions!.unsubscribe) var client
+        @Dependency(\.suppressions.unsubscribe) var client
         
         let request = Unsubscribe.List.Request(
             address: try .init("test@example.com"),
@@ -73,7 +73,7 @@ struct MailgunUnsubscribeTests {
     
     @Test("Should successfully create unsubscribe record")
     func testCreateUnsubscribeRecord() async throws {
-        @Dependency(\.suppressions!.unsubscribe) var client
+        @Dependency(\.suppressions.unsubscribe) var client
         
         let request = Unsubscribe.Create.Request(
             address: try .init("test@example.com"),
@@ -87,7 +87,7 @@ struct MailgunUnsubscribeTests {
     
     @Test("Should successfully delete all unsubscribe records")
     func testDeleteAllUnsubscribeRecords() async throws {
-        @Dependency(\.suppressions!.unsubscribe) var client
+        @Dependency(\.suppressions.unsubscribe) var client
         
         let response = try await client.deleteAll()
         

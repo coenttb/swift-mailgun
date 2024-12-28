@@ -144,9 +144,7 @@ extension API {
                     
                     let multipartFormCoding = MultipartFormCoding.init(Lists.Member.Update.Request.self, decoder: .default)
                     Headers {
-                        Field("Content-Type") {
-                            multipartFormCoding.contentType
-                        }
+                        Field.contentType { multipartFormCoding.contentType }
                     }
                     Method.put
                     Path.v3
@@ -173,9 +171,7 @@ extension API {
                     let multipartFormCoding = MultipartFormCoding.init(Lists.List.Update.Request.self, decoder: .default)
                     
                     Headers {
-                        Field("Content-Type") {
-                            multipartFormCoding.contentType
-                        }
+                        Field.contentType { multipartFormCoding.contentType }
                     }
                     Method.put
                     Path.v3
