@@ -8,14 +8,14 @@
 import Testing
 import EmailAddress
 import CoenttbWeb
-@testable import Mailgun
+@testable import Messages
 
 @Suite("Mailgun Form Encoding Tests")
 struct MailgunFormEncodingTests {
     
     @Test("Send Request encodes EmailAddress correctly in form data")
     func testSendRequestFormEncoding() throws {
-        let request = Mailgun.Messages.Send.Request(
+        let request = Messages.Send.Request(
             from: try EmailAddress("John Doe <test@example.com>"),
             to: [try .init("recipient@example.com")],
             subject: "Test Subject"
@@ -29,6 +29,7 @@ struct MailgunFormEncodingTests {
         
         // Find and verify the 'from' field
         let fromField = components.first { $0.hasPrefix("from=") }
+    
         let decodedFrom = try #require(fromField?.dropFirst("from=".count))
             .removingPercentEncoding
         
@@ -40,11 +41,10 @@ struct MailgunFormEncodingTests {
         decoder.parsingStrategy = .bracketsWithIndices
         
         let decoded = try decoder.decode(
-            Mailgun.Messages.Send.Request.self,
+            Messages.Send.Request.self,
             from: Data(formEncoded.utf8)
         )
         
-        // Verify decoded values
         #expect(decoded.from.description == "John Doe <test@example.com>")
         #expect(try decoded.to == [.init("recipient@example.com")])
         #expect(decoded.subject == "Test Subject")
@@ -52,7 +52,7 @@ struct MailgunFormEncodingTests {
     
     @Test("Send Request handles EmailAddress without display name")
     func testSendRequestFormEncodingWithoutDisplayName() throws {
-        let request = Mailgun.Messages.Send.Request(
+        let request = Messages.Send.Request(
             from: try EmailAddress("test@example.com"),
             to: [try .init("recipient@example.com")],
             subject: "Test Subject"
@@ -70,7 +70,7 @@ struct MailgunFormEncodingTests {
         decoder.parsingStrategy = .bracketsWithIndices
         
         let decoded = try decoder.decode(
-            Mailgun.Messages.Send.Request.self,
+            Messages.Send.Request.self,
             from: Data(formEncoded.utf8)
         )
         
@@ -79,7 +79,7 @@ struct MailgunFormEncodingTests {
     
     @Test("Send Request handles quoted display names")
     func testSendRequestFormEncodingWithQuotedDisplayName() throws {
-        let request = Mailgun.Messages.Send.Request(
+        let request = Messages.Send.Request(
             from: try EmailAddress("\"Doe, John\" <test@example.com>"),
             to: [try .init("recipient@example.com")],
             subject: "Test Subject"
@@ -97,7 +97,7 @@ struct MailgunFormEncodingTests {
         decoder.parsingStrategy = .bracketsWithIndices
         
         let decoded = try decoder.decode(
-            Mailgun.Messages.Send.Request.self,
+            Messages.Send.Request.self,
             from: Data(formEncoded.utf8)
         )
         

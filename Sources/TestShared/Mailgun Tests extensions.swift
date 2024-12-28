@@ -11,6 +11,7 @@ import Shared
 import DependenciesTestSupport
 import Testing
 import Authenticated
+import EmailAddress
 
 extension URL {
     package static var projectRoot: URL {
@@ -31,24 +32,24 @@ extension EnvironmentVariables {
         get { self["MAILGUN_PRIVATE_API_KEY"].map(ApiKey.init(rawValue:)) }
     }
     
-    package var mailgunDomain: Domain? {
-        get { try? self["MAILGUN_DOMAIN"].map(Domain.init) }
+    package var mailgunDomain: Domain {
+        get { try! self["MAILGUN_DOMAIN"].map(Domain.init)! }
     }
     
-    package var mailgunTestMailingList: EmailAddress? {
-        get { try? self["MAILGUN_TEST_MAILINGLIST"].map(EmailAddress.init) }
+    package var mailgunTestMailingList: EmailAddress {
+        get { self["MAILGUN_TEST_MAILINGLIST"].map{ try! EmailAddress($0) }! }
     }
     
-    package var mailgunTestRecipient: EmailAddress? {
-        get { try? self["MAILGUN_TEST_RECIPIENT"].map(EmailAddress.init) }
+    package var mailgunTestRecipient: EmailAddress {
+        get { self["MAILGUN_TEST_RECIPIENT"].map{ try! EmailAddress($0) }! }
     }
     
-    package var mailgunFrom: EmailAddress? {
-        get { try? self["MAILGUN_FROM_EMAIL"].map(EmailAddress.init)  }
+    package var mailgunFrom: EmailAddress {
+        get { self["MAILGUN_FROM_EMAIL"].map{ try! EmailAddress($0) }!  }
     }
     
-    package var mailgunTo: EmailAddress? {
-        get { try? self["MAILGUN_TO_EMAIL"].map(EmailAddress.init)  }
+    package var mailgunTo: EmailAddress {
+        get { self["MAILGUN_TO_EMAIL"].map{ try! EmailAddress($0) }!  }
     }
 }
 
@@ -113,6 +114,41 @@ extension Authenticated.Client {
                 }
             )
         }
+    }
+}
+
+extension Authenticated.Client where APIRouter: TestDependencyKey, APIRouter.Value == APIRouter {
+    package static func test(
+        session: @escaping @Sendable (URLRequest) async throws -> (Data, URLResponse) = { request in try await URLSession.shared.data(for: request) },
+        buildClient: @escaping @Sendable (
+            _ apiKey: ApiKey,
+            _ baseUrl: URL,
+            _ domain: Domain,
+            _ makeRequest: @escaping @Sendable (_ route: API) throws -> URLRequest
+        ) -> ClientOutput
+    ) throws -> Self {
+        @Dependency(APIRouter.self) var router
+        return try .test(
+            session: session,
+            router: router,
+            buildClient: buildClient
+        )
+    }
+}
+
+extension Authenticated.Client where APIRouter: TestDependencyKey, APIRouter.Value == APIRouter {
+    package static func test(
+        session: @escaping @Sendable (URLRequest) async throws -> (Data, URLResponse) = { request in try await URLSession.shared.data(for: request) },
+        buildClient: @escaping @Sendable () -> ClientOutput
+    ) throws -> Self {
+        @Dependency(APIRouter.self) var router
+        return try .test(
+            session: session,
+            router: router,
+            buildClient: { _ in
+                buildClient()
+            }
+        )
     }
 }
 

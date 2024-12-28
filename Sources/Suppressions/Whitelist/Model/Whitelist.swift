@@ -35,7 +35,7 @@ extension Whitelist {
             case type
             case value
             case reason
-            case createdAt = "created_at"
+            case createdAt = "createdAt"
         }
     }
 }
@@ -102,18 +102,41 @@ extension Whitelist {
 }
 
 extension Whitelist.Create {
-    public struct Request: Sendable, Codable, Equatable {
-        public let address: EmailAddress?
-        public let domain: Domain?
-        
-        public init(
-            address: EmailAddress? = nil,
-            domain: Domain? = nil
-        ) {
-            self.address = address
-            self.domain = domain
+    public enum Request: Sendable, Codable, Equatable {
+            case address(EmailAddress)
+            case domain(Domain)
+            
+            private enum CodingKeys: String, CodingKey {
+                case address
+                case domain
+            }
+            
+            public func encode(to encoder: Encoder) throws {
+                var container = encoder.container(keyedBy: CodingKeys.self)
+                switch self {
+                case .address(let email):
+                    try container.encode(email.address, forKey: .address)
+                case .domain(let domain):
+                    try container.encode(domain.rawValue, forKey: .domain)
+                }
+            }
+            
+            public init(from decoder: Decoder) throws {
+                let container = try decoder.container(keyedBy: CodingKeys.self)
+                if let address = try container.decodeIfPresent(String.self, forKey: .address) {
+                    self = .address(try EmailAddress(address))
+                } else if let domain = try container.decodeIfPresent(String.self, forKey: .domain) {
+                    self = .domain(try Domain(domain))
+                } else {
+                    throw DecodingError.dataCorrupted(
+                        DecodingError.Context(
+                            codingPath: container.codingPath,
+                            debugDescription: "Missing both address and domain keys"
+                        )
+                    )
+                }
+            }
         }
-    }
     
     public struct Response: Sendable, Codable, Equatable {
         public let message: String

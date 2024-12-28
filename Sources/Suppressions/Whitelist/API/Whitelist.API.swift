@@ -70,6 +70,11 @@ extension Whitelist.API {
                 // POST /v3/{domain}/whitelists
                 URLRouting.Route(.case(Whitelist.API.create)) {
                     Method.post
+                    Headers {
+                        Field("Content-Type") {
+                            "application/x-www-form-urlencoded"
+                        }
+                    }
                     Path.v3
                     Path { Parse(.string.representing(Domain.self)) }
                     Path.whitelists
@@ -86,12 +91,34 @@ extension Whitelist.API {
                 
                 // POST /v3/{domain}/whitelists/import
                 URLRouting.Route(.case(Whitelist.API.importList)) {
+                    
+                    let fields = [
+                        MultipartFormField(
+                            name: "file",
+                            filename: "whitelist.csv",
+                            contentType: "text/csv",
+                            data: Data()
+                        )
+                    ]
+
+                    let multipartFormCoding = MultipartFormCoding(
+                        Data.self,
+                        fields: fields,
+                        decoder: .default
+                    )
+                    
                     Method.post
+                    Headers {
+                        Field("Content-Type") {
+                            multipartFormCoding.contentType
+                        }
+                    }
                     Path.v3
                     Path { Parse(.string.representing(Domain.self)) }
                     Path.whitelists
+                    
                     Path { "import" }
-                    Body(.form(Foundation.Data.self, decoder: .default))
+                    Body(multipartFormCoding)
                 }
             }
         }

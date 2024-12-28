@@ -7,7 +7,7 @@
 
 import Foundation
 
-package enum MailgunError: LocalizedError {
+package enum MailgunError: LocalizedError, Equatable {
     case invalidResponse
     case httpError(statusCode: Int, message: String)
     

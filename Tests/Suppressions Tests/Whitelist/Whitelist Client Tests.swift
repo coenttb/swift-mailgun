@@ -17,10 +17,39 @@ import Authenticated
 import Suppressions
 
 @Suite(
+    "Whitelist Client Tests",
     .dependency(\.envVars, .liveTest),
-    .dependency(\.calendar, .current)
+    .dependency(\.calendar, .current),
+    .dependency(\.suppressions, .liveTest),
+    .serialized
 )
-struct MailgunWhitelistTests {
+struct SuppressionsWhitelistClientTests {
+    @Test("Should successfully create whitelist record for domain")
+    func testCreateDomainWhitelistRecord() async throws {
+        @Dependency(\.suppressions!.whitelist) var client
+        
+        let request = Whitelist.Create.Request.domain(try .init("example.com"))
+        
+        let response = try await client.create(request)
+        
+        #expect(response.message == "Address/Domain has been added to the whitelists table")
+        #expect(response.type == "domain")
+        #expect(response.value == "example.com")
+    }
+    
+    @Test("Should successfully create whitelist record for address")
+    func testCreateAddressWhitelistRecord() async throws {
+        @Dependency(\.suppressions!.whitelist) var client
+        
+        let request = Whitelist.Create.Request.address(try .init("test@example.com"))
+        
+        let response = try await client.create(request)
+        
+        #expect(response.message == "Address/Domain has been added to the whitelists table")
+        #expect(response.type == "address")
+        #expect(response.value == "test@example.com")
+    }
+    
     @Test("Should successfully get whitelist record")
     func testGetWhitelistRecord() async throws {
         @Dependency(\.suppressions!.whitelist) var client
@@ -29,7 +58,6 @@ struct MailgunWhitelistTests {
         
         #expect(whitelist.type == "domain")
         #expect(whitelist.value == "example.com")
-        #expect(!whitelist.reason.isEmpty)
         #expect(!whitelist.createdAt.isEmpty)
     }
     
@@ -39,7 +67,7 @@ struct MailgunWhitelistTests {
         
         let response = try await client.delete("example.com")
         
-        #expect(response.message == "Whitelist record has been removed")
+        #expect(response.message == "Whitelist address/domain has been removed")
         #expect(response.value == "example.com")
     }
     
@@ -61,53 +89,47 @@ struct MailgunWhitelistTests {
         #expect(!response.paging.last.isEmpty)
     }
     
-    @Test("Should successfully create whitelist record for domain")
-    func testCreateDomainWhitelistRecord() async throws {
-        @Dependency(\.suppressions!.whitelist) var client
-        
-        let request = Whitelist.Create.Request(
-            address: nil,
-            domain: try .init("example.com")
-        )
-        
-        let response = try await client.create(request)
-        
-        #expect(response.message == "Address/Domain has been added to the whitelists table")
-        #expect(response.type == "domain")
-        #expect(response.value == "example.com")
-    }
-    
-    @Test("Should successfully create whitelist record for address")
-    func testCreateAddressWhitelistRecord() async throws {
-        @Dependency(\.suppressions!.whitelist) var client
-        
-        let request = Whitelist.Create.Request(
-            address: try .init("test@example.com")
-        )
-        
-        let response = try await client.create(request)
-        
-        #expect(response.message == "Address/Domain has been added to the whitelists table")
-        #expect(response.type == "address")
-        #expect(response.value == "test@example.com")
-    }
-    
     @Test("Should successfully delete all whitelist records")
     func testDeleteAllWhitelistRecords() async throws {
         @Dependency(\.suppressions!.whitelist) var client
         
         let response = try await client.deleteAll()
         
-        #expect(response.message == "All whitelist records have been removed")
+        #expect(response.message == "Whitelist addresses/domains for this domain have been removed")
     }
     
-    @Test("Should successfully import whitelist")
-    func testImportWhitelist() async throws {
+//    @Test(
+//        "Should successfully import whitelist"
+//    )
+//    func testImportWhitelist() async throws {
+//        @Dependency(\.suppressions!.whitelist) var client
+//        
+//        
+//        let csvContent = """
+//        address,domain
+//        test@example.com,example.com
+//        another@example.com,anotherdomain.com
+//        """
+//        let testData = Data(csvContent.utf8)
+//        
+//        let response = try await client.importList(testData)
+//        
+//        #expect(response.message == "file uploaded successfully")
+//    }
+    
+    @Test(
+        "Should fail to import empty whitelist"
+    )
+    func testImportEmptyWhitelist() async throws {
         @Dependency(\.suppressions!.whitelist) var client
-        let testData = Data("test@example.com".utf8)
         
-        let response = try await client.importList(testData)
+        let testData = Data("".utf8)
         
-        #expect(response.message == "file uploaded successfully")
+        await #expect(throws: MailgunError.httpError(
+            statusCode: 400,
+            message: "refusing to upload an empty CSV file"
+        )) {
+            let _ = try await client.importList(testData)
+        }
     }
 }

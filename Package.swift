@@ -150,15 +150,13 @@ let package = Package(
                 .webhooks,
             ]
         ),
-//        .testTarget(
-//            name: .mailgun + " Tests",
-//            dependencies: , .dependenciesTestSupport[
-//                .coenttbWeb,
-//                .mailgun,
-//                .environmentVariables,
-//                .dependenciesTestSupport
-//            ]
-//        ),
+        .testTarget(
+            name: .mailgun + " Tests",
+            dependencies: [
+                .mailgun,
+                .dependenciesTestSupport
+            ]
+        ),
         .target(
             name: .credentials,
             dependencies: [

@@ -13,7 +13,9 @@ import URLRouting
 import TestShared
 import Suppressions
 
-@Suite("Mailgun Router Complaints URL Tests")
+@Suite(
+    "Complaints Router Tests"
+)
 struct MailgunComplaintsRouterTests {
     
     @Test("Creates correct URL for importing complaints list")

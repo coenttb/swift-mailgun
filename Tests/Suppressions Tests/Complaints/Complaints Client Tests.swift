@@ -17,6 +17,7 @@ import Authenticated
 import Suppressions
 
 @Suite(
+    "Complaints Client Tests",
     .dependency(\.envVars, .liveTest),
     .dependency(\.calendar, .current)
 )

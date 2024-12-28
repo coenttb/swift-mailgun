@@ -141,13 +141,20 @@ extension API {
                 
                 // PUT /v3/lists/{list_address}/members/{member_address}
                 URLRouting.Route(.case(Lists.API.updateMember)) {
+                    
+                    let multipartFormCoding = MultipartFormCoding.init(Lists.Member.Update.Request.self, decoder: .default)
+                    Headers {
+                        Field("Content-Type") {
+                            multipartFormCoding.contentType
+                        }
+                    }
                     Method.put
                     Path.v3
                     Path.lists
                     Path { Parse(.string.representing(EmailAddress.self)) }
                     Path.members
                     Path { Parse(.string.representing(EmailAddress.self)) }
-                    Body(.form(Lists.Member.Update.Request.self, decoder: .default))
+                    Body(multipartFormCoding)
                 }
                 
                 // DELETE /v3/lists/{list_address}/members/{member_address}
@@ -162,11 +169,19 @@ extension API {
                 
                 // PUT /v3/lists/{list_address}
                 URLRouting.Route(.case(Lists.API.update)) {
+                    
+                    let multipartFormCoding = MultipartFormCoding.init(Lists.List.Update.Request.self, decoder: .default)
+                    
+                    Headers {
+                        Field("Content-Type") {
+                            multipartFormCoding.contentType
+                        }
+                    }
                     Method.put
                     Path.v3
                     Path.lists
                     Path { Parse(.string.representing(EmailAddress.self)) }
-                    Body(.form(Lists.List.Update.Request.self, decoder: .default))
+                    Body(multipartFormCoding)
                 }
                 
                 // DELETE /v3/lists/{list_address}

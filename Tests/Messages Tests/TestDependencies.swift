@@ -20,23 +20,23 @@ import Authenticated
 import FoundationNetworking
 #endif
 
-extension Authenticated.Client<Messages.API, Messages.API.Router, Messages.Client>: TestDependencyKey {
-    public static var testValue: Self? {
-        
-        @Dependency(\.envVars) var envVars
 
-        guard
-            let apiKey: ApiKey = try? #require(envVars.mailgunPrivateApiKey),
-            let baseUrl = try? #require(envVars.mailgunBaseUrl),
-            let domain = try? #require(envVars.mailgunDomain)
-        else { return nil }
-        
-        @Dependency(Messages.API.Router.self) var router
-        
-        return try? Authenticated.Client.test(
-            router: router
-        ) { makeRequest in
-            return .live(
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
+
+typealias AuthenticatedClient = Authenticated.Client<Messages.API, Messages.API.Router, Messages.Client>
+
+extension AuthenticatedClient: TestDependencyKey {
+    public static var testValue: Self? {
+        return try? Authenticated.Client.test {
+            Messages.Client.testValue
+        }
+    }
+    
+    public static var liveTest: Self? {
+        try? Authenticated.Client.test { apiKey, baseUrl, domain, makeRequest in
+            .live(
                 apiKey: apiKey,
                 baseUrl: baseUrl,
                 domain: domain,
@@ -49,3 +49,23 @@ extension Authenticated.Client<Messages.API, Messages.API.Router, Messages.Clien
 extension Messages.API.Router: TestDependencyKey {
     public static let testValue: Messages.API.Router = .init()
 }
+
+extension DependencyValues {
+    var client: AuthenticatedClient? {
+        get { self[AuthenticatedClient.self] }
+        set { self[AuthenticatedClient.self] = newValue }
+    }
+}
+
+//extension Authenticated.Client<Messages.API, Messages.API.Router, Messages.Client>: TestDependencyKey {
+//    public static var testValue: Self? {
+//        return try? Authenticated.Client.test { apiKey, baseUrl, domain, makeRequest in
+//            return .live(
+//                apiKey: apiKey,
+//                baseUrl: baseUrl,
+//                domain: domain,
+//                makeRequest: makeRequest
+//            )
+//        }
+//    }
+//}

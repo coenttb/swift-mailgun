@@ -17,10 +17,11 @@ import Authenticated
 @testable import Suppressions
 
 @Suite(
+    "Bounces Client Tests",
     .dependency(\.envVars, .liveTest),
     .dependency(\.calendar, .current)
 )
-struct MailgunBouncesTests {
+struct BouncesClientTests {
     @Test("Should successfully import bounce list")
     func testImportBounceList() async throws {
         @Dependency(\.suppressions!.bounces) var client

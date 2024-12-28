@@ -14,8 +14,10 @@ import Events
 import TestShared
 import EmailAddress
 
-@Suite("Mailgun Router Events URL Tests")
-struct MailgunEventsRouterTests {
+@Suite(
+    "Events Router Tests"
+)
+struct EventsRouterTests {
     
     @Test("Creates correct URL for listing events with minimal parameters")
     func testListEventsMinimalURL() throws {

@@ -1,5 +1,5 @@
 {
-  "originHash" : "32e39c24a6a4616bc87b31eef023e6a95e46832d3f1da181a56960f5c6a115d9",
+  "originHash" : "4c3054d04cf2aa6c2f290ffa72b613b2190adf5e1bc5b860e33ca2da83c1bff1",
   "pins" : [
     {
       "identity" : "async-http-client",
@@ -502,7 +502,7 @@
       "location" : "https://github.com/coenttb/swift-web",
       "state" : {
         "branch" : "main",
-        "revision" : "4f3f5c0fce3997759b203d6d9024cf3806a795f9"
+        "revision" : "9322baa8619ad3dfdd13946ffc4ae589281bcd99"
       }
     },
     {
@@ -510,8 +510,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/vapor/vapor.git",
       "state" : {
-        "revision" : "4c5d467a96fc4c64f6279327d8fd1e1600e85bc5",
-        "version" : "4.110.1"
+        "revision" : "73dfe634f04945285054b261369cd93f5100b44c",
+        "version" : "4.110.2"
       }
     },
     {

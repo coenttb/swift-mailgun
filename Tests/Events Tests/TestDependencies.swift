@@ -24,23 +24,15 @@ import FoundationNetworking
 typealias AuthenticatedClient = Authenticated.Client<Events.API, Events.API.Router, Events.Client>
 
 extension AuthenticatedClient: TestDependencyKey {
-    public static var testValue: Self? {
-        @Dependency(Events.API.Router.self) var router
-        
-        return try? Authenticated.Client.test(
-            router: router
-        ) { makeRequest in
-            Events.Client.testValue
+    public static var testValue: Self {
+        try! Authenticated.Client.test {
+            Client.testValue
         }
     }
     
-    public static var liveTest: Self? {
-        @Dependency(Events.API.Router.self) var router
-        
-        return try? Authenticated.Client.test(
-            router: router
-        ) { apiKey, baseUrl, domain, makeRequest in
-            Events.Client.live(
+    public static var liveTest: Self {
+        try! Authenticated.Client.test { apiKey, baseUrl, domain, makeRequest in
+            Client.live(
                 apiKey: apiKey,
                 baseUrl: baseUrl,
                 domain: domain,
@@ -51,12 +43,12 @@ extension AuthenticatedClient: TestDependencyKey {
 }
 
 extension DependencyValues {
-    var client: AuthenticatedClient? {
+    var client: AuthenticatedClient {
         get { self[AuthenticatedClient.self] }
         set { self[AuthenticatedClient.self] = newValue }
     }
 }
 
 extension Events.API.Router: TestDependencyKey {
-    public static let testValue: Events.API.Router = .init()
+    public static let testValue: Self = .init()
 }

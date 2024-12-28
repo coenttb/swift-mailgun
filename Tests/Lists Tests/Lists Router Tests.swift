@@ -13,8 +13,10 @@ import URLRouting
 import Lists
 import TestShared
 
-@Suite("Mailgun Router Lists URL Tests")
-struct MailgunRouterTests {
+@Suite(
+    "Lists Router Tests"
+)
+struct ListsRouterTests {
     
     @Test("Creates correct URL for list creation")
     func testCreateListURL() throws {

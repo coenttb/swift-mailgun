@@ -20,41 +20,23 @@ import Suppressions
 import FoundationNetworking
 #endif
 
-extension Authenticated.Client<Suppressions.API, Suppressions.API.Router, Suppressions.Client>: TestDependencyKey {
+typealias AuthenticatedClient = Authenticated.Client<Suppressions.API, Suppressions.API.Router, Suppressions.Client>
+
+extension AuthenticatedClient: TestDependencyKey {
     public static var testValue: Self? {
-        @Dependency(Suppressions.API.Router.self) var router
-        
-        return try? Authenticated.Client.test(
-            router: router
-        ) { makeRequest in
+        return try? Authenticated.Client.test {
             Suppressions.Client.testValue
         }
     }
     
     public static var liveTest: Self? {
-        withDependencies {
-            $0.envVars = .liveTest
-        } operation: {
-            @Dependency(\.envVars) var envVars
-
-            guard
-                let apiKey: ApiKey = try? #require(envVars.mailgunPrivateApiKey),
-                let baseUrl = try? #require(envVars.mailgunBaseUrl),
-                let domain = try? #require(envVars.mailgunDomain)
-            else { return nil }
-            
-            @Dependency(Suppressions.API.Router.self) var router
-            
-            return try? Authenticated.Client.test(
-                router: router
-            ) { makeRequest in
-                .live(
-                    apiKey: apiKey,
-                    baseUrl: baseUrl,
-                    domain: domain,
-                    makeRequest: makeRequest
-                )
-            }
+        try? Authenticated.Client.test { apiKey, baseUrl, domain, makeRequest in
+            .live(
+                apiKey: apiKey,
+                baseUrl: baseUrl,
+                domain: domain,
+                makeRequest: makeRequest
+            )
         }
     }
 }
@@ -64,8 +46,8 @@ extension Suppressions.API.Router: TestDependencyKey {
 }
 
 extension DependencyValues {
-    public var suppressions: Authenticated.Client<Suppressions.API, Suppressions.API.Router, Suppressions.Client>? {
-        get { self[Authenticated.Client<Suppressions.API, Suppressions.API.Router, Suppressions.Client>.self] }
-        set { self[Authenticated.Client<Suppressions.API, Suppressions.API.Router, Suppressions.Client>.self] = newValue }
+    var suppressions: AuthenticatedClient? {
+        get { self[AuthenticatedClient.self] }
+        set { self[AuthenticatedClient.self] = newValue }
     }
 }

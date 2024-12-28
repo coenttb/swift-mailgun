@@ -20,22 +20,18 @@ import Authenticated
 import FoundationNetworking
 #endif
 
-extension Authenticated.Client<Lists.API, Lists.API.Router, Lists.Client>: TestDependencyKey {
-    public static var testValue: Self? {
-        
-        @Dependency(\.envVars) var envVars
+typealias AuthenticatedClient = Authenticated.Client<Lists.API, Lists.API.Router, Lists.Client>
 
-        guard
-            let apiKey: ApiKey = try? #require(envVars.mailgunPrivateApiKey),
-            let baseUrl = try? #require(envVars.mailgunBaseUrl)
-        else { return nil }
-        
-        @Dependency(Lists.API.Router.self) var router
-        
-        return try? Authenticated.Client.test(
-            router: router
-        ) { makeRequest in
-            return .live(
+extension AuthenticatedClient: TestDependencyKey {
+    public static var testValue: Self {
+        try! Authenticated.Client.test {
+            Client.testValue
+        }
+    }
+    
+    public static var liveTest: Self {
+        try! Authenticated.Client.test { apiKey, baseUrl, domain, makeRequest in
+            Client.live(
                 apiKey: apiKey,
                 baseUrl: baseUrl,
                 makeRequest: makeRequest
@@ -44,6 +40,13 @@ extension Authenticated.Client<Lists.API, Lists.API.Router, Lists.Client>: TestD
     }
 }
 
+extension DependencyValues {
+    var client: AuthenticatedClient {
+        get { self[AuthenticatedClient.self] }
+        set { self[AuthenticatedClient.self] = newValue }
+    }
+}
+
 extension Lists.API.Router: TestDependencyKey {
-    public static let testValue: Lists.API.Router = .init()
+    public static let testValue: Self = .init()
 }

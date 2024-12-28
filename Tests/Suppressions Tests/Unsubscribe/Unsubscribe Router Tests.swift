@@ -13,7 +13,9 @@ import URLRouting
 import TestShared
 import Suppressions
 
-@Suite("Mailgun Router Unsubscribe URL Tests")
+@Suite(
+    "Unsubscribe Router Tests"
+)
 struct MailgunUnsubscribeRouterTests {
     
     @Test("Creates correct URL for importing unsubscribe list")

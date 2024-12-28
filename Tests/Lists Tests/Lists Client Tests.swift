@@ -9,17 +9,16 @@ import IssueReporting
 import Authenticated
 
 @Suite(
+    "Lists Client Tests",
     .dependency(\.envVars, .liveTest),
+    .dependency(\.client, .liveTest),
     .serialized
 )
-struct MailgunListsTests {
+struct ListsClientTests {
     @Test("Should successfully create a mailing list")
     func testCreateList() async throws {
-        @Dependency(Authenticated.Client<Lists.API, Lists.API.Router, Lists.Client>.self) var mailgunClient
-        @Dependency(\.envVars.mailgunTestMailingList) var mailgunTestMailingList
-        
-        let list = try #require(mailgunTestMailingList)
-        let client = try #require(mailgunClient)
+        @Dependency(\.client) var client
+        @Dependency(\.envVars.mailgunTestMailingList) var list
         
         let request = Lists.List.Create.Request(
             address: list,
@@ -40,20 +39,15 @@ struct MailgunListsTests {
     
     @Test("Should successfully add member")
     func testAddMember() async throws {
-        @Dependency(Authenticated.Client<Lists.API, Lists.API.Router, Lists.Client>.self) var mailgunClient
-        @Dependency(\.envVars.mailgunTestMailingList) var mailgunTestMailingList
-        @Dependency(\.envVars.mailgunTestRecipient) var mailgunTestRecipient
-        
-        let list = try #require(mailgunTestMailingList)
-        let recipient = try #require(mailgunTestRecipient)
-        let client = try #require(mailgunClient)
+        @Dependency(\.client) var client
+        @Dependency(\.envVars.mailgunTestMailingList) var list
+        @Dependency(\.envVars.mailgunTestRecipient) var recipient
         
         let addRequest = Lists.Member.Add.Request(
             address: recipient,
             name: "Test Member",
             vars: ["role": "tester"]
         )
-        
         
         let addResponse = try await client.addMember(list, addRequest)
         
@@ -64,32 +58,24 @@ struct MailgunListsTests {
     
     @Test("Should successfully get member")
     func testGetMember() async throws {
-        @Dependency(Authenticated.Client<Lists.API, Lists.API.Router, Lists.Client>.self) var mailgunClient
-        @Dependency(\.envVars.mailgunTestMailingList) var mailgunTestMailingList
-        @Dependency(\.envVars.mailgunTestRecipient) var mailgunTestRecipient
-        
-        let list = try #require(mailgunTestMailingList)
-        let client = try #require(mailgunClient)
-        let recipient = try #require(mailgunTestRecipient)
+        @Dependency(\.client) var client
+        @Dependency(\.envVars.mailgunTestMailingList) var list
+        @Dependency(\.envVars.mailgunTestRecipient) var recipient
         
         let member = try await client.getMember(list, recipient)
+        
         #expect(member.address == recipient)
         #expect(member.name == "Test Member")
     }
     
     @Test(
         "Should successfully update member",
-        .bug(id: 1),
-        .disabled("Returns 'Mailing list * not found'")
+        .bug(id: 1)
     )
     func testUpdateMember() async throws {
-        @Dependency(Authenticated.Client<Lists.API, Lists.API.Router, Lists.Client>.self) var mailgunClient
-        @Dependency(\.envVars.mailgunTestMailingList) var mailgunTestMailingList
-        @Dependency(\.envVars.mailgunTestRecipient) var mailgunTestRecipient
-        
-        let list = try #require(mailgunTestMailingList)
-        let client = try #require(mailgunClient)
-        let recipient = try #require(mailgunTestRecipient)
+        @Dependency(\.client) var client
+        @Dependency(\.envVars.mailgunTestMailingList) var list
+        @Dependency(\.envVars.mailgunTestRecipient) var recipient
         
         let request: Lists.Member.Update.Request = .init(
             name: "Test Member Updated"
@@ -102,22 +88,21 @@ struct MailgunListsTests {
         )
         
         #expect(response.member.address == recipient)
+        #expect(response.message == "Mailing list member has been updated")
         #expect(response.member.name == "Test Member Updated")
     }
     
     @Test(
         "Should successfully update list",
-        .bug(id: 2),
-        .disabled("returns: 'Parameters are missing'")
+        .bug(id: 2)
     )
     func testUpdateList() async throws {
-        @Dependency(Authenticated.Client<Lists.API, Lists.API.Router, Lists.Client>.self) var mailgunClient
-        @Dependency(\.envVars.mailgunTestMailingList) var mailgunTestMailingList
+        @Dependency(\.client) var client
+        @Dependency(\.envVars.mailgunTestMailingList) var list
         
-        let list = try #require(mailgunTestMailingList)
-        let client = try #require(mailgunClient)
         
         let updateRequest = Lists.List.Update.Request(
+            description: "Updated description for the mailing list",
             name: "Updated Test List",
             accessLevel: .readonly
         )
@@ -131,11 +116,9 @@ struct MailgunListsTests {
         "Should successfully delete list"
     )
     func testDeleteList() async throws {
-        @Dependency(Authenticated.Client<Lists.API, Lists.API.Router, Lists.Client>.self) var mailgunClient
-        @Dependency(\.envVars.mailgunTestMailingList) var mailgunTestMailingList
+        @Dependency(\.client) var client
+        @Dependency(\.envVars.mailgunTestMailingList) var list
         
-        let list = try #require(mailgunTestMailingList)
-        let client = try #require(mailgunClient)
         
         let deleteResponse = try await client.delete(list)
         #expect(deleteResponse.message.contains("removed"))

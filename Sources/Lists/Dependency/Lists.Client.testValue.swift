@@ -46,7 +46,7 @@ extension Client: TestDependencyKey {
                     items: [
                         .init(
                             address: try! .init("test@example.com"),
-                            name: "Test User",
+                            name: "Test Member",
                             vars: [:],
                             subscribed: true
                         )
@@ -97,7 +97,7 @@ extension Client: TestDependencyKey {
             getMember: { listAddress, memberAddress in
                 .init(
                     address: memberAddress,
-                    name: "Test User",
+                    name: "Test Member",
                     vars: [:],
                     subscribed: true
                 )
@@ -106,7 +106,7 @@ extension Client: TestDependencyKey {
                 .init(
                     member: .init(
                         address: request.address ?? memberAddress,
-                        name: request.name ?? "Test User",
+                        name: request.name ?? "Test Member",
                         vars: request.vars ?? [:],
                         subscribed: request.subscribed ?? true
                     ),
@@ -184,7 +184,7 @@ extension Client: TestDependencyKey {
                     items: [
                         .init(
                             address: try! .init("test@example.com"),
-                            name: "Test User",
+                            name: "Test Member",
                             vars: [:],
                             subscribed: true
                         )

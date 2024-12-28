@@ -13,17 +13,15 @@ import Authenticated
 import FoundationNetworking
 #endif
 
-
-
 @Suite(
-    .dependency(\.envVars, .liveTest)
+    "Messages Client Tests",
+    .dependency(\.envVars, .liveTest),
+    .dependency(\.client, .testValue)
 )
-struct MailgunLiveTests {
+struct MessagesClientTests {
     @Test("Should successfully send an email")
     func testSendEmail() async throws {
-        
-        @Dependency(Authenticated.Client<Messages.API, Messages.API.Router, Messages.Client>.self) var mailgunClient
-
+        @Dependency(\.client!) var client
         @Dependency(\.envVars) var envVars
         
         let from = try #require(envVars.mailgunFrom)
@@ -39,15 +37,9 @@ struct MailgunLiveTests {
             testMode: true
         )
         
-        if let response = try await mailgunClient?.send(request) {
-            #expect(!response.id.isEmpty)
-            #expect(response.message.contains("Queued"))
-        }
-    }
-}
-
-extension URLRequest {
-    var allHTTPHeaders: [String: String]? {
-        allHTTPHeaderFields?.mapValues { $0 }
+        let response = try await client.send(request)
+        
+        #expect(!response.id.isEmpty)
+        #expect(response.message.contains("Queued"))
     }
 }

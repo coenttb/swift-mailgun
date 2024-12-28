@@ -21,22 +21,3 @@ public struct Client: Sendable {
     @DependencyEndpoint
     public var list: @Sendable (_ query: Events.List.Query?) async throws -> Events.List.Response
 }
-
-extension Events.Client: TestDependencyKey {
-    static public let testValue: Client = .init(
-        list: { query in
-            return .init(
-                items: [
-                    .init(
-                        event: .accepted,
-                        timestamp: .one
-                    )
-                ],
-                paging: .init(
-                    next: nil,
-                    previous: nil
-                )
-            )
-        }
-    )
-}

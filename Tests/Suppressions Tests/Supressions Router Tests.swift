@@ -13,7 +13,9 @@ import URLRouting
 import TestShared
 import Suppressions
 
-@Suite("Suppressions Router Tests")
+@Suite(
+    "Suppressions Router Tests"
+)
 struct SuppressionsRouterTests {
     
     @Test("Routes bounce requests correctly")

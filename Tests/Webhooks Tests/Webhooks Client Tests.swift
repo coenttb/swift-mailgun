@@ -18,8 +18,8 @@ import Authenticated
 
 @Suite(
     .dependency(\.envVars, .liveTest),
-    .dependency(\.calendar, .current)
-//    .dependency(\.client, .liveTest)
+    .dependency(\.calendar, .current),
+    .dependency(\.client, .testValue)
 )
 struct MailgunWebhooksTests {
     @Test("Should successfully create webhook")

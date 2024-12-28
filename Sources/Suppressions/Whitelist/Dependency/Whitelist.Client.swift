@@ -55,7 +55,7 @@ extension Whitelist.Client: TestDependencyKey {
             },
             delete: { value in
                 .init(
-                    message: "Whitelist record has been removed",
+                    message: "Whitelist address/domain has been removed",
                     value: value
                 )
             },
@@ -78,31 +78,24 @@ extension Whitelist.Client: TestDependencyKey {
                 )
             },
             create: { request in
-                
-                if let address = request.address {
+                switch request {
+                case let .address(address):
                     return .init(
                         message: "Address/Domain has been added to the whitelists table",
                         type: "address",
                         value: address.address
                     )
-                } else if let domain = request.domain {
+                case let .domain(domain):
                     return .init(
                         message: "Address/Domain has been added to the whitelists table",
                         type: "domain",
                         value: domain.rawValue
                     )
-                } else {
-                    // Default case, though this shouldn't happen given the API structure
-                    return .init(
-                        message: "Address/Domain has been added to the whitelists table",
-                        type: "domain",
-                        value: "example.com"
-                    )
                 }
             },
             deleteAll: {
                 .init(
-                    message: "All whitelist records have been removed"
+                    message: "Whitelist addresses/domains for this domain have been removed"
                 )
             },
             importList: { _ in

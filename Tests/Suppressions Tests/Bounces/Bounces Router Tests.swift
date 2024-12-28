@@ -13,8 +13,10 @@ import URLRouting
 import TestShared
 import Suppressions
 
-@Suite("Mailgun Router Bounces URL Tests")
-struct MailgunBouncesRouterTests {
+@Suite(
+    "Bounces Router Tests"
+)
+struct BouncesRouterTests {
     
     @Test("Creates correct URL for importing bounce list")
     func testImportBouncesURL() throws {

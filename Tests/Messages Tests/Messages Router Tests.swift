@@ -13,8 +13,8 @@ import URLRouting
 import Messages
 import TestShared
 
-@Suite("Mailgun Router Messages URL Tests")
-struct MailgunMessagesRouterTests {
+@Suite("Messages Router Tests")
+struct MessagesRouterTests {
     
     @Test("Creates correct URL for sending message")
     func testSendMessageURL() throws {

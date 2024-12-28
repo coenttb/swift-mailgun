@@ -195,7 +195,7 @@ extension List {
                 case description
                 case name
                 case accessLevel = "access_level"
-                case replyPreference = "reply_preference"
+                case replyPreference = "reply_reference"
                 case listId = "list-id"
             }
         }

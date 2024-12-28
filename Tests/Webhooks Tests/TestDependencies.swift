@@ -23,37 +23,21 @@ import FoundationNetworking
 
 typealias AuthenticatedClient = Authenticated.Client<Webhooks.API, Webhooks.API.Router, Webhooks.Client>
 
-extension Authenticated.Client<Webhooks.API, Webhooks.API.Router, Webhooks.Client>: TestDependencyKey {
+extension AuthenticatedClient: TestDependencyKey {
     public static var testValue: Self? {
-        withDependencies {
-            $0.envVars = .liveTest
-        } operation: {
-            @Dependency(Webhooks.API.Router.self) var router
-            
-            return try? Authenticated.Client.test(
-                router: router
-            ) { makeRequest in
-                Webhooks.Client.testValue
-            }
+        try? Authenticated.Client.test {
+            Client.testValue
         }
     }
     
     public static var liveTest: Self? {
-        withDependencies {
-            $0.envVars = .liveTest
-        } operation: {
-            @Dependency(Webhooks.API.Router.self) var router
-            
-            return try? Authenticated.Client.test(
-                router: router
-            ) { apiKey, baseUrl, domain, makeRequest in
-                Webhooks.Client.live(
-                    apiKey: apiKey,
-                    baseUrl: baseUrl,
-                    domain: domain,
-                    makeRequest: makeRequest
-                )
-            }
+        try? Authenticated.Client.test { apiKey, baseUrl, domain, makeRequest in
+            Client.live(
+                apiKey: apiKey,
+                baseUrl: baseUrl,
+                domain: domain,
+                makeRequest: makeRequest
+            )
         }
     }
 }
@@ -66,5 +50,5 @@ extension DependencyValues {
 }
 
 extension Webhooks.API.Router: TestDependencyKey {
-    public static let testValue: Webhooks.API.Router = .init()
+    public static let testValue: Self = .init()
 }

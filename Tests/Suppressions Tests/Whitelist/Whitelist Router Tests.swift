@@ -13,7 +13,9 @@ import URLRouting
 import TestShared
 import Suppressions
 
-@Suite("Mailgun Router Whitelist URL Tests")
+@Suite(
+    "Whitelist Router Tests"
+)
 struct MailgunWhitelistRouterTests {
     
     @Test("Creates correct URL for importing whitelist")
@@ -77,10 +79,7 @@ struct MailgunWhitelistRouterTests {
     func testCreateWhitelistURL() throws {
         @Dependency(Whitelist.API.Router.self) var router
         
-        let request = Whitelist.Create.Request(
-            address: try .init("test@example.com"),
-            domain: try .init("example.com")
-        )
+        let request = Whitelist.Create.Request.domain(try .init("example.com"))
         
         let url = router.url(for: .create(domain: try .init("test.domain.com"), request: request))
         
