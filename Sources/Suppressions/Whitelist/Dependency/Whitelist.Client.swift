@@ -1,0 +1,113 @@
+//
+//  File.swift
+//  coenttb-mailgun
+//
+//  Created by Coen ten Thije Boonkkamp on 24/12/2024.
+//
+
+import CoenttbWeb
+import DependenciesMacros
+import Shared
+
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
+
+extension Whitelist {
+    @DependencyClient
+    public struct Client: Sendable {
+        /// Get a specific whitelisted record
+        @DependencyEndpoint
+        public var get: @Sendable (_ value: String) async throws -> Whitelist.Record
+        
+        /// Delete a specific whitelisted record
+        @DependencyEndpoint
+        public var delete: @Sendable (_ value: String) async throws -> Whitelist.Delete.Response
+        
+        /// Lists all whitelisted records for a domain
+        @DependencyEndpoint
+        public var list: @Sendable (_ request: Whitelist.List.Request) async throws -> Whitelist.List.Response
+        
+        /// Add a new record to whitelist
+        @DependencyEndpoint
+        public var create: @Sendable (_ request: Whitelist.Create.Request) async throws -> Whitelist.Create.Response
+        
+        /// Delete all whitelisted records for a domain
+        @DependencyEndpoint
+        public var deleteAll: @Sendable () async throws -> Whitelist.Delete.All.Response
+        
+        /// Import a CSV file containing a list of addresses to add to the whitelist
+        @DependencyEndpoint
+        public var importList: @Sendable (_ request: Data) async throws -> Whitelist.Import.Response
+    }
+}
+
+extension Whitelist.Client: TestDependencyKey {
+    public static var testValue: Self {
+        return Self(
+            get: { _ in
+                .init(
+                    type: "domain",
+                    value: "example.com",
+                    reason: "Test whitelist record",
+                    createdAt: "Fri, 27 Dec 2024 18:28:14 UTC"
+                )
+            },
+            delete: { value in
+                .init(
+                    message: "Whitelist record has been removed",
+                    value: value
+                )
+            },
+            list: { _ in
+                .init(
+                    items: [
+                        .init(
+                            type: "domain",
+                            value: "example.com",
+                            reason: "Test whitelist record",
+                            createdAt: "Fri, 27 Dec 2024 18:28:14 UTC"
+                        )
+                    ],
+                    paging: .init(
+                        previous: "https://api.mailgun.net/v3/whitelists?page=previous",
+                        first: "https://api.mailgun.net/v3/whitelists?page=first",
+                        next: "https://api.mailgun.net/v3/whitelists?page=next",
+                        last: "https://api.mailgun.net/v3/whitelists?page=last"
+                    )
+                )
+            },
+            create: { request in
+                
+                if let address = request.address {
+                    return .init(
+                        message: "Address/Domain has been added to the whitelists table",
+                        type: "address",
+                        value: address.address
+                    )
+                } else if let domain = request.domain {
+                    return .init(
+                        message: "Address/Domain has been added to the whitelists table",
+                        type: "domain",
+                        value: domain.rawValue
+                    )
+                } else {
+                    // Default case, though this shouldn't happen given the API structure
+                    return .init(
+                        message: "Address/Domain has been added to the whitelists table",
+                        type: "domain",
+                        value: "example.com"
+                    )
+                }
+            },
+            deleteAll: {
+                .init(
+                    message: "All whitelist records have been removed"
+                )
+            },
+            importList: { _ in
+                .init(message: "file uploaded successfully")
+            }
+        )
+    }
+}
