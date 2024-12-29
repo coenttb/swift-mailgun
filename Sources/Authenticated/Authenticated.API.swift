@@ -11,6 +11,10 @@ import Shared
 import Dependencies
 import DependenciesMacros
 
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
+
 public struct API<OtherAPI: Equatable & Sendable> {
     let basicAuth: BasicAuth
     let api: OtherAPI

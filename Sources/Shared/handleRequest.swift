@@ -8,6 +8,10 @@
 import Foundation
 import IssueReporting
 
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
+
 @Sendable
 package func handleRequest<ResponseType: Decodable>(
     for request: URLRequest,

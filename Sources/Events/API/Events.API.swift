@@ -9,6 +9,10 @@ import Foundation
 import CoenttbWeb
 import Shared
 
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
+
 public enum API: Equatable, Sendable {
     case list(
         domain: Domain,

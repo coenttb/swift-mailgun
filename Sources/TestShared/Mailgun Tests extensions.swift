@@ -13,6 +13,10 @@ import Testing
 import Authenticated
 import EmailAddress
 
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
+
 extension URL {
     package static var projectRoot: URL {
         return .init(fileURLWithPath: #filePath)
