@@ -18,8 +18,7 @@ import Authenticated
 
 @Suite(
     "Bounces Client Tests",
-    .dependency(\.envVars, .liveTest),
-    .dependency(\.calendar, .current)
+    .dependency(\.envVars, .liveTest)
 )
 struct BouncesClientTests {
     @Test("Should successfully import bounce list")

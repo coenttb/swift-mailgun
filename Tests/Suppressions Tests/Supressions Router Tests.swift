@@ -22,14 +22,12 @@ struct SuppressionsRouterTests {
     func testBouncesRouting() throws {
         @Dependency(API.Router.self) var router
         
-        // Test bounce list request
         let listRequest = Bounces.List.Request(limit: 25)
         let bouncesAPI = Bounces.API.list(domain: try .init("test.domain.com"), request: listRequest)
         let url = router.url(for: .bounces(bouncesAPI))
         
         #expect(url.path == "/v3/test.domain.com/bounces")
         
-        // Verify query parameters
         let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
         let queryDict = Dictionary(
             uniqueKeysWithValues: (components?.queryItems ?? []).map { ($0.name, $0.value) }
@@ -41,7 +39,6 @@ struct SuppressionsRouterTests {
     func testComplaintsRouting() throws {
         @Dependency(API.Router.self) var router
         
-        // Test complaint get request
         let complaintsAPI = Complaints.API.get(domain: try .init("test.domain.com"), address: try .init("test@example.com"))
         let url = router.url(for: .complaints(complaintsAPI))
         
@@ -52,7 +49,6 @@ struct SuppressionsRouterTests {
     func testUnsubscribeRouting() throws {
         @Dependency(API.Router.self) var router
         
-        // Test unsubscribe create request
         let createRequest = Unsubscribe.Create.Request(
             address: try .init("test@example.com"),
             tags: ["newsletter"]
@@ -67,7 +63,6 @@ struct SuppressionsRouterTests {
     func testWhitelistRouting() throws {
         @Dependency(API.Router.self) var router
         
-        // Test whitelist delete request
         let whitelistAPI = Whitelist.API.delete(domain: try .init("test.domain.com"), value: "example.com")
         let url = router.url(for: .whitelist(whitelistAPI))
         

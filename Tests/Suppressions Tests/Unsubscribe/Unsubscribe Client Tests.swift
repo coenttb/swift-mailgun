@@ -18,8 +18,7 @@ import Suppressions
 
 @Suite(
     "Unsubscribe Client Tests",
-    .dependency(\.envVars, .liveTest),
-    .dependency(\.calendar, .current)
+    .dependency(\.envVars, .liveTest)
 )
 struct UnsubscribeClientTests {
     @Test("Should successfully import unsubscribe list")

@@ -10,27 +10,21 @@ import FoundationNetworking
 extension Complaints {
     @DependencyClient
     public struct Client: Sendable {
-        /// Import CSV file containing a list of addresses to add to the complaint list
         @DependencyEndpoint
         public var importList: @Sendable (_ request: Data) async throws -> Complaints.Import.Response
         
-        /// Fetch a single complaint record
         @DependencyEndpoint
         public var get: @Sendable (_ address: EmailAddress) async throws -> Complaints.Record
         
-        /// Delete a specific complaint record
         @DependencyEndpoint
         public var delete: @Sendable (_ address: EmailAddress) async throws -> Complaints.Delete.Response
         
-        /// Paginate over a list of complaints for a domain
         @DependencyEndpoint
         public var list: @Sendable (_ request: Complaints.List.Request) async throws -> Complaints.List.Response
         
-        /// Create a new complaint record
         @DependencyEndpoint
         public var create: @Sendable (_ request: Complaints.Create.Request) async throws -> Complaints.Create.Response
         
-        /// Delete all complaint records for the domain
         @DependencyEndpoint
         public var deleteAll: @Sendable () async throws -> Complaints.Delete.All.Response
     }

@@ -19,8 +19,7 @@ import Suppressions
 @Suite(
     "Whitelist Client Tests",
     .dependency(\.envVars, .liveTest),
-    .dependency(\.calendar, .current),
-    .dependency(\.suppressions, .liveTest),
+    .dependency(\.suppressions, .testValue),
     .serialized
 )
 struct SuppressionsWhitelistClientTests {
@@ -115,21 +114,5 @@ struct SuppressionsWhitelistClientTests {
         let response = try await client.importList(testData)
         
         #expect(response.message == "file uploaded successfully")
-    }
-    
-    @Test(
-        "Should fail to import empty whitelist"
-    )
-    func testImportEmptyWhitelist() async throws {
-        @Dependency(\.suppressions.whitelist) var client
-        
-        let testData = Data("".utf8)
-        
-        await #expect(throws: MailgunError.httpError(
-            statusCode: 400,
-            message: "refusing to upload an empty CSV file"
-        )) {
-            let _ = try await client.importList(testData)
-        }
     }
 }

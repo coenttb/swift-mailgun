@@ -25,7 +25,6 @@ extension Whitelist.API {
         
         public var body: some URLRouting.Router<Whitelist.API> {
             OneOf {
-                // GET /v3/{domain}/whitelists/{value}
                 URLRouting.Route(.case(Whitelist.API.get)) {
                     Method.get
                     Path.v3
@@ -34,7 +33,6 @@ extension Whitelist.API {
                     Path { Parse(.string) }
                 }
                 
-                // DELETE /v3/{domain}/whitelists/{value}
                 URLRouting.Route(.case(Whitelist.API.delete)) {
                     Method.delete
                     Path.v3
@@ -43,7 +41,6 @@ extension Whitelist.API {
                     Path { Parse(.string) }
                 }
                 
-                // GET /v3/{domain}/whitelists
                 URLRouting.Route(.case(Whitelist.API.list)) {
                     Method.get
                     Path.v3
@@ -67,7 +64,6 @@ extension Whitelist.API {
                     }
                 }
                 
-                // POST /v3/{domain}/whitelists
                 URLRouting.Route(.case(Whitelist.API.create)) {
                     Method.post
                     Headers {
@@ -79,7 +75,6 @@ extension Whitelist.API {
                     Body(.form(Whitelist.Create.Request.self, decoder: .default))
                 }
                 
-                // DELETE /v3/{domain}/whitelists
                 URLRouting.Route(.case(Whitelist.API.deleteAll)) {
                     Method.delete
                     Path.v3
@@ -87,7 +82,6 @@ extension Whitelist.API {
                     Path.whitelists
                 }
                 
-                // POST /v3/{domain}/whitelists/import
                 URLRouting.Route(.case(Whitelist.API.importList)) {
                     
                     let multipart = MultipartFileUpload.csv()

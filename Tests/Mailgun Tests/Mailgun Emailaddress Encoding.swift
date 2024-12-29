@@ -21,22 +21,17 @@ struct MailgunFormEncodingTests {
             subject: "Test Subject"
         )
         
-        // Encode to form data using urlFormEncode function
         let formEncoded = urlFormEncode(value: request)
         
-        // Get the components of the form data
         let components = formEncoded.split(separator: "&")
         
-        // Find and verify the 'from' field
         let fromField = components.first { $0.hasPrefix("from=") }
     
         let decodedFrom = try #require(fromField?.dropFirst("from=".count))
             .removingPercentEncoding
         
-        // Should be encoded as a simple string
         #expect(decodedFrom == "John Doe <test@example.com>")
         
-        // Now test decoding using UrlFormDecoder
         let decoder = UrlFormDecoder()
         decoder.parsingStrategy = .bracketsWithIndices
         

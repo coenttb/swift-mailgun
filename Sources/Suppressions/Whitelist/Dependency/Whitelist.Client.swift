@@ -16,27 +16,21 @@ import FoundationNetworking
 extension Whitelist {
     @DependencyClient
     public struct Client: Sendable {
-        /// Get a specific whitelisted record
         @DependencyEndpoint
         public var get: @Sendable (_ value: String) async throws -> Whitelist.Record
         
-        /// Delete a specific whitelisted record
         @DependencyEndpoint
         public var delete: @Sendable (_ value: String) async throws -> Whitelist.Delete.Response
         
-        /// Lists all whitelisted records for a domain
         @DependencyEndpoint
         public var list: @Sendable (_ request: Whitelist.List.Request) async throws -> Whitelist.List.Response
         
-        /// Add a new record to whitelist
         @DependencyEndpoint
         public var create: @Sendable (_ request: Whitelist.Create.Request) async throws -> Whitelist.Create.Response
         
-        /// Delete all whitelisted records for a domain
         @DependencyEndpoint
         public var deleteAll: @Sendable () async throws -> Whitelist.Delete.All.Response
         
-        /// Import a CSV file containing a list of addresses to add to the whitelist
         @DependencyEndpoint
         public var importList: @Sendable (_ request: Data) async throws -> Whitelist.Import.Response
     }

@@ -9,27 +9,21 @@ import FoundationNetworking
 extension Bounces {
     @DependencyClient
     public struct Client: Sendable {
-        /// Import CSV file containing a list of addresses to add to the bounce list
         @DependencyEndpoint
         public var importList: @Sendable (_ request: Data) async throws -> Bounces.Import.Response
         
-        /// Fetch a single bounce record
         @DependencyEndpoint
         public var get: @Sendable (_ address: EmailAddress) async throws -> Bounces.Record
         
-        /// Delete a specific bounce record
         @DependencyEndpoint
         public var delete: @Sendable (_ address: EmailAddress) async throws -> Bounces.Delete.Response
         
-        /// Paginate over a list of bounces for a domain
         @DependencyEndpoint
         public var list: @Sendable (_ request: Bounces.List.Request) async throws -> Bounces.List.Response
         
-        /// Create a new bounce record
         @DependencyEndpoint
         public var create: @Sendable (_ request: Bounces.Create.Request) async throws -> Bounces.Create.Response
         
-        /// Delete all bounce records for the domain
         @DependencyEndpoint
         public var deleteAll: @Sendable () async throws -> Bounces.Delete.All.Response
     }

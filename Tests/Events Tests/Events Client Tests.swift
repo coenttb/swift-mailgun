@@ -11,8 +11,8 @@ import Authenticated
 
 @Suite(
     "Events Client Tests",
-    .dependency(\.envVars, .liveTest),
     .dependency(\.calendar, .current),
+    .dependency(\.envVars, .liveTest),
     .dependency(\.client, .testValue)
 )
 struct EventsClientTests {

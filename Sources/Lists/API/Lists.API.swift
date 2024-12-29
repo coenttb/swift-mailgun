@@ -31,7 +31,6 @@ extension API {
         
         public var body: some URLRouting.Router<API> {
             OneOf {
-                // POST /v3/lists
                 URLRouting.Route(.case(Lists.API.create)) {
                     Method.post
                     Path.v3
@@ -39,7 +38,6 @@ extension API {
                     Body(.form(Lists.List.Create.Request.self, decoder: .default))
                 }
                 
-                // GET /v3/lists
                 URLRouting.Route(.case(Lists.API.list)) {
                     Method.get
                     Path.v3
@@ -59,7 +57,6 @@ extension API {
                     }
                 }
                 
-                // GET /v3/lists/{list_address}/members
                 URLRouting.Route(.case(Lists.API.members)) {
                     Method.get
                     Path.v3
@@ -84,7 +81,6 @@ extension API {
                     }
                 }
                 
-                // POST /v3/lists/{list_address}/members
                 URLRouting.Route(.case(Lists.API.addMember)) {
                     Method.post
                     Path.v3
@@ -94,7 +90,6 @@ extension API {
                     Body(.form(Lists.Member.Add.Request.self, decoder: .default))
                 }
                 
-                // POST /v3/lists/{list_address}/members.json
                 URLRouting.Route(.case(Lists.API.bulkAdd)) {
                     Method.post
                     Path.v3
@@ -109,7 +104,6 @@ extension API {
                     }
                 }
                 
-                // POST /v3/lists/{list_address}/members.csv
                 URLRouting.Route(.case(Lists.API.bulkAddCSV)) {
                     Method.post
                     Path.v3
@@ -129,7 +123,6 @@ extension API {
                     }
                 }
                 
-                // GET /v3/lists/{list_address}/members/{member_address}
                 URLRouting.Route(.case(Lists.API.getMember)) {
                     Method.get
                     Path.v3
@@ -139,7 +132,6 @@ extension API {
                     Path { Parse(.string.representing(EmailAddress.self)) }
                 }
                 
-                // PUT /v3/lists/{list_address}/members/{member_address}
                 URLRouting.Route(.case(Lists.API.updateMember)) {
                     
                     let multipartFormCoding = MultipartFormCoding(
@@ -158,7 +150,6 @@ extension API {
                     Body(multipartFormCoding)
                 }
                 
-                // DELETE /v3/lists/{list_address}/members/{member_address}
                 URLRouting.Route(.case(Lists.API.deleteMember)) {
                     Method.delete
                     Path.v3
@@ -168,7 +159,6 @@ extension API {
                     Path { Parse(.string.representing(EmailAddress.self)) }
                 }
                 
-                // PUT /v3/lists/{list_address}
                 URLRouting.Route(.case(Lists.API.update)) {
                     
                     let multipartFormCoding = MultipartFormCoding.init(Lists.List.Update.Request.self, decoder: .default)
@@ -183,7 +173,6 @@ extension API {
                     Body(multipartFormCoding)
                 }
                 
-                // DELETE /v3/lists/{list_address}
                 URLRouting.Route(.case(Lists.API.delete)) {
                     Method.delete
                     Path.v3
@@ -191,7 +180,6 @@ extension API {
                     Path { Parse(.string.representing(EmailAddress.self)) }
                 }
                 
-                // GET /v3/lists/{list_address}
                 URLRouting.Route(.case(Lists.API.get)) {
                     Method.get
                     Path.v3
@@ -199,7 +187,6 @@ extension API {
                     Path { Parse(.string.representing(EmailAddress.self)) }
                 }
                 
-                // GET /v3/lists/pages
                 URLRouting.Route(.case(Lists.API.pages)) {
                     Method.get
                     Path.v3
@@ -212,7 +199,6 @@ extension API {
                     }
                 }
                 
-                // GET /v3/lists/{list_address}/members/pages
                 URLRouting.Route(.case(Lists.API.memberPages)) {
                     Method.get
                     Path.v3

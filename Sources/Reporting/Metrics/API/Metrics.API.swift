@@ -21,7 +21,6 @@ extension Metrics.API {
         
         public var body: some URLRouting.Router<Metrics.API> {
             OneOf {
-                // POST /v1/analytics/metrics
                 URLRouting.Route(.case(Metrics.API.getAccountMetrics)) {
                     Method.post
                     Path.v1
@@ -30,7 +29,6 @@ extension Metrics.API {
                     Body(.json(Metrics.GetAccountMetrics.Request.self))
                 }
                 
-                // POST /v1/analytics/usage/metrics
                 URLRouting.Route(.case(Metrics.API.getAccountUsageMetrics)) {
                     Method.post
                     Path.v1

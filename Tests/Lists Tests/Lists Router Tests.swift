@@ -47,7 +47,6 @@ struct ListsRouterTests {
         let url = router.url(for: .list(request: listRequest))
         #expect(url.path == "/v3/lists")
         
-        // Parse the query string into a dictionary
         let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
         let queryItems = components?.queryItems ?? []
         let queryDict = Dictionary(uniqueKeysWithValues: queryItems.map { ($0.name, $0.value) })

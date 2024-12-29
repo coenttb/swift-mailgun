@@ -16,11 +16,9 @@ import FoundationNetworking
 extension Metrics {
     @DependencyClient
     public struct Client: Sendable {
-        /// Get filtered metrics for an account
         @DependencyEndpoint
         public var getAccountMetrics: @Sendable (_ request: Metrics.GetAccountMetrics.Request) async throws -> Metrics.GetAccountMetrics.Response
         
-        /// Get filtered usage metrics for an account
         @DependencyEndpoint
         public var getAccountUsageMetrics: @Sendable (_ request: Metrics.GetAccountUsageMetrics.Request) async throws -> Metrics.GetAccountUsageMetrics.Response
     }

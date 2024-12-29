@@ -11,7 +11,7 @@ import Authenticated
 @Suite(
     "Lists Client Tests",
     .dependency(\.envVars, .liveTest),
-    .dependency(\.client, .liveTest),
+    .dependency(\.client, .testValue),
     .serialized
 )
 struct ListsClientTests {

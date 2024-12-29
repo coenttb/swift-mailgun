@@ -18,8 +18,7 @@ import Suppressions
 
 @Suite(
     "Complaints Client Tests",
-    .dependency(\.envVars, .liveTest),
-    .dependency(\.calendar, .current)
+    .dependency(\.envVars, .liveTest)
 )
 struct ComplaintsClientTests {
     @Test("Should successfully import complaints list")

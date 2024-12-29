@@ -17,28 +17,21 @@ import FoundationNetworking
 extension Unsubscribe {
     @DependencyClient
     public struct Client: Sendable {
-        
-        /// Fetch a single unsubscribe record
         @DependencyEndpoint
         public var get: @Sendable (_ address: EmailAddress) async throws -> Unsubscribe.Record
         
-        /// Delete a specific unsubscribe record
         @DependencyEndpoint
         public var delete: @Sendable (_ address: EmailAddress) async throws -> Unsubscribe.Delete.Response
         
-        /// Paginate over a list of unsubscribes for a domain
         @DependencyEndpoint
         public var list: @Sendable (_ request: Unsubscribe.List.Request) async throws -> Unsubscribe.List.Response
         
-        /// Create a new unsubscribe record
         @DependencyEndpoint
         public var create: @Sendable (_ request: Unsubscribe.Create.Request) async throws -> Unsubscribe.Create.Response
         
-        /// Delete all unsubscribe records for the domain
         @DependencyEndpoint
         public var deleteAll: @Sendable () async throws -> Unsubscribe.Delete.All.Response
         
-        /// Import a CSV file containing a list of addresses to add to the unsubscribe list
         @DependencyEndpoint
         public var importList: @Sendable (_ request: Data) async throws -> Unsubscribe.Import.Response
     }

@@ -26,7 +26,6 @@ extension Unsubscribe.API {
         
         public var body: some URLRouting.Router<Unsubscribe.API> {
             OneOf {
-                // POST /v3/{domain}/unsubscribes/import
                 URLRouting.Route(.case(Unsubscribe.API.importList)) {
                     Method.post
                     Path.v3
@@ -36,7 +35,6 @@ extension Unsubscribe.API {
                     Body(.form(Foundation.Data.self, decoder: .default))
                 }
                 
-                // GET /v3/{domain}/unsubscribes/{address}
                 URLRouting.Route(.case(Unsubscribe.API.get)) {
                     Method.get
                     Path.v3
@@ -45,7 +43,6 @@ extension Unsubscribe.API {
                     Path { Parse(.string.representing(EmailAddress.self)) }
                 }
                 
-                // DELETE /v3/{domain}/unsubscribes/{address}
                 URLRouting.Route(.case(Unsubscribe.API.delete)) {
                     Method.delete
                     Path.v3
@@ -54,7 +51,6 @@ extension Unsubscribe.API {
                     Path { Parse(.string.representing(EmailAddress.self)) }
                 }
                 
-                // GET /v3/{domain}/unsubscribes
                 URLRouting.Route(.case(Unsubscribe.API.list)) {
                     Method.get
                     Path.v3
@@ -78,7 +74,6 @@ extension Unsubscribe.API {
                     }
                 }
                 
-                // POST /v3/{domain}/unsubscribes
                 URLRouting.Route(.case(Unsubscribe.API.create)) {
                     Method.post
                     Path.v3
@@ -87,7 +82,6 @@ extension Unsubscribe.API {
                     Body(.form(Unsubscribe.Create.Request.self, decoder: .default))
                 }
                 
-                // DELETE /v3/{domain}/unsubscribes
                 URLRouting.Route(.case(Unsubscribe.API.deleteAll)) {
                     Method.delete
                     Path.v3

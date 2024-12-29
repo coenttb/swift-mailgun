@@ -21,7 +21,6 @@ extension Events.API {
         
         public var body: some URLRouting.Router<Events.API> {
             OneOf {
-                // GET /v3/{domain_name}/events
                 URLRouting.Route(.case(Events.API.list)) {
                     Method.get
                     Path.v3

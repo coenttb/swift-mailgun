@@ -22,7 +22,6 @@ package func handleRequest<ResponseType: Decodable>(
         print("Headers:")
         if let headers = request.allHTTPHeaderFields {
             for (key, value) in headers {
-                // Mask sensitive headers
                 if key.lowercased() == "authorization" {
                     print("  \(key): *****")
                 } else {
@@ -91,7 +90,6 @@ package func handleRequest<ResponseType: Decodable>(
             print("Error: \(error)")
             print("Raw Data: \(String(data: data, encoding: .utf8) ?? "Unable to show raw data")")
             
-            // Attempt to decode as dictionary for more insight
             if let json = try? JSONSerialization.jsonObject(with: data) {
                 print("JSON Structure:")
                 print(json)

@@ -23,7 +23,6 @@ extension URL {
 }
 
 extension EnvironmentVariables {
-    // Mailgun
     package var mailgunBaseUrl: URL? {
         get { self["MAILGUN_BASE_URL"].flatMap(URL.init(string:)) }
     }

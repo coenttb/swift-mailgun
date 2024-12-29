@@ -22,7 +22,6 @@ extension API {
         
         public var body: some URLRouting.Router<API> {
             OneOf {
-                // GET /v3/domains/{domain}/webhooks
                 URLRouting.Route(.case(API.list)) {
                     Method.get
                     Path.v3
@@ -31,7 +30,6 @@ extension API {
                     Path.webhooks
                 }
                 
-                // GET /v3/domains/{domain}/webhooks/{webhook_name}
                 URLRouting.Route(.case(API.get)) {
                     Method.get
                     Path.v3
@@ -41,7 +39,6 @@ extension API {
                     Path { Parse(.string.representing(Webhook.Variant.self)) }
                 }
                 
-                // POST /v3/domains/{domain}/webhooks
                 URLRouting.Route(.case(API.create)) {
                     Method.post
                     Path.v3
@@ -56,7 +53,6 @@ extension API {
                     }
                 }
                 
-                // PUT /v3/domains/{domain}/webhooks/{webhook_name}
                 URLRouting.Route(.case(API.update)) {
                     Method.put
                     Path.v3
@@ -69,7 +65,6 @@ extension API {
                     }
                 }
                 
-                // DELETE /v3/domains/{domain}/webhooks/{webhook_name}
                 URLRouting.Route(.case(API.delete)) {
                     Method.delete
                     Path.v3

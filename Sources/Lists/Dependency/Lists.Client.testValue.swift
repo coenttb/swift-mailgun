@@ -110,7 +110,7 @@ extension Client: TestDependencyKey {
                         vars: request.vars ?? [:],
                         subscribed: request.subscribed ?? true
                     ),
-                    message: "Member has been updated"
+                    message: "Mailing list member has been updated"
                 )
             },
             deleteMember: { listAddress, memberAddress in

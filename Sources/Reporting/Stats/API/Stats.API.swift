@@ -24,7 +24,6 @@ extension Stats.API {
         
         public var body: some URLRouting.Router<Stats.API> {
             OneOf {
-                // GET /v3/stats/total
                 URLRouting.Route(.case(Stats.API.total)) {
                     Method.get
                     Path.v3
@@ -49,7 +48,6 @@ extension Stats.API {
                     }
                 }
                 
-                // GET /v3/stats/filter
                 URLRouting.Route(.case(Stats.API.filter)) {
                     Method.get
                     Path.v3
@@ -80,7 +78,6 @@ extension Stats.API {
                     }
                 }
                 
-                // GET /v3/{domain}/aggregates/providers
                 URLRouting.Route(.case(Stats.API.aggregateProviders)) {
                     Method.get
                     Path.v3
@@ -89,7 +86,6 @@ extension Stats.API {
                     Path.providers
                 }
                 
-                // GET /v3/{domain}/aggregates/devices
                 URLRouting.Route(.case(Stats.API.aggregateDevices)) {
                     Method.get
                     Path.v3
@@ -98,7 +94,6 @@ extension Stats.API {
                     Path.devices
                 }
                 
-                // GET /v3/{domain}/aggregates/countries
                 URLRouting.Route(.case(Stats.API.aggregateCountries)) {
                     Method.get
                     Path.v3

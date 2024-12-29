@@ -9,7 +9,6 @@ import Foundation
 
 public enum Metrics {}
 
-// MARK: - GetAccountMetrics
 extension Metrics {
     public enum GetAccountMetrics {}
 }
@@ -84,7 +83,6 @@ extension Metrics.GetAccountMetrics {
     }
 }
 
-// MARK: - GetAccountUsageMetrics
 extension Metrics {
     public enum GetAccountUsageMetrics {}
 }
@@ -159,7 +157,6 @@ extension Metrics.GetAccountUsageMetrics {
     }
 }
 
-// MARK: - Shared Models
 extension Metrics {
     public struct Filter: Sendable, Codable, Equatable {
         public let and: [FilterCondition]

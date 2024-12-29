@@ -17,7 +17,6 @@ import Authenticated
 @testable import Webhooks
 
 @Suite(
-    .dependency(\.calendar, .current),
     .dependency(\.envVars, .liveTest),
     .dependency(\.client, .testValue)
 )

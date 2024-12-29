@@ -21,14 +21,13 @@ import FoundationNetworking
 struct MessagesClientTests {
     @Test("Should successfully send an email")
     func testSendEmail() async throws {
-        @Dependency(\.client!) var client
+        @Dependency(\.client) var client
         @Dependency(\.envVars) var envVars
         
         let from = try #require(envVars.mailgunFrom)
         let to = try #require(envVars.mailgunTo)
         
         let request = Messages.Send.Request(
-            // Use the exact domain format
             from: from,
             to: [to],
             subject: "Test Email from Mailgun Swift SDK",

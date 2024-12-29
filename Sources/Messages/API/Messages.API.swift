@@ -22,7 +22,6 @@ extension Messages.API {
         
         public var body: some URLRouting.Router<Messages.API> {
             OneOf {
-                // POST /v3/{domain_name}/messages
                 URLRouting.Route(.case(Messages.API.send)) {
                     Method.post
                     Path.v3
@@ -31,7 +30,6 @@ extension Messages.API {
                     Body(.form(Messages.Send.Request.self, decoder: .default))
                 }
                 
-                // POST /v3/{domain_name}/messages.mime
                 URLRouting.Route(.case(Messages.API.sendMime)) {
                     Method.post
                     Path.v3
@@ -40,7 +38,6 @@ extension Messages.API {
                     Body(.form(Messages.Send.Mime.Request.self, decoder: .default))
                 }
                 
-                // GET /v3/domains/{domain_name}/messages/{storage_key}
                 URLRouting.Route(.case(Messages.API.retrieve)) {
                     Method.get
                     Path.v3
@@ -50,7 +47,6 @@ extension Messages.API {
                     Path { Parse(.string) }
                 }
                 
-                // GET /v3/domains/{name}/sending_queues
                 URLRouting.Route(.case(Messages.API.queueStatus)) {
                     Method.get
                     Path.v3
@@ -59,7 +55,6 @@ extension Messages.API {
                     Path { "sending_queues" }
                 }
                 
-                // DELETE /v3/{domain_name}/envelopes
                 URLRouting.Route(.case(Messages.API.deleteScheduled)) {
                     Method.delete
                     Path.v3

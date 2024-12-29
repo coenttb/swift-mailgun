@@ -16,23 +16,18 @@ import FoundationNetworking
 
 @DependencyClient
 public struct Client: Sendable {
-    /// Lists all webhooks for a domain
     @DependencyEndpoint
     public var list: @Sendable () async throws -> [Webhook.Variant: Webhook]
     
-    /// Gets a specific webhook
     @DependencyEndpoint
     public var get: @Sendable (_ type: Webhook.Variant) async throws -> Webhook
     
-    /// Creates a new webhook
     @DependencyEndpoint
     public var create: @Sendable (_ type: Webhook.Variant, _ url: String) async throws -> Response
     
-    /// Updates an existing webhook
     @DependencyEndpoint
     public var update: @Sendable (_ type: Webhook.Variant, _ url: String) async throws -> Response
     
-    /// Deletes a webhook
     @DependencyEndpoint
     public var delete: @Sendable (_ type: Webhook.Variant) async throws -> Response
 }

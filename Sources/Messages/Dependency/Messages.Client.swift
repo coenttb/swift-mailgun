@@ -14,23 +14,18 @@ import FoundationNetworking
 
 @DependencyClient
 public struct Client: Sendable {
-    /// Sends an email by providing individual components
     @DependencyEndpoint
     public var send: @Sendable (_ request: Messages.Send.Request) async throws -> Messages.Send.Response
     
-    /// Sends an email using MIME format
     @DependencyEndpoint
     public var sendMime: @Sendable (_ request: Messages.Send.Mime.Request) async throws -> Messages.Send.Response
     
-    /// Retrieves a stored email message
     @DependencyEndpoint
     public var retrieve: @Sendable (_ storageKey: String) async throws -> Messages.StoredMessage
     
-    /// Gets the message queue status for a domain
     @DependencyEndpoint
     public var queueStatus: @Sendable () async throws -> Messages.Queue.Status
     
-    /// Deletes all scheduled and undelivered mail from the domain queue
     @DependencyEndpoint
     public var deleteAll: @Sendable () async throws -> Messages.Delete.Response
 }

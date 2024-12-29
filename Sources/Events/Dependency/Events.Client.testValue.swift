@@ -13,14 +13,12 @@ extension Events.Client: TestDependencyKey {
     public static var testValue: Self {
         Self(
             list: { query in
-                // Create base test events
                 var events: [Event] = [
-                    // Delivered event with test-tag
                     .init(
                         method: "smtp",
                         event: .delivered,
                         id: "test-message-id-1",
-                        timestamp: Date().timeIntervalSince1970 - 3600, // 1 hour ago
+                        timestamp: Date().timeIntervalSince1970 - 3600,
                         logLevel: .info,
                         flags: ["is-test-mode": false],
                         message: .init(
@@ -37,12 +35,11 @@ extension Events.Client: TestDependencyKey {
                         userVariables: [:],
                         recipientDomain: "test.com"
                     ),
-                    // Accepted event without tags
                     .init(
                         method: "smtp",
                         event: .accepted,
                         id: "test-message-id-2",
-                        timestamp: Date().timeIntervalSince1970 - 7200, // 2 hours ago
+                        timestamp: Date().timeIntervalSince1970 - 7200,
                         logLevel: .info,
                         flags: ["is-test-mode": false],
                         message: .init(
@@ -59,12 +56,11 @@ extension Events.Client: TestDependencyKey {
                         userVariables: [:],
                         recipientDomain: "test.com"
                     ),
-                    // Another delivered event with test-tag
                     .init(
                         method: "smtp",
                         event: .delivered,
                         id: "test-message-id-3",
-                        timestamp: Date().timeIntervalSince1970 - 1800, // 30 minutes ago
+                        timestamp: Date().timeIntervalSince1970 - 1800,
                         logLevel: .info,
                         flags: ["is-test-mode": false],
                         message: .init(
@@ -83,9 +79,7 @@ extension Events.Client: TestDependencyKey {
                     )
                 ]
                 
-                // Apply query filters
                 if let query = query {
-                    // Filter by date range
                     if let begin = query.begin {
                         events = events.filter { $0.timestamp! >= begin.timeIntervalSince1970 }
                     }
@@ -93,12 +87,10 @@ extension Events.Client: TestDependencyKey {
                         events = events.filter { $0.timestamp! <= end.timeIntervalSince1970 }
                     }
                     
-                    // Filter by event type
                     if let eventType = query.event {
                         events = events.filter { $0.event == eventType }
                     }
                     
-                    // Filter by tags
                     if let tags = query.tags, !tags.isEmpty {
                         events = events.filter { event in
                             guard let eventTags = event.tags else { return false }
@@ -106,12 +98,10 @@ extension Events.Client: TestDependencyKey {
                         }
                     }
                     
-                    // Apply limit
                     if let limit = query.limit {
                         events = Array(events.prefix(limit))
                     }
                     
-                    // Apply sorting
                     if let ascending = query.ascending {
                         events.sort { a, b in
                             switch ascending {

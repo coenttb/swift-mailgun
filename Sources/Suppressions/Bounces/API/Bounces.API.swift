@@ -18,7 +18,6 @@ extension Bounces.API {
         
         public var body: some URLRouting.Router<Bounces.API> {
             OneOf {
-                // POST /v3/{domain}/bounces/import
                 URLRouting.Route(.case(Bounces.API.importList)) {
                     Method.post
                     Path.v3
@@ -28,7 +27,6 @@ extension Bounces.API {
                     Body(.form(Foundation.Data.self, decoder: .default))
                 }
                 
-                // GET /v3/{domain}/bounces/{address}
                 URLRouting.Route(.case(Bounces.API.get)) {
                     Method.get
                     Path.v3
@@ -37,7 +35,6 @@ extension Bounces.API {
                     Path { Parse(.string.representing(EmailAddress.self)) }
                 }
                 
-                // DELETE /v3/{domain}/bounces/{address}
                 URLRouting.Route(.case(Bounces.API.delete)) {
                     Method.delete
                     Path.v3
@@ -46,7 +43,6 @@ extension Bounces.API {
                     Path { Parse(.string.representing(EmailAddress.self)) }
                 }
                 
-                // GET /v3/{domain}/bounces
                 URLRouting.Route(.case(Bounces.API.list)) {
                     Method.get
                     Path.v3
@@ -67,7 +63,6 @@ extension Bounces.API {
                     }
                 }
                 
-                // POST /v3/{domain}/bounces
                 URLRouting.Route(.case(Bounces.API.create)) {
                     Method.post
                     Path.v3
@@ -76,7 +71,6 @@ extension Bounces.API {
                     Body(.form(Bounces.Create.Request.self, decoder: .default))
                 }
                 
-                // DELETE /v3/{domain}/bounces
                 URLRouting.Route(.case(Bounces.API.deleteAll)) {
                     Method.delete
                     Path.v3

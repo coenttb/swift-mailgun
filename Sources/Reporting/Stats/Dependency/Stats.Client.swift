@@ -16,23 +16,18 @@ import FoundationNetworking
 extension Stats {
     @DependencyClient
     public struct Client: Sendable {
-        /// Gets stat totals for an entire account or domain
         @DependencyEndpoint
         public var total: @Sendable (_ request: Stats.Total.Request) async throws -> Stats.StatsList
         
-        /// Gets filtered and grouped stat totals for an entire account
         @DependencyEndpoint
         public var filter: @Sendable (_ request: Stats.Filter.Request) async throws -> Stats.StatsList
         
-        /// Gets aggregate counts by email service provider
         @DependencyEndpoint
         public var aggregateProviders: @Sendable () async throws -> Stats.AggregatesProviders
         
-        /// Gets aggregate counts on devices that triggered events
         @DependencyEndpoint
         public var aggregateDevices: @Sendable () async throws -> Stats.AggregatesDevices
         
-        /// Gets aggregate counts by country
         @DependencyEndpoint
         public var aggregateCountries: @Sendable () async throws -> Stats.AggregatesCountries
     }
