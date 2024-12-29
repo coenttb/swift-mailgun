@@ -16,7 +16,7 @@ import Suppressions
 @Suite(
     "Whitelist Router Tests"
 )
-struct MailgunWhitelistRouterTests {
+struct WhitelistRouterTests {
     
     @Test("Creates correct URL for importing whitelist")
     func testImportWhitelistURL() throws {

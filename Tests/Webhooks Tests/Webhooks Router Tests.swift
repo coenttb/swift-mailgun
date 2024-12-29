@@ -14,7 +14,7 @@ import TestShared
 import Webhooks
 
 @Suite("Mailgun Router Webhooks URL Tests")
-struct MailgunWebhooksRouterTests {
+struct WebhooksRouterTests {
     
     @Test("Creates correct URL for listing webhooks")
     func testListWebhooksURL() throws {

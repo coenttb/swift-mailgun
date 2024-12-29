@@ -142,7 +142,10 @@ extension API {
                 // PUT /v3/lists/{list_address}/members/{member_address}
                 URLRouting.Route(.case(Lists.API.updateMember)) {
                     
-                    let multipartFormCoding = MultipartFormCoding.init(Lists.Member.Update.Request.self, decoder: .default)
+                    let multipartFormCoding = MultipartFormCoding(
+                        Lists.Member.Update.Request.self,
+                        decoder: .default
+                    )
                     Headers {
                         Field.contentType { multipartFormCoding.contentType }
                     }

@@ -16,7 +16,7 @@ import Suppressions
 @Suite(
     "Complaints Router Tests"
 )
-struct MailgunComplaintsRouterTests {
+struct ComplaintsRouterTests {
     
     @Test("Creates correct URL for importing complaints list")
     func testImportComplaintsURL() throws {

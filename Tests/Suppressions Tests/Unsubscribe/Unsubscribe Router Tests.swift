@@ -16,7 +16,7 @@ import Suppressions
 @Suite(
     "Unsubscribe Router Tests"
 )
-struct MailgunUnsubscribeRouterTests {
+struct UnsubscribeRouterTests {
     
     @Test("Creates correct URL for importing unsubscribe list")
     func testImportUnsubscribeURL() throws {

@@ -28,14 +28,14 @@ import FoundationNetworking
 typealias AuthenticatedClient = Authenticated.Client<Messages.API, Messages.API.Router, Messages.Client>
 
 extension AuthenticatedClient: TestDependencyKey {
-    public static var testValue: Self? {
-        return try? Authenticated.Client.test {
+    public static var testValue: Self {
+        return try! Authenticated.Client.test {
             Messages.Client.testValue
         }
     }
     
-    public static var liveTest: Self? {
-        try? Authenticated.Client.test { apiKey, baseUrl, domain, makeRequest in
+    public static var liveTest: Self {
+        try! Authenticated.Client.test { apiKey, baseUrl, domain, makeRequest in
             .live(
                 apiKey: apiKey,
                 baseUrl: baseUrl,
@@ -51,21 +51,8 @@ extension Messages.API.Router: TestDependencyKey {
 }
 
 extension DependencyValues {
-    var client: AuthenticatedClient? {
+    var client: AuthenticatedClient {
         get { self[AuthenticatedClient.self] }
         set { self[AuthenticatedClient.self] = newValue }
     }
 }
-
-//extension Authenticated.Client<Messages.API, Messages.API.Router, Messages.Client>: TestDependencyKey {
-//    public static var testValue: Self? {
-//        return try? Authenticated.Client.test { apiKey, baseUrl, domain, makeRequest in
-//            return .live(
-//                apiKey: apiKey,
-//                baseUrl: baseUrl,
-//                domain: domain,
-//                makeRequest: makeRequest
-//            )
-//        }
-//    }
-//}

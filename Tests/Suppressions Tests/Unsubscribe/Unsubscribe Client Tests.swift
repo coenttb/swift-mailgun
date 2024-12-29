@@ -21,7 +21,7 @@ import Suppressions
     .dependency(\.envVars, .liveTest),
     .dependency(\.calendar, .current)
 )
-struct MailgunUnsubscribeTests {
+struct UnsubscribeClientTests {
     @Test("Should successfully import unsubscribe list")
     func testImportUnsubscribeList() async throws {
         @Dependency(\.suppressions.unsubscribe) var client

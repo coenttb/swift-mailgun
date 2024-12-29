@@ -21,7 +21,7 @@ import Suppressions
     .dependency(\.envVars, .liveTest),
     .dependency(\.calendar, .current)
 )
-struct MailgunComplaintsTests {
+struct ComplaintsClientTests {
     @Test("Should successfully import complaints list")
     func testImportComplaintsList() async throws {
         @Dependency(\.suppressions.complaints) var client
