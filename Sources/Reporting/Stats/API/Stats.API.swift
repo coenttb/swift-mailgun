@@ -5,7 +5,7 @@
 //  Created by Coen ten Thije Boonkkamp on 24/12/2024.
 //
 
-import CoenttbWeb
+import Coenttb_Web
 import Shared
 
 extension Stats {
@@ -107,38 +107,31 @@ extension Stats.API {
 }
 
 extension Path<PathBuilder.Component<String>> {
-    nonisolated(unsafe)
-    public static let stats: Path<PathBuilder.Component<String>> = Path {
+    nonisolated(unsafe) public static let stats = Path {
         "stats"
     }
     
-    nonisolated(unsafe)
-    public static let total: Path<PathBuilder.Component<String>> = Path {
+    nonisolated(unsafe) public static let total = Path {
         "total"
     }
     
-    nonisolated(unsafe)
-    public static let filter: Path<PathBuilder.Component<String>> = Path {
+    nonisolated(unsafe) public static let filter = Path {
         "filter"
     }
     
-    nonisolated(unsafe)
-    public static let aggregates: Path<PathBuilder.Component<String>> = Path {
+    nonisolated(unsafe) public static let aggregates = Path {
         "aggregates"
     }
     
-    nonisolated(unsafe)
-    public static let providers: Path<PathBuilder.Component<String>> = Path {
+    nonisolated(unsafe) public static let providers = Path {
         "providers"
     }
     
-    nonisolated(unsafe)
-    public static let devices: Path<PathBuilder.Component<String>> = Path {
+    nonisolated(unsafe) public static let devices = Path {
         "devices"
     }
     
-    nonisolated(unsafe)
-    public static let countries: Path<PathBuilder.Component<String>> = Path {
+    nonisolated(unsafe) public static let countries = Path {
         "countries"
     }
 }

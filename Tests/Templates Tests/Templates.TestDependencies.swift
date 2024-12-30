@@ -2,7 +2,7 @@
 //  File.swift
 //  coenttb-mailgun
 //
-//  Created by Coen ten Thije Boonkkamp on 27/12/2024.
+//  Created by Coen ten Thije Boonkkamp on 30/12/2024.
 //
 
 import Foundation
@@ -10,23 +10,22 @@ import Testing
 import EnvironmentVariables
 import Dependencies
 import DependenciesTestSupport
+import Templates
 import IssueReporting
 import TestShared
 import Shared
 import Authenticated
-import Webhooks
-
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
 
-typealias AuthenticatedClient = Authenticated.Client<Webhooks.API, Webhooks.API.Router, Webhooks.Client>
+typealias AuthenticatedClient = Authenticated.Client<Templates.API, Templates.API.Router, Templates.Client>
 
 extension AuthenticatedClient: TestDependencyKey {
     public static var testValue: Self {
         try! Authenticated.Client.test {
-            Webhooks.Client.testValue
+            Client.testValue
         }
     }
     
@@ -42,6 +41,6 @@ extension AuthenticatedClient: TestDependencyKey {
     }
 }
 
-extension Webhooks.API.Router: TestDependencyKey {
+extension Templates.API.Router: TestDependencyKey {
     public static let testValue: Self = .init()
 }

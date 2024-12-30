@@ -5,7 +5,7 @@
 //  Created by Coen ten Thije Boonkkamp on 19/12/2024.
 //
 
-import CoenttbWeb
+import Coenttb_Web
 import DependenciesMacros
 
 #if canImport(FoundationNetworking)

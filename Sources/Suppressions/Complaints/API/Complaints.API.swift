@@ -1,5 +1,5 @@
 // Complaints.API.swift
-import CoenttbWeb
+import Coenttb_Web
 import Shared
 
 extension Complaints {
@@ -87,8 +87,7 @@ extension Complaints.API {
 }
 
 extension Path<PathBuilder.Component<String>> {
-    nonisolated(unsafe)
-    public static let complaints: Path<PathBuilder.Component<String>> = Path {
+    nonisolated(unsafe) public static let complaints = Path {
         "complaints"
     }
 }

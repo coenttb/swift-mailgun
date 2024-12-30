@@ -7,7 +7,7 @@
 
 import Testing
 import EmailAddress
-import CoenttbWeb
+import Coenttb_Web
 @testable import Messages
 
 @Suite("Mailgun Form Encoding Tests")

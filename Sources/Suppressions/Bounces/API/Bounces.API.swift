@@ -1,4 +1,4 @@
-import CoenttbWeb
+import Coenttb_Web
 import Shared
 
 extension Bounces {
@@ -83,8 +83,7 @@ extension Bounces.API {
 }
 
 extension Path<PathBuilder.Component<String>> {
-    nonisolated(unsafe)
-    public static let bounces: Path<PathBuilder.Component<String>> = Path {
+    nonisolated(unsafe) public static let bounces = Path {
         "bounces"
     }
 }

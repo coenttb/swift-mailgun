@@ -5,7 +5,7 @@
 //  Created by coenttb on 26/12/2024.
 //
 
-import CoenttbWeb
+import Coenttb_Web
 import IssueReporting
 import Shared
 

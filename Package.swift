@@ -54,7 +54,7 @@ extension Target.Dependency {
 }
 
 extension Target.Dependency {
-    static var coenttbWeb: Self { .product(name: "CoenttbWeb", package: "coenttb-web") }
+    static var coenttbWeb: Self { .product(name: "Coenttb Web", package: "coenttb-web") }
     static var basicAuth: Self { .product(name: "BasicAuth", package: "swift-authentication") }
     static var dependenciesMacros: Self { .product(name: "DependenciesMacros", package: "swift-dependencies") }
     static var dependenciesTestSupport: Self { .product(name: "DependenciesTestSupport", package: "swift-dependencies") }

@@ -49,10 +49,3 @@ extension AuthenticatedClient: TestDependencyKey {
 extension Messages.API.Router: TestDependencyKey {
     public static let testValue: Messages.API.Router = .init()
 }
-
-extension DependencyValues {
-    var client: AuthenticatedClient {
-        get { self[AuthenticatedClient.self] }
-        set { self[AuthenticatedClient.self] = newValue }
-    }
-}

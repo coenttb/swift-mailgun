@@ -11,13 +11,13 @@ import Authenticated
 @Suite(
     "Lists Client Tests",
     .dependency(\.envVars, .liveTest),
-    .dependency(\.client, .testValue),
+    .dependency(AuthenticatedClient.testValue),
     .serialized
 )
 struct ListsClientTests {
     @Test("Should successfully create a mailing list")
     func testCreateList() async throws {
-        @Dependency(\.client) var client
+        @Dependency(AuthenticatedClient.self) var client
         @Dependency(\.envVars.mailgunTestMailingList) var list
         
         let request = Lists.List.Create.Request(
@@ -39,7 +39,7 @@ struct ListsClientTests {
     
     @Test("Should successfully add member")
     func testAddMember() async throws {
-        @Dependency(\.client) var client
+        @Dependency(AuthenticatedClient.self) var client
         @Dependency(\.envVars.mailgunTestMailingList) var list
         @Dependency(\.envVars.mailgunTestRecipient) var recipient
         
@@ -58,7 +58,7 @@ struct ListsClientTests {
     
     @Test("Should successfully get member")
     func testGetMember() async throws {
-        @Dependency(\.client) var client
+        @Dependency(AuthenticatedClient.self) var client
         @Dependency(\.envVars.mailgunTestMailingList) var list
         @Dependency(\.envVars.mailgunTestRecipient) var recipient
         
@@ -73,7 +73,7 @@ struct ListsClientTests {
         .bug(id: 1)
     )
     func testUpdateMember() async throws {
-        @Dependency(\.client) var client
+        @Dependency(AuthenticatedClient.self) var client
         @Dependency(\.envVars.mailgunTestMailingList) var list
         @Dependency(\.envVars.mailgunTestRecipient) var recipient
         
@@ -97,7 +97,7 @@ struct ListsClientTests {
         .bug(id: 2)
     )
     func testUpdateList() async throws {
-        @Dependency(\.client) var client
+        @Dependency(AuthenticatedClient.self) var client
         @Dependency(\.envVars.mailgunTestMailingList) var list
         
         
@@ -116,7 +116,7 @@ struct ListsClientTests {
         "Should successfully delete list"
     )
     func testDeleteList() async throws {
-        @Dependency(\.client) var client
+        @Dependency(AuthenticatedClient.self) var client
         @Dependency(\.envVars.mailgunTestMailingList) var list
         
         

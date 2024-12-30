@@ -5,7 +5,7 @@
 //  Created by Coen ten Thije Boonkkamp on 20/12/2024.
 //
 
-import CoenttbWeb
+import Coenttb_Web
 import Shared
 
 public enum API: Equatable, Sendable {
@@ -75,13 +75,11 @@ extension UrlFormDecoder {
 }
 
 extension Path<PathBuilder.Component<String>> {
-    nonisolated(unsafe)
-    public static let messages: Path<PathBuilder.Component<String>> = Path {
+    nonisolated(unsafe) public static let messages = Path {
         "messages"
     }
-    
-    nonisolated(unsafe)
-    public static let domains: Path<PathBuilder.Component<String>> = Path {
+
+    nonisolated(unsafe) public static let domains = Path {
         "domains"
     }
 }

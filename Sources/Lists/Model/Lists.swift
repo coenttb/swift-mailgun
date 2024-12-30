@@ -5,7 +5,7 @@
 //  Created by Coen ten Thije Boonkkamp on 20/12/2024.
 //
 
-import CoenttbWeb
+import Coenttb_Web
 
 
 public struct List: Sendable, Codable, Equatable {

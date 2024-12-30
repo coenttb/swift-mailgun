@@ -5,7 +5,7 @@
 //  Created by Coen ten Thije Boonkkamp on 20/12/2024.
 //
 
-import CoenttbWeb
+import Coenttb_Web
 import Shared
 
 public enum API: Equatable, Sendable {
@@ -229,13 +229,12 @@ extension API {
 }
 
 extension Path<PathBuilder.Component<String>> {
-    nonisolated(unsafe)
-    public static let lists: Path<PathBuilder.Component<String>> = Path {
+    
+    nonisolated(unsafe) public static let lists = Path {
         "lists"
     }
     
-    nonisolated(unsafe)
-    public static let members: Path<PathBuilder.Component<String>> = Path {
+    nonisolated(unsafe) public static let members = Path {
         "members"
     }
 }

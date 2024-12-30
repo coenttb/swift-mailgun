@@ -1,5 +1,5 @@
 {
-  "originHash" : "4c3054d04cf2aa6c2f290ffa72b613b2190adf5e1bc5b860e33ca2da83c1bff1",
+  "originHash" : "3ccb022809293aa114654707a0fec58b932ce52f381c276e29c23d86d4716de3",
   "pins" : [
     {
       "identity" : "async-http-client",
@@ -38,21 +38,12 @@
       }
     },
     {
-      "identity" : "coenttb-utils",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/coenttb/coenttb-utils.git",
-      "state" : {
-        "branch" : "main",
-        "revision" : "03cdc7f28e600db96b9f3e4bc70b1a79b52a95fd"
-      }
-    },
-    {
       "identity" : "coenttb-web",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/coenttb/coenttb-web",
       "state" : {
         "branch" : "main",
-        "revision" : "a4184cc35c1e4576ae011150bbc5144cac077aed"
+        "revision" : "4118318ead4ebe6b629e3d1f8550f93df43147e3"
       }
     },
     {
@@ -65,57 +56,12 @@
       }
     },
     {
-      "identity" : "console-kit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/vapor/console-kit.git",
-      "state" : {
-        "revision" : "966d89ae64cd71c652a1e981bc971de59d64f13d",
-        "version" : "4.15.1"
-      }
-    },
-    {
-      "identity" : "fluent",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/vapor/fluent.git",
-      "state" : {
-        "revision" : "223b27d04ab2b51c25503c9922eecbcdf6c12f89",
-        "version" : "4.12.0"
-      }
-    },
-    {
-      "identity" : "fluent-kit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/vapor/fluent-kit.git",
-      "state" : {
-        "revision" : "614d3ec27cdef50cfb9fc3cfd382b6a4d9578cff",
-        "version" : "1.49.0"
-      }
-    },
-    {
-      "identity" : "fluent-postgres-driver",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/vapor/fluent-postgres-driver.git",
-      "state" : {
-        "revision" : "fd57101e426d3edf66a32ba63a7d0b8ced4d7499",
-        "version" : "2.10.0"
-      }
-    },
-    {
-      "identity" : "multipart-kit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/vapor/multipart-kit.git",
-      "state" : {
-        "revision" : "3498e60218e6003894ff95192d756e238c01f44e",
-        "version" : "4.7.1"
-      }
-    },
-    {
       "identity" : "pointfree-html",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/coenttb/pointfree-html.git",
       "state" : {
         "branch" : "main",
-        "revision" : "3d56e6c42029c62d6913f6b623ab3036d9f30092"
+        "revision" : "517a823ffb482d588fbd46c2606a87dc8f35f3ec"
       }
     },
     {
@@ -143,15 +89,6 @@
       "state" : {
         "revision" : "fd0e415a705c490499f983639b04f491a2ed9d99",
         "version" : "1.23.0"
-      }
-    },
-    {
-      "identity" : "routing-kit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/vapor/routing-kit.git",
-      "state" : {
-        "revision" : "8c9a227476555c55837e569be71944e02a056b72",
-        "version" : "4.9.1"
       }
     },
     {
@@ -290,15 +227,6 @@
       }
     },
     {
-      "identity" : "swift-distributed-tracing",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-distributed-tracing.git",
-      "state" : {
-        "revision" : "6483d340853a944c96dbcc28b27dd10b6c581703",
-        "version" : "1.1.2"
-      }
-    },
-    {
       "identity" : "swift-environment-variables",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/coenttb/swift-environment-variables",
@@ -310,10 +238,10 @@
     {
       "identity" : "swift-html",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/coenttb/swift-html",
+      "location" : "https://github.com/coenttb/swift-html.git",
       "state" : {
         "branch" : "main",
-        "revision" : "bfbea2b2edf6b9c8106263784181c29734c3750c"
+        "revision" : "cb8d1b8fe55fd827df971a2982f09aa096394796"
       }
     },
     {
@@ -340,7 +268,7 @@
       "location" : "https://github.com/coenttb/swift-language.git",
       "state" : {
         "branch" : "main",
-        "revision" : "d01ca3bafea825c8562fee17363d69642213bcf2"
+        "revision" : "63b455da4844a701663dd91bb681bf05a536c92f"
       }
     },
     {
@@ -443,15 +371,6 @@
       }
     },
     {
-      "identity" : "swift-service-context",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-service-context.git",
-      "state" : {
-        "revision" : "0c62c5b4601d6c125050b5c3a97f20cce881d32b",
-        "version" : "1.1.0"
-      }
-    },
-    {
       "identity" : "swift-service-lifecycle",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/swift-server/swift-service-lifecycle.git",
@@ -502,34 +421,7 @@
       "location" : "https://github.com/coenttb/swift-web",
       "state" : {
         "branch" : "main",
-        "revision" : "93f8d73c5c16bdfe5b62128a129f60842fa54334"
-      }
-    },
-    {
-      "identity" : "vapor",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/vapor/vapor.git",
-      "state" : {
-        "revision" : "73dfe634f04945285054b261369cd93f5100b44c",
-        "version" : "4.110.2"
-      }
-    },
-    {
-      "identity" : "vapor-routing",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/pointfreeco/vapor-routing.git",
-      "state" : {
-        "revision" : "ae1db2ec96fad88b00173a265313de2c447a9945",
-        "version" : "0.1.3"
-      }
-    },
-    {
-      "identity" : "websocket-kit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/vapor/websocket-kit.git",
-      "state" : {
-        "revision" : "4232d34efa49f633ba61afde365d3896fc7f8740",
-        "version" : "2.15.0"
+        "revision" : "7cde70656765ae3128b5258bca6de1717d8be504"
       }
     },
     {

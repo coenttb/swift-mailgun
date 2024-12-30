@@ -5,7 +5,7 @@
 //  Created by Coen ten Thije Boonkkamp on 24/12/2024.
 //
 
-import CoenttbWeb
+import Coenttb_Web
 import Shared
 
 extension Metrics {
@@ -43,18 +43,15 @@ extension Metrics.API {
 }
 
 extension Path<PathBuilder.Component<String>> {
-    nonisolated(unsafe)
-    public static let analytics: Path<PathBuilder.Component<String>> = Path {
+    nonisolated(unsafe) public static let analytics = Path {
         "analytics"
     }
     
-    nonisolated(unsafe)
-    public static let metrics: Path<PathBuilder.Component<String>> = Path {
+    nonisolated(unsafe) public static let metrics = Path {
         "metrics"
     }
     
-    nonisolated(unsafe)
-    public static let usage: Path<PathBuilder.Component<String>> = Path {
+    nonisolated(unsafe) public static let usage = Path {
         "usage"
     }
 }

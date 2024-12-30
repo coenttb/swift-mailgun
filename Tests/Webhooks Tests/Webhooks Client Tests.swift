@@ -18,12 +18,12 @@ import Authenticated
 
 @Suite(
     .dependency(\.envVars, .liveTest),
-    .dependency(\.client, .testValue)
+    .dependency(AuthenticatedClient.testValue)
 )
 struct WebhooksClientTests {
     @Test("Should successfully create webhook")
     func testCreateWebhook() async throws {
-        @Dependency(\.client) var client
+        @Dependency(AuthenticatedClient.self) var client
         
         let testUrl = "https://webhook.test/endpoint"
         let response = try await client.create(.opened, testUrl)
@@ -34,7 +34,7 @@ struct WebhooksClientTests {
     
     @Test("Should successfully list webhooks")
     func testListWebhooks() async throws {
-        @Dependency(\.client) var client
+        @Dependency(AuthenticatedClient.self) var client
         
         let response = try await client.list()
         
@@ -44,7 +44,7 @@ struct WebhooksClientTests {
     
     @Test("Should successfully get webhook by type")
     func testGetWebhook() async throws {
-        @Dependency(\.client) var client
+        @Dependency(AuthenticatedClient.self) var client
         
         let webhook = try await client.get(.delivered)
         
@@ -53,7 +53,7 @@ struct WebhooksClientTests {
     
     @Test("Should successfully update webhook")
     func testUpdateWebhook() async throws {
-        @Dependency(\.client) var client
+        @Dependency(AuthenticatedClient.self) var client
         
         let testUrl = "https://webhook.test/updated"
         let response = try await client.update(.clicked, testUrl)
@@ -64,7 +64,7 @@ struct WebhooksClientTests {
     
     @Test("Should handle permanent and temporary fail webhooks")
     func testFailureWebhooks() async throws {
-        @Dependency(\.client) var client
+        @Dependency(AuthenticatedClient.self) var client
         
         let testUrl = "https://webhook.test/failures"
         let permanentResponse = try await client.create(.permanentFail, testUrl)
@@ -77,7 +77,7 @@ struct WebhooksClientTests {
     
     @Test("Should successfully delete webhook")
     func testDeleteWebhook() async throws {
-        @Dependency(\.client) var client
+        @Dependency(AuthenticatedClient.self) var client
 
         let response = try await client.delete(.complained)
         

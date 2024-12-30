@@ -1,6 +1,6 @@
 // Complaints.Client.live.swift
 
-import CoenttbWeb
+import Coenttb_Web
 import IssueReporting
 import Shared
 

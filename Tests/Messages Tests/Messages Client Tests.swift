@@ -16,12 +16,12 @@ import FoundationNetworking
 @Suite(
     "Messages Client Tests",
     .dependency(\.envVars, .liveTest),
-    .dependency(\.client, .testValue)
+    .dependency(AuthenticatedClient.testValue)
 )
 struct MessagesClientTests {
     @Test("Should successfully send an email")
     func testSendEmail() async throws {
-        @Dependency(\.client) var client
+        @Dependency(AuthenticatedClient.self) var client
         @Dependency(\.envVars) var envVars
         
         let from = try #require(envVars.mailgunFrom)

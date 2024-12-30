@@ -5,7 +5,7 @@
 //  Created by Coen ten Thije Boonkkamp on 24/12/2024.
 //
 
-import CoenttbWeb
+import Coenttb_Web
 import Shared
 
 extension Whitelist {
@@ -102,8 +102,7 @@ extension Whitelist.API {
 }
 
 extension Path<PathBuilder.Component<String>> {
-    nonisolated(unsafe)
-    public static let whitelists: Path<PathBuilder.Component<String>> = Path {
+    nonisolated(unsafe) public static let whitelists = Path {
         "whitelists"
     }
 }

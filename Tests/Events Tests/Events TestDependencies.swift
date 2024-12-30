@@ -42,13 +42,6 @@ extension AuthenticatedClient: TestDependencyKey {
     }
 }
 
-extension DependencyValues {
-    var client: AuthenticatedClient {
-        get { self[AuthenticatedClient.self] }
-        set { self[AuthenticatedClient.self] = newValue }
-    }
-}
-
 extension Events.API.Router: TestDependencyKey {
     public static let testValue: Self = .init()
 }

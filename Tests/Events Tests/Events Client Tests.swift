@@ -13,12 +13,12 @@ import Authenticated
     "Events Client Tests",
     .dependency(\.calendar, .current),
     .dependency(\.envVars, .liveTest),
-    .dependency(\.client, .testValue)
+    .dependency(AuthenticatedClient.testValue)
 )
 struct EventsClientTests {
     @Test("Should successfully list events with default parameters")
     func testListEvents() async throws {
-        @Dependency(\.client) var client
+        @Dependency(AuthenticatedClient.self) var client
 
         let response = try await client.list(nil)
         
@@ -29,7 +29,7 @@ struct EventsClientTests {
        
     @Test("Should successfully list events with date range filter")
     func testListEventsWithDateRange() async throws {
-        @Dependency(\.client) var client
+        @Dependency(AuthenticatedClient.self) var client
         @Dependency(\.calendar) var calendar
 
         let end = Date()
@@ -51,7 +51,7 @@ struct EventsClientTests {
     
     @Test("Should successfully list events filtered by event type")
     func testListEventsWithEventType() async throws {
-        @Dependency(\.client) var client
+        @Dependency(AuthenticatedClient.self) var client
         
         let query = Events.List.Query(
             limit: 25,
@@ -68,7 +68,7 @@ struct EventsClientTests {
     
     @Test("Should successfully list events with recipient filter")
     func testListEventsWithRecipientFilter() async throws {
-        @Dependency(\.client) var client
+        @Dependency(AuthenticatedClient.self) var client
         @Dependency(\.envVars.mailgunTestRecipient) var mailgunTestRecipient
         
         let recipient = try #require(mailgunTestRecipient)
@@ -88,7 +88,7 @@ struct EventsClientTests {
     
     @Test("Should successfully list events with tag filter")
     func testListEventsWithTagFilter() async throws {
-        @Dependency(\.client) var client
+        @Dependency(AuthenticatedClient.self) var client
         
         let query = Events.List.Query(
             limit: 25,
@@ -105,7 +105,7 @@ struct EventsClientTests {
     
     @Test("Should successfully handle pagination")
     func testListEventsPagination() async throws {
-        @Dependency(\.client) var client
+        @Dependency(AuthenticatedClient.self) var client
         
         
         let query = Events.List.Query(limit: 5)

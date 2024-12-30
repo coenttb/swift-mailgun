@@ -5,7 +5,7 @@
 //  Created by Coen ten Thije Boonkkamp on 24/12/2024.
 //
 
-import CoenttbWeb
+import Coenttb_Web
 import Shared
 
 public enum API: Equatable, Sendable {
@@ -77,14 +77,13 @@ extension API {
         }
     }
 }
+
 extension Path<PathBuilder.Component<String>> {
-    nonisolated(unsafe)
-    public static let webhooks: Path<PathBuilder.Component<String>> = Path {
+    nonisolated(unsafe) public static let webhooks = Path {
         "webhooks"
     }
     
-    nonisolated(unsafe)
-    public static let domains: Path<PathBuilder.Component<String>> = Path {
+    nonisolated(unsafe) public static let domains = Path {
         "domains"
     }
 }
