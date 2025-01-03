@@ -10,8 +10,6 @@ This package is currently in active development and is subject to frequent chang
 
 ### API Coverage
 
-I'll create a markdown table with these items. I'll leave the implementation and test status columns empty since those weren't provided, but you can fill them in later.
-
 | Name | Implementation Status | Test Status |
 |------|---------------------|-------------|
 | Messages | ✅ | ✅ |
@@ -69,12 +67,12 @@ dependencies: [
 
 ### Configuration
 
-#### **[recommended]** Configuration via Dependencies
+#### [recommended] Configuration via Dependencies
 ```swift
 import Mailgun
 
 extension Mailgun.Client: @retroactive DependencyKey {
-    public static var liveValue: Mailgun.AuthenticatedClient {
+    public static var liveValue: Mailgun.AuthenticatedClient? {
         @Dependency(\.envVars) var envVars
         
         guard
@@ -100,10 +98,12 @@ Access the client via `Dependency(\.mailgunClient) var mailgunClient`.
 ### Sending Emails
 
 ```swift
+Dependency(\.mailgunClient) var mailgunClient
+
 // Create a basic email request
-let request = Mailgun.Messages.Send.Request(
-    from: "sender@yourdomain.com",
-    to: ["recipient@example.com"],
+let request = try Mailgun.Messages.Send.Request(
+    from: .init("sender@yourdomain.com"),
+    to: [.init("recipient@example.com")],
     subject: "Hello from Mailgun Swift SDK",
     html: "<h1>Hello!</h1><p>This is a test email.</p>",
     text: "Hello! This is a test email."
