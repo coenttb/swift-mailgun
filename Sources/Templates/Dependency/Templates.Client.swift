@@ -18,7 +18,7 @@ public struct Client: Sendable {
     public var create: @Sendable (_ request: Templates.Template.Create.Request) async throws -> Templates.Template.Create.Response
     
     @DependencyEndpoint
-    public var list: @Sendable (_ page: Page, _ limit: Int, _ p: String) async throws -> Templates.Template.List.Response
+    public var list: @Sendable (_ request: Templates.Template.List.Request) async throws -> Templates.Template.List.Response
     
     @DependencyEndpoint
     public var get: @Sendable (_ templateId: String, _ active: String) async throws -> Templates.Template.Get.Response
@@ -30,7 +30,7 @@ public struct Client: Sendable {
     public var delete: @Sendable (_ templateId: String) async throws -> Templates.Template.Delete.Response
     
     @DependencyEndpoint
-    public var versions: @Sendable (_ templateId: String, _ page: Page, _ limit: Int) async throws -> Templates.Template.Versions.Response
+    public var versions: @Sendable (_ templateId: String, _ request: Templates.Template.Versions.Request) async throws -> Templates.Template.Versions.Response
     
     @DependencyEndpoint
     public var createVersion: @Sendable (_ templateId: String, _ request: Templates.Version.Create.Request) async throws -> Templates.Version.Create.Response

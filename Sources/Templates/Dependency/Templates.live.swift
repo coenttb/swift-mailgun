@@ -32,9 +32,9 @@ extension Templates.Client {
                 )
             },
             
-            list: { page, limit, p in
+            list: { request in
                 try await handleRequest(
-                    for: makeRequest(.list(domainId: domain, page: page, limit: limit, p: p)),
+                    for: makeRequest(.list(domainId: domain, page: request.page, limit: request.limit, p: request.p)),
                     decodingTo: Templates.Template.List.Response.self,
                     session: session
                 )
@@ -64,9 +64,9 @@ extension Templates.Client {
                 )
             },
             
-            versions: { templateId, page, limit in
+            versions: { templateId, request in
                 try await handleRequest(
-                    for: makeRequest(.versions(domainId: domain, templateId: templateId, page: page, limit: limit)),
+                    for: makeRequest(.versions(domainId: domain, templateId: templateId, page: request.page, limit: request.limit)),
                     decodingTo: Templates.Template.Versions.Response.self,
                     session: session
                 )

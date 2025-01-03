@@ -48,7 +48,7 @@ struct TemplatesClientTests {
     func testListTemplates() async throws {
         @Dependency(AuthenticatedClient.self) var client
         
-        let response = try await client.list("nil", 10, "")
+        let response = try await client.list(.init(p: ""))
         #expect(response.items.count <= 10)
         
         if let firstTemplate = response.items.first {
@@ -74,7 +74,7 @@ struct TemplatesClientTests {
         let createResponse = try await client.create(createRequest)
         let templateId = createResponse.template.id
         
-        let getResponse = try await client.get(templateId)
+        let getResponse = try await client.get(templateId, "active")
         #expect(getResponse.template.id == templateId)
         #expect(getResponse.template.name == createRequest.name)
     }
@@ -136,7 +136,7 @@ struct TemplatesClientTests {
         #expect(versionResponse.template.version?.tag == "v2")
         
         // List versions
-        let versionsResponse = try await client.versions(templateId, nil, nil)
+        let versionsResponse = try await client.versions(templateId, .init())
         #expect(versionsResponse.items.count >= 2) // Should have at least v1 and v2
         
         // Get specific version

@@ -33,7 +33,7 @@ extension Templates.Client: TestDependencyKey {
                 )
             },
             
-            list: { page, limit, p in
+            list: { request in
                 .init(
                     items: [
                         .init(
@@ -111,7 +111,7 @@ extension Templates.Client: TestDependencyKey {
                 )
             },
             
-            versions: { templateId, page, limit in
+            versions: { templateId, request in
                 .init(
                     items: [
                         .init(

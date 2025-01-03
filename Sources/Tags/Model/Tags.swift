@@ -266,6 +266,16 @@ extension Tag {
 }
 
 extension Tag {
+    public enum Delete {}
+}
+
+extension Tag.Delete {
+    public struct Response: Decodable {
+        public let message: String
+    }
+}
+
+extension Tag {
     public enum Limits {
         public struct Response: Sendable, Codable, Equatable {
             public let limit: Int

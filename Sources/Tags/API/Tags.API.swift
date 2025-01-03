@@ -10,13 +10,13 @@ import Foundation
 import Shared
 
 public enum API: Equatable, Sendable {
-    case list(domain: String, request: Tag.List.Request)
-    case get(domain: String, tag: String)
-    case update(domain: String, tag: String, description: String?)
-    case delete(domain: String, tag: String)
-    case stats(domain: String, tag: String, request: Tag.Stats.Request)
-    case aggregates(domain: String, tag: String, request: Tag.Aggregates.Request)
-    case limits(domain: String)
+    case list(domain: Domain, request: Tag.List.Request)
+    case get(domain: Domain, tag: String)
+    case update(domain: Domain, tag: String, description: String?)
+    case delete(domain: Domain, tag: String)
+    case stats(domain: Domain, tag: String, request: Tag.Stats.Request)
+    case aggregates(domain: Domain, tag: String, request: Tag.Aggregates.Request)
+    case limits(domain: Domain)
 }
 
 extension API {
@@ -29,7 +29,7 @@ extension API {
                 Route(.case(API.list)) {
                     Method.get
                     Path.v3
-                    Path { Parse(.string) }
+                    Path { Parse(.string.representing(Domain.self)) }
                     Path.tags
                     Parse(.memberwise(Tag.List.Request.init)) {
                         Query {
@@ -47,7 +47,7 @@ extension API {
                 Route(.case(API.get)) {
                     Method.get
                     Path.v3
-                    Path { Parse(.string) }
+                    Path { Parse(.string.representing(Domain.self)) }
                     Path.tag
                     Query {
                         Field("tag") { Parse(.string) }
@@ -58,7 +58,7 @@ extension API {
                 Route(.case(API.update)) {
                     Method.put
                     Path.v3
-                    Path { Parse(.string) }
+                    Path { Parse(.string.representing(Domain.self)) }
                     Path.tag
                     Query {
                         Field("tag") { Parse(.string) }
@@ -74,7 +74,7 @@ extension API {
                 Route(.case(API.delete)) {
                     Method.delete
                     Path.v3
-                    Path { Parse(.string) }
+                    Path { Parse(.string.representing(Domain.self)) }
                     Path.tag
                     Query {
                         Field("tag") { Parse(.string) }
@@ -85,7 +85,7 @@ extension API {
                 Route(.case(API.stats)) {
                     Method.get
                     Path.v3
-                    Path { Parse(.string) }
+                    Path { Parse(.string.representing(Domain.self)) }
                     Path.tag
                     Path.stats
                     Query {
@@ -127,7 +127,7 @@ extension API {
                 Route(.case(API.aggregates)) {
                     Method.get
                     Path.v3
-                    Path { Parse(.string) }
+                    Path { Parse(.string.representing(Domain.self)) }
                     Path.tag
                     Path.stats
                     Path.aggregates
@@ -146,7 +146,7 @@ extension API {
                     Method.get
                     Path.v3
                     Path.domains
-                    Path { Parse(.string) }
+                    Path { Parse(.string.representing(Domain.self)) }
                     Path.limits
                     Path.tag
                 }

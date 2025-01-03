@@ -130,6 +130,22 @@ extension Template {
     }
     
     public struct List {
+        public struct Request {
+            public let page: Page
+            public let limit: Int
+            public let p: String
+            
+            public init(
+                page: Page = .first,
+                limit: Int = 100,
+                p: String
+            ) {
+                self.page = page
+                self.limit = limit
+                self.p = p
+            }
+        }
+        
         public struct Response: Sendable, Codable, Equatable {
             public let items: [Template]
             public let paging: Paging
@@ -186,6 +202,19 @@ extension Template {
     }
 
     public struct Versions {
+        public struct Request {
+            public let page: Page
+            public let limit: Int
+            
+            public init(
+                page: Page = .first,
+                limit: Int = 100
+            ) {
+                self.page = page
+                self.limit = limit
+            }
+        }
+        
         public struct Response: Sendable, Codable, Equatable {
             public let items: [Version]
             public let paging: Paging

@@ -1,6 +1,6 @@
 # coenttb-mailgun
 
-`coenttb-mailgun` is an unofficial SDK for Mailgun for Swift.
+`coenttb-mailgun` is an unofficial Swift SDK for Mailgun that is modern, safe, and a joy to write in.
 
 ![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
 
@@ -10,32 +10,45 @@ This package is currently in active development and is subject to frequent chang
 
 ### API Coverage
 
-* **Complete Messages API Support**
-  * Send emails with HTML and plain text content
-  * Support for CC, BCC, and custom headers
-  * Template handling with variables
-  * Attachment support with MIME types
-  * Message scheduling and delivery time optimization
-  * Tracking options for opens and clicks
+I'll create a markdown table with these items. I'll leave the implementation and test status columns empty since those weren't provided, but you can fill them in later.
 
-* **Comprehensive Mailing Lists API**
-  * Create and manage mailing lists
-  * Add/remove list members individually or in bulk
-  * Support for member variables and metadata
-  * Pagination support for large lists
-  * Member subscription management
-  * CSV import capabilities
-
+| Name | Implementation Status | Test Status |
+|------|---------------------|-------------|
+| Messages | ✅ | ✅ |
+| Domains - DKIM Security | | |
+| Domains - Domain Connection | | |
+| Domains - Domain Keys | | |
+| Domains - Domain Tracking | | |
+| Webhooks | ✅ | |🚧| Events | ✅ | |
+| Tags | ✅ | 🚧 |
+| Reporting - Metrics | ✅ | ✅ |
+| Reporting - Stats | ✅ | ✅ |
+| Suppressions - Bounces | ✅ | ✅ |
+| Suppressions - Complaints | ✅ | ✅ |
+| Suppressions - Unsubscribe | ✅ | ✅ |
+| Suppressions - Whitelist | ✅ | ✅ |
+| Routes | | |
+| Mailing Lists | ✅ | ✅ |
+| Templates | ✅ | 🚧 |
+| IP Pools | | |
+| IPs | | |
+| Subaccounts | | |
+| Custom Message Limit | | |
+| Keys | | |
+| Credentials | | |
+| IP Allowlist | | |
+| Users | | |
+  
 ### Technical Features
 
 * **Type Safety & Swift Integration**
-  * Fully type-safe API with detailed models
+  * Fully type-safe API & Client
   * Swift concurrency with async/await
   * Swift 6.0 optimized
 
 * **Authentication & Security**
+  * Secure credential management via `swift-environment-variables`
   * Built-in Basic Auth handling
-  * Secure credential management
 
 * **Developer Experience**
   * Comprehensive test coverage
@@ -56,17 +69,33 @@ dependencies: [
 
 ### Configuration
 
+#### **[recommended]** Configuration via Dependencies
 ```swift
 import Mailgun
 
-// Initialize the client
-let client = Mailgun.Client.live(
-    apiKey: .init(rawValue: "your-api-key"),
-    baseUrl: .mailgun_eu_baseUrl, // or .mailgun_usa_baseUrl
-    domain: "your-domain.com",
-    session: URLSession.shared.data
-)
+extension Mailgun.Client: @retroactive DependencyKey {
+    public static var liveValue: Mailgun.AuthenticatedClient {
+        @Dependency(\.envVars) var envVars
+        
+        guard
+            let baseURL = envVars.mailgun?.baseURL,
+            let apiKey = envVars.mailgun?.apiKey,
+            let domain = envVars.mailgun?.domain
+        else {
+            return nil
+        }
+        
+        return Mailgun.Client.live(
+            apiKey: apiKey,
+            baseUrl: baseURL,
+            domain: domain,
+            session: { try await URLSession.shared.data(for: $0) }
+        )
+    }
+}
 ```
+
+Access the client via `Dependency(\.mailgunClient) var mailgunClient`.
 
 ### Sending Emails
 
@@ -81,154 +110,42 @@ let request = Mailgun.Messages.Send.Request(
 )
 
 // Send the email
-let response = try await client.messages.send(request)
+let response = try await mailgunClient.messages.send(request)
 print("Message sent with ID: \(response.id)")
-```
-
-### Managing Mailing Lists
-
-```swift
-// Create a mailing list
-let createListRequest = Lists.List.Create.Request(
-    address: "developers@yourdomain.com",
-    name: "Developers",
-    description: "Development team mailing list",
-    accessLevel: .readonly,
-    replyPreference: .list
-)
-
-let list = try await client.mailingLists.create(createListRequest)
-
-// Add a member to the list
-let addMemberRequest = Lists.Member.Add.Request(
-    address: "developer@example.com",
-    name: "New Developer",
-    vars: ["team": "backend"],
-    subscribed: true
-)
-
-let member = try await client.mailingLists.addMember(
-    "developers@yourdomain.com", 
-    addMemberRequest
-)
-```
-
-## Advanced Features
-
-### Bulk Operations
-
-```swift
-// Bulk add members to a list
-let members = [
-    Lists.Member.Bulk(
-        address: "member1@example.com",
-        name: "Member 1",
-        vars: ["role": "developer"]
-    ),
-    Lists.Member.Bulk(
-        address: "member2@example.com",
-        name: "Member 2",
-        vars: ["role": "designer"]
-    )
-]
-
-let bulkResponse = try await client.mailingLists.bulkAdd(
-    "developers@yourdomain.com",
-    members,
-    upsert: true
-)
-```
-
-### Advanced Email Features
-
-```swift
-// Send an email with advanced options
-let advancedRequest = Mailgun.Messages.Send.Request(
-    from: "sender@yourdomain.com",
-    to: ["recipient@example.com"],
-    subject: "Advanced Email",
-    html: "<h1>Hello!</h1>",
-    text: "Hello!",
-    cc: ["cc@example.com"],
-    bcc: ["bcc@example.com"],
-    tags: ["welcome", "onboarding"],
-    trackingOpens: true,
-    trackingClicks: .htmlOnly,
-    deliveryTime: Date().addingTimeInterval(3600), // Schedule for 1 hour later
-    variables: ["user_name": "John"]
-)
 ```
 
 ### Testing Support
 
-The package includes comprehensive test support with mock implementations:
-
-```swift
-// Use test client in your test cases
-let testClient = withDependencies {
-    $0.mailgunClient = .testValue
-} operation: {
-    // Your test code here
-}
-```
-
-## Error Handling
-
-The SDK provides typed error handling:
-
-```swift
-do {
-    let response = try await client.messages.send(request)
-} catch let error as MailgunError {
-    switch error {
-    case .invalidResponse:
-        print("Invalid response received")
-    case .httpError(let statusCode, let message):
-        print("HTTP error \(statusCode): \(message)")
-    }
-} catch {
-    print("Unexpected error: \(error)")
-}
-```
+The package includes a comprehensive test suite.
 
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-
-
-
-## Project Structure
-
-The project is organized into multiple modules for clarity and modularity:
-
-
-## Installation
-
-You can add `coenttb-mailgun` to an Xcode project by including it as a package dependency:
-
-Repository URL: https://github.com/coenttb/coenttb-mailgun
-
-For a Swift Package Manager project, add the dependency in your Package.swift file:
-```
-dependencies: [
-  .package(url: "https://github.com/coenttb/coenttb-mailgun", branch: "main")
-]
-```
-
 ## Example
 
 Refer to [coenttb/coenttb-com-server](https://www.github.com/coenttb/coenttb-com-server) for an example of how to use coenttb-mailgun.
 
-## Related Projects
+## Related projects
 
-* [coenttb/pointfree-html](https://www.github.com/coenttb/swift-css): A Swift DSL for type-safe HTML forked from [pointfreeco/swift-html](https://www.github.com/pointfreeco/swift-html) and updated to the version on [pointfreeco/pointfreeco](https://github.com/pointfreeco/pointfreeco).
-* [coenttb/swift-css](https://www.github.com/coenttb/swift-css): A Swift DSL for type-safe CSS.
-* [coenttb/swift-html](https://www.github.com/coenttb/swift-html): A Swift DSL for type-safe HTML & CSS, integrating [swift-css](https://www.github.com/coenttb/swift-css) and [coenttb/pointfree-html](https://www.github.com/coenttb/pointfree-html).
-* [coenttb-html](https://www.github.com/coenttb/coenttb-html): Extends [coenttb/swift-html](https://www.github.com/coenttb/swift-html) with additional functionality and integrations for HTML, Markdown, Email, and printing HTML to PDF.
-* [coenttb/swift-web](https://www.github.com/coenttb/swift-web): Modular tools to simplify web development in Swift forked from  [pointfreeco/swift-web](https://www.github.com/pointfreeco/swift-web), and updated for use in [coenttb/coenttb-web](https://www.github.com/coenttb/coenttb-web).
-* [coenttb/coenttb-com-server](https://www.github.com/coenttb/coenttb-com-server): The backend server for coenttb.com, uses `coenttb-mailgun`, written entirely in Swift, and powered by [Vapor](https://www.github.com/vapor/vapor) and [coenttb-web](https://www.github.com/coenttb/coenttb-web).
-* [coenttb/swift-languages](https://www.github.com/coenttb/swift-languages): A cross-platform translation library written in Swift.
+### The coenttb stack
+
+* [swift-css](https://www.github.com/coenttb/swift-css): A Swift DSL for type-safe CSS.
+* [swift-html](https://www.github.com/coenttb/swift-html): A Swift DSL for type-safe HTML & CSS, integrating [swift-css](https://www.github.com/coenttb/swift-css) and [pointfree-html](https://www.github.com/coenttb/pointfree-html).
+* [swift-web](https://www.github.com/coenttb/swift-web): Foundational tools for web development in Swift.
+* [coenttb-html](https://www.github.com/coenttb/coenttb-html): Builds on [swift-html](https://www.github.com/coenttb/swift-html), and adds functionality for HTML, Markdown, Email, and printing HTML to PDF.
+* [coenttb-web](https://www.github.com/coenttb/coenttb-web): Builds on [swift-web](https://www.github.com/coenttb/swift-web), and adds functionality for web development.
+* [coenttb-server](https://www.github.com/coenttb/coenttb-server): Build fast, modern, and safe servers that are a joy to write. `coenttb-server` builds on [coenttb-web](https://www.github.com/coenttb/coenttb-web), and adds functionality for server development.
+* [coenttb-vapor](https://www.github.com/coenttb/coenttb-server-vapor): `coenttb-server-vapor` builds on [coenttb-server](https://www.github.com/coenttb/coenttb-server), and adds functionality and integrations with Vapor and Fluent.
+* [coenttb-com-server](https://www.github.com/coenttb/coenttb-com-server): The backend server for coenttb.com, written entirely in Swift and powered by [coenttb-server-vapor](https://www.github.com/coenttb-server-vapor).
+
+### PointFree foundations
+* [coenttb/pointfree-html](https://www.github.com/coenttb/coenttb/pointfree-html): A Swift DSL for type-safe HTML, forked from [pointfreeco/swift-html](https://www.github.com/pointfreeco/swift-html) and updated to the version on [pointfreeco/pointfreeco](https://github.com/pointfreeco/pointfreeco).
+* [coenttb/pointfree-web](https://www.github.com/coenttb/coenttb/pointfree-html): Foundational tools for web development in Swift, forked from  [pointfreeco/swift-web](https://www.github.com/pointfreeco/swift-web).
+* [coenttb/pointfree-server](https://www.github.com/coenttb/coenttb/pointfree-html): Foundational tools for server development in Swift, forked from  [pointfreeco/swift-web](https://www.github.com/pointfreeco/swift-web).
+
+### Other
+* [swift-languages](https://www.github.com/coenttb/swift-languages): A cross-platform translation library written in Swift.
 
 ## Feedback is much appreciated!
 

@@ -21,7 +21,16 @@ struct TemplatesRouterTests {
     func testListTemplatesURL() throws {
         @Dependency(Templates.API.Router.self) var router
         
-        let url = router.url(for: .list(page: "first", limit: 100))
+        let url = router.url(
+            for: .list(
+                domainId: try .init(
+                    "test.domain.com"
+                ),
+                page: .first,
+                limit: 100,
+                p: ""
+            )
+        )
         #expect(url.path == "/v3/templates")
         
         let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
@@ -56,7 +65,7 @@ struct TemplatesRouterTests {
         let domain = try Domain("test.domain.com")
         let templateId = "template123"
         
-        let url = router.url(for: .get(domainId: domain, templateId: templateId))
+        let url = router.url(for: .get(domainId: domain, templateId: templateId, active: "active"))
         #expect(url.path == "/v3/test.domain.com/templates/template123")
     }
     
@@ -93,7 +102,7 @@ struct TemplatesRouterTests {
         let domain = try Domain("test.domain.com")
         let templateId = "template123"
         
-        let url = router.url(for: .versions(domainId: domain, templateId: templateId, page: "next", limit: 50))
+        let url = router.url(for: .versions(domainId: domain, templateId: templateId, page: .next, limit: 50))
         #expect(url.path == "/v3/test.domain.com/templates/template123/versions")
         
         let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
