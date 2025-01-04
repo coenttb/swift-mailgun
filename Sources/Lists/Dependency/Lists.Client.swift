@@ -56,3 +56,9 @@ public struct Client: Sendable {
     @DependencyEndpoint
     public var memberPages: @Sendable (_ listAddress: EmailAddress, _ request: Lists.List.Members.Pages.Request) async throws -> Lists.List.Members.Pages.Response
 }
+
+extension Client {
+    public func pages() async throws -> Lists.List.Pages.Response {
+        return try await self.pages(limit: nil)
+    }
+}

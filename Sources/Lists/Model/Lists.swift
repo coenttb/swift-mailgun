@@ -148,7 +148,11 @@ extension List {
         public let skip: Int?
         public let address: EmailAddress?
         
-        public init(limit: Int? = nil, skip: Int? = nil, address: EmailAddress? = nil) {
+        public init(
+            limit: Int? = nil,
+            skip: Int? = nil,
+            address: EmailAddress? = nil
+        ) {
             self.limit = limit
             self.skip = skip
             self.address = address
