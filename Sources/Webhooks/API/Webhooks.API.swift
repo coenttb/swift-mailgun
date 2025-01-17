@@ -22,13 +22,13 @@ extension API {
         
         public var body: some URLRouting.Router<API> {
             OneOf {
-//                URLRouting.Route(.case(API.list)) {
-//                    Method.get
-//                    Path.v3
-//                    Path.domains
-//                    Path { Parse(.string.representing(Domain.self)) }
-//                    Path.webhooks
-//                }
+                URLRouting.Route(.case(API.list)) {
+                    Method.get
+                    Path.v3
+                    Path.domains
+                    Path { Parse(.string.representing(Domain.self)) }
+                    Path.webhooks
+                }
                 
                 URLRouting.Route(.case(API.get)) {
                     Method.get
