@@ -20,11 +20,6 @@ import Authenticated
 import FoundationNetworking
 #endif
 
-
-#if canImport(FoundationNetworking)
-import FoundationNetworking
-#endif
-
 typealias AuthenticatedClient = Authenticated.Client<Messages.API, Messages.API.Router, Messages.Client>
 
 extension AuthenticatedClient: TestDependencyKey {
