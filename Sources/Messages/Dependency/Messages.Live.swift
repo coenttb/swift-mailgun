@@ -24,7 +24,7 @@ extension Messages.Client {
         
         return Self(
             send: { request in
-                try await Shared.handleRequest(
+                try await handleRequest(
                     for: makeRequest(.send(domain: domain, request: request)),
                     decodingTo: Messages.Send.Response.self,
                     session: session
@@ -32,7 +32,7 @@ extension Messages.Client {
             },
 
             sendMime: { request in
-                try await Shared.handleRequest(
+                try await handleRequest(
                     for: makeRequest(.sendMime(domain: domain, request: request)),
                     decodingTo: Messages.Send.Response.self,
                     session: session
@@ -40,7 +40,7 @@ extension Messages.Client {
             },
 
             retrieve: { storageKey in
-                try await Shared.handleRequest(
+                try await handleRequest(
                     for: makeRequest(.retrieve(domain: domain, storageKey: storageKey)),
                     decodingTo: Messages.StoredMessage.self,
                     session: session
@@ -48,7 +48,7 @@ extension Messages.Client {
             },
 
             queueStatus: {
-                try await Shared.handleRequest(
+                try await handleRequest(
                     for: makeRequest(.queueStatus(domain: domain)),
                     decodingTo: Messages.Queue.Status.self,
                     session: session
@@ -56,7 +56,7 @@ extension Messages.Client {
             },
 
             deleteAll: {
-                try await Shared.handleRequest(
+                try await handleRequest(
                     for: makeRequest(.deleteScheduled(domain: domain)),
                     decodingTo: Messages.Delete.Response.self,
                     session: session

@@ -18,7 +18,7 @@ extension Complaints.Client {
     ) -> Self {
         return Self(
             importList: { request in
-                try await Shared.handleRequest(
+                try await handleRequest(
                     for: makeRequest(.importList(domain: domain, request: request)),
                     decodingTo: Complaints.Import.Response.self,
                     session: session
@@ -26,7 +26,7 @@ extension Complaints.Client {
             },
             
             get: { address in
-                try await Shared.handleRequest(
+                try await handleRequest(
                     for: makeRequest(.get(domain: domain, address: address)),
                     decodingTo: Complaints.Record.self,
                     session: session
@@ -34,7 +34,7 @@ extension Complaints.Client {
             },
             
             delete: { address in
-                try await Shared.handleRequest(
+                try await handleRequest(
                     for: makeRequest(.delete(domain: domain, address: address)),
                     decodingTo: Complaints.Delete.Response.self,
                     session: session
@@ -42,7 +42,7 @@ extension Complaints.Client {
             },
             
             list: { request in
-                try await Shared.handleRequest(
+                try await handleRequest(
                     for: makeRequest(.list(domain: domain, request: request)),
                     decodingTo: Complaints.List.Response.self,
                     session: session
@@ -50,7 +50,7 @@ extension Complaints.Client {
             },
             
             create: { request in
-                try await Shared.handleRequest(
+                try await handleRequest(
                     for: makeRequest(.create(domain: domain, request: request)),
                     decodingTo: Complaints.Create.Response.self,
                     session: session
@@ -58,7 +58,7 @@ extension Complaints.Client {
             },
             
             deleteAll: {
-                try await Shared.handleRequest(
+                try await handleRequest(
                     for: makeRequest(.deleteAll(domain: domain)),
                     decodingTo: Complaints.Delete.All.Response.self,
                     session: session

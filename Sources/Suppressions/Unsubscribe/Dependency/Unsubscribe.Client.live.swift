@@ -23,7 +23,7 @@ extension Unsubscribe.Client {
     ) -> Self {
         return Self(
             get: { address in
-                try await Shared.handleRequest(
+                try await handleRequest(
                     for: makeRequest(.get(domain: domain, address: address)),
                     decodingTo: Unsubscribe.Record.self,
                     session: session
@@ -31,7 +31,7 @@ extension Unsubscribe.Client {
             },
             
             delete: { address in
-                try await Shared.handleRequest(
+                try await handleRequest(
                     for: makeRequest(.delete(domain: domain, address: address)),
                     decodingTo: Unsubscribe.Delete.Response.self,
                     session: session
@@ -39,7 +39,7 @@ extension Unsubscribe.Client {
             },
             
             list: { request in
-                try await Shared.handleRequest(
+                try await handleRequest(
                     for: makeRequest(.list(domain: domain, request: request)),
                     decodingTo: Unsubscribe.List.Response.self,
                     session: session
@@ -47,7 +47,7 @@ extension Unsubscribe.Client {
             },
             
             create: { request in
-                try await Shared.handleRequest(
+                try await handleRequest(
                     for: makeRequest(.create(domain: domain, request: request)),
                     decodingTo: Unsubscribe.Create.Response.self,
                     session: session
@@ -55,7 +55,7 @@ extension Unsubscribe.Client {
             },
             
             deleteAll: {
-                try await Shared.handleRequest(
+                try await handleRequest(
                     for: makeRequest(.deleteAll(domain: domain)),
                     decodingTo: Unsubscribe.Delete.All.Response.self,
                     session: session
@@ -63,7 +63,7 @@ extension Unsubscribe.Client {
             },
             
             importList: { request in
-                try await Shared.handleRequest(
+                try await handleRequest(
                     for: makeRequest(.importList(domain: domain, request: request)),
                     decodingTo: Unsubscribe.Import.Response.self,
                     session: session
