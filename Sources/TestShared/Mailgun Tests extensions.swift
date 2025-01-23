@@ -62,7 +62,6 @@ extension EnvVars {
 
 extension Authenticated.Client {
     package static func test(
-        session: @escaping @Sendable (URLRequest) async throws -> (Data, URLResponse) = { request in try await URLSession.shared.data(for: request) },
         router: APIRouter,
         buildClient: @escaping @Sendable (
             _ makeRequest: @escaping @Sendable (_ route: API) throws -> URLRequest
@@ -79,7 +78,6 @@ extension Authenticated.Client {
             return Authenticated.Client(
                 apiKey: apiKey,
                 baseUrl: baseUrl,
-                session: session,
                 router: router,
                 buildClient: buildClient
             )
@@ -89,7 +87,6 @@ extension Authenticated.Client {
 
 extension Authenticated.Client {
     package static func test(
-        session: @escaping @Sendable (URLRequest) async throws -> (Data, URLResponse) = { request in try await URLSession.shared.data(for: request) },
         router: APIRouter,
         buildClient: @escaping @Sendable (
             _ apiKey: ApiKey,
@@ -110,7 +107,6 @@ extension Authenticated.Client {
             return Authenticated.Client(
                 apiKey: apiKey,
                 baseUrl: baseUrl,
-                session: session,
                 router: router,
                 buildClient: {
                     buildClient(apiKey, baseUrl, domain, $0)
@@ -122,7 +118,6 @@ extension Authenticated.Client {
 
 extension Authenticated.Client where APIRouter: TestDependencyKey, APIRouter.Value == APIRouter {
     package static func test(
-        session: @escaping @Sendable (URLRequest) async throws -> (Data, URLResponse) = { request in try await URLSession.shared.data(for: request) },
         buildClient: @escaping @Sendable (
             _ apiKey: ApiKey,
             _ baseUrl: URL,
@@ -132,7 +127,6 @@ extension Authenticated.Client where APIRouter: TestDependencyKey, APIRouter.Val
     ) throws -> Self {
         @Dependency(APIRouter.self) var router
         return try .test(
-            session: session,
             router: router,
             buildClient: buildClient
         )
@@ -141,12 +135,10 @@ extension Authenticated.Client where APIRouter: TestDependencyKey, APIRouter.Val
 
 extension Authenticated.Client where APIRouter: TestDependencyKey, APIRouter.Value == APIRouter {
     package static func test(
-        session: @escaping @Sendable (URLRequest) async throws -> (Data, URLResponse) = { request in try await URLSession.shared.data(for: request) },
         buildClient: @escaping @Sendable () -> ClientOutput
     ) throws -> Self {
         @Dependency(APIRouter.self) var router
         return try .test(
-            session: session,
             router: router,
             buildClient: { _ in
                 buildClient()

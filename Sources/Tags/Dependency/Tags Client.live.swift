@@ -17,39 +17,36 @@ extension Tags.Client {
         apiKey: ApiKey,
         baseUrl: URL,
         domain: Domain,
-        makeRequest: @escaping @Sendable (_ route: Tags.API) throws -> URLRequest,
-        session: @escaping @Sendable (URLRequest) async throws -> (Data, URLResponse) = { try await URLSession.shared.data(for: $0) }
+        makeRequest: @escaping @Sendable (_ route: Tags.API) throws -> URLRequest
     ) -> Self {
-        Self(
+        @Dependency(URLRequest.Handler.self) var handleRequest
+        
+        return Self(
             list: { request in
                 try await handleRequest(
                     for: makeRequest(.list(domain: domain, request: request)),
-                    decodingTo: Tag.List.Response.self,
-                    session: session
+                    decodingTo: Tag.List.Response.self
                 )
             },
             
             get: { tag in
                 try await handleRequest(
                     for: makeRequest(.get(domain: domain, tag: tag)),
-                    decodingTo: Tag.self,
-                    session: session
+                    decodingTo: Tag.self
                 )
             },
             
             update: { tag, description in
                 try await handleRequest(
                     for: makeRequest(.update(domain: domain, tag: tag, description: description)),
-                    decodingTo: Tag.self,
-                    session: session
+                    decodingTo: Tag.self
                 )
             },
             
             delete: { tag in
                 let response = try await handleRequest(
                     for: makeRequest(.delete(domain: domain, tag: tag)),
-                    decodingTo: Tag.Delete.Response.self,
-                    session: session
+                    decodingTo: Tag.Delete.Response.self
                 )
                 return response.message
             },
@@ -57,24 +54,21 @@ extension Tags.Client {
             stats: { tag, request in
                 try await handleRequest(
                     for: makeRequest(.stats(domain: domain, tag: tag, request: request)),
-                    decodingTo: Tag.Stats.Response.self,
-                    session: session
+                    decodingTo: Tag.Stats.Response.self
                 )
             },
             
             aggregates: { tag, request in
                 try await handleRequest(
                     for: makeRequest(.aggregates(domain: domain, tag: tag, request: request)),
-                    decodingTo: Tag.Aggregates.Response.self,
-                    session: session
+                    decodingTo: Tag.Aggregates.Response.self
                 )
             },
             
             limits: {
                 try await handleRequest(
                     for: makeRequest(.limits(domain: domain)),
-                    decodingTo: Tag.Limits.Response.self,
-                    session: session
+                    decodingTo: Tag.Limits.Response.self
                 )
             }
         )

@@ -18,15 +18,15 @@ extension Events.Client {
         apiKey: ApiKey,
         baseUrl: URL,
         domain: Domain,
-        makeRequest: @escaping @Sendable (_ route: Events.API) throws -> URLRequest,
-        session: @escaping @Sendable (URLRequest) async throws -> (Data, URLResponse) = { try await URLSession.shared.data(for: $0) }
+        makeRequest: @escaping @Sendable (_ route: Events.API) throws -> URLRequest
     ) -> Self {
+        @Dependency(URLRequest.Handler.self) var handleRequest
+        
         return Self(
             list: { query in
                 try await handleRequest(
                     for: makeRequest(.list(domain: domain, query: query)),
-                    decodingTo: Events.List.Response.self,
-                    session: session
+                    decodingTo: Events.List.Response.self
                 )
             }
         )

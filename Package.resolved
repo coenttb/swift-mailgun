@@ -16,7 +16,7 @@
       "location" : "https://github.com/coenttb/coenttb-web",
       "state" : {
         "branch" : "main",
-        "revision" : "e48e2c5f033a283f0622007ef775c5a002652e47"
+        "revision" : "c55cd5a155a4343d4cbe620c1fc1d95d97c8d33a"
       }
     },
     {
@@ -52,7 +52,7 @@
       "location" : "https://github.com/coenttb/swift-authentication",
       "state" : {
         "branch" : "main",
-        "revision" : "2801f5db0a0842648ff0387f6af0ed4e169691dc"
+        "revision" : "868552f07d847cdd3920314969ef09ce04f1403c"
       }
     },
     {

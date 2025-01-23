@@ -18,48 +18,43 @@ extension Messages.Client {
         apiKey: ApiKey,
         baseUrl: URL,
         domain: Domain,
-        makeRequest: @escaping @Sendable (_ route: Messages.API) throws -> URLRequest,
-        session: @escaping @Sendable (URLRequest) async throws -> (Data, URLResponse) = { try await URLSession.shared.data(for: $0) }
+        makeRequest: @escaping @Sendable (_ route: Messages.API) throws -> URLRequest
     ) -> Self {
+        @Dependency(URLRequest.Handler.self) var handleRequest
         
         return Self(
             send: { request in
                 try await handleRequest(
                     for: makeRequest(.send(domain: domain, request: request)),
-                    decodingTo: Messages.Send.Response.self,
-                    session: session
+                    decodingTo: Messages.Send.Response.self
                 )
             },
 
             sendMime: { request in
                 try await handleRequest(
                     for: makeRequest(.sendMime(domain: domain, request: request)),
-                    decodingTo: Messages.Send.Response.self,
-                    session: session
+                    decodingTo: Messages.Send.Response.self
                 )
             },
 
             retrieve: { storageKey in
                 try await handleRequest(
                     for: makeRequest(.retrieve(domain: domain, storageKey: storageKey)),
-                    decodingTo: Messages.StoredMessage.self,
-                    session: session
+                    decodingTo: Messages.StoredMessage.self
                 )
             },
 
             queueStatus: {
                 try await handleRequest(
                     for: makeRequest(.queueStatus(domain: domain)),
-                    decodingTo: Messages.Queue.Status.self,
-                    session: session
+                    decodingTo: Messages.Queue.Status.self
                 )
             },
 
             deleteAll: {
                 try await handleRequest(
                     for: makeRequest(.deleteScheduled(domain: domain)),
-                    decodingTo: Messages.Delete.Response.self,
-                    session: session
+                    decodingTo: Messages.Delete.Response.self
                 )
             }
         )

@@ -19,8 +19,7 @@ extension Mailgun.Client {
     public static func live(
         apiKey: ApiKey,
         baseUrl: URL,
-        domain: Domain,
-        session: @escaping @Sendable (URLRequest) async throws -> (Data, URLResponse) = { request in try await URLSession.shared.data(for: request)}
+        domain: Domain
     ) -> Authenticated.Client<Mailgun.API, Mailgun.API.Router, Mailgun.Client> {
         
         @Dependency(\.mailgunRouter) var mailgunRouter
@@ -28,42 +27,36 @@ extension Mailgun.Client {
         return Authenticated.Client(
             apiKey: apiKey,
             baseUrl: baseUrl,
-            session: session,
             router: mailgunRouter) { makeRequest in
                 Mailgun.Client.init(
                     messages: .live(
                         apiKey: apiKey,
                         baseUrl: baseUrl,
                         domain: domain,
-                        makeRequest: { try makeRequest(Mailgun.API.messages($0)) },
-                        session: session
+                        makeRequest: { try makeRequest(Mailgun.API.messages($0)) }
                     ),
                     mailingLists: .live(
                         apiKey: apiKey,
                         baseUrl: baseUrl,
-                        makeRequest: { try makeRequest(Mailgun.API.lists($0)) },
-                        session: session
+                        makeRequest: { try makeRequest(Mailgun.API.lists($0)) }
                     ),
                     events: .live(
                         apiKey: apiKey,
                         baseUrl: baseUrl,
                         domain: domain,
-                        makeRequest: { try makeRequest(Mailgun.API.events($0)) },
-                        session: session
+                        makeRequest: { try makeRequest(Mailgun.API.events($0)) }
                     ),
                     suppressions: .live(
                         apiKey: apiKey,
                         baseUrl: baseUrl,
                         domain: domain,
-                        makeRequest: { try makeRequest(Mailgun.API.suppressions($0)) },
-                        session: session
+                        makeRequest: { try makeRequest(Mailgun.API.suppressions($0)) }
                     ),
                     webhooks: .live(
                         apiKey: apiKey,
                         baseUrl: baseUrl,
                         domain: domain,
-                        makeRequest: { try makeRequest(Mailgun.API.webhooks($0)) },
-                        session: session
+                        makeRequest: { try makeRequest(Mailgun.API.webhooks($0)) }
                     )
                 )
             }

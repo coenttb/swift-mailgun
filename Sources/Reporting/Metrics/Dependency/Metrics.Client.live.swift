@@ -17,23 +17,22 @@ extension Metrics.Client {
     public static func live(
         apiKey: ApiKey,
         baseUrl: URL,
-        makeRequest: @escaping @Sendable (_ route: Metrics.API) throws -> URLRequest,
-        session: @escaping @Sendable (URLRequest) async throws -> (Data, URLResponse) = { try await URLSession.shared.data(for: $0) }
+        makeRequest: @escaping @Sendable (_ route: Metrics.API) throws -> URLRequest
     ) -> Self {
+        @Dependency(URLRequest.Handler.self) var handleRequest
+        
         return Self(
             getAccountMetrics: { request in
                 try await handleRequest(
                     for: makeRequest(.getAccountMetrics(request: request)),
-                    decodingTo: Metrics.GetAccountMetrics.Response.self,
-                    session: session
+                    decodingTo: Metrics.GetAccountMetrics.Response.self
                 )
             },
             
             getAccountUsageMetrics: { request in
                 try await handleRequest(
                     for: makeRequest(.getAccountUsageMetrics(request: request)),
-                    decodingTo: Metrics.GetAccountUsageMetrics.Response.self,
-                    session: session
+                    decodingTo: Metrics.GetAccountUsageMetrics.Response.self
                 )
             }
         )

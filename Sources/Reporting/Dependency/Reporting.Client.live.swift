@@ -18,22 +18,21 @@ extension Client {
         apiKey: ApiKey,
         baseUrl: URL,
         domain: Domain,
-        makeRequest: @escaping @Sendable (_ route: API) throws -> URLRequest,
-        session: @escaping @Sendable (URLRequest) async throws -> (Data, URLResponse) = { try await URLSession.shared.data(for: $0) }
+        makeRequest: @escaping @Sendable (_ route: API) throws -> URLRequest
     ) -> Self {
-        Self(
+        @Dependency(URLRequest.Handler.self) var handleRequest
+        
+        return Self(
             metrics: .live(
                 apiKey: apiKey,
                 baseUrl: baseUrl,
-                makeRequest: { try makeRequest(.metrics($0)) },
-                session: session
+                makeRequest: { try makeRequest(.metrics($0)) }
             ),
             stats: .live(
                 apiKey: apiKey,
                 baseUrl: baseUrl,
                 domain: domain,
-                makeRequest: { try makeRequest(.stats($0)) },
-                session: session
+                makeRequest: { try makeRequest(.stats($0)) }
             )
         )
     }

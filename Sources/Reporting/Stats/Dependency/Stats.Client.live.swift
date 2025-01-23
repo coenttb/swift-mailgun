@@ -18,43 +18,39 @@ extension Stats.Client {
         apiKey: ApiKey,
         baseUrl: URL,
         domain: Domain,
-        makeRequest: @escaping @Sendable (_ route: Stats.API) throws -> URLRequest,
-        session: @escaping @Sendable (URLRequest) async throws -> (Data, URLResponse) = { try await URLSession.shared.data(for: $0) }
+        makeRequest: @escaping @Sendable (_ route: Stats.API) throws -> URLRequest
     ) -> Self {
+        @Dependency(URLRequest.Handler.self) var handleRequest
+        
         return Self(
             total: { request in
                 try await handleRequest(
                     for: makeRequest(.total(request: request)),
-                    decodingTo: Stats.StatsList.self,
-                    session: session
+                    decodingTo: Stats.StatsList.self
                 )
             },
             filter: { request in
                 try await handleRequest(
                     for: makeRequest(.filter(request: request)),
-                    decodingTo: Stats.StatsList.self,
-                    session: session
+                    decodingTo: Stats.StatsList.self
                 )
             },
             aggregateProviders: {
                 try await handleRequest(
                     for: makeRequest(.aggregateProviders(domain: domain)),
-                    decodingTo: Stats.AggregatesProviders.self,
-                    session: session
+                    decodingTo: Stats.AggregatesProviders.self
                 )
             },
             aggregateDevices: {
                 try await handleRequest(
                     for: makeRequest(.aggregateDevices(domain: domain)),
-                    decodingTo: Stats.AggregatesDevices.self,
-                    session: session
+                    decodingTo: Stats.AggregatesDevices.self
                 )
             },
             aggregateCountries: {
                 try await handleRequest(
                     for: makeRequest(.aggregateCountries(domain: domain)),
-                    decodingTo: Stats.AggregatesCountries.self,
-                    session: session
+                    decodingTo: Stats.AggregatesCountries.self
                 )
             }
         )

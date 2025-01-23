@@ -8,6 +8,8 @@
 import Coenttb_Web
 import IssueReporting
 import Shared
+import Dependencies
+import Coenttb_Web
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking
@@ -18,47 +20,43 @@ extension Client {
        apiKey: ApiKey,
        baseUrl: URL,
        domain: Domain,
-       makeRequest: @escaping @Sendable (_ route: API) throws -> URLRequest,
-       session: @escaping @Sendable (URLRequest) async throws -> (Data, URLResponse) = { try await URLSession.shared.data(for: $0) }
+       makeRequest: @escaping @Sendable (_ route: API) throws -> URLRequest
    ) -> Self {
+       @Dependency(URLRequest.Handler.self) var handleRequest
+       
        return Self(
            list: {
                try await handleRequest(
                    for: makeRequest(.list(domain: domain)),
-                   decodingTo: [Webhook.Variant: Webhook].self,
-                   session: session
+                   decodingTo: [Webhook.Variant: Webhook].self
                )
            },
            
            get: { type in
                try await handleRequest(
                    for: makeRequest(.get(domain: domain, type: type)),
-                   decodingTo: Webhook.self,
-                   session: session
+                   decodingTo: Webhook.self
                )
            },
            
            create: { type, url in
                try await handleRequest(
                    for: makeRequest(.create(domain: domain, type: type, url: url)),
-                   decodingTo: Client.Response.self,
-                   session: session
+                   decodingTo: Client.Response.self
                )
            },
            
            update: { type, url in
                try await handleRequest(
                    for: makeRequest(.update(domain: domain, type: type, url: url)),
-                   decodingTo: Client.Response.self,
-                   session: session
+                   decodingTo: Client.Response.self
                )
            },
            
            delete: { type in
                try await handleRequest(
                    for: makeRequest(.delete(domain: domain, type: type)),
-                   decodingTo: Client.Response.self,
-                   session: session
+                   decodingTo: Client.Response.self
                )
            }
        )

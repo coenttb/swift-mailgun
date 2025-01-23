@@ -66,7 +66,6 @@ public struct Client<
 
     private let apiKey: ApiKey
     private let baseUrl: URL
-    private let session: @Sendable (URLRequest) async throws -> (Data, URLResponse)
     private let router: APIRouter
     private let buildClient: @Sendable (@escaping @Sendable (API) throws -> URLRequest) -> ClientOutput
     private let authenticatedRouter: Authenticated.API<API>.Router<APIRouter>
@@ -74,21 +73,18 @@ public struct Client<
     public init(
         apiKey: ApiKey,
         baseUrl: URL,
-        session: @escaping @Sendable (URLRequest) async throws -> (Data, URLResponse) = { request in try await URLSession.shared.data(for: request) },
         router: APIRouter,
         buildClient: @escaping @Sendable (@escaping @Sendable (API) throws -> URLRequest) -> ClientOutput
     ) {
         self.apiKey = apiKey
         self.baseUrl = baseUrl
-        self.session = session
         self.router = router
         self.buildClient = buildClient
         self.authenticatedRouter = Authenticated.API.Router(
             baseURL: baseUrl,
             router: router
         )
-    }
-    
+    }    
 
     public subscript<T>(dynamicMember keyPath: KeyPath<ClientOutput, T>) -> T {
         @Sendable

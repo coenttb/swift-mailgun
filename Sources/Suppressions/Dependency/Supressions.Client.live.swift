@@ -18,37 +18,34 @@ extension Client {
         apiKey: ApiKey,
         baseUrl: URL,
         domain: Domain,
-        makeRequest: @escaping @Sendable (_ route: API) throws -> URLRequest,
-        session: @escaping @Sendable (URLRequest) async throws -> (Data, URLResponse) = { try await URLSession.shared.data(for: $0) }
+        makeRequest: @escaping @Sendable (_ route: API) throws -> URLRequest
     ) -> Self {
-        Self(
+        @Dependency(URLRequest.Handler.self) var handleRequest
+        
+        return Self(
             bounces: .live(
                 apiKey: apiKey,
                 baseUrl: baseUrl,
                 domain: domain,
-                makeRequest: { try makeRequest(.bounces($0)) },
-                session: session
+                makeRequest: { try makeRequest(.bounces($0)) }
             ),
             complaints: .live(
                 apiKey: apiKey,
                 baseUrl: baseUrl,
                 domain: domain,
-                makeRequest: { try makeRequest(.complaints($0)) },
-                session: session
+                makeRequest: { try makeRequest(.complaints($0)) }
             ),
             unsubscribe: .live(
                 apiKey: apiKey,
                 baseUrl: baseUrl,
                 domain: domain,
-                makeRequest: { try makeRequest(.unsubscribe($0)) },
-                session: session
+                makeRequest: { try makeRequest(.unsubscribe($0)) }
             ),
             whitelist: .live(
                 apiKey: apiKey,
                 baseUrl: baseUrl,
                 domain: domain,
-                makeRequest: { try makeRequest(.whitelist($0)) },
-                session: session
+                makeRequest: { try makeRequest(.whitelist($0)) }
             )
         )
     }
