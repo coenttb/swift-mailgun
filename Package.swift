@@ -98,8 +98,7 @@ let package = Package(
                 .coenttbWeb,
                 .coenttbWeb,
                 .issueReporting,
-                .coenttbAuthentication,
-                .dependenciesTestSupport
+                .coenttbAuthentication
             ]
         ),
         .target(

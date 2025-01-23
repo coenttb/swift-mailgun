@@ -209,7 +209,6 @@ public enum Send {
             }
         }
     }
-    
 }
 
 public enum Attachment {
