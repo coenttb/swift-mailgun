@@ -96,7 +96,6 @@ let package = Package(
             name: .shared,
             dependencies: [
                 .coenttbWeb,
-                .coenttbWeb,
                 .issueReporting,
                 .coenttbAuthentication
             ]
