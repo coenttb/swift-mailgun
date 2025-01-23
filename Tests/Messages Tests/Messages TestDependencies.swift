@@ -12,35 +12,24 @@ import Dependencies
 import DependenciesTestSupport
 import Messages
 import IssueReporting
-import TestShared
 import Shared
-import Authenticated
+import Coenttb_Authentication
+import Messages
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
 
-typealias AuthenticatedClient = Authenticated.Client<Messages.API, Messages.API.Router, Messages.Client>
-
-extension AuthenticatedClient: TestDependencyKey {
+extension Messages.AuthenticatedClient: @retroactive TestDependencyKey {
     public static var testValue: Self {
-        return try! Authenticated.Client.test {
-            Messages.Client.testValue
+        @Dependency(TestStrategy.self) var testStrategy
+        
+        switch testStrategy {
+        case .local:
+            return try! Messages.AuthenticatedClient.test { Messages.Client.testValue }
+        case .liveTest, .live:
+            @Dependency(\.envVars.mailgunDomain) var domain
+            return try! Messages.AuthenticatedClient.test { Messages.Client.live(domain: domain, makeRequest: $0) }
         }
     }
-    
-    public static var liveTest: Self {
-        try! Authenticated.Client.test { apiKey, baseUrl, domain, makeRequest in
-            .live(
-                apiKey: apiKey,
-                baseUrl: baseUrl,
-                domain: domain,
-                makeRequest: makeRequest
-            )
-        }
-    }
-}
-
-extension Messages.API.Router: TestDependencyKey {
-    public static let testValue: Messages.API.Router = .init()
 }

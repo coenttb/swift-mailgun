@@ -66,6 +66,11 @@ extension Messages.API {
     }
 }
 
+extension Messages.API.Router: TestDependencyKey {
+    public static let testValue: Messages.API.Router = .init()
+}
+
+
 extension UrlFormDecoder {
     fileprivate static var `default`: UrlFormDecoder {
         let decoder = UrlFormDecoder()

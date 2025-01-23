@@ -5,9 +5,7 @@ import Dependencies
 import DependenciesTestSupport
 import Events
 import IssueReporting
-import TestShared
 import Shared
-import Authenticated
 
 @Suite(
     "Events Client Tests",

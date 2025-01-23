@@ -11,7 +11,6 @@ import DependenciesTestSupport
 import Foundation
 import URLRouting
 import Messages
-import TestShared
 
 @Suite("Messages Router Tests")
 struct MessagesRouterTests {

@@ -9,7 +9,7 @@ import Foundation
 import Coenttb_Web
 import DependenciesMacros
 import Shared
-import Authenticated
+import Coenttb_Authentication
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking
@@ -20,18 +20,16 @@ extension Mailgun.Client {
         apiKey: ApiKey,
         baseUrl: URL,
         domain: Domain
-    ) -> Authenticated.Client<Mailgun.API, Mailgun.API.Router, Mailgun.Client> {
+    ) -> Shared.AuthenticatedClient<Mailgun.API, Mailgun.API.Router, Mailgun.Client> {
         
         @Dependency(\.mailgunRouter) var mailgunRouter
         
-        return Authenticated.Client(
+        return Shared.AuthenticatedClient(
             apiKey: apiKey,
             baseUrl: baseUrl,
             router: mailgunRouter) { makeRequest in
                 Mailgun.Client.init(
                     messages: .live(
-                        apiKey: apiKey,
-                        baseUrl: baseUrl,
                         domain: domain,
                         makeRequest: { try makeRequest(Mailgun.API.messages($0)) }
                     ),

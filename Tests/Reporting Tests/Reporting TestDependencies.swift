@@ -11,26 +11,25 @@ import EnvironmentVariables
 import Dependencies
 import DependenciesTestSupport
 import IssueReporting
-import TestShared
 import Shared
-import Authenticated
 import Reporting
+import Coenttb_Authentication
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
 
-typealias AuthenticatedClient = Authenticated.Client<Reporting.API, Reporting.API.Router, Reporting.Client>
+typealias AuthenticatedClient = Coenttb_Authentication.Client<Reporting.API, Reporting.API.Router, Reporting.Client>
 
 extension AuthenticatedClient: TestDependencyKey {
     public static var testValue: Self {
-        try! Authenticated.Client.test {
+        try! Coenttb_Authentication.Client.test {
             Reporting.Client.testValue
         }
     }
     
     public static var liveTest: Self {
-        try! Authenticated.Client.test { apiKey, baseUrl, domain, makeRequest in
+        try! Coenttb_Authentication.Client.test { apiKey, baseUrl, domain, makeRequest in
             .live(
                 apiKey: apiKey,
                 baseUrl: baseUrl,

@@ -5,9 +5,7 @@ import Dependencies
 import DependenciesTestSupport
 import Messages
 import IssueReporting
-import TestShared
 import Shared
-import Authenticated
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking
@@ -16,13 +14,16 @@ import FoundationNetworking
 @Suite(
     "Messages Client Tests",
     .dependency(\.envVars, .liveTest),
-    .dependency(AuthenticatedClient.testValue)
+    .dependency(TestStrategy.live)
+    
 )
 struct MessagesClientTests {
     @Test("Should successfully send an email")
     func testSendEmail() async throws {
         @Dependency(AuthenticatedClient.self) var client
         @Dependency(\.envVars) var envVars
+        @Dependency(TestStrategy.self) var testStrategy
+        print(testStrategy)
         
         let from = try #require(envVars.mailgunFrom)
         let to = try #require(envVars.mailgunTo)

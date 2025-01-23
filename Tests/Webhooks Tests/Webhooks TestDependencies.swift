@@ -11,27 +11,25 @@ import EnvironmentVariables
 import Dependencies
 import DependenciesTestSupport
 import IssueReporting
-import TestShared
 import Shared
-import Authenticated
 import Webhooks
-
+import Coenttb_Authentication
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
 
-typealias AuthenticatedClient = Authenticated.Client<Webhooks.API, Webhooks.API.Router, Webhooks.Client>
+typealias AuthenticatedClient = Coenttb_Authentication.Client<Webhooks.API, Webhooks.API.Router, Webhooks.Client>
 
 extension AuthenticatedClient: TestDependencyKey {
     public static var testValue: Self {
-        try! Authenticated.Client.test {
+        try! Coenttb_Authentication.Client.test {
             Webhooks.Client.testValue
         }
     }
     
     public static var liveTest: Self {
-        try! Authenticated.Client.test { apiKey, baseUrl, domain, makeRequest in
+        try! Coenttb_Authentication.Client.test { apiKey, baseUrl, domain, makeRequest in
             Client.live(
                 apiKey: apiKey,
                 baseUrl: baseUrl,

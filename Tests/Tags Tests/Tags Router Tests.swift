@@ -11,7 +11,6 @@ import DependenciesTestSupport
 import Foundation
 import URLRouting
 import Tags
-import TestShared
 
 @Suite(
     "Tags Router Tests"

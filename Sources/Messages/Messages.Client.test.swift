@@ -7,28 +7,13 @@
 
 import Coenttb_Web
 import DependenciesMacros
+import Shared
+import Coenttb_Authentication
+import Dependencies
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
-
-@DependencyClient
-public struct Client: Sendable {
-    @DependencyEndpoint
-    public var send: @Sendable (_ request: Messages.Send.Request) async throws -> Messages.Send.Response
-    
-    @DependencyEndpoint
-    public var sendMime: @Sendable (_ request: Messages.Send.Mime.Request) async throws -> Messages.Send.Response
-    
-    @DependencyEndpoint
-    public var retrieve: @Sendable (_ storageKey: String) async throws -> Messages.StoredMessage
-    
-    @DependencyEndpoint
-    public var queueStatus: @Sendable () async throws -> Messages.Queue.Status
-    
-    @DependencyEndpoint
-    public var deleteAll: @Sendable () async throws -> Messages.Delete.Response
-}
 
 extension Client: TestDependencyKey {
     public static var testValue: Self {
@@ -74,3 +59,6 @@ extension Client: TestDependencyKey {
         )
     }
 }
+
+
+

@@ -1,6 +1,15 @@
 {
-  "originHash" : "9e6dc5d89f57fd0ed77fd5e9d222b1a27edd316db22c0209a6f9188ea47acfd1",
+  "originHash" : "96b37c5756cdd81d5cfa78df8284cbdea8c346efadf1b4c842fd138ecf2f9936",
   "pins" : [
+    {
+      "identity" : "coenttb-authentication",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/coenttb/coenttb-authentication",
+      "state" : {
+        "branch" : "main",
+        "revision" : "9c4a0e59c5f562ef0fb33adc87e2bd79f0a41041"
+      }
+    },
     {
       "identity" : "coenttb-html",
       "kind" : "remoteSourceControl",

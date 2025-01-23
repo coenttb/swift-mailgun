@@ -5,7 +5,6 @@ import PackageDescription
 
 extension String {
     static let mailgun: Self = "Mailgun"
-    static let authenticated: Self = "Authenticated"
     static let credentials: Self = "Credentials"
     static let customMessageLimit: Self = "CustomMessageLimit"
     static let domains: Self = "Domains"
@@ -25,12 +24,10 @@ extension String {
     static let users: Self = "Users"
     static let webhooks: Self = "Webhooks"
     static let shared: Self = "Shared"
-    static let testShared: Self = "TestShared"
 }
 
 extension Target.Dependency {
     static var mailgun: Self { .target(name: .mailgun) }
-    static var authenticated: Self { .target(name: .authenticated) }
     static var credentials: Self { .target(name: .credentials) }
     static var customMessageLimit: Self { .target(name: .customMessageLimit) }
     static var domains: Self { .target(name: .domains) }
@@ -50,7 +47,6 @@ extension Target.Dependency {
     static var users: Self { .target(name: .users) }
     static var webhooks: Self { .target(name: .webhooks) }
     static var shared: Self { .target(name: .shared) }
-    static var testShared: Self { .target(name: .testShared) }
 }
 
 extension Target.Dependency {
@@ -59,6 +55,7 @@ extension Target.Dependency {
     static var dependenciesMacros: Self { .product(name: "DependenciesMacros", package: "swift-dependencies") }
     static var dependenciesTestSupport: Self { .product(name: "DependenciesTestSupport", package: "swift-dependencies") }
     static var issueReporting: Self { .product(name: "IssueReporting", package: "xctest-dynamic-overlay") }
+    static var coenttbAuthentication: Self { .product(name: "Coenttb Authentication", package: "coenttb-authentication") }
 }
 
 let package = Package(
@@ -69,7 +66,6 @@ let package = Package(
     ],
     products: [
         .library(name: .mailgun, targets: [.mailgun]),
-        .library(name: .authenticated, targets: [.authenticated]),
         .library(name: .credentials, targets: [.credentials]),
         .library(name: .customMessageLimit, targets: [.customMessageLimit]),
         .library(name: .domains, targets: [.domains]),
@@ -91,7 +87,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/coenttb/coenttb-web", branch: "main"),
-        .package(url: "https://github.com/coenttb/swift-authentication", branch: "main"),
+        .package(url: "https://github.com/coenttb/coenttb-authentication", branch: "main"),
         .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.1.5"),
         .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "1.4.3"),
     ],
@@ -100,25 +96,9 @@ let package = Package(
             name: .shared,
             dependencies: [
                 .coenttbWeb,
-                .issueReporting,
-            ]
-        ),
-        .target(
-            name: .authenticated,
-            dependencies: [
                 .coenttbWeb,
                 .issueReporting,
-                .basicAuth,
-                .shared
-            ]
-        ),
-        .target(
-            name: .testShared,
-            dependencies: [
-                .coenttbWeb,
-                .issueReporting,
-                .shared,
-                .authenticated,
+                .coenttbAuthentication,
                 .dependenciesTestSupport
             ]
         ),
@@ -126,7 +106,6 @@ let package = Package(
             name: .mailgun,
             dependencies: [
                 .shared,
-                .authenticated,
                 .coenttbWeb,
                 .issueReporting,
                 .dependenciesMacros,
@@ -168,7 +147,7 @@ let package = Package(
         ),
         .testTarget(
             name: .credentials.tests,
-            dependencies: [.credentials, .testShared, .dependenciesTestSupport]
+            dependencies: [.credentials, .shared, .dependenciesTestSupport]
         ),
         .target(
             name: .customMessageLimit,
@@ -181,7 +160,7 @@ let package = Package(
         ),
         .testTarget(
             name: .customMessageLimit.tests,
-            dependencies: [.customMessageLimit, .testShared, .dependenciesTestSupport]
+            dependencies: [.customMessageLimit, .shared, .dependenciesTestSupport]
         ),
         .target(
             name: .domains,
@@ -194,7 +173,7 @@ let package = Package(
         ),
         .testTarget(
             name: .domains.tests,
-            dependencies: [.domains, .testShared, .dependenciesTestSupport]
+            dependencies: [.domains, .shared, .dependenciesTestSupport]
         ),
         .target(
             name: .events,
@@ -207,7 +186,7 @@ let package = Package(
         ),
         .testTarget(
             name: .events.tests,
-            dependencies: [.events, .testShared, .dependenciesTestSupport]
+            dependencies: [.events, .shared, .dependenciesTestSupport]
         ),
         .target(
             name: .iPAllowlist,
@@ -220,7 +199,7 @@ let package = Package(
         ),
         .testTarget(
             name: .iPAllowlist.tests,
-            dependencies: [.iPAllowlist, .testShared, .dependenciesTestSupport]
+            dependencies: [.iPAllowlist, .shared, .dependenciesTestSupport]
         ),
         .target(
             name: .ipPools,
@@ -233,7 +212,7 @@ let package = Package(
         ),
         .testTarget(
             name: .ipPools.tests,
-            dependencies: [.ipPools, .testShared, .dependenciesTestSupport]
+            dependencies: [.ipPools, .shared, .dependenciesTestSupport]
         ),
         .target(
             name: .ips,
@@ -246,7 +225,7 @@ let package = Package(
         ),
         .testTarget(
             name: .ips.tests,
-            dependencies: [.ips, .testShared, .dependenciesTestSupport]
+            dependencies: [.ips, .shared, .dependenciesTestSupport]
         ),
         .target(
             name: .keys,
@@ -259,7 +238,7 @@ let package = Package(
         ),
         .testTarget(
             name: .keys.tests,
-            dependencies: [.keys, .testShared, .dependenciesTestSupport]
+            dependencies: [.keys, .shared, .dependenciesTestSupport]
         ),
         .target(
             name: .lists,
@@ -272,7 +251,7 @@ let package = Package(
         ),
         .testTarget(
             name: .lists.tests,
-            dependencies: [.lists, .testShared, .dependenciesTestSupport]
+            dependencies: [.lists, .shared, .dependenciesTestSupport]
         ),
         .target(
             name: .messages,
@@ -285,7 +264,7 @@ let package = Package(
         ),
         .testTarget(
             name: .messages.tests,
-            dependencies: [.messages, .testShared, .dependenciesTestSupport]
+            dependencies: [.messages, .shared, .dependenciesTestSupport]
         ),
         .target(
             name: .reporting,
@@ -298,7 +277,7 @@ let package = Package(
         ),
         .testTarget(
             name: .reporting.tests,
-            dependencies: [.reporting, .testShared, .dependenciesTestSupport]
+            dependencies: [.reporting, .shared, .dependenciesTestSupport]
         ),
         .target(
             name: .routes,
@@ -311,7 +290,7 @@ let package = Package(
         ),
         .testTarget(
             name: .routes.tests,
-            dependencies: [.routes, .testShared, .dependenciesTestSupport]
+            dependencies: [.routes, .shared, .dependenciesTestSupport]
         ),
         .target(
             name: .subaccounts,
@@ -324,7 +303,7 @@ let package = Package(
         ),
         .testTarget(
             name: .subaccounts.tests,
-            dependencies: [.subaccounts, .testShared, .dependenciesTestSupport]
+            dependencies: [.subaccounts, .shared, .dependenciesTestSupport]
         ),
         .target(
             name: .suppressions,
@@ -337,7 +316,7 @@ let package = Package(
         ),
         .testTarget(
             name: .suppressions.tests,
-            dependencies: [.suppressions, .testShared, .dependenciesTestSupport]
+            dependencies: [.suppressions, .shared, .dependenciesTestSupport]
         ),
         .target(
             name: .tags,
@@ -350,7 +329,7 @@ let package = Package(
         ),
         .testTarget(
             name: .tags.tests,
-            dependencies: [.tags, .testShared, .dependenciesTestSupport]
+            dependencies: [.tags, .shared, .dependenciesTestSupport]
         ),
         .target(
             name: .templates,
@@ -363,7 +342,7 @@ let package = Package(
         ),
         .testTarget(
             name: .templates.tests,
-            dependencies: [.templates, .testShared, .dependenciesTestSupport]
+            dependencies: [.templates, .shared, .dependenciesTestSupport]
         ),
         .target(
             name: .users,
@@ -376,7 +355,7 @@ let package = Package(
         ),
         .testTarget(
             name: .users.tests,
-            dependencies: [.users, .testShared, .dependenciesTestSupport]
+            dependencies: [.users, .shared, .dependenciesTestSupport]
         ),
         .target(
             name: .webhooks,
@@ -389,7 +368,7 @@ let package = Package(
         ),
         .testTarget(
             name: .webhooks.tests,
-            dependencies: [.webhooks, .testShared, .dependenciesTestSupport]
+            dependencies: [.webhooks, .shared, .dependenciesTestSupport]
         ),
     ],
     swiftLanguageModes: [.v6]

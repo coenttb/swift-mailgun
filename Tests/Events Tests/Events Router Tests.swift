@@ -11,7 +11,6 @@ import DependenciesTestSupport
 import Foundation
 import URLRouting
 import Events
-import TestShared
 import EmailAddress
 
 @Suite(

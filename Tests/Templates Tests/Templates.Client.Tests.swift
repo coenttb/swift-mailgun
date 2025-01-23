@@ -11,9 +11,7 @@ import EnvironmentVariables
 import Dependencies
 import DependenciesTestSupport
 import Templates
-import TestShared
 import IssueReporting
-import Authenticated
 
 @Suite(
     "Templates Client Tests",

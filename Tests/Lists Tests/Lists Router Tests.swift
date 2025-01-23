@@ -11,7 +11,6 @@ import DependenciesTestSupport
 import Foundation
 import URLRouting
 import Lists
-import TestShared
 
 @Suite(
     "Lists Router Tests"

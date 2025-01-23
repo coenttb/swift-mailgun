@@ -15,8 +15,6 @@ import FoundationNetworking
 
 extension Messages.Client {
     public static func live(
-        apiKey: ApiKey,
-        baseUrl: URL,
         domain: Domain,
         makeRequest: @escaping @Sendable (_ route: Messages.API) throws -> URLRequest
     ) -> Self {
@@ -61,4 +59,21 @@ extension Messages.Client {
     }
 }
 
-
+extension Client {
+    public static func live(
+        apiKey: ApiKey
+    ) -> AuthenticatedClient {
+        
+        @Dependency(API.Router.self) var router
+        @Dependency(\.envVars.mailgunDomain) var domain
+        @Dependency(\.envVars.mailgunBaseUrl) var baseUrl
+        
+        return AuthenticatedClient.init(
+            apiKey: apiKey,
+            baseUrl: baseUrl,
+            router: router
+        ) { makeRequest in
+                .live(domain: domain, makeRequest: makeRequest)
+            }
+    }
+}

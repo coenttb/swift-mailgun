@@ -11,16 +11,16 @@ import Domain
 
 extension Mailgun.Client {
     public struct EnvVars: Codable {
-        public var baseURL: URL
+        public var baseUrl: URL
         public var apiKey: ApiKey
         public var domain: Domain
         
         public init(
-            baseURL: URL,
+            baseUrl: URL,
             apiKey: ApiKey,
             domain: Domain
         ) {
-            self.baseURL = baseURL
+            self.baseUrl = baseUrl
             self.apiKey = apiKey
             self.domain = domain
         }

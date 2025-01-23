@@ -11,9 +11,7 @@ import EnvironmentVariables
 import Dependencies
 import DependenciesTestSupport
 import IssueReporting
-import TestShared
 import Shared
-import Authenticated
 import Reporting
 
 #if canImport(FoundationNetworking)

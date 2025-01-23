@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Coenttb_Web
 
 public struct ApiKey: Codable, Hashable, Sendable, RawRepresentable, ExpressibleByStringLiteral {
     public let rawValue: String
@@ -16,5 +17,22 @@ public struct ApiKey: Codable, Hashable, Sendable, RawRepresentable, Expressible
     
     public init(stringLiteral value: StringLiteralType) {
         self.rawValue = value
+    }
+}
+
+
+import Foundation
+
+package enum MailgunError: LocalizedError, Equatable {
+    case invalidResponse
+    case httpError(statusCode: Int, message: String)
+    
+    package var errorDescription: String? {
+        switch self {
+        case .invalidResponse:
+            return "Invalid response from server"
+        case .httpError(let statusCode, let message):
+            return "HTTP error \(statusCode): \(message)"
+        }
     }
 }

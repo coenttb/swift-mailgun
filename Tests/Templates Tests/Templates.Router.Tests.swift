@@ -11,7 +11,6 @@ import DependenciesTestSupport
 import Foundation
 import URLRouting
 import Templates
-import TestShared
 import Domain
 
 @Suite("Templates Router Tests")

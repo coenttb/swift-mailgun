@@ -76,7 +76,7 @@ extension Mailgun.Client: @retroactive DependencyKey {
         @Dependency(\.envVars) var envVars
         
         guard
-            let baseURL = envVars.mailgun?.baseURL,
+            let baseUrl = envVars.mailgun?.baseUrl,
             let apiKey = envVars.mailgun?.apiKey,
             let domain = envVars.mailgun?.domain
         else {
@@ -85,7 +85,7 @@ extension Mailgun.Client: @retroactive DependencyKey {
         
         return Mailgun.Client.live(
             apiKey: apiKey,
-            baseUrl: baseURL,
+            baseUrl: baseUrl,
             domain: domain,
             session: { try await URLSession.shared.data(for: $0) }
         )

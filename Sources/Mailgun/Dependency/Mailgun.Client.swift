@@ -5,7 +5,6 @@
 //  Created by Coen ten Thije Boonkkamp on 20/12/2024.
 //
 
-import Authenticated
 import Coenttb_Web
 import DependenciesMacros
 import Credentials
@@ -26,6 +25,8 @@ import Tags
 import Templates
 import Users
 import Webhooks
+import Coenttb_Authentication
+import Shared
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking
@@ -48,7 +49,7 @@ public struct Client: Sendable {
     }
 }
 
-public typealias AuthenticatedClient = Authenticated.Client<Mailgun.API, Mailgun.API.Router, Mailgun.Client>
+public typealias AuthenticatedClient = Shared.AuthenticatedClient<Mailgun.API, Mailgun.API.Router, Mailgun.Client>
 
 extension Mailgun.Client: TestDependencyKey {
     static public let testValue: Mailgun.AuthenticatedClient? = Mailgun.Client.testValue.map { client in
