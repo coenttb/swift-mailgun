@@ -16,7 +16,6 @@ import FoundationNetworking
 extension Events.Client {
     public static func live(
         apiKey: ApiKey,
-        baseUrl: URL,
         domain: Domain,
         makeRequest: @escaping @Sendable (_ route: Events.API) throws -> URLRequest
     ) -> Self {

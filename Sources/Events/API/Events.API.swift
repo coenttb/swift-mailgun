@@ -8,6 +8,7 @@
 import Foundation
 import Coenttb_Web
 import Shared
+import RFC_2822
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking
@@ -47,12 +48,12 @@ extension Events.List.Query {
                 Parse(.memberwise(Events.List.Query.init)) {
                     Optionally {
                         Field("begin") {
-                            Date.RFC2822.Parser()
+                            RFC_2822.Date.Parser()
                         }
                     }
                     Optionally {
                         Field("end") {
-                            Date.RFC2822.Parser()
+                            RFC_2822.Date.Parser()
                         }
                     }
                     Optionally {

@@ -15,7 +15,6 @@ import FoundationNetworking
 extension Tags.Client {
     public static func live(
         apiKey: ApiKey,
-        baseUrl: URL,
         domain: Domain,
         makeRequest: @escaping @Sendable (_ route: Tags.API) throws -> URLRequest
     ) -> Self {

@@ -16,7 +16,6 @@ import FoundationNetworking
 extension Client {
     public static func live(
         apiKey: ApiKey,
-        baseUrl: URL,
         domain: Domain,
         makeRequest: @escaping @Sendable (_ route: API) throws -> URLRequest
     ) -> Self {
@@ -25,12 +24,10 @@ extension Client {
         return Self(
             metrics: .live(
                 apiKey: apiKey,
-                baseUrl: baseUrl,
                 makeRequest: { try makeRequest(.metrics($0)) }
             ),
             stats: .live(
                 apiKey: apiKey,
-                baseUrl: baseUrl,
                 domain: domain,
                 makeRequest: { try makeRequest(.stats($0)) }
             )

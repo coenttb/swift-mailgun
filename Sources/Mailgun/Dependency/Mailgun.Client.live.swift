@@ -35,24 +35,20 @@ extension Mailgun.Client {
                     ),
                     mailingLists: .live(
                         apiKey: apiKey,
-                        baseUrl: baseUrl,
                         makeRequest: { try makeRequest(Mailgun.API.lists($0)) }
                     ),
                     events: .live(
                         apiKey: apiKey,
-                        baseUrl: baseUrl,
                         domain: domain,
                         makeRequest: { try makeRequest(Mailgun.API.events($0)) }
                     ),
                     suppressions: .live(
                         apiKey: apiKey,
-                        baseUrl: baseUrl,
                         domain: domain,
                         makeRequest: { try makeRequest(Mailgun.API.suppressions($0)) }
                     ),
                     webhooks: .live(
                         apiKey: apiKey,
-                        baseUrl: baseUrl,
                         domain: domain,
                         makeRequest: { try makeRequest(Mailgun.API.webhooks($0)) }
                     )

@@ -16,7 +16,6 @@ import FoundationNetworking
 extension Metrics.Client {
     public static func live(
         apiKey: ApiKey,
-        baseUrl: URL,
         makeRequest: @escaping @Sendable (_ route: Metrics.API) throws -> URLRequest
     ) -> Self {
         @Dependency(URLRequest.Handler.self) var handleRequest

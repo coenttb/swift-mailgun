@@ -16,7 +16,6 @@ import FoundationNetworking
 extension Unsubscribe.Client {
     public static func live(
         apiKey: ApiKey,
-        baseUrl: URL,
         domain: Domain,
         makeRequest: @escaping @Sendable (_ route: Unsubscribe.API) throws -> URLRequest
     ) -> Self {

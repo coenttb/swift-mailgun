@@ -16,7 +16,6 @@ import FoundationNetworking
 extension Lists.Client {
     public static func live(
         apiKey: ApiKey,
-        baseUrl: URL,
         makeRequest: @escaping @Sendable (_ route: Lists.API) throws -> URLRequest
     ) -> Self {
         @Dependency(URLRequest.Handler.self) var handleRequest

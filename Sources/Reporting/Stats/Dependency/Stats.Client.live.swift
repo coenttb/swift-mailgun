@@ -16,7 +16,6 @@ import FoundationNetworking
 extension Stats.Client {
     public static func live(
         apiKey: ApiKey,
-        baseUrl: URL,
         domain: Domain,
         makeRequest: @escaping @Sendable (_ route: Stats.API) throws -> URLRequest
     ) -> Self {
