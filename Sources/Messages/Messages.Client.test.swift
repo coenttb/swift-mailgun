@@ -27,7 +27,7 @@ extension Client: TestDependencyKey {
             },
             retrieve: { _ in
                 .init(
-                    contentTransferEncoding: "7bit",
+                    contentTransferEncoding: "quoted-printable",
                     contentType: "text/html; charset=ascii",
                     from: try .init("test@example.com"),
                     messageId: "<test-id@example.com>",

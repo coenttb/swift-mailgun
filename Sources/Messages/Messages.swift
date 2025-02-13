@@ -40,7 +40,7 @@ public enum Send {
         public let sendingIp: String?
         public let sendingIpPool: String?
         public let trackingPixelLocationTop: Bool?
-        public let headers: [String: String]?
+        public var headers: [String: String]?
         public let variables: [String: String]?
         public let recipientVariables: String?
         
@@ -75,7 +75,10 @@ public enum Send {
             sendingIp: String? = nil,
             sendingIpPool: String? = nil,
             trackingPixelLocationTop: Bool? = nil,
-            headers: [String: String]? = nil,
+            headers: [String: String]? = [
+                "Content-Transfer-Encoding": "quoted-printable", 
+                "Content-Type": "text/html; charset=ascii"
+            ],
             variables: [String: String]? = nil,
             recipientVariables: String? = nil
         ) {

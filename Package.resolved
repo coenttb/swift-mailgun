@@ -7,7 +7,7 @@
       "location" : "https://github.com/coenttb/coenttb-authentication",
       "state" : {
         "branch" : "main",
-        "revision" : "32e326a9d2b2215a1091734d0ae1093a6f6567ac"
+        "revision" : "4639d811203c02e935d0718c2c6f64d3d65ece39"
       }
     },
     {
@@ -16,7 +16,7 @@
       "location" : "https://github.com/coenttb/coenttb-html",
       "state" : {
         "branch" : "main",
-        "revision" : "1ce8153312b4f78e38744858a116cadcb096bbca"
+        "revision" : "3896deb56cba616c3465eca7030f7818981d3659"
       }
     },
     {
@@ -25,7 +25,7 @@
       "location" : "https://github.com/coenttb/coenttb-web",
       "state" : {
         "branch" : "main",
-        "revision" : "f4824fea0331144c4e3c2a87e3b4cf0578a79560"
+        "revision" : "8f14aca6d6af07c0d7479ad891e28e7bc2ee9003"
       }
     },
     {
@@ -43,7 +43,7 @@
       "location" : "https://github.com/coenttb/pointfree-html.git",
       "state" : {
         "branch" : "main",
-        "revision" : "517a823ffb482d588fbd46c2606a87dc8f35f3ec"
+        "revision" : "f9f34189a23da8c443f311ab56c8f7c8c384aa07"
       }
     },
     {
@@ -61,7 +61,7 @@
       "location" : "https://github.com/coenttb/swift-authentication",
       "state" : {
         "branch" : "main",
-        "revision" : "868552f07d847cdd3920314969ef09ce04f1403c"
+        "revision" : "511c8c145ab78234ea6efbf1f0ff13a80df5287d"
       }
     },
     {
@@ -151,7 +151,7 @@
       "location" : "https://github.com/coenttb/swift-html.git",
       "state" : {
         "branch" : "main",
-        "revision" : "23bd43704174c2cab50f01e8c04263427e59f088"
+        "revision" : "977162ee3acb9334c5e0b6ac01a16682c343355f"
       }
     },
     {
