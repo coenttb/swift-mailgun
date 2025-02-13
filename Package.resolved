@@ -25,7 +25,7 @@
       "location" : "https://github.com/coenttb/coenttb-web",
       "state" : {
         "branch" : "main",
-        "revision" : "8f14aca6d6af07c0d7479ad891e28e7bc2ee9003"
+        "revision" : "f496cf30630322a72ea04ba8b531c976f56c6ed5"
       }
     },
     {
@@ -241,7 +241,7 @@
       "location" : "https://github.com/coenttb/swift-web",
       "state" : {
         "branch" : "main",
-        "revision" : "d1cef74828261e0848153580d57e1745f9c37ce6"
+        "revision" : "27da32c0dff770b9d9655afcb47b28cc43194506"
       }
     },
     {
