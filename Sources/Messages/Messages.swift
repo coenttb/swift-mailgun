@@ -75,10 +75,7 @@ public enum Send {
             sendingIp: String? = nil,
             sendingIpPool: String? = nil,
             trackingPixelLocationTop: Bool? = nil,
-            headers: [String: String]? = [
-                "Content-Transfer-Encoding": "quoted-printable", 
-                "Content-Type": "text/html; charset=ascii"
-            ],
+            headers: [String: String]? = nil,
             variables: [String: String]? = nil,
             recipientVariables: String? = nil
         ) {

@@ -22,27 +22,8 @@ extension Messages.Client {
         
         return Self(
             send: { request in
-//                try await handleRequest(
-//                    for: makeRequest(.send(domain: domain, request: request)),
-//                    decodingTo: Messages.Send.Response.self
-//                )
-                var request = request  // Create mutable copy
-                
-                // Initialize headers if nil
-                if request.headers == nil {
-                    request.headers = [:]
-                }
-                
-                // Set headers
-                request.headers?["Content-Transfer-Encoding"] = "quoted-printable"
-                request.headers?["Content-Type"] = "text/html; charset=ascii"
-                
-                // Create request with modified headers
-                let req = try makeRequest(.send(domain: domain, request: request))
-                
-                // Send and return response
-                return try await handleRequest(
-                    for: req,
+                try await handleRequest(
+                    for: makeRequest(.send(domain: domain, request: request)),
                     decodingTo: Messages.Send.Response.self
                 )
             },
