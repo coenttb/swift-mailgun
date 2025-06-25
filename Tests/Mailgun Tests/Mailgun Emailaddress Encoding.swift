@@ -37,7 +37,7 @@ struct MailgunFormEncodingTests {
         
         let decoded = try decoder.decode(
             Messages.Send.Request.self,
-            from: Data(formEncoded.utf8)
+            from: Foundation.Data(formEncoded.utf8)
         )
         
         #expect(decoded.from.description == "John Doe <test@example.com>")
@@ -66,7 +66,7 @@ struct MailgunFormEncodingTests {
         
         let decoded = try decoder.decode(
             Messages.Send.Request.self,
-            from: Data(formEncoded.utf8)
+            from: Foundation.Data(formEncoded.utf8)
         )
         
         #expect(decoded.from.description == "test@example.com")
@@ -93,7 +93,7 @@ struct MailgunFormEncodingTests {
         
         let decoded = try decoder.decode(
             Messages.Send.Request.self,
-            from: Data(formEncoded.utf8)
+            from: Foundation.Data(formEncoded.utf8)
         )
         
         #expect(decoded.from.name == "Doe, John")

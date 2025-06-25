@@ -32,7 +32,7 @@ extension Whitelist {
         public var deleteAll: @Sendable () async throws -> Whitelist.Delete.All.Response
         
         @DependencyEndpoint
-        public var importList: @Sendable (_ request: Data) async throws -> Whitelist.Import.Response
+        public var importList: @Sendable (_ request: Foundation.Data) async throws -> Whitelist.Import.Response
     }
 }
 

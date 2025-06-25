@@ -11,7 +11,7 @@ extension Complaints {
     @DependencyClient
     public struct Client: Sendable {
         @DependencyEndpoint
-        public var importList: @Sendable (_ request: Data) async throws -> Complaints.Import.Response
+        public var importList: @Sendable (_ request: Foundation.Data) async throws -> Complaints.Import.Response
         
         @DependencyEndpoint
         public var get: @Sendable (_ address: EmailAddress) async throws -> Complaints.Record

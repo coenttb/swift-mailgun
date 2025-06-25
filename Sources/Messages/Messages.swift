@@ -129,7 +129,7 @@ public enum Send {
     public enum Mime {
         public struct Request: Sendable, Equatable, Codable {
             public let to: [EmailAddress]
-            public let message: Data
+            public let message: Foundation.Data
             public let template: String?
             public let templateVersion: String?
             public let templateText: Bool?
@@ -156,7 +156,7 @@ public enum Send {
             
             public init(
                 to: [EmailAddress],
-                message: Data,
+                message: Foundation.Data,
                 template: String? = nil,
                 templateVersion: String? = nil,
                 templateText: Bool? = nil,

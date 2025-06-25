@@ -30,7 +30,7 @@ public struct Client: Sendable {
     public var bulkAdd: @Sendable (_ listAddress: EmailAddress, _ members: [Lists.Member.Bulk], _ upsert: Bool?) async throws -> Lists.Member.Bulk.Response
     
     @DependencyEndpoint
-    public var bulkAddCSV: @Sendable (_ listAddress: EmailAddress, _ csvData: Data, _ subscribed: Bool?, _ upsert: Bool?) async throws -> Lists.Member.Bulk.Response
+    public var bulkAddCSV: @Sendable (_ listAddress: EmailAddress, _ csvData: Foundation.Data, _ subscribed: Bool?, _ upsert: Bool?) async throws -> Lists.Member.Bulk.Response
     
     @DependencyEndpoint
     public var getMember: @Sendable (_ listAddress: EmailAddress, _ memberAddress: EmailAddress) async throws -> Lists.Member

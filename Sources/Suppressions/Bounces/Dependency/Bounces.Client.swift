@@ -10,7 +10,7 @@ extension Bounces {
     @DependencyClient
     public struct Client: Sendable {
         @DependencyEndpoint
-        public var importList: @Sendable (_ request: Data) async throws -> Bounces.Import.Response
+        public var importList: @Sendable (_ request: Foundation.Data) async throws -> Bounces.Import.Response
         
         @DependencyEndpoint
         public var get: @Sendable (_ address: EmailAddress) async throws -> Bounces.Record

@@ -41,7 +41,7 @@ struct MessagesRouterTests {
         
         let mimeRequest = Messages.Send.Mime.Request(
             to: [try .init("recipient@test.com")],
-            message: Data("MIME content".utf8),
+            message: Foundation.Data("MIME content".utf8),
             tags: ["test-tag"],
             testMode: true
         )
