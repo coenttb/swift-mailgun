@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import BasicAuth
 import URLRouting
 import Coenttb_Authentication
 import Coenttb_Web_Dependencies

@@ -6,11 +6,11 @@
 //
 
 import Foundation
+import Coenttb_Authentication
+import Coenttb_Web_Dependencies
 import Coenttb_Web
 import Dependencies
 import EmailAddress
-import BasicAuth
-import Coenttb_Web_Dependencies
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking
