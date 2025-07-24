@@ -15,7 +15,7 @@ extension Whitelist {
         case list(domain: Domain, request: Whitelist.List.Request)
         case create(domain: Domain, request: Whitelist.Create.Request)
         case deleteAll(domain: Domain)
-        case importList(domain: Domain, request: Data)
+        case importList(domain: Domain, request: Foundation.Data)
     }
 }
 

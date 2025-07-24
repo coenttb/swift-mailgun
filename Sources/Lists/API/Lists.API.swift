@@ -14,7 +14,7 @@ public enum API: Equatable, Sendable {
     case members(listAddress: EmailAddress, request: Lists.List.Members.Request)
     case addMember(listAddress: EmailAddress, request: Lists.Member.Add.Request)
     case bulkAdd(listAddress: EmailAddress, members: [Lists.Member.Bulk], upsert: Bool?)
-    case bulkAddCSV(listAddress: EmailAddress, request: Data, subscribed: Bool?, upsert: Bool?)
+    case bulkAddCSV(listAddress: EmailAddress, request: Foundation.Data, subscribed: Bool?, upsert: Bool?)
     case getMember(listAddress: EmailAddress, memberAddress: EmailAddress)
     case updateMember(listAddress: EmailAddress, memberAddress: EmailAddress, request: Lists.Member.Update.Request)
     case deleteMember(listAddress: EmailAddress, memberAddress: EmailAddress)

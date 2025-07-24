@@ -3,7 +3,7 @@ import Shared
 
 extension Bounces {
     public enum API: Equatable, Sendable {
-        case importList(domain: Domain, request: Data)
+        case importList(domain: Domain, request: Foundation.Data)
         case get(domain: Domain, address: EmailAddress)
         case delete(domain: Domain, address: EmailAddress)
         case list(domain: Domain, request: Bounces.List.Request)

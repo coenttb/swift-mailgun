@@ -40,14 +40,18 @@ extension EnvironmentVariables {
 
 
 extension EnvVars {
-    package static let liveTest: Self = try! .live(localDevelopment: .projectRoot.appendingPathComponent(".env.development"))
+    package static let liveTest: Self = try! .live(localEnvFile: .projectRoot.appendingPathComponent(".env.development"))
 }
 
 extension URL {
     package static var projectRoot: URL {
-        return .init(fileURLWithPath: #filePath)
+        .init(fileURLWithPath: #filePath)
             .deletingLastPathComponent()
             .deletingLastPathComponent()
             .deletingLastPathComponent()
+    }
+    
+    package static var localEnvFile: URL {
+        .projectRoot.appendingPathComponent(".env.development")
     }
 }

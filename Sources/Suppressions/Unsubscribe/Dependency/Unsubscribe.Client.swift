@@ -33,7 +33,7 @@ extension Unsubscribe {
         public var deleteAll: @Sendable () async throws -> Unsubscribe.Delete.All.Response
         
         @DependencyEndpoint
-        public var importList: @Sendable (_ request: Data) async throws -> Unsubscribe.Import.Response
+        public var importList: @Sendable (_ request: Foundation.Data) async throws -> Unsubscribe.Import.Response
     }
 }
 
