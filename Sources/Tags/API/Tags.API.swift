@@ -186,11 +186,3 @@ extension Path<PathBuilder.Component<String>> {
         "limits"
     }
 }
-
-extension UrlFormDecoder {
-    fileprivate static var `default`: UrlFormDecoder {
-        let decoder = UrlFormDecoder()
-        decoder.parsingStrategy = .bracketsWithIndices
-        return decoder
-    }
-}

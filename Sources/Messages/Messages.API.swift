@@ -27,7 +27,7 @@ extension Messages.API {
                     Path.v3
                     Path { Parse(.string.representing(Domain.self)) }
                     Path.messages
-                    Body(.form(Messages.Send.Request.self, decoder: .default))
+                    Body(.form(Messages.Send.Request.self, decoder: .mailgun))
                 }
                 
                 URLRouting.Route(.case(Messages.API.sendMime)) {
@@ -35,7 +35,7 @@ extension Messages.API {
                     Path.v3
                     Path { Parse(.string.representing(Domain.self)) }
                     Path { "messages.mime" }
-                    Body(.form(Messages.Send.Mime.Request.self, decoder: .default))
+                    Body(.form(Messages.Send.Mime.Request.self, decoder: .mailgun))
                 }
                 
                 URLRouting.Route(.case(Messages.API.retrieve)) {
@@ -70,14 +70,6 @@ extension Messages.API.Router: TestDependencyKey {
     public static let testValue: Messages.API.Router = .init()
 }
 
-
-extension UrlFormDecoder {
-    fileprivate static var `default`: UrlFormDecoder {
-        let decoder = UrlFormDecoder()
-        decoder.parsingStrategy = .bracketsWithIndices
-        return decoder
-    }
-}
 
 extension Path<PathBuilder.Component<String>> {
     nonisolated(unsafe) public static let messages = Path {

@@ -87,7 +87,7 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/coenttb/coenttb-web", branch: "main"),
         .package(url: "https://github.com/coenttb/coenttb-authentication", branch: "main"),
-        .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.1.5"),
+        .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.9.2"),
         .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "1.4.3"),
     ],
     targets: [

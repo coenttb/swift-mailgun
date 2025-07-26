@@ -25,7 +25,7 @@ extension Complaints.API {
                     Path { Parse(.string.representing(Domain.self)) }
                     Path.complaints
                     Path { "import" }
-                    Body(.form(Foundation.Data.self, decoder: .default))
+                    Body(.form(Foundation.Data.self, decoder: .mailgun))
                 }
                 
                 URLRouting.Route(.case(Complaints.API.get)) {
@@ -72,7 +72,7 @@ extension Complaints.API {
                     Path.v3
                     Path { Parse(.string.representing(Domain.self)) }
                     Path.complaints
-                    Body(.form(Complaints.Create.Request.self, decoder: .default))
+                    Body(.form(Complaints.Create.Request.self, decoder: .mailgun))
                 }
                 
                 URLRouting.Route(.case(Complaints.API.deleteAll)) {
@@ -89,13 +89,5 @@ extension Complaints.API {
 extension Path<PathBuilder.Component<String>> {
     nonisolated(unsafe) public static let complaints = Path {
         "complaints"
-    }
-}
-
-extension UrlFormDecoder {
-    fileprivate static var `default`: UrlFormDecoder {
-        let decoder = UrlFormDecoder()
-        decoder.parsingStrategy = .bracketsWithIndices
-        return decoder
     }
 }

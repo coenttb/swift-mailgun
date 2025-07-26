@@ -24,7 +24,7 @@ extension Bounces.API {
                     Path { Parse(.string.representing(Domain.self)) }
                     Path.bounces
                     Path { "import" }
-                    Body(.form(Foundation.Data.self, decoder: .default))
+                    Body(.form(Foundation.Data.self, decoder: .mailgun))
                 }
                 
                 URLRouting.Route(.case(Bounces.API.get)) {
@@ -68,7 +68,7 @@ extension Bounces.API {
                     Path.v3
                     Path { Parse(.string.representing(Domain.self)) }
                     Path.bounces
-                    Body(.form(Bounces.Create.Request.self, decoder: .default))
+                    Body(.form(Bounces.Create.Request.self, decoder: .mailgun))
                 }
                 
                 URLRouting.Route(.case(Bounces.API.deleteAll)) {
@@ -85,13 +85,5 @@ extension Bounces.API {
 extension Path<PathBuilder.Component<String>> {
     nonisolated(unsafe) public static let bounces = Path {
         "bounces"
-    }
-}
-
-extension UrlFormDecoder {
-    fileprivate static var `default`: UrlFormDecoder {
-        let decoder = UrlFormDecoder()
-        decoder.parsingStrategy = .bracketsWithIndices
-        return decoder
     }
 }

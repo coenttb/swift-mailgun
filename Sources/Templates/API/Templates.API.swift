@@ -47,9 +47,9 @@ extension API {
                 
                 // POST /v3/{domainId}/templates
                 Route(.case(API.create)) {
-                    let multipartFormCoding = MultipartFormCoding(
+                    let multipartFormCoding = URLMultipartFormCodingURLRouting.Multipart.Conversion(
                         Templates.Template.Create.Request.self,
-                        decoder: .default
+                        decoder: .mailgun
                     )
                     Headers {
                         Field.contentType { multipartFormCoding.contentType }
@@ -76,9 +76,9 @@ extension API {
                 
                 // PUT /v3/{domainId}/templates/{templateId}
                 Route(.case(API.update)) {
-                    let multipartFormCoding = MultipartFormCoding(
+                    let multipartFormCoding = URLMultipartFormCodingURLRouting.Multipart.Conversion(
                         Templates.Template.Update.Request.self,
-                        decoder: .default
+                        decoder: .mailgun
                     )
                     Headers {
                         Field.contentType { multipartFormCoding.contentType }
@@ -118,9 +118,9 @@ extension API {
                 
                 // POST /v3/{domainId}/templates/{templateId}/versions
                 Route(.case(API.createVersion)) {
-                    let multipartFormCoding = MultipartFormCoding(
+                    let multipartFormCoding = URLMultipartFormCodingURLRouting.Multipart.Conversion(
                         Templates.Version.Create.Request.self,
-                        decoder: .default
+                        decoder: .mailgun
                     )
                     Headers {
                         Field.contentType { multipartFormCoding.contentType }
@@ -147,9 +147,9 @@ extension API {
                 
                 // PUT /v3/{domainId}/templates/{templateId}/versions/{versionId}
                 Route(.case(API.updateVersion)) {
-                    let multipartFormCoding = MultipartFormCoding(
+                    let multipartFormCoding = URLMultipartFormCodingURLRouting.Multipart.Conversion(
                         Templates.Version.Update.Request.self,
-                        decoder: .default
+                        decoder: .mailgun
                     )
                     Headers {
                         Field.contentType { multipartFormCoding.contentType }
@@ -200,12 +200,4 @@ extension API {
 extension Path<PathBuilder.Component<String>> {
     nonisolated(unsafe) static let templates = Path { "templates" }
     nonisolated(unsafe) static let versions = Path { "versions" }
-}
-
-extension UrlFormDecoder {
-    fileprivate static var `default`: UrlFormDecoder {
-        let decoder = UrlFormDecoder()
-        decoder.parsingStrategy = .bracketsWithIndices
-        return decoder
-    }
 }

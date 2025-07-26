@@ -32,7 +32,7 @@ extension Unsubscribe.API {
                     Path { Parse(.string.representing(Domain.self)) }
                     Path.unsubscribes
                     Path { "import" }
-                    Body(.form(Foundation.Data.self, decoder: .default))
+                    Body(.form(Foundation.Data.self, decoder: .mailgun))
                 }
                 
                 URLRouting.Route(.case(Unsubscribe.API.get)) {
@@ -79,7 +79,7 @@ extension Unsubscribe.API {
                     Path.v3
                     Path { Parse(.string.representing(Domain.self)) }
                     Path.unsubscribes
-                    Body(.form(Unsubscribe.Create.Request.self, decoder: .default))
+                    Body(.form(Unsubscribe.Create.Request.self, decoder: .mailgun))
                 }
                 
                 URLRouting.Route(.case(Unsubscribe.API.deleteAll)) {
@@ -96,14 +96,5 @@ extension Unsubscribe.API {
 extension Path<PathBuilder.Component<String>> {
     nonisolated(unsafe) public static let unsubscribes = Path {
         "unsubscribes"
-    }
-}
-
-
-extension UrlFormDecoder {
-    fileprivate static var `default`: UrlFormDecoder {
-        let decoder = UrlFormDecoder()
-        decoder.parsingStrategy = .bracketsWithIndices
-        return decoder
     }
 }

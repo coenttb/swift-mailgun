@@ -35,7 +35,7 @@ extension API {
                     Method.post
                     Path.v3
                     Path.lists
-                    Body(.form(Lists.List.Create.Request.self, decoder: .default))
+                    Body(.form(Lists.List.Create.Request.self, decoder: .mailgun))
                 }
                 
                 URLRouting.Route(.case(Lists.API.list)) {
@@ -87,7 +87,7 @@ extension API {
                     Path.lists
                     Path { Parse(.string.representing(EmailAddress.self)) }
                     Path.members
-                    Body(.form(Lists.Member.Add.Request.self, decoder: .default))
+                    Body(.form(Lists.Member.Add.Request.self, decoder: .mailgun))
                 }
                 
                 URLRouting.Route(.case(Lists.API.bulkAdd)) {
@@ -96,7 +96,7 @@ extension API {
                     Path.lists
                     Path { Parse(.string.representing(EmailAddress.self)) }
                     Path { "members.json" }
-                    Body(.form([Lists.Member.Bulk].self, decoder: .default))
+                    Body(.form([Lists.Member.Bulk].self, decoder: .mailgun))
                     URLRouting.Query {
                         Optionally {
                             Field("upsert") { Bool.parser() }
@@ -134,9 +134,9 @@ extension API {
                 
                 URLRouting.Route(.case(Lists.API.updateMember)) {
                     
-                    let multipartFormCoding = MultipartFormCoding(
+                    let multipartFormCoding = URLMultipartFormCodingURLRouting.Multipart.Conversion(
                         Lists.Member.Update.Request.self,
-                        decoder: .default
+                        decoder: .mailgun
                     )
                     Headers {
                         Field.contentType { multipartFormCoding.contentType }
@@ -161,7 +161,7 @@ extension API {
                 
                 URLRouting.Route(.case(Lists.API.update)) {
                     
-                    let multipartFormCoding = MultipartFormCoding.init(Lists.List.Update.Request.self, decoder: .default)
+                    let multipartFormCoding = URLMultipartFormCodingURLRouting.Multipart.Conversion(Lists.List.Update.Request.self, decoder: .mailgun)
                     
                     Headers {
                         Field.contentType { multipartFormCoding.contentType }
@@ -239,10 +239,3 @@ extension Path<PathBuilder.Component<String>> {
     }
 }
 
-extension UrlFormDecoder {
-    fileprivate static var `default`: UrlFormDecoder {
-        let decoder = UrlFormDecoder()
-        decoder.parsingStrategy = .bracketsWithIndices
-        return decoder
-    }
-}

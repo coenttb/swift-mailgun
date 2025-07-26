@@ -72,7 +72,7 @@ extension Whitelist.API {
                     Path.v3
                     Path { Parse(.string.representing(Domain.self)) }
                     Path.whitelists
-                    Body(.form(Whitelist.Create.Request.self, decoder: .default))
+                    Body(.form(Whitelist.Create.Request.self, decoder: .mailgun))
                 }
                 
                 URLRouting.Route(.case(Whitelist.API.deleteAll)) {
@@ -84,7 +84,7 @@ extension Whitelist.API {
                 
                 URLRouting.Route(.case(Whitelist.API.importList)) {
                     
-                    let multipart = MultipartFileUpload.csv()
+                    let multipart = URLMultipartFormCodingURLRouting.Multipart.FileUpload.csv()
                     
                     Method.post
                     Headers {
@@ -104,13 +104,5 @@ extension Whitelist.API {
 extension Path<PathBuilder.Component<String>> {
     nonisolated(unsafe) public static let whitelists = Path {
         "whitelists"
-    }
-}
-
-extension UrlFormDecoder {
-    fileprivate static var `default`: UrlFormDecoder {
-        let decoder = UrlFormDecoder()
-        decoder.parsingStrategy = .bracketsWithIndices
-        return decoder
     }
 }
