@@ -53,7 +53,8 @@ public typealias AuthenticatedClient = Shared.AuthenticatedClient<Mailgun.API, M
 
 extension Mailgun.Client: TestDependencyKey {
     static public let testValue: Mailgun.AuthenticatedClient? = Mailgun.Client.testValue.map { client in
-            return .init(
+        do {
+            return try .init(
                 apiKey: .init(rawValue: "test-api-key"),
                 baseUrl: .init(string: "localhost:8080")!,
                 router: .init()
@@ -66,6 +67,10 @@ extension Mailgun.Client: TestDependencyKey {
                         webhooks: .testValue
                     )
             }
+        } catch {
+            print(error)
+            fatalError()
+        }
     }
 }
 

@@ -20,11 +20,11 @@ extension Mailgun.Client {
         apiKey: ApiKey,
         baseUrl: URL,
         domain: Domain
-    ) -> Shared.AuthenticatedClient<Mailgun.API, Mailgun.API.Router, Mailgun.Client> {
+    ) throws -> Shared.AuthenticatedClient<Mailgun.API, Mailgun.API.Router, Mailgun.Client> {
         
         @Dependency(\.mailgunRouter) var mailgunRouter
         
-        return Shared.AuthenticatedClient(
+        return try Shared.AuthenticatedClient(
             apiKey: apiKey,
             baseUrl: baseUrl,
             router: mailgunRouter) { makeRequest in

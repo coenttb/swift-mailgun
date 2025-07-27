@@ -32,11 +32,11 @@ extension AuthenticatedClient {
         baseUrl: URL,
         router: APIRouter,
         buildClient: @escaping @Sendable (@escaping @Sendable (API) throws -> URLRequest) -> ClientOutput
-    ) where Auth == BasicAuth, AuthRouter == BasicAuth.Router {
+    ) throws where Auth == BasicAuth, AuthRouter == BasicAuth.Router {
         
         self = .init(
             baseURL: baseUrl,
-            auth: .init(username: "api", password: apiKey.rawValue),
+            auth: try .init(username: "api", password: apiKey.rawValue),
             router: router,
             authRouter: BasicAuth.Router(),
             buildClient: buildClient

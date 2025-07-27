@@ -23,7 +23,7 @@ extension AuthenticatedClient {
             _ makeRequest: @escaping @Sendable (_ route: API) throws -> URLRequest
         ) -> ClientOutput
     ) throws -> Self where Auth == BasicAuth, AuthRouter == BasicAuth.Router {
-        withDependencies {
+        try withDependencies {
             $0.envVars = .liveTest
         } operation: {
             @Dependency(\.envVars) var envVars
@@ -32,7 +32,7 @@ extension AuthenticatedClient {
             let baseUrl = envVars.mailgunBaseUrl
             let apiKey = envVars.mailgunPrivateApiKey!
             
-            return AuthenticatedClient(
+            return try AuthenticatedClient(
                 apiKey: apiKey,
                 baseUrl: baseUrl,
                 router: router,
