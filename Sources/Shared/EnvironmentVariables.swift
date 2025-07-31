@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import Coenttb_Web
+import Coenttb_Server
 
 extension EnvironmentVariables {
     package var mailgunBaseUrl: URL {
