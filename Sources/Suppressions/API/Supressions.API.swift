@@ -38,3 +38,7 @@ extension Suppressions.API {
         }
     }
 }
+
+extension Suppressions.API.Router: TestDependencyKey {
+    public static let testValue: Suppressions.API.Router = .init()
+}

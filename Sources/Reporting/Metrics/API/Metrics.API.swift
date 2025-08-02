@@ -55,3 +55,7 @@ extension Path<PathBuilder.Component<String>> {
         "usage"
     }
 }
+
+extension Metrics.API.Router: TestDependencyKey {
+    public static let testValue: Metrics.API.Router = .init()
+}

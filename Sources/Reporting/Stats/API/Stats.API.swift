@@ -135,3 +135,7 @@ extension Path<PathBuilder.Component<String>> {
         "countries"
     }
 }
+
+extension Stats.API.Router: TestDependencyKey {
+    public static let testValue: Stats.API.Router = .init()
+}

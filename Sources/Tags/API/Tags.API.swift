@@ -186,3 +186,7 @@ extension Path<PathBuilder.Component<String>> {
         "limits"
     }
 }
+
+extension Tags.API.Router: TestDependencyKey {
+    public static let testValue: Self = .init()
+}

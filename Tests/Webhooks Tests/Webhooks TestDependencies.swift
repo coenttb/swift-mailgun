@@ -18,6 +18,3 @@ import Webhooks
 import FoundationNetworking
 #endif
 
-extension Webhooks.API.Router: TestDependencyKey {
-    public static let testValue: Self = .init()
-}

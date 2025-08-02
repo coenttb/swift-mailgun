@@ -29,3 +29,7 @@ extension Reporting.API {
         }
     }
 }
+
+extension Reporting.API.Router: TestDependencyKey {
+    public static let testValue: Reporting.API.Router = .init()
+}

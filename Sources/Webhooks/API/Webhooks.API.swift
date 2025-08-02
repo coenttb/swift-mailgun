@@ -87,3 +87,7 @@ extension Path<PathBuilder.Component<String>> {
         "domains"
     }
 }
+
+extension Webhooks.API.Router: TestDependencyKey {
+    public static let testValue: Self = .init()
+}

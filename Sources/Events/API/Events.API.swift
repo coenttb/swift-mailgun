@@ -134,3 +134,7 @@ extension Path<PathBuilder.Component<String>> {
         "events"
     }
 }
+
+extension Events.API.Router: TestDependencyKey {
+    public static let testValue: Self = .init()
+}

@@ -239,3 +239,6 @@ extension Path<PathBuilder.Component<String>> {
     }
 }
 
+extension Lists.API.Router: TestDependencyKey {
+    public static let testValue: Self = .init()
+}

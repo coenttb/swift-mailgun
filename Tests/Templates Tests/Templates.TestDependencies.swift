@@ -18,6 +18,3 @@ import Shared
 import FoundationNetworking
 #endif
 
-extension Templates.API.Router: TestDependencyKey {
-    public static let testValue: Self = .init()
-}

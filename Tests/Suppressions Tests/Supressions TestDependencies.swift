@@ -18,6 +18,3 @@ import Suppressions
 import FoundationNetworking
 #endif
 
-extension Suppressions.API.Router: TestDependencyKey {
-    public static let testValue: Suppressions.API.Router = .init()
-}

@@ -18,6 +18,4 @@ import Shared
 import FoundationNetworking
 #endif
 
-extension Lists.API.Router: TestDependencyKey {
-    public static let testValue: Self = .init()
-}
+

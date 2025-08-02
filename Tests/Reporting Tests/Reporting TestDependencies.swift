@@ -19,6 +19,3 @@ import FoundationNetworking
 #endif
 
 
-extension Reporting.API.Router: TestDependencyKey {
-    public static let testValue: Reporting.API.Router = .init()
-}

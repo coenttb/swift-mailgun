@@ -18,6 +18,3 @@ import Suppressions
 import FoundationNetworking
 #endif
 
-extension Bounces.API.Router: TestDependencyKey {
-    public static let testValue: Bounces.API.Router = .init()
-}

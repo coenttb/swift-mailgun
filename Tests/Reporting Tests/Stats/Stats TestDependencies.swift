@@ -18,6 +18,3 @@ import Reporting
 import FoundationNetworking
 #endif
 
-extension Stats.API.Router: TestDependencyKey {
-    public static let testValue: Stats.API.Router = .init()
-}

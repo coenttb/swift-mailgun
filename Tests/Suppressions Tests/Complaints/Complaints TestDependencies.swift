@@ -19,6 +19,3 @@ import FoundationNetworking
 #endif
 
 
-extension Complaints.API.Router: TestDependencyKey {
-    public static let testValue: Complaints.API.Router = .init()
-}

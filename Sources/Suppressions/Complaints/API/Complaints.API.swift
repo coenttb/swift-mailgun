@@ -91,3 +91,7 @@ extension Path<PathBuilder.Component<String>> {
         "complaints"
     }
 }
+
+extension Complaints.API.Router: TestDependencyKey {
+    public static let testValue: Complaints.API.Router = .init()
+}

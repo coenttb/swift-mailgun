@@ -18,8 +18,3 @@ import Suppressions
 import FoundationNetworking
 #endif
 
-extension Whitelist.API.Router: TestDependencyKey {
-    public static let testValue: Whitelist.API.Router = .init()
-}
-
-

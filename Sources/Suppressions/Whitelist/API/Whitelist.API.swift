@@ -106,3 +106,7 @@ extension Path<PathBuilder.Component<String>> {
         "whitelists"
     }
 }
+
+extension Whitelist.API.Router: TestDependencyKey {
+    public static let testValue: Whitelist.API.Router = .init()
+}

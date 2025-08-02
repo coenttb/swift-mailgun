@@ -19,6 +19,3 @@ import Domain
 import FoundationNetworking
 #endif
 
-extension Events.API.Router: TestDependencyKey {
-    public static let testValue: Self = .init()
-}
