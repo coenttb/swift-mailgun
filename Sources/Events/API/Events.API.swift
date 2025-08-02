@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import Coenttb_Web
+import ServerFoundation
 import Shared
 import RFC_2822
 
@@ -82,8 +82,6 @@ extension Events.List.Query {
                     Optionally {
                         Field("subject") { Parse(.string) }
                     }
-                    
-                    
                     
                     Optionally {
                         Field("to") {

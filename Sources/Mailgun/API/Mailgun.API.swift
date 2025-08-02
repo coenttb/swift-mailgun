@@ -6,7 +6,7 @@
 //
 
 
-import Coenttb_Web
+import ServerFoundation
 import Credentials
 import CustomMessageLimit
 import Domains
@@ -27,12 +27,14 @@ import Users
 import Webhooks
 import Shared
 
-public enum API: Equatable, Sendable {
-    case messages(Messages.API)
-    case lists(Lists.API)
-    case events(Events.API)
-    case suppressions(Suppressions.API)
-    case webhooks(Webhooks.API)
+extension Mailgun {
+    public enum API: Equatable, Sendable {
+        case messages(Messages.API)
+        case lists(Lists.API)
+        case events(Events.API)
+        case suppressions(Suppressions.API)
+        case webhooks(Webhooks.API)
+    }
 }
 
 extension Mailgun.API {

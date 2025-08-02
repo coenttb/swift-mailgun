@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import Coenttb_Web
+import ServerFoundation
 
 extension Templates.Client: TestDependencyKey {
     public static var testValue: Self {

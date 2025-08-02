@@ -6,7 +6,7 @@
 //
 
 
-import Coenttb_Web
+import ServerFoundation
 
 public struct Template: Sendable, Codable, Equatable {
     public let name: String

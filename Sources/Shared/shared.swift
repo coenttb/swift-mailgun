@@ -10,7 +10,5 @@ import Parsing
 import URLRouting
 
 extension Path<PathBuilder.Component<String>> {
-    nonisolated(unsafe) package static let pages = Path {
-        "pages"
-    }
+    nonisolated(unsafe) package static let pages = Path { "pages" }
 }

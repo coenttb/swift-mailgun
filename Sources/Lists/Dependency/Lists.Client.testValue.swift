@@ -5,7 +5,7 @@
 //  Created by Coen ten Thije Boonkkamp on 19/12/2024.
 //
 
-import Coenttb_Web
+import ServerFoundation
 
 extension Client: TestDependencyKey {
     public static var testValue: Self {

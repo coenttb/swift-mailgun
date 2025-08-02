@@ -50,15 +50,14 @@ extension Target.Dependency {
 }
 
 extension Target.Dependency {
-    static var coenttbWeb: Self { .product(name: "Coenttb Web", package: "coenttb-web") }
+    static var serverFoundation: Self { .product(name: "ServerFoundation", package: "swift-server-foundation") }
     static var dependenciesMacros: Self { .product(name: "DependenciesMacros", package: "swift-dependencies") }
     static var dependenciesTestSupport: Self { .product(name: "DependenciesTestSupport", package: "swift-dependencies") }
     static var issueReporting: Self { .product(name: "IssueReporting", package: "xctest-dynamic-overlay") }
-    static var coenttbAuthentication: Self { .product(name: "Coenttb Authentication", package: "coenttb-authentication") }
 }
 
 let package = Package(
-    name: "coenttb-mailgun",
+    name: "swift-mailgun",
     platforms: [
         .macOS(.v14),
         .iOS(.v17)
@@ -83,10 +82,10 @@ let package = Package(
         .library(name: .templates, targets: [.templates]),
         .library(name: .users, targets: [.users]),
         .library(name: .webhooks, targets: [.webhooks]),
+        .library(name: .shared, targets: [.shared]),
     ],
     dependencies: [
-        .package(url: "https://github.com/coenttb/coenttb-web", branch: "main"),
-        .package(url: "https://github.com/coenttb/coenttb-authentication", branch: "main"),
+        .package(url: "https://github.com/coenttb/swift-server-foundation", branch: "0.0.2"),
         .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.9.2"),
         .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "1.4.3"),
     ],
@@ -94,16 +93,15 @@ let package = Package(
         .target(
             name: .shared,
             dependencies: [
-                .coenttbWeb,
-                .issueReporting,
-                .coenttbAuthentication
+                .serverFoundation,
+                .issueReporting
             ]
         ),
         .target(
             name: .mailgun,
             dependencies: [
                 .shared,
-                .coenttbWeb,
+                .serverFoundation,
                 .issueReporting,
                 .dependenciesMacros,
                 .credentials,
@@ -137,7 +135,7 @@ let package = Package(
             name: .credentials,
             dependencies: [
                 .shared,
-                .coenttbWeb,
+                .serverFoundation,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -150,7 +148,7 @@ let package = Package(
             name: .customMessageLimit,
             dependencies: [
                 .shared,
-                .coenttbWeb,
+                .serverFoundation,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -163,7 +161,7 @@ let package = Package(
             name: .domains,
             dependencies: [
                 .shared,
-                .coenttbWeb,
+                .serverFoundation,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -176,7 +174,7 @@ let package = Package(
             name: .events,
             dependencies: [
                 .shared,
-                .coenttbWeb,
+                .serverFoundation,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -189,7 +187,7 @@ let package = Package(
             name: .iPAllowlist,
             dependencies: [
                 .shared,
-                .coenttbWeb,
+                .serverFoundation,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -202,7 +200,7 @@ let package = Package(
             name: .ipPools,
             dependencies: [
                 .shared,
-                .coenttbWeb,
+                .serverFoundation,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -215,7 +213,7 @@ let package = Package(
             name: .ips,
             dependencies: [
                 .shared,
-                .coenttbWeb,
+                .serverFoundation,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -228,7 +226,7 @@ let package = Package(
             name: .keys,
             dependencies: [
                 .shared,
-                .coenttbWeb,
+                .serverFoundation,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -241,7 +239,7 @@ let package = Package(
             name: .lists,
             dependencies: [
                 .shared,
-                .coenttbWeb,
+                .serverFoundation,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -254,7 +252,7 @@ let package = Package(
             name: .messages,
             dependencies: [
                 .shared,
-                .coenttbWeb,
+                .serverFoundation,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -267,7 +265,7 @@ let package = Package(
             name: .reporting,
             dependencies: [
                 .shared,
-                .coenttbWeb,
+                .serverFoundation,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -280,7 +278,7 @@ let package = Package(
             name: .routes,
             dependencies: [
                 .shared,
-                .coenttbWeb,
+                .serverFoundation,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -293,7 +291,7 @@ let package = Package(
             name: .subaccounts,
             dependencies: [
                 .shared,
-                .coenttbWeb,
+                .serverFoundation,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -306,7 +304,7 @@ let package = Package(
             name: .suppressions,
             dependencies: [
                 .shared,
-                .coenttbWeb,
+                .serverFoundation,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -319,7 +317,7 @@ let package = Package(
             name: .tags,
             dependencies: [
                 .shared,
-                .coenttbWeb,
+                .serverFoundation,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -332,7 +330,7 @@ let package = Package(
             name: .templates,
             dependencies: [
                 .shared,
-                .coenttbWeb,
+                .serverFoundation,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -345,7 +343,7 @@ let package = Package(
             name: .users,
             dependencies: [
                 .shared,
-                .coenttbWeb,
+                .serverFoundation,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -358,7 +356,7 @@ let package = Package(
             name: .webhooks,
             dependencies: [
                 .shared,
-                .coenttbWeb,
+                .serverFoundation,
                 .issueReporting,
                 .dependenciesMacros,
             ]

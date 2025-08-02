@@ -5,10 +5,9 @@
 //  Created by Coen ten Thije Boonkkamp on 19/12/2024.
 //
 
-import Coenttb_Web
+import ServerFoundation
 import DependenciesMacros
 import Shared
-import Coenttb_Authentication
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking
@@ -31,9 +30,3 @@ public struct Client: Sendable {
     @DependencyEndpoint
     public var deleteAll: @Sendable () async throws -> Messages.Delete.Response
 }
-
-public typealias AuthenticatedClient = Shared.AuthenticatedClient<
-    API,
-    API.Router,
-    Client
->

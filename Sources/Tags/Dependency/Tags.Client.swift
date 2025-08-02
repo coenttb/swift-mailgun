@@ -5,7 +5,7 @@
 //  Created by Claude on 31/12/2024.
 //
 
-import Coenttb_Web
+import ServerFoundation
 import DependenciesMacros
 
 #if canImport(FoundationNetworking)

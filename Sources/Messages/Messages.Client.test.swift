@@ -5,10 +5,9 @@
 //  Created by Coen ten Thije Boonkkamp on 19/12/2024.
 //
 
-import Coenttb_Web
+import ServerFoundation
 import DependenciesMacros
 import Shared
-import Coenttb_Authentication
 import Dependencies
 
 #if canImport(FoundationNetworking)

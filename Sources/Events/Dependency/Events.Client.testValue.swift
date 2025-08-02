@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import Coenttb_Web
+import ServerFoundation
 import EmailAddress
 
 extension Events.Client: TestDependencyKey {
