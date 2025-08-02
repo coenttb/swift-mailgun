@@ -34,7 +34,7 @@
       "location" : "https://github.com/coenttb/coenttb-html",
       "state" : {
         "branch" : "main",
-        "revision" : "8425032f5d4814d17ba82b0c7c7a04a23a0777a5"
+        "revision" : "46e33e502d175a1ef35395515afd6473bf9f1a29"
       }
     },
     {
@@ -43,7 +43,7 @@
       "location" : "https://github.com/coenttb/coenttb-server",
       "state" : {
         "branch" : "main",
-        "revision" : "21b598305e1770d4e83cc6ec84bdc55f471b58a5"
+        "revision" : "1d7fdb451bdc2a39c052fe49630b68272a177302"
       }
     },
     {
@@ -79,6 +79,15 @@
       "location" : "https://github.com/coenttb/pointfree-html-to-pdf.git",
       "state" : {
         "revision" : "c496007fea2c032b5e4c93377879e548e109949a",
+        "version" : "0.0.1"
+      }
+    },
+    {
+      "identity" : "pointfree-html-translating",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/coenttb/pointfree-html-translating.git",
+      "state" : {
+        "revision" : "1173b27062be38a65eeef74a42812a5e8f58145c",
         "version" : "0.0.1"
       }
     },
@@ -303,8 +312,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/coenttb/swift-environment-variables",
       "state" : {
-        "revision" : "68ebbde5e665b2038a7271ca00b7eaff4791be40",
-        "version" : "0.0.1"
+        "revision" : "b36ef995ae0b3cbc585875ab16881ba3fa0938b9",
+        "version" : "0.1.2"
       }
     },
     {
@@ -322,7 +331,7 @@
       "location" : "https://github.com/coenttb/swift-html.git",
       "state" : {
         "branch" : "main",
-        "revision" : "cefb7623d21e4678a5ba236e59f4ff8f109cb338"
+        "revision" : "377e3800355faf9014057538709d731619f58f22"
       }
     },
     {
@@ -574,7 +583,7 @@
       "location" : "https://github.com/coenttb/swift-server-foundation",
       "state" : {
         "branch" : "main",
-        "revision" : "1ae7c289ef29028a5a38943ec972dc6a23e0a64b"
+        "revision" : "be8c84df831f7a4b0f1756932d9e50238f95b9a4"
       }
     },
     {
@@ -691,7 +700,7 @@
       "location" : "https://github.com/coenttb/swift-web-foundation",
       "state" : {
         "branch" : "main",
-        "revision" : "ee961d5e7d035cfc003494c162665c3dd968b98e"
+        "revision" : "5d1774f758eeb919a979b3350e808095849d2d0c"
       }
     },
     {
