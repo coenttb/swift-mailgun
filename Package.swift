@@ -59,119 +59,119 @@ extension Target.Dependency {
 }
 
 extension Target.Dependency {
-    static var MailgunSwiftMailgun: Self {
+    static var mailgunSwiftMailgun: Self {
         .product(
             name: "Mailgun",
             package: "swift-mailgun",
             moduleAliases: ["Mailgun": "MailgunSwiftMailgun"]
         )
     }
-    static var CredentialsSwiftMailgun: Self {
+    static var credentialsSwiftMailgun: Self {
         .product(
             name: "Credentials",
             package: "swift-mailgun",
             moduleAliases: ["Credentials": "CredentialsSwiftMailgun"]
         )
     }
-    static var CustomMessageLimitSwiftMailgun: Self {
+    static var customMessageLimitSwiftMailgun: Self {
         .product(
             name: "CustomMessageLimit",
             package: "swift-mailgun",
             moduleAliases: ["CustomMessageLimit": "CustomMessageLimitSwiftMailgun"]
         )
     }
-    static var DomainsSwiftMailgun: Self {
+    static var domainsSwiftMailgun: Self {
         .product(
             name: "Domains",
             package: "swift-mailgun",
             moduleAliases: ["Domains": "DomainsSwiftMailgun"]
         )
     }
-    static var EventsSwiftMailgun: Self {
+    static var eventsSwiftMailgun: Self {
         .product(
             name: "Events",
             package: "swift-mailgun",
             moduleAliases: ["Events": "EventsSwiftMailgun"]
         )
     }
-    static var IPAllowlistSwiftMailgun: Self {
+    static var ipAllowlistSwiftMailgun: Self {
         .product(
             name: "IPAllowlist",
             package: "swift-mailgun",
             moduleAliases: ["IPAllowlist": "IPAllowlistSwiftMailgun"]
         )
     }
-    static var IPPoolsSwiftMailgun: Self {
+    static var ipPoolsSwiftMailgun: Self {
         .product(
             name: "IPPools",
             package: "swift-mailgun",
             moduleAliases: ["IPPools": "IPPoolsSwiftMailgun"]
         )
     }
-    static var IPsSwiftMailgun: Self {
+    static var ipsSwiftMailgun: Self {
         .product(
             name: "IPs",
             package: "swift-mailgun",
             moduleAliases: ["IPs": "IPsSwiftMailgun"]
         )
     }
-    static var KeysSwiftMailgun: Self {
+    static var keysSwiftMailgun: Self {
         .product(
             name: "Keys",
             package: "swift-mailgun",
             moduleAliases: ["Keys": "KeysSwiftMailgun"]
         )
     }
-    static var ListsSwiftMailgun: Self {
+    static var listsSwiftMailgun: Self {
         .product(
             name: "Lists",
             package: "swift-mailgun",
             moduleAliases: ["Lists": "ListsSwiftMailgun"]
         )
     }
-    static var MessagesSwiftMailgun: Self {
+    static var messagesSwiftMailgun: Self {
         .product(
             name: "Messages",
             package: "swift-mailgun",
             moduleAliases: ["Messages": "MessagesSwiftMailgun"]
         )
     }
-    static var ReportingSwiftMailgun: Self {
+    static var reportingSwiftMailgun: Self {
         .product(
             name: "Reporting",
             package: "swift-mailgun",
             moduleAliases: ["Reporting": "ReportingSwiftMailgun"]
         )
     }
-    static var RoutesSwiftMailgun: Self {
+    static var routesSwiftMailgun: Self {
         .product(
             name: "Routes",
             package: "swift-mailgun",
             moduleAliases: ["Routes": "RoutesSwiftMailgun"]
         )
     }
-    static var SubaccountsSwiftMailgun: Self {
+    static var subaccountsSwiftMailgun: Self {
         .product(
             name: "Subaccounts",
             package: "swift-mailgun",
             moduleAliases: ["Subaccounts": "SubaccountsSwiftMailgun"]
         )
     }
-    static var SuppressionsSwiftMailgun: Self {
+    static var suppressionsSwiftMailgun: Self {
         .product(
             name: "Suppressions",
             package: "swift-mailgun",
             moduleAliases: ["Suppressions": "SuppressionsSwiftMailgun"]
         )
     }
-    static var TagsSwiftMailgun: Self {
+    static var tagsSwiftMailgun: Self {
         .product(
             name: "Tags",
             package: "swift-mailgun",
             moduleAliases: ["Tags": "TagsSwiftMailgun"]
         )
     }
-    static var TemplatesSwiftMailgun: Self {
+    static var templatesSwiftMailgun: Self {
         .product(
             name: "Templates",
             package: "swift-mailgun",
@@ -327,6 +327,7 @@ let package = Package(
         .target(
             name: .events,
             dependencies: [
+                .eventsSwiftMailgun,
                 .shared,
                 .coenttbWeb,
                 .coenttbServer,

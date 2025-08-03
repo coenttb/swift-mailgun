@@ -8,6 +8,7 @@
 import Coenttb_Web
 import IssueReporting
 import Shared
+import EventsSwiftMailgun
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking
