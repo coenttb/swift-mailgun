@@ -4,26 +4,26 @@ import Foundation
 import PackageDescription
 
 extension String {
-    static let mailgun: Self = "Mailgun"
-    static let credentials: Self = "Credentials"
-    static let customMessageLimit: Self = "CustomMessageLimit"
-    static let domains: Self = "Domains"
-    static let events: Self = "Events"
-    static let iPAllowlist: Self = "IPAllowlist"
-    static let ipPools: Self = "IPPools"
-    static let ips: Self = "IPs"
-    static let keys: Self = "Keys"
-    static let lists: Self = "Lists"
-    static let messages: Self = "Messages"
-    static let reporting: Self = "Reporting"
-    static let routes: Self = "Routes"
-    static let subaccounts: Self = "Subaccounts"
-    static let suppressions: Self = "Suppressions"
-    static let tags: Self = "Tags"
-    static let templates: Self = "Templates"
-    static let users: Self = "Users"
-    static let webhooks: Self = "Webhooks"
-    static let shared: Self = "Shared"
+    static let mailgun: Self = "MailgunLive"
+    static let credentials: Self = "MailgunCredentialsLive"
+    static let customMessageLimit: Self = "MailgunCustomMessageLimitLive"
+    static let domains: Self = "MailgunDomainsLive"
+    static let events: Self = "MailgunEventsLive"
+    static let iPAllowlist: Self = "MailgunIPAllowlistLive"
+    static let ipPools: Self = "MailgunIPPoolsLive"
+    static let ips: Self = "MailgunIPsLive"
+    static let keys: Self = "MailgunKeysLive"
+    static let lists: Self = "MailgunListsLive"
+    static let messages: Self = "MailgunMessagesLive"
+    static let reporting: Self = "MailgunReportingLive"
+    static let routes: Self = "MailgunRoutesLive"
+    static let subaccounts: Self = "MailgunSubaccountsLive"
+    static let suppressions: Self = "MailgunSuppressionsLive"
+    static let tags: Self = "MailgunTagsLive"
+    static let templates: Self = "MailgunTemplatesLive"
+    static let users: Self = "MailgunUsersLive"
+    static let webhooks: Self = "MailgunWebhooksLive"
+    static let shared: Self = "MailgunSharedLive"
 }
 
 extension Target.Dependency {
@@ -50,10 +50,154 @@ extension Target.Dependency {
 }
 
 extension Target.Dependency {
-    static var serverFoundation: Self { .product(name: "ServerFoundation", package: "swift-server-foundation") }
+    static var coenttbWeb: Self { .product(name: "Coenttb Web", package: "coenttb-web") }
+    static var coenttbServer: Self { .product(name: "Coenttb Server", package: "coenttb-server") }
     static var dependenciesMacros: Self { .product(name: "DependenciesMacros", package: "swift-dependencies") }
     static var dependenciesTestSupport: Self { .product(name: "DependenciesTestSupport", package: "swift-dependencies") }
     static var issueReporting: Self { .product(name: "IssueReporting", package: "xctest-dynamic-overlay") }
+}
+
+extension Target.Dependency {
+    static var mailgunSwiftMailgun: Self {
+        .product(
+            name: "Mailgun",
+            package: "swift-mailgun"
+//            moduleAliases: ["Mailgun": "MailgunSwiftMailgun"]
+        )
+    }
+    static var credentialsSwiftMailgun: Self {
+        .product(
+            name: "Credentials",
+            package: "swift-mailgun"
+//            moduleAliases: ["Credentials": "CredentialsSwiftMailgun"]
+        )
+    }
+    static var customMessageLimitSwiftMailgun: Self {
+        .product(
+            name: "CustomMessageLimit",
+            package: "swift-mailgun"
+//            moduleAliases: ["CustomMessageLimit": "CustomMessageLimitSwiftMailgun"]
+        )
+    }
+    static var domainsSwiftMailgun: Self {
+        .product(
+            name: "Domains",
+            package: "swift-mailgun"
+//            moduleAliases: ["Domains": "DomainsSwiftMailgun"]
+        )
+    }
+    static var eventsSwiftMailgun: Self {
+        .product(
+            name: "Events",
+            package: "swift-mailgun"
+//            moduleAliases: ["Events": "EventsSwiftMailgun"]
+        )
+    }
+    static var ipAllowlistSwiftMailgun: Self {
+        .product(
+            name: "IPAllowlist",
+            package: "swift-mailgun"
+//            moduleAliases: ["IPAllowlist": "IPAllowlistSwiftMailgun"]
+        )
+    }
+    static var ipPoolsSwiftMailgun: Self {
+        .product(
+            name: "IPPools",
+            package: "swift-mailgun"
+//            moduleAliases: ["IPPools": "IPPoolsSwiftMailgun"]
+        )
+    }
+    static var ipsSwiftMailgun: Self {
+        .product(
+            name: "IPs",
+            package: "swift-mailgun"
+//            moduleAliases: ["IPs": "IPsSwiftMailgun"]
+        )
+    }
+    static var keysSwiftMailgun: Self {
+        .product(
+            name: "Keys",
+            package: "swift-mailgun"
+//            moduleAliases: ["Keys": "KeysSwiftMailgun"]
+        )
+    }
+    static var listsSwiftMailgun: Self {
+        .product(
+            name: "Lists",
+            package: "swift-mailgun"
+//            moduleAliases: ["Lists": "ListsSwiftMailgun"]
+        )
+    }
+    static var messagesSwiftMailgun: Self {
+        .product(
+            name: "Messages",
+            package: "swift-mailgun"
+//            moduleAliases: ["Messages": "MessagesSwiftMailgun"]
+        )
+    }
+    static var reportingSwiftMailgun: Self {
+        .product(
+            name: "Reporting",
+            package: "swift-mailgun"
+//            moduleAliases: ["Reporting": "ReportingSwiftMailgun"]
+        )
+    }
+    static var routesSwiftMailgun: Self {
+        .product(
+            name: "Routes",
+            package: "swift-mailgun"
+//            moduleAliases: ["Routes": "RoutesSwiftMailgun"]
+        )
+    }
+    static var subaccountsSwiftMailgun: Self {
+        .product(
+            name: "Subaccounts",
+            package: "swift-mailgun"
+//            moduleAliases: ["Subaccounts": "SubaccountsSwiftMailgun"]
+        )
+    }
+    static var suppressionsSwiftMailgun: Self {
+        .product(
+            name: "Suppressions",
+            package: "swift-mailgun"
+//            moduleAliases: ["Suppressions": "SuppressionsSwiftMailgun"]
+        )
+    }
+    static var tagsSwiftMailgun: Self {
+        .product(
+            name: "Tags",
+            package: "swift-mailgun"
+//            moduleAliases: ["Tags": "TagsSwiftMailgun"]
+        )
+    }
+    static var templatesSwiftMailgun: Self {
+        .product(
+            name: "Templates",
+            package: "swift-mailgun"
+//            moduleAliases: ["Templates": "TemplatesSwiftMailgun"]
+        )
+    }
+    static var usersSwiftMailgun: Self {
+        .product(
+            name: "Users",
+            package: "swift-mailgun"
+//            moduleAliases: ["Users": "UsersSwiftMailgun"]
+        )
+    }
+    static var webhooksSwiftMailgun: Self {
+        .product(
+            name: "Webhooks",
+            package: "swift-mailgun"
+//            moduleAliases: ["Webhooks": "WebhooksSwiftMailgun"]
+        )
+    }
+    static var sharedSwiftMailgun: Self {
+        .product(
+            name: "Shared",
+            package: "swift-mailgun"
+//            moduleAliases: ["Shared": "SharedSwiftMailgun"]
+        )
+    }
 }
 
 let package = Package(
@@ -85,7 +229,10 @@ let package = Package(
         .library(name: .shared, targets: [.shared]),
     ],
     dependencies: [
-        .package(url: "https://github.com/coenttb/swift-server-foundation", branch: "0.0.2"),
+        .package(url: "https://github.com/coenttb/coenttb-web", branch: "main"),
+        .package(url: "https://github.com/coenttb/coenttb-server", branch: "main"),
+        .package(url: "https://github.com/coenttb/coenttb-authentication", branch: "main"),
+        .package(url: "https://github.com/coenttb/swift-mailgun", from: "0.0.1"),
         .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.9.2"),
         .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "1.4.3"),
     ],
@@ -93,15 +240,23 @@ let package = Package(
         .target(
             name: .shared,
             dependencies: [
-                .serverFoundation,
-                .issueReporting
+                .coenttbWeb,
+                .coenttbServer,
+                .issueReporting,
+                .coenttbAuthentication,
+                .coenttbServer,
+                .sharedSwiftMailgun
+                
             ]
         ),
         .target(
             name: .mailgun,
             dependencies: [
                 .shared,
-                .serverFoundation,
+                .sharedSwiftMailgun,
+                .mailgunSwiftMailgun,
+                .coenttbWeb,
+                .coenttbServer,
                 .issueReporting,
                 .dependenciesMacros,
                 .credentials,
@@ -135,7 +290,10 @@ let package = Package(
             name: .credentials,
             dependencies: [
                 .shared,
-                .serverFoundation,
+                .sharedSwiftMailgun,
+                .credentialsSwiftMailgun,
+                .coenttbWeb,
+                .coenttbServer,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -148,7 +306,10 @@ let package = Package(
             name: .customMessageLimit,
             dependencies: [
                 .shared,
-                .serverFoundation,
+                .sharedSwiftMailgun,
+                .customMessageLimitSwiftMailgun,
+                .coenttbWeb,
+                .coenttbServer,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -161,7 +322,10 @@ let package = Package(
             name: .domains,
             dependencies: [
                 .shared,
-                .serverFoundation,
+                .sharedSwiftMailgun,
+                .domainsSwiftMailgun,
+                .coenttbWeb,
+                .coenttbServer,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -173,8 +337,11 @@ let package = Package(
         .target(
             name: .events,
             dependencies: [
+                .eventsSwiftMailgun,
                 .shared,
-                .serverFoundation,
+                .sharedSwiftMailgun,
+                .coenttbWeb,
+                .coenttbServer,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -187,7 +354,10 @@ let package = Package(
             name: .iPAllowlist,
             dependencies: [
                 .shared,
-                .serverFoundation,
+                .sharedSwiftMailgun,
+                .ipAllowlistSwiftMailgun,
+                .coenttbWeb,
+                .coenttbServer,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -199,8 +369,11 @@ let package = Package(
         .target(
             name: .ipPools,
             dependencies: [
+                .ipPoolsSwiftMailgun,
                 .shared,
-                .serverFoundation,
+                .sharedSwiftMailgun,
+                .coenttbWeb,
+                .coenttbServer,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -212,8 +385,11 @@ let package = Package(
         .target(
             name: .ips,
             dependencies: [
+                .ipsSwiftMailgun,
                 .shared,
-                .serverFoundation,
+                .sharedSwiftMailgun,
+                .coenttbWeb,
+                .coenttbServer,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -225,8 +401,11 @@ let package = Package(
         .target(
             name: .keys,
             dependencies: [
+                .keysSwiftMailgun,
                 .shared,
-                .serverFoundation,
+                .sharedSwiftMailgun,
+                .coenttbWeb,
+                .coenttbServer,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -238,8 +417,11 @@ let package = Package(
         .target(
             name: .lists,
             dependencies: [
+                .listsSwiftMailgun,
                 .shared,
-                .serverFoundation,
+                .sharedSwiftMailgun,
+                .coenttbWeb,
+                .coenttbServer,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -251,8 +433,11 @@ let package = Package(
         .target(
             name: .messages,
             dependencies: [
+                .messagesSwiftMailgun,
                 .shared,
-                .serverFoundation,
+                .sharedSwiftMailgun,
+                .coenttbWeb,
+                .coenttbServer,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -264,8 +449,11 @@ let package = Package(
         .target(
             name: .reporting,
             dependencies: [
+                .reportingSwiftMailgun,
                 .shared,
-                .serverFoundation,
+                .sharedSwiftMailgun,
+                .coenttbWeb,
+                .coenttbServer,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -277,8 +465,11 @@ let package = Package(
         .target(
             name: .routes,
             dependencies: [
+                .routesSwiftMailgun,
                 .shared,
-                .serverFoundation,
+                .sharedSwiftMailgun,
+                .coenttbWeb,
+                .coenttbServer,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -290,8 +481,11 @@ let package = Package(
         .target(
             name: .subaccounts,
             dependencies: [
+                .subaccountsSwiftMailgun,
                 .shared,
-                .serverFoundation,
+                .sharedSwiftMailgun,
+                .coenttbWeb,
+                .coenttbServer,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -303,8 +497,11 @@ let package = Package(
         .target(
             name: .suppressions,
             dependencies: [
+                .suppressionsSwiftMailgun,
                 .shared,
-                .serverFoundation,
+                .sharedSwiftMailgun,
+                .coenttbWeb,
+                .coenttbServer,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -316,8 +513,11 @@ let package = Package(
         .target(
             name: .tags,
             dependencies: [
+                .tagsSwiftMailgun,
                 .shared,
-                .serverFoundation,
+                .sharedSwiftMailgun,
+                .coenttbWeb,
+                .coenttbServer,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -329,8 +529,11 @@ let package = Package(
         .target(
             name: .templates,
             dependencies: [
+                .templatesSwiftMailgun,
                 .shared,
-                .serverFoundation,
+                .sharedSwiftMailgun,
+                .coenttbWeb,
+                .coenttbServer,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -342,8 +545,11 @@ let package = Package(
         .target(
             name: .users,
             dependencies: [
+                .usersSwiftMailgun,
                 .shared,
-                .serverFoundation,
+                .sharedSwiftMailgun,
+                .coenttbWeb,
+                .coenttbServer,
                 .issueReporting,
                 .dependenciesMacros,
             ]
@@ -355,8 +561,11 @@ let package = Package(
         .target(
             name: .webhooks,
             dependencies: [
+                .webhooksSwiftMailgun,
                 .shared,
-                .serverFoundation,
+                .sharedSwiftMailgun,
+                .coenttbWeb,
+                .coenttbServer,
                 .issueReporting,
                 .dependenciesMacros,
             ]
