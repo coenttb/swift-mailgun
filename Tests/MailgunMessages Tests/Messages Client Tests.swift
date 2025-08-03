@@ -1,12 +1,12 @@
-import Foundation
-import Testing
-import EnvironmentVariables
 import Dependencies
 import DependenciesTestSupport
-import MessagesTypes
+import EnvironmentVariables
+import Foundation
 import IssueReporting
-import MailgunShared
 import MailgunMessages
+import MailgunShared
+import MessagesTypes
+import Testing
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking
@@ -24,7 +24,7 @@ struct MessagesClientTests {
         @Dependency(Messages.Client.Authenticated.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         let request = Messages.Send.Request(
             from: from,
             to: [to],
@@ -33,9 +33,9 @@ struct MessagesClientTests {
             text: "Hello from Tests! This is a test email sent via Mailgun.",
             testMode: true
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }

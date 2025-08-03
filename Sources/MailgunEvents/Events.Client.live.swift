@@ -6,9 +6,9 @@
 //
 
 import Coenttb_Web
+import EventsTypes
 import IssueReporting
 import MailgunShared
-import EventsTypes
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking
@@ -20,7 +20,7 @@ extension Events.Client {
     ) -> Self {
         @Dependency(URLRequest.Handler.self) var handleRequest
         @Dependency(\.envVars.mailgunDomain) var domain
-        
+
         return Self(
             list: { query in
                 try await handleRequest(
@@ -31,7 +31,6 @@ extension Events.Client {
         )
     }
 }
-
 
 extension Events.Client {
     public typealias Authenticated = MailgunShared.AuthenticatedClient<

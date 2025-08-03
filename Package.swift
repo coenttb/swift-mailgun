@@ -107,7 +107,7 @@ let package = Package(
         .library(name: .templates, targets: [.templates]),
         .library(name: .users, targets: [.users]),
         .library(name: .webhooks, targets: [.webhooks]),
-        .library(name: .shared, targets: [.shared]),
+        .library(name: .shared, targets: [.shared])
     ],
     dependencies: [
         .package(url: "https://github.com/coenttb/coenttb-web", branch: "main"),
@@ -115,7 +115,7 @@ let package = Package(
         .package(url: "https://github.com/coenttb/coenttb-authentication", branch: "main"),
         .package(url: "https://github.com/coenttb/swift-mailgun-types", from: "0.0.1"),
         .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.9.2"),
-        .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "1.4.3"),
+        .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "1.4.3")
     ],
     targets: [
         .target(
@@ -127,7 +127,7 @@ let package = Package(
                 .coenttbAuthentication,
                 .coenttbServer,
                 .mailgunTypesShared
-                
+
             ]
         ),
         .target(
@@ -176,7 +176,7 @@ let package = Package(
                 .coenttbWeb,
                 .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros,
+                .dependenciesMacros
             ]
         ),
         .testTarget(
@@ -192,7 +192,7 @@ let package = Package(
                 .coenttbWeb,
                 .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros,
+                .dependenciesMacros
             ]
         ),
         .testTarget(
@@ -208,7 +208,7 @@ let package = Package(
                 .coenttbWeb,
                 .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros,
+                .dependenciesMacros
             ]
         ),
         .testTarget(
@@ -224,7 +224,7 @@ let package = Package(
                 .coenttbWeb,
                 .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros,
+                .dependenciesMacros
             ]
         ),
         .testTarget(
@@ -240,7 +240,7 @@ let package = Package(
                 .coenttbWeb,
                 .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros,
+                .dependenciesMacros
             ]
         ),
         .testTarget(
@@ -256,7 +256,7 @@ let package = Package(
                 .coenttbWeb,
                 .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros,
+                .dependenciesMacros
             ]
         ),
         .testTarget(
@@ -272,7 +272,7 @@ let package = Package(
                 .coenttbWeb,
                 .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros,
+                .dependenciesMacros
             ]
         ),
         .testTarget(
@@ -288,7 +288,7 @@ let package = Package(
                 .coenttbWeb,
                 .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros,
+                .dependenciesMacros
             ]
         ),
         .testTarget(
@@ -304,7 +304,7 @@ let package = Package(
                 .coenttbWeb,
                 .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros,
+                .dependenciesMacros
             ]
         ),
         .testTarget(
@@ -320,7 +320,7 @@ let package = Package(
                 .coenttbWeb,
                 .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros,
+                .dependenciesMacros
             ]
         ),
         .testTarget(
@@ -336,7 +336,7 @@ let package = Package(
                 .coenttbWeb,
                 .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros,
+                .dependenciesMacros
             ]
         ),
         .testTarget(
@@ -352,7 +352,7 @@ let package = Package(
                 .coenttbWeb,
                 .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros,
+                .dependenciesMacros
             ]
         ),
         .testTarget(
@@ -368,7 +368,7 @@ let package = Package(
                 .coenttbWeb,
                 .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros,
+                .dependenciesMacros
             ]
         ),
         .testTarget(
@@ -384,7 +384,7 @@ let package = Package(
                 .coenttbWeb,
                 .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros,
+                .dependenciesMacros
             ]
         ),
         .testTarget(
@@ -400,7 +400,7 @@ let package = Package(
                 .coenttbWeb,
                 .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros,
+                .dependenciesMacros
             ]
         ),
         .testTarget(
@@ -416,7 +416,7 @@ let package = Package(
                 .coenttbWeb,
                 .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros,
+                .dependenciesMacros
             ]
         ),
         .testTarget(
@@ -432,7 +432,7 @@ let package = Package(
                 .coenttbWeb,
                 .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros,
+                .dependenciesMacros
             ]
         ),
         .testTarget(
@@ -448,13 +448,13 @@ let package = Package(
                 .coenttbWeb,
                 .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros,
+                .dependenciesMacros
             ]
         ),
         .testTarget(
             name: .webhooks.tests,
             dependencies: [.webhooks, .shared, .dependenciesTestSupport]
-        ),
+        )
     ],
     swiftLanguageModes: [.v6]
 )

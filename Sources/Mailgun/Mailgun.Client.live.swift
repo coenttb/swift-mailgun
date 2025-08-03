@@ -5,12 +5,10 @@
 //  Created by Coen ten Thije Boonkkamp on 19/12/2024.
 //
 
-import Foundation
+import Coenttb_Authentication
 import Coenttb_Web
 import DependenciesMacros
-import MailgunShared
-import MailgunTypes
-import Coenttb_Authentication
+import Foundation
 import MailgunCredentials
 import MailgunCustomMessageLimit
 import MailgunDomains
@@ -23,10 +21,12 @@ import MailgunLists
 import MailgunMessages
 import MailgunReporting
 import MailgunRoutes
+import MailgunShared
 import MailgunSubaccounts
 import MailgunSuppressions
 import MailgunTags
 import MailgunTemplates
+import MailgunTypes
 import MailgunUsers
 import MailgunWebhooks
 
@@ -37,12 +37,12 @@ import FoundationNetworking
 extension Mailgun.Client {
     public static func live(
     ) throws -> MailgunShared.AuthenticatedClient<Mailgun.API, Mailgun.API.Router, Mailgun.Client> {
-        
+
         @Dependency(MailgunRouterKey.self) var mailgunRouter
         @Dependency(\.envVars.mailgunPrivateApiKey) var apiKey
         @Dependency(\.envVars.mailgunBaseUrl) var baseUrl
         @Dependency(\.envVars.mailgunDomain) var domain
-        
+
         return try MailgunShared.AuthenticatedClient(
             apiKey: apiKey,
             baseUrl: baseUrl,
@@ -73,7 +73,7 @@ extension Mailgun.Client {
 }
 
 extension Mailgun.Client: @retroactive TestDependencyKey {
-    static public let testValue: Mailgun.Client.AuthenticatedClient? = Mailgun.Client.testValue.map { client in
+    static public let testValue: Mailgun.Client.AuthenticatedClient? = Mailgun.Client.testValue.map { _ in
         do {
             return try .init(
                 apiKey: .init(rawValue: "test-api-key"),

@@ -1,4 +1,3 @@
-
 //  File.swift
 //  coenttb-mailgun
 //
@@ -20,7 +19,7 @@ extension Reporting.Stats.Client {
     ) -> Self {
         @Dependency(URLRequest.Handler.self) var handleRequest
         @Dependency(\.envVars.mailgunDomain) var domain
-        
+
         return Self(
             total: { request in
                 try await handleRequest(

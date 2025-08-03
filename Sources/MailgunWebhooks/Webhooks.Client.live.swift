@@ -6,12 +6,10 @@
 //
 
 import Coenttb_Web
+import Dependencies
 import IssueReporting
 import MailgunShared
 import WebhooksTypes
-import Dependencies
-import Coenttb_Web
-
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
@@ -22,7 +20,7 @@ extension Webhooks.Client {
    ) -> Self {
        @Dependency(URLRequest.Handler.self) var handleRequest
        @Dependency(\.envVars.mailgunDomain) var domain
-       
+
        return Self(
            list: {
                try await handleRequest(
@@ -30,28 +28,28 @@ extension Webhooks.Client {
                    decodingTo: Webhooks.Client.Response.List.self
                )
            },
-           
+
            get: { type in
                try await handleRequest(
                    for: makeRequest(.get(domain: domain, type: type)),
                    decodingTo: Webhooks.Client.Response.Webhook.self
                )
            },
-           
+
            create: { type, url in
                try await handleRequest(
                    for: makeRequest(.create(domain: domain, type: type, url: url)),
                    decodingTo: Webhooks.Client.Response.self
                )
            },
-           
+
            update: { type, url in
                try await handleRequest(
                    for: makeRequest(.update(domain: domain, type: type, url: url)),
                    decodingTo: Webhooks.Client.Response.self
                )
            },
-           
+
            delete: { type in
                try await handleRequest(
                    for: makeRequest(.delete(domain: domain, type: type)),

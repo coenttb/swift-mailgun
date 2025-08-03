@@ -7,7 +7,6 @@
 
 import Coenttb_Web
 import MailgunShared
-import MailgunShared
 import TagsTypes
 
 #if canImport(FoundationNetworking)
@@ -20,7 +19,7 @@ extension Tags.Client {
     ) -> Self {
         @Dependency(URLRequest.Handler.self) var handleRequest
         @Dependency(\.envVars.mailgunDomain) var domain
-        
+
         return Self(
             list: { request in
                 try await handleRequest(
@@ -28,21 +27,21 @@ extension Tags.Client {
                     decodingTo: Tags.Tag.List.Response.self
                 )
             },
-            
+
             get: { tag in
                 try await handleRequest(
                     for: makeRequest(.get(domain: domain, tag: tag)),
                     decodingTo: Tags.Tag.self
                 )
             },
-            
+
             update: { tag, description in
                 try await handleRequest(
                     for: makeRequest(.update(domain: domain, tag: tag, description: description)),
                     decodingTo: Tags.Tag.self
                 )
             },
-            
+
             delete: { tag in
                 let response = try await handleRequest(
                     for: makeRequest(.delete(domain: domain, tag: tag)),
@@ -50,21 +49,21 @@ extension Tags.Client {
                 )
                 return response.message
             },
-            
+
             stats: { tag, request in
                 try await handleRequest(
                     for: makeRequest(.stats(domain: domain, tag: tag, request: request)),
                     decodingTo: Tags.Tag.Stats.Response.self
                 )
             },
-            
+
             aggregates: { tag, request in
                 try await handleRequest(
                     for: makeRequest(.aggregates(domain: domain, tag: tag, request: request)),
                     decodingTo: Tags.Tag.Aggregates.Response.self
                 )
             },
-            
+
             limits: {
                 try await handleRequest(
                     for: makeRequest(.limits(domain: domain)),

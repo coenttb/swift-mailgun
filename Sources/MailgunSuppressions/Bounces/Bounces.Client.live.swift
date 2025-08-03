@@ -13,7 +13,7 @@ extension Suppressions.Bounces.Client {
     ) -> Self {
         @Dependency(URLRequest.Handler.self) var handleRequest
         @Dependency(\.envVars.mailgunDomain) var domain
-        
+
         return Self(
             importList: { request in
                 try await handleRequest(
@@ -21,28 +21,28 @@ extension Suppressions.Bounces.Client {
                     decodingTo: Suppressions.Bounces.Import.Response.self
                 )
             },
-            
+
             get: { address in
                 try await handleRequest(
                     for: makeRequest(.get(domain: domain, address: address)),
                     decodingTo: Suppressions.Bounces.Record.self
                 )
             },
-            
+
             delete: { address in
                 try await handleRequest(
                     for: makeRequest(.delete(domain: domain, address: address)),
                     decodingTo: Suppressions.Bounces.Delete.Response.self
                 )
             },
-            
+
             list: { request in
                 try await handleRequest(
                     for: makeRequest(.list(domain: domain, request: request)),
                     decodingTo: Suppressions.Bounces.List.Response.self
                 )
             },
-            
+
             create: { request in
                 try await handleRequest(
                     for: makeRequest(.create(domain: domain, request: request)),

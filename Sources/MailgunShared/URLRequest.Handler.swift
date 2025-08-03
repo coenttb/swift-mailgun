@@ -5,8 +5,8 @@
 //  Created by Coen ten Thije Boonkkamp on 03/08/2025.
 //
 
-import Foundation
 import Coenttb_Server
+import Foundation
 
 extension URLRequest.Handler: @retroactive DependencyKey {
     public static var liveValue: Self {

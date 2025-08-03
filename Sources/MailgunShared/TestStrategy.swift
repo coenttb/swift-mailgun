@@ -5,8 +5,8 @@
 //  Created by Coen ten Thije Boonkkamp on 10/01/2025.
 //
 
-import Foundation
 import Dependencies
+import Foundation
 
 package enum TestStrategy: Codable, Hashable, Sendable {
     case local

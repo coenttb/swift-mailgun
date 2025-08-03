@@ -19,7 +19,7 @@ extension Reporting.Metrics.Client {
         makeRequest: @escaping @Sendable (_ route: Reporting.Metrics.API) throws -> URLRequest
     ) -> Self {
         @Dependency(URLRequest.Handler.self) var handleRequest
-        
+
         return Self(
             getAccountMetrics: { request in
                 try await handleRequest(
@@ -27,7 +27,7 @@ extension Reporting.Metrics.Client {
                     decodingTo: Reporting.Metrics.GetAccountMetrics.Response.self
                 )
             },
-            
+
             getAccountUsageMetrics: { request in
                 try await handleRequest(
                     for: makeRequest(.getAccountUsageMetrics(request: request)),

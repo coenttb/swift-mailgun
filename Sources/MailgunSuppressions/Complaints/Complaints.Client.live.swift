@@ -15,7 +15,7 @@ extension Suppressions.Complaints.Client {
     ) -> Self {
         @Dependency(URLRequest.Handler.self) var handleRequest
         @Dependency(\.envVars.mailgunDomain) var domain
-        
+
         return Self(
             importList: { request in
                 try await handleRequest(
@@ -23,35 +23,35 @@ extension Suppressions.Complaints.Client {
                     decodingTo: Suppressions.Complaints.Import.Response.self
                 )
             },
-            
+
             get: { address in
                 try await handleRequest(
                     for: makeRequest(.get(domain: domain, address: address)),
                     decodingTo: Suppressions.Complaints.Record.self
                 )
             },
-            
+
             delete: { address in
                 try await handleRequest(
                     for: makeRequest(.delete(domain: domain, address: address)),
                     decodingTo: Suppressions.Complaints.Delete.Response.self
                 )
             },
-            
+
             list: { request in
                 try await handleRequest(
                     for: makeRequest(.list(domain: domain, request: request)),
                     decodingTo: Suppressions.Complaints.List.Response.self
                 )
             },
-            
+
             create: { request in
                 try await handleRequest(
                     for: makeRequest(.create(domain: domain, request: request)),
                     decodingTo: Suppressions.Complaints.Create.Response.self
                 )
             },
-            
+
             deleteAll: {
                 try await handleRequest(
                     for: makeRequest(.deleteAll(domain: domain)),
