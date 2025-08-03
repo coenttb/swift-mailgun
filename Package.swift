@@ -233,7 +233,7 @@ let package = Package(
         .package(url: "https://github.com/coenttb/coenttb-web", branch: "main"),
         .package(url: "https://github.com/coenttb/coenttb-server", branch: "main"),
         .package(url: "https://github.com/coenttb/coenttb-authentication", branch: "main"),
-        .package(url: "https://github.com/coenttb/swift-mailgun", branch: "main"),
+        .package(url: "https://github.com/coenttb/swift-mailgun", from: "0.0.1"),
         .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.9.2"),
         .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "1.4.3"),
     ],

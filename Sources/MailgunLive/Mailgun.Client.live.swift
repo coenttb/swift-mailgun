@@ -42,7 +42,7 @@ extension Mailgun.Client {
         domain: Domain
     ) throws -> MailgunSharedLive.AuthenticatedClient<Mailgun.API, Mailgun.API.Router, Mailgun.Client> {
         
-        @Dependency(\.mailgunRouter) var mailgunRouter
+        @Dependency(MailgunRouterKey.self) var mailgunRouter
         
         return try MailgunSharedLive.AuthenticatedClient(
             apiKey: apiKey,

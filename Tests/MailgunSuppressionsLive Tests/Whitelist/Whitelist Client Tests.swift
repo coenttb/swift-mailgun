@@ -26,7 +26,7 @@ struct SuppressionsWhitelistClientTests {
     func testCreateDomainWhitelistRecord() async throws {
         @Dependency(Suppressions.Client.Authenticated.self) var client
         
-        let request = Whitelist.Create.Request.domain(try .init("example.com"))
+        let request = Suppressions.Whitelist.Create.Request.domain(try .init("example.com"))
         
         let response = try await client.whitelist.create(request)
         
@@ -39,7 +39,7 @@ struct SuppressionsWhitelistClientTests {
     func testCreateAddressWhitelistRecord() async throws {
         @Dependency(Suppressions.Client.Authenticated.self) var client
         
-        let request = Whitelist.Create.Request.address(try .init("test@example.com"))
+        let request = Suppressions.Whitelist.Create.Request.address(try .init("test@example.com"))
         
         let response = try await client.whitelist.create(request)
         
@@ -82,7 +82,7 @@ struct SuppressionsWhitelistClientTests {
     func testListWhitelistRecords() async throws {
         @Dependency(Suppressions.Client.Authenticated.self) var client
         
-        let request = Whitelist.List.Request(
+        let request = Suppressions.Whitelist.List.Request(
             address: try .init("test@example.com"),
             term: nil,
             limit: 25,

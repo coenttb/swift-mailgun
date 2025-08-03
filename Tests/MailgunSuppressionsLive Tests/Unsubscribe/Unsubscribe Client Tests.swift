@@ -26,7 +26,7 @@ struct UnsubscribeClientTests {
     func testCreateUnsubscribeRecord() async throws {
         @Dependency(Suppressions.Client.Authenticated.self) var client
         
-        let request = Unsubscribe.Create.Request(
+        let request = Suppressions.Unsubscribe.Create.Request(
             address: try .init("test@example.com"),
             tags: ["newsletter"]
         )
@@ -66,7 +66,7 @@ struct UnsubscribeClientTests {
     func testListUnsubscribeRecords() async throws {
         @Dependency(Suppressions.Client.Authenticated.self) var client
         
-        let request = Unsubscribe.List.Request(
+        let request = Suppressions.Unsubscribe.List.Request(
             address: try .init("test@example.com"),
             term: nil,
             limit: 25,

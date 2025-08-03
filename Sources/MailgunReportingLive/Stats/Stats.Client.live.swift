@@ -14,9 +14,9 @@ import Reporting
 import FoundationNetworking
 #endif
 
-extension Stats.Client {
+extension Reporting.Stats.Client {
     public static func live(
-        makeRequest: @escaping @Sendable (_ route: Stats.API) throws -> URLRequest
+        makeRequest: @escaping @Sendable (_ route: Reporting.Stats.API) throws -> URLRequest
     ) -> Self {
         @Dependency(URLRequest.Handler.self) var handleRequest
         @Dependency(\.envVars.mailgunDomain) var domain
@@ -25,31 +25,31 @@ extension Stats.Client {
             total: { request in
                 try await handleRequest(
                     for: makeRequest(.total(request: request)),
-                    decodingTo: Stats.StatsList.self
+                    decodingTo: Reporting.Stats.StatsList.self
                 )
             },
             filter: { request in
                 try await handleRequest(
                     for: makeRequest(.filter(request: request)),
-                    decodingTo: Stats.StatsList.self
+                    decodingTo: Reporting.Stats.StatsList.self
                 )
             },
             aggregateProviders: {
                 try await handleRequest(
                     for: makeRequest(.aggregateProviders(domain: domain)),
-                    decodingTo: Stats.AggregatesProviders.self
+                    decodingTo: Reporting.Stats.AggregatesProviders.self
                 )
             },
             aggregateDevices: {
                 try await handleRequest(
                     for: makeRequest(.aggregateDevices(domain: domain)),
-                    decodingTo: Stats.AggregatesDevices.self
+                    decodingTo: Reporting.Stats.AggregatesDevices.self
                 )
             },
             aggregateCountries: {
                 try await handleRequest(
                     for: makeRequest(.aggregateCountries(domain: domain)),
-                    decodingTo: Stats.AggregatesCountries.self
+                    decodingTo: Reporting.Stats.AggregatesCountries.self
                 )
             }
         )

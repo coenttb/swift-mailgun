@@ -21,42 +21,41 @@ extension Webhooks.Client {
        makeRequest: @escaping @Sendable (_ route: Webhooks.API) throws -> URLRequest
    ) -> Self {
        @Dependency(URLRequest.Handler.self) var handleRequest
-       @Dependency(\.envVars.mailgunPrivateApiKey) var apiKey
        @Dependency(\.envVars.mailgunDomain) var domain
        
        return Self(
            list: {
                try await handleRequest(
                    for: makeRequest(.list(domain: domain)),
-                   decodingTo: Client.Response.List.self
+                   decodingTo: Webhooks.Client.Response.List.self
                )
            },
            
            get: { type in
                try await handleRequest(
                    for: makeRequest(.get(domain: domain, type: type)),
-                   decodingTo: Client.Response.Webhook.self
+                   decodingTo: Webhooks.Client.Response.Webhook.self
                )
            },
            
            create: { type, url in
                try await handleRequest(
                    for: makeRequest(.create(domain: domain, type: type, url: url)),
-                   decodingTo: Client.Response.self
+                   decodingTo: Webhooks.Client.Response.self
                )
            },
            
            update: { type, url in
                try await handleRequest(
                    for: makeRequest(.update(domain: domain, type: type, url: url)),
-                   decodingTo: Client.Response.self
+                   decodingTo: Webhooks.Client.Response.self
                )
            },
            
            delete: { type in
                try await handleRequest(
                    for: makeRequest(.delete(domain: domain, type: type)),
-                   decodingTo: Client.Response.self
+                   decodingTo: Webhooks.Client.Response.self
                )
            }
        )

@@ -14,9 +14,9 @@ import Suppressions
 import FoundationNetworking
 #endif
 
-extension Unsubscribe.Client {
+extension Suppressions.Unsubscribe.Client {
     public static func live(
-        makeRequest: @escaping @Sendable (_ route: Unsubscribe.API) throws -> URLRequest
+        makeRequest: @escaping @Sendable (_ route: Suppressions.Unsubscribe.API) throws -> URLRequest
     ) -> Self {
         @Dependency(URLRequest.Handler.self) var handleRequest
         @Dependency(\.envVars.mailgunDomain) var domain
@@ -25,42 +25,42 @@ extension Unsubscribe.Client {
             get: { address in
                 try await handleRequest(
                     for: makeRequest(.get(domain: domain, address: address)),
-                    decodingTo: Unsubscribe.Record.self
+                    decodingTo: Suppressions.Unsubscribe.Record.self
                 )
             },
             
             delete: { address in
                 try await handleRequest(
                     for: makeRequest(.delete(domain: domain, address: address)),
-                    decodingTo: Unsubscribe.Delete.Response.self
+                    decodingTo: Suppressions.Unsubscribe.Delete.Response.self
                 )
             },
             
             list: { request in
                 try await handleRequest(
                     for: makeRequest(.list(domain: domain, request: request)),
-                    decodingTo: Unsubscribe.List.Response.self
+                    decodingTo: Suppressions.Unsubscribe.List.Response.self
                 )
             },
             
             create: { request in
                 try await handleRequest(
                     for: makeRequest(.create(domain: domain, request: request)),
-                    decodingTo: Unsubscribe.Create.Response.self
+                    decodingTo: Suppressions.Unsubscribe.Create.Response.self
                 )
             },
             
             deleteAll: {
                 try await handleRequest(
                     for: makeRequest(.deleteAll(domain: domain)),
-                    decodingTo: Unsubscribe.Delete.All.Response.self
+                    decodingTo: Suppressions.Unsubscribe.Delete.All.Response.self
                 )
             },
             
             importList: { request in
                 try await handleRequest(
                     for: makeRequest(.importList(domain: domain, request: request)),
-                    decodingTo: Unsubscribe.Import.Response.self
+                    decodingTo: Suppressions.Unsubscribe.Import.Response.self
                 )
             }
         )

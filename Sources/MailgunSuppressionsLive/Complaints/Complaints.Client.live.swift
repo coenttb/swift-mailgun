@@ -1,4 +1,4 @@
-// Complaints.Client.live.swift
+// Suppressions.Complaints.Client.live.swift
 
 import Coenttb_Web
 import IssueReporting
@@ -9,9 +9,9 @@ import Suppressions
 import FoundationNetworking
 #endif
 
-extension Complaints.Client {
+extension Suppressions.Complaints.Client {
     public static func live(
-        makeRequest: @escaping @Sendable (_ route: Complaints.API) throws -> URLRequest
+        makeRequest: @escaping @Sendable (_ route: Suppressions.Complaints.API) throws -> URLRequest
     ) -> Self {
         @Dependency(URLRequest.Handler.self) var handleRequest
         @Dependency(\.envVars.mailgunDomain) var domain
@@ -20,42 +20,42 @@ extension Complaints.Client {
             importList: { request in
                 try await handleRequest(
                     for: makeRequest(.importList(domain: domain, request: request)),
-                    decodingTo: Complaints.Import.Response.self
+                    decodingTo: Suppressions.Complaints.Import.Response.self
                 )
             },
             
             get: { address in
                 try await handleRequest(
                     for: makeRequest(.get(domain: domain, address: address)),
-                    decodingTo: Complaints.Record.self
+                    decodingTo: Suppressions.Complaints.Record.self
                 )
             },
             
             delete: { address in
                 try await handleRequest(
                     for: makeRequest(.delete(domain: domain, address: address)),
-                    decodingTo: Complaints.Delete.Response.self
+                    decodingTo: Suppressions.Complaints.Delete.Response.self
                 )
             },
             
             list: { request in
                 try await handleRequest(
                     for: makeRequest(.list(domain: domain, request: request)),
-                    decodingTo: Complaints.List.Response.self
+                    decodingTo: Suppressions.Complaints.List.Response.self
                 )
             },
             
             create: { request in
                 try await handleRequest(
                     for: makeRequest(.create(domain: domain, request: request)),
-                    decodingTo: Complaints.Create.Response.self
+                    decodingTo: Suppressions.Complaints.Create.Response.self
                 )
             },
             
             deleteAll: {
                 try await handleRequest(
                     for: makeRequest(.deleteAll(domain: domain)),
-                    decodingTo: Complaints.Delete.All.Response.self
+                    decodingTo: Suppressions.Complaints.Delete.All.Response.self
                 )
             }
         )

@@ -27,7 +27,7 @@ struct ComplaintsClientTests {
     func testCreateComplaintRecord() async throws {
         @Dependency(Suppressions.Client.Authenticated.self) var client
         
-        let request = Complaints.Create.Request(
+        let request = Suppressions.Complaints.Create.Request(
             address: try .init("test@example.com")
         )
         
@@ -64,7 +64,7 @@ struct ComplaintsClientTests {
     func testListComplaintRecords() async throws {
         @Dependency(Suppressions.Client.Authenticated.self) var client
         
-        let request = Complaints.List.Request(
+        let request = Suppressions.Complaints.List.Request(
             address: try .init("test@example.com"),
             term: nil,
             limit: 25,

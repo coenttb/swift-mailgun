@@ -25,28 +25,28 @@ extension Tags.Client {
             list: { request in
                 try await handleRequest(
                     for: makeRequest(.list(domain: domain, request: request)),
-                    decodingTo: Tag.List.Response.self
+                    decodingTo: Tags.Tag.List.Response.self
                 )
             },
             
             get: { tag in
                 try await handleRequest(
                     for: makeRequest(.get(domain: domain, tag: tag)),
-                    decodingTo: Tag.self
+                    decodingTo: Tags.Tag.self
                 )
             },
             
             update: { tag, description in
                 try await handleRequest(
                     for: makeRequest(.update(domain: domain, tag: tag, description: description)),
-                    decodingTo: Tag.self
+                    decodingTo: Tags.Tag.self
                 )
             },
             
             delete: { tag in
                 let response = try await handleRequest(
                     for: makeRequest(.delete(domain: domain, tag: tag)),
-                    decodingTo: Tag.Delete.Response.self
+                    decodingTo: Tags.Tag.Delete.Response.self
                 )
                 return response.message
             },
@@ -54,21 +54,21 @@ extension Tags.Client {
             stats: { tag, request in
                 try await handleRequest(
                     for: makeRequest(.stats(domain: domain, tag: tag, request: request)),
-                    decodingTo: Tag.Stats.Response.self
+                    decodingTo: Tags.Tag.Stats.Response.self
                 )
             },
             
             aggregates: { tag, request in
                 try await handleRequest(
                     for: makeRequest(.aggregates(domain: domain, tag: tag, request: request)),
-                    decodingTo: Tag.Aggregates.Response.self
+                    decodingTo: Tags.Tag.Aggregates.Response.self
                 )
             },
             
             limits: {
                 try await handleRequest(
                     for: makeRequest(.limits(domain: domain)),
-                    decodingTo: Tag.Limits.Response.self
+                    decodingTo: Tags.Tag.Limits.Response.self
                 )
             }
         )

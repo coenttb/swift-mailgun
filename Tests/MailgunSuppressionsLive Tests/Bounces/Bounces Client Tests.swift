@@ -26,7 +26,7 @@ struct BouncesClientTests {
     func testCreateBounceRecord() async throws {
         @Dependency(Suppressions.Client.Authenticated.self) var client
         
-        let request = Bounces.Create.Request(
+        let request = Suppressions.Bounces.Create.Request(
             address: try .init("test@example.com"),
             code: "550",
             error: "Test error"
@@ -67,7 +67,7 @@ struct BouncesClientTests {
     func testListBounceRecords() async throws {
         @Dependency(Suppressions.Client.Authenticated.self) var client
         
-        let request = Bounces.List.Request(
+        let request = Suppressions.Bounces.List.Request(
             limit: 25,
             page: nil,
             term: nil

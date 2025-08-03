@@ -14,9 +14,9 @@ import Reporting
 import FoundationNetworking
 #endif
 
-extension Metrics.Client {
+extension Reporting.Metrics.Client {
     public static func live(
-        makeRequest: @escaping @Sendable (_ route: Metrics.API) throws -> URLRequest
+        makeRequest: @escaping @Sendable (_ route: Reporting.Metrics.API) throws -> URLRequest
     ) -> Self {
         @Dependency(URLRequest.Handler.self) var handleRequest
         @Dependency(\.envVars.mailgunPrivateApiKey) var apiKey
@@ -25,14 +25,14 @@ extension Metrics.Client {
             getAccountMetrics: { request in
                 try await handleRequest(
                     for: makeRequest(.getAccountMetrics(request: request)),
-                    decodingTo: Metrics.GetAccountMetrics.Response.self
+                    decodingTo: Reporting.Metrics.GetAccountMetrics.Response.self
                 )
             },
             
             getAccountUsageMetrics: { request in
                 try await handleRequest(
                     for: makeRequest(.getAccountUsageMetrics(request: request)),
-                    decodingTo: Metrics.GetAccountUsageMetrics.Response.self
+                    decodingTo: Reporting.Metrics.GetAccountUsageMetrics.Response.self
                 )
             }
         )
