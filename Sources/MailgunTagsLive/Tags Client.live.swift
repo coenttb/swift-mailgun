@@ -16,11 +16,10 @@ import FoundationNetworking
 
 extension Tags.Client {
     public static func live(
-        apiKey: ApiKey,
-        domain: Domain,
         makeRequest: @escaping @Sendable (_ route: Tags.API) throws -> URLRequest
     ) -> Self {
         @Dependency(URLRequest.Handler.self) var handleRequest
+        @Dependency(\.envVars.mailgunDomain) var domain
         
         return Self(
             list: { request in
@@ -76,10 +75,26 @@ extension Tags.Client {
     }
 }
 
+extension Tags.Client {
+    public typealias Authenticated = MailgunSharedLive.AuthenticatedClient<
+        Tags.API,
+        Tags.API.Router,
+        Tags.Client
+    >
+}
 
+extension Tags.Client.Authenticated: @retroactive DependencyKey {
+    public static var liveValue: Self {
+        try! Tags.Client.Authenticated { Tags.Client.live(makeRequest: $0) }
+    }
+}
 
-private let jsonEncoder: JSONEncoder = {
-    let encoder = JSONEncoder()
-    encoder.dateEncodingStrategy = .secondsSince1970
-    return encoder
-}()
+extension Tags.Client.Authenticated: @retroactive TestDependencyKey {
+    public static var testValue: Self {
+        return try! Tags.Client.Authenticated { Tags.Client.testValue }
+    }
+}
+
+extension Tags.API.Router: @retroactive DependencyKey {
+    public static let liveValue: Tags.API.Router = .init()
+}

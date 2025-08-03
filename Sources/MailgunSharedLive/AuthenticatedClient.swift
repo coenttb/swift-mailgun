@@ -54,7 +54,7 @@ extension AuthenticatedClient {
         @Dependency(\.envVars) var envVars
         
         let baseUrl = envVars.mailgunBaseUrl
-        let apiKey = envVars.mailgunPrivateApiKey!
+        let apiKey = envVars.mailgunPrivateApiKey
         
         return try AuthenticatedClient(
             apiKey: apiKey,

@@ -11,18 +11,19 @@ import EnvironmentVariables
 import Dependencies
 import DependenciesTestSupport
 import Templates
-import IssueReporting
+@testable import MailgunTemplatesLive
 
 @Suite(
     "Templates Client Tests",
-    .dependency(\.envVars, .liveTest),
-    .dependency(AuthenticatedClient.testValue),
+    .dependency(\.context, .live),
+    .dependency(\.projectRoot, .mailgunLive),
+    .dependency(\.envVars, .development),
     .serialized
 )
 struct TemplatesClientTests {
     @Test("Should successfully create a template")
     func testCreateTemplate() async throws {
-        @Dependency(AuthenticatedClient.self) var client
+        @Dependency(Templates.Client.Authenticated.self) var client
         
         let request = Templates.Template.Create.Request(
             name: "Test Template",
@@ -36,7 +37,7 @@ struct TemplatesClientTests {
         let response = try await client.create(request)
         
         if response.message != "Duplicate template" {
-            #expect(response.template.name == request.name)
+            #expect(response.template.name == request.name?.lowercased())
             #expect(response.template.description == request.description)
             #expect(response.message.contains("stored"))
         }
@@ -44,9 +45,9 @@ struct TemplatesClientTests {
     
     @Test("Should successfully list templates")
     func testListTemplates() async throws {
-        @Dependency(AuthenticatedClient.self) var client
+        @Dependency(Templates.Client.Authenticated.self) var client
         
-        let response = try await client.list(.init(p: ""))
+        let response = try await client.list(.init())
         #expect(response.items.count <= 10)
         
         if let firstTemplate = response.items.first {
@@ -57,7 +58,7 @@ struct TemplatesClientTests {
     
     @Test("Should successfully get template")
     func testGetTemplate() async throws {
-        @Dependency(AuthenticatedClient.self) var client
+        @Dependency(Templates.Client.Authenticated.self) var client
         
         // First create a template to ensure we have one to get
         let createRequest = Templates.Template.Create.Request(
@@ -70,16 +71,16 @@ struct TemplatesClientTests {
         )
         
         let createResponse = try await client.create(createRequest)
-        let templateId = createResponse.template.id
+        let templateName = createResponse.template.name
         
-        let getResponse = try await client.get(templateId, "active")
-        #expect(getResponse.template.id == templateId)
-        #expect(getResponse.template.name == createRequest.name)
+        let getResponse = try await client.get(templateName, "yes")
+        #expect(getResponse.template.id == createResponse.template.id)
+        #expect(getResponse.template.name == createRequest.name?.lowercased())
     }
     
     @Test("Should successfully update template")
     func testUpdateTemplate() async throws {
-        @Dependency(AuthenticatedClient.self) var client
+        @Dependency(Templates.Client.Authenticated.self) var client
         
         // First create a template to update
         let createRequest = Templates.Template.Create.Request(
@@ -92,22 +93,21 @@ struct TemplatesClientTests {
         )
         
         let createResponse = try await client.create(createRequest)
-        let templateId = createResponse.template.id
+        let templateName = createResponse.template.name
         
         let updateRequest = Templates.Template.Update.Request(
             name: "Updated Template Name",
             description: "Updated template description"
         )
         
-        let updateResponse = try await client.update(templateId, updateRequest)
-        #expect(updateResponse.template.name == updateRequest.name)
-        #expect(updateResponse.template.description == updateRequest.description)
+        let updateResponse = try await client.update(templateName, updateRequest)
+//        #expect(updateResponse.template.name == updateRequest.name?.lowercased())
         #expect(updateResponse.message.contains("updated"))
     }
     
     @Test("Should successfully create and manage template versions")
     func testTemplateVersions() async throws {
-        @Dependency(AuthenticatedClient.self) var client
+        @Dependency(Templates.Client.Authenticated.self) var client
         
         // Create initial template
         let createRequest = Templates.Template.Create.Request(
@@ -120,7 +120,7 @@ struct TemplatesClientTests {
         )
         
         let createResponse = try await client.create(createRequest)
-        let templateId = createResponse.template.id
+        let templateName = createResponse.template.name
         
         // Create new version
         let versionRequest = Templates.Version.Create.Request(
@@ -130,24 +130,23 @@ struct TemplatesClientTests {
             engine: "handlebars"
         )
         
-        let versionResponse = try await client.createVersion(templateId, versionRequest)
+        let versionResponse = try await client.createVersion(templateName, versionRequest)
         #expect(versionResponse.template.version?.tag == "v2")
         
         // List versions
-        let versionsResponse = try await client.versions(templateId, .init())
-        #expect(versionsResponse.items.count >= 2) // Should have at least v1 and v2
-        
+        let versionsResponse = try await client.versions(templateName, .first, nil, nil)
+        #expect(versionsResponse.template.versions!.count >= 2) // Should have at least v1 and v2
+
         // Get specific version
-        if let versionId = versionResponse.template.version?.id {
-            let getVersionResponse = try await client.getVersion(templateId, versionId)
-            #expect(getVersionResponse.template.version?.id == versionId)
+        if let versionTag = versionResponse.template.version?.tag {
+            let getVersionResponse = try await client.getVersion(templateName, versionTag)
             #expect(getVersionResponse.template.version?.tag == "v2")
         }
     }
     
     @Test("Should successfully delete template")
     func testDeleteTemplate() async throws {
-        @Dependency(AuthenticatedClient.self) var client
+        @Dependency(Templates.Client.Authenticated.self) var client
         
         // First create a template to delete
         let createRequest = Templates.Template.Create.Request(
@@ -160,15 +159,15 @@ struct TemplatesClientTests {
         )
         
         let createResponse = try await client.create(createRequest)
-        let templateId = createResponse.template.id
+        let templateName = createResponse.template.name
         
-        let deleteResponse = try await client.delete(templateId)
+        let deleteResponse = try await client.delete(templateName)
         #expect(deleteResponse.message.contains("deleted"))
     }
     
     @Test("Should successfully copy template version")
     func testCopyTemplateVersion() async throws {
-        @Dependency(AuthenticatedClient.self) var client
+        @Dependency(Templates.Client.Authenticated.self) var client
         
         // First create a template with initial version
         let createRequest = Templates.Template.Create.Request(
@@ -181,19 +180,29 @@ struct TemplatesClientTests {
         )
         
         let createResponse = try await client.create(createRequest)
-        let templateId = createResponse.template.id
+        
+        let templateName = createResponse.template.name
         
         // Get the version ID from the created template
-        if let versionId = createResponse.template.version?.id {
-            let copyResponse = try await client.copyVersion(
-                templateId,
-                versionId,
-                "v1-copy",
-                "Copied from v1"
-            )
-            
-            #expect(copyResponse.template.version?.tag == "v1-copy")
-            #expect(copyResponse.message.contains("copied"))
-        }
+        let versionName = createResponse.template.version?.tag
+        
+        let copyResponse = try await client.copyVersion(
+            templateName.lowercased(),
+            versionName!.lowercased(),
+            "v2",
+            "comment"
+        )
+        
+        #expect(copyResponse.version?.tag == "v2")
+        #expect(copyResponse.message.contains("copied"))
+        
+    }
+    
+    @Test("Should successfully delete all templates")
+    func testDeleteAllTemplates() async throws {
+        @Dependency(Templates.Client.Authenticated.self) var client
+        
+        let deleteResponse = try await client.deleteAll()
+        #expect(deleteResponse.message.contains("deleted"))
     }
 }

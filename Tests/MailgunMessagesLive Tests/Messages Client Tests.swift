@@ -16,16 +16,14 @@ import FoundationNetworking
     "Messages Client Tests",
     .dependency(\.context, .live),
     .dependency(\.projectRoot, .mailgunLive),
-    .dependency(\.envVars, .development),
+    .dependency(\.envVars, .development)
 )
 struct MessagesClientTests {
     @Test("Should successfully send an email")
     func testSendEmail() async throws {
         @Dependency(Messages.Client.Authenticated.self) var client
-        @Dependency(\.envVars) var envVars
-        
-        let from = envVars.mailgunFrom
-        let to = envVars.mailgunTo
+        @Dependency(\.envVars.mailgunFrom) var from
+        @Dependency(\.envVars.mailgunTo) var to
         
         let request = Messages.Send.Request(
             from: from,

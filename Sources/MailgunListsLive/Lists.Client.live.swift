@@ -16,10 +16,10 @@ import FoundationNetworking
 
 extension Lists.Client {
     public static func live(
-        apiKey: ApiKey,
         makeRequest: @escaping @Sendable (_ route: Lists.API) throws -> URLRequest
     ) -> Self {
         @Dependency(URLRequest.Handler.self) var handleRequest
+        @Dependency(\.envVars.mailgunPrivateApiKey) var apiKey
         
         return Self(
             create: { request in
@@ -124,16 +124,26 @@ extension Lists.Client {
     }
 }
 
-private let jsonDecoder: JSONDecoder = {
-    let decoder = JSONDecoder()
-    decoder.dateDecodingStrategy = .secondsSince1970
-    return decoder
-}()
+extension Lists.Client {
+    public typealias Authenticated = MailgunSharedLive.AuthenticatedClient<
+        Lists.API,
+        Lists.API.Router,
+        Lists.Client
+    >
+}
 
+extension Lists.Client.Authenticated: @retroactive DependencyKey {
+    public static var liveValue: Self {
+        try! Lists.Client.Authenticated { Lists.Client.live(makeRequest: $0) }
+    }
+}
 
-private let jsonEncoder: JSONEncoder = {
-    let encoder = JSONEncoder()
-    encoder.dateEncodingStrategy = .secondsSince1970
-    return encoder
-}()
+extension Lists.Client.Authenticated: @retroactive TestDependencyKey {
+    public static var testValue: Self {
+        return try! Lists.Client.Authenticated { Lists.Client.testValue }
+    }
+}
 
+extension Lists.API.Router: @retroactive DependencyKey {
+    public static let liveValue: Lists.API.Router = .init()
+}

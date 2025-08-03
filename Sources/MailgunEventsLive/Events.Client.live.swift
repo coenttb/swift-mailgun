@@ -16,11 +16,11 @@ import FoundationNetworking
 
 extension Events.Client {
     public static func live(
-        apiKey: ApiKey,
-        domain: Domain,
         makeRequest: @escaping @Sendable (_ route: Events.API) throws -> URLRequest
     ) -> Self {
         @Dependency(URLRequest.Handler.self) var handleRequest
+        @Dependency(\.envVars.mailgunPrivateApiKey) var apiKey
+        @Dependency(\.envVars.mailgunDomain) var domain
         
         return Self(
             list: { query in
@@ -31,4 +31,29 @@ extension Events.Client {
             }
         )
     }
+}
+
+
+extension Events.Client {
+    public typealias Authenticated = MailgunSharedLive.AuthenticatedClient<
+        Events.API,
+        Events.API.Router,
+        Events.Client
+    >
+}
+
+extension Events.Client.Authenticated: @retroactive DependencyKey {
+    public static var liveValue: Self {
+        try! Events.Client.Authenticated { Events.Client.live(makeRequest: $0) }
+    }
+}
+
+extension Events.Client.Authenticated: @retroactive TestDependencyKey {
+    public static var testValue: Self {
+        return try! Events.Client.Authenticated { Events.Client.testValue }
+    }
+}
+
+extension Events.API.Router: @retroactive DependencyKey {
+    public static let liveValue: Events.API.Router = .init()
 }

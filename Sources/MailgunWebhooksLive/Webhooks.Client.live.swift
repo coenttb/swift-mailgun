@@ -18,24 +18,24 @@ import FoundationNetworking
 
 extension Webhooks.Client {
    public static func live(
-       apiKey: ApiKey,
-       domain: Domain,
        makeRequest: @escaping @Sendable (_ route: Webhooks.API) throws -> URLRequest
    ) -> Self {
        @Dependency(URLRequest.Handler.self) var handleRequest
+       @Dependency(\.envVars.mailgunPrivateApiKey) var apiKey
+       @Dependency(\.envVars.mailgunDomain) var domain
        
        return Self(
            list: {
                try await handleRequest(
                    for: makeRequest(.list(domain: domain)),
-                   decodingTo: [Webhook.Variant: Webhook].self
+                   decodingTo: Client.Response.List.self
                )
            },
            
            get: { type in
                try await handleRequest(
                    for: makeRequest(.get(domain: domain, type: type)),
-                   decodingTo: Webhook.self
+                   decodingTo: Client.Response.Webhook.self
                )
            },
            
@@ -61,4 +61,28 @@ extension Webhooks.Client {
            }
        )
    }
+}
+
+extension Webhooks.Client {
+    public typealias Authenticated = MailgunSharedLive.AuthenticatedClient<
+        Webhooks.API,
+        Webhooks.API.Router,
+        Webhooks.Client
+    >
+}
+
+extension Webhooks.Client.Authenticated: @retroactive DependencyKey {
+    public static var liveValue: Self {
+        try! Webhooks.Client.Authenticated { Webhooks.Client.live(makeRequest: $0) }
+    }
+}
+
+extension Webhooks.Client.Authenticated: @retroactive TestDependencyKey {
+    public static var testValue: Self {
+        return try! Webhooks.Client.Authenticated { Webhooks.Client.testValue }
+    }
+}
+
+extension Webhooks.API.Router: @retroactive DependencyKey {
+    public static let liveValue: Webhooks.API.Router = .init()
 }

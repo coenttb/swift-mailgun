@@ -13,45 +13,56 @@ import DependenciesTestSupport
 import IssueReporting
 import MailgunSharedLive
 import Suppressions
+import MailgunSuppressionsLive
 
 @Suite(
     "Complaints Client Tests",
-    .dependency(\.envVars, .liveTest)
+    .dependency(\.context, .live),
+    .dependency(\.projectRoot, .mailgunLive),
+    .dependency(\.envVars, .development),
+    .serialized
 )
 struct ComplaintsClientTests {
+    @Test("Should successfully create complaint record")
+    func testCreateComplaintRecord() async throws {
+        @Dependency(Suppressions.Client.Authenticated.self) var client
+        
+        let request = Complaints.Create.Request(
+            address: try .init("test@example.com")
+        )
+        
+        let response = try await client.complaints.create(request)
+        
+        #expect(response.message == "Address has been added to the complaints table")
+    }
+    
     @Test("Should successfully import complaints list")
     func testImportComplaintsList() async throws {
-        @Dependency(\.suppressions.complaints) var client
-        let testData = Data("test@example.com".utf8)
+        @Dependency(Suppressions.Client.Authenticated.self) var client
+        let csvContent = """
+        address, created_at
+        test@example.com,
+        another@example.com,
+        """
         
-        let response = try await client.importList(testData)
+        let response = try await client.complaints.importList(Data(csvContent.utf8))
         
-        #expect(response.message == "file uploaded successfully")
+        #expect(response.message == "file uploaded successfully for processing. standby...")
     }
     
     @Test("Should successfully get complaint record")
     func testGetComplaintRecord() async throws {
-        @Dependency(\.suppressions.complaints) var client
+        @Dependency(Suppressions.Client.Authenticated.self) var client
         
-        let complaint = try await client.get(try .init("test@example.com"))
+        let complaint = try await client.complaints.get(try .init("test@example.com"))
         
         #expect(complaint.address.address == "test@example.com")
         #expect(!complaint.createdAt.isEmpty)
     }
     
-    @Test("Should successfully delete complaint record")
-    func testDeleteComplaintRecord() async throws {
-        @Dependency(\.suppressions.complaints) var client
-        
-        let response = try await client.delete(try .init("test@example.com"))
-        
-        #expect(response.message == "Complaint has been removed")
-        #expect(response.address.address == "test@example.com")
-    }
-    
     @Test("Should successfully list complaint records")
     func testListComplaintRecords() async throws {
-        @Dependency(\.suppressions.complaints) var client
+        @Dependency(Suppressions.Client.Authenticated.self) var client
         
         let request = Complaints.List.Request(
             address: try .init("test@example.com"),
@@ -60,31 +71,28 @@ struct ComplaintsClientTests {
             page: nil
         )
         
-        let response = try await client.list(request)
+        let response = try await client.complaints.list(request)
         
         #expect(!response.items.isEmpty)
         #expect(!response.paging.first.isEmpty)
         #expect(!response.paging.last.isEmpty)
     }
     
-    @Test("Should successfully create complaint record")
-    func testCreateComplaintRecord() async throws {
-        @Dependency(\.suppressions.complaints) var client
+    @Test("Should successfully delete complaint record")
+    func testDeleteComplaintRecord() async throws {
+        @Dependency(Suppressions.Client.Authenticated.self) var client
         
-        let request = Complaints.Create.Request(
-            address: try .init("test@example.com")
-        )
+        let response = try await client.complaints.delete(try .init("test@example.com"))
         
-        let response = try await client.create(request)
-        
-        #expect(response.message == "Complaint event has been created")
+        #expect(response.message == "Spam complaint has been removed")
+        #expect(response.address.address == "test@example.com")
     }
     
     @Test("Should successfully delete all complaint records")
     func testDeleteAllComplaintRecords() async throws {
-        @Dependency(\.suppressions.complaints) var client
+        @Dependency(Suppressions.Client.Authenticated.self) var client
         
-        let response = try await client.deleteAll()
+        let response = try await client.complaints.deleteAll()
         
         #expect(response.message == "Complaint addresses for this domain have been removed")
     }

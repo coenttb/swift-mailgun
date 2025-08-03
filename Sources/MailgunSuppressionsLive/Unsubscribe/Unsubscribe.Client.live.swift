@@ -16,11 +16,10 @@ import FoundationNetworking
 
 extension Unsubscribe.Client {
     public static func live(
-        apiKey: ApiKey,
-        domain: Domain,
         makeRequest: @escaping @Sendable (_ route: Unsubscribe.API) throws -> URLRequest
     ) -> Self {
         @Dependency(URLRequest.Handler.self) var handleRequest
+        @Dependency(\.envVars.mailgunDomain) var domain
         
         return Self(
             get: { address in

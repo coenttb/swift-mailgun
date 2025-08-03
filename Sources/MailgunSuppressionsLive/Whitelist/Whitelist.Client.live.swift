@@ -16,11 +16,10 @@ import FoundationNetworking
 
 extension Whitelist.Client {
     public static func live(
-        apiKey: ApiKey,
-        domain: Domain,
         makeRequest: @escaping @Sendable (_ route: Whitelist.API) throws -> URLRequest
     ) -> Self {
         @Dependency(URLRequest.Handler.self) var handleRequest
+        @Dependency(\.envVars.mailgunDomain) var domain
         
         return Self(
             get: { value in

@@ -4,19 +4,19 @@ import EnvironmentVariables
 import Dependencies
 import DependenciesTestSupport
 import Events
-import IssueReporting
-import MailgunSharedLive
+@testable import MailgunEventsLive
 
 @Suite(
     "Events Client Tests",
     .dependency(\.calendar, .current),
-    .dependency(\.envVars, .liveTest),
-    .dependency(AuthenticatedClient.testValue)
+    .dependency(\.context, .live),
+    .dependency(\.projectRoot, .mailgunLive),
+    .dependency(\.envVars, .development)
 )
 struct EventsClientTests {
     @Test("Should successfully list events with default parameters")
     func testListEvents() async throws {
-        @Dependency(AuthenticatedClient.self) var client
+        @Dependency(Events.Client.Authenticated.self) var client
 
         let response = try await client.list(nil)
         
@@ -27,7 +27,7 @@ struct EventsClientTests {
        
     @Test("Should successfully list events with date range filter")
     func testListEventsWithDateRange() async throws {
-        @Dependency(AuthenticatedClient.self) var client
+        @Dependency(Events.Client.Authenticated.self) var client
         @Dependency(\.calendar) var calendar
 
         let end = Date()
@@ -49,7 +49,7 @@ struct EventsClientTests {
     
     @Test("Should successfully list events filtered by event type")
     func testListEventsWithEventType() async throws {
-        @Dependency(AuthenticatedClient.self) var client
+        @Dependency(Events.Client.Authenticated.self) var client
         
         let query = Events.List.Query(
             limit: 25,
@@ -66,10 +66,8 @@ struct EventsClientTests {
     
     @Test("Should successfully list events with recipient filter")
     func testListEventsWithRecipientFilter() async throws {
-        @Dependency(AuthenticatedClient.self) var client
-        @Dependency(\.envVars.mailgunTestRecipient) var mailgunTestRecipient
-        
-        let recipient = try #require(mailgunTestRecipient)
+        @Dependency(Events.Client.Authenticated.self) var client
+        @Dependency(\.envVars.mailgunTestRecipient) var recipient
         
         let query = Events.List.Query(
             limit: 25,
@@ -86,7 +84,7 @@ struct EventsClientTests {
     
     @Test("Should successfully list events with tag filter")
     func testListEventsWithTagFilter() async throws {
-        @Dependency(AuthenticatedClient.self) var client
+        @Dependency(Events.Client.Authenticated.self) var client
         
         let query = Events.List.Query(
             limit: 25,
@@ -103,7 +101,7 @@ struct EventsClientTests {
     
     @Test("Should successfully handle pagination")
     func testListEventsPagination() async throws {
-        @Dependency(AuthenticatedClient.self) var client
+        @Dependency(Events.Client.Authenticated.self) var client
         
         
         let query = Events.List.Query(limit: 5)

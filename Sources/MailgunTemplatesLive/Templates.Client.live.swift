@@ -16,11 +16,10 @@ import FoundationNetworking
 
 extension Templates.Client {
     public static func live(
-        apiKey: ApiKey,
-        domain: Domain,
         makeRequest: @escaping @Sendable (_ route: Templates.API) throws -> URLRequest
     ) -> Self {
         @Dependency(URLRequest.Handler.self) var handleRequest
+        @Dependency(\.envVars.mailgunDomain) var domain
         
         return Self(
             create: { request in
@@ -57,10 +56,15 @@ extension Templates.Client {
                     decodingTo: Templates.Template.Delete.Response.self
                 )
             },
-            
-            versions: { templateId, request in
+            deleteAll: {
                 try await handleRequest(
-                    for: makeRequest(.versions(domainId: domain, templateId: templateId, page: request.page, limit: request.limit)),
+                    for: makeRequest(.deleteAll(domainId: domain)),
+                    decodingTo: Templates.Template.Delete.All.Response.self
+                )
+            },
+            versions: { templateName, page, limit, p in
+                try await handleRequest(
+                    for: makeRequest(.versions(domainId: domain, templateName: templateName, page: page, limit: limit, p: p)),
                     decodingTo: Templates.Template.Versions.Response.self
                 )
             },
@@ -93,9 +97,9 @@ extension Templates.Client {
                 )
             },
             
-            copyVersion: { templateId, versionId, tag, comment in
+            copyVersion: { templateName, versionName, newVersionName, comment in
                 try await handleRequest(
-                    for: makeRequest(.copyVersion(domainId: domain, templateId: templateId, versionId: versionId, tag: tag, comment: comment)),
+                    for: makeRequest(.copyVersion(domainId: domain, templateName: templateName, versionName: versionName, newVersionName: newVersionName, comment: comment)),
                     decodingTo: Templates.Version.Copy.Response.self
                 )
             }
@@ -103,14 +107,26 @@ extension Templates.Client {
     }
 }
 
-private let jsonDecoder: JSONDecoder = {
-    let decoder = JSONDecoder()
-    decoder.dateDecodingStrategy = .secondsSince1970
-    return decoder
-}()
+extension Templates.Client {
+    public typealias Authenticated = MailgunSharedLive.AuthenticatedClient<
+        Templates.API,
+        Templates.API.Router,
+        Templates.Client
+    >
+}
 
-private let jsonEncoder: JSONEncoder = {
-    let encoder = JSONEncoder()
-    encoder.dateEncodingStrategy = .secondsSince1970
-    return encoder
-}()
+extension Templates.Client.Authenticated: @retroactive DependencyKey {
+    public static var liveValue: Self {
+        try! Templates.Client.Authenticated { Templates.Client.live(makeRequest: $0) }
+    }
+}
+
+extension Templates.Client.Authenticated: @retroactive TestDependencyKey {
+    public static var testValue: Self {
+        return try! Templates.Client.Authenticated { Templates.Client.testValue }
+    }
+}
+
+extension Templates.API.Router: @retroactive DependencyKey {
+    public static let liveValue: Templates.API.Router = .init()
+}

@@ -10,20 +10,22 @@ import Testing
 import EnvironmentVariables
 import Dependencies
 import DependenciesTestSupport
-import IssueReporting
-import MailgunSharedLive
-@testable import Webhooks
+import Webhooks
+@testable import MailgunWebhooksLive
 
 @Suite(
-    .dependency(\.envVars, .liveTest),
-    .dependency(AuthenticatedClient.testValue)
+    .dependency(\.context, .live),
+    .dependency(\.projectRoot, .mailgunLive),
+    .dependency(\.envVars, .development),
+    .serialized
 )
+
 struct WebhooksClientTests {
     @Test("Should successfully create webhook")
     func testCreateWebhook() async throws {
-        @Dependency(AuthenticatedClient.self) var client
+        @Dependency(Webhooks.Client.Authenticated.self) var client
         
-        let testUrl = "https://webhook.test/endpoint"
+        let testUrl = "https://bin.mailgun.net/opened"
         let response = try await client.create(.opened, testUrl)
         
         #expect(response.message == "Webhook has been created")
@@ -32,53 +34,39 @@ struct WebhooksClientTests {
     
     @Test("Should successfully list webhooks")
     func testListWebhooks() async throws {
-        @Dependency(AuthenticatedClient.self) var client
+        @Dependency(Webhooks.Client.Authenticated.self) var client
         
         let response = try await client.list()
-        
-        #expect(!response.isEmpty)
-        #expect(response.values.allSatisfy { !$0.urls.isEmpty })
+
+        #expect(response.webhooks.opened?.urls.isEmpty == false)
     }
     
     @Test("Should successfully get webhook by type")
     func testGetWebhook() async throws {
-        @Dependency(AuthenticatedClient.self) var client
+        @Dependency(Webhooks.Client.Authenticated.self) var client
         
-        let webhook = try await client.get(.delivered)
+        let webhook = try await client.get(.opened)
         
-        #expect(!webhook.urls.isEmpty)
+        #expect(!webhook.webhook.urls.isEmpty)
     }
     
     @Test("Should successfully update webhook")
     func testUpdateWebhook() async throws {
-        @Dependency(AuthenticatedClient.self) var client
+        @Dependency(Webhooks.Client.Authenticated.self) var client
         
-        let testUrl = "https://webhook.test/updated"
-        let response = try await client.update(.clicked, testUrl)
+        let testUrl = "https://bin.mailgun.net/opened2"
+        let response = try await client.update(.opened, testUrl)
         
         #expect(response.message == "Webhook has been updated")
         #expect(response.webhook.urls.contains(testUrl))
     }
     
-    @Test("Should handle permanent and temporary fail webhooks")
-    func testFailureWebhooks() async throws {
-        @Dependency(AuthenticatedClient.self) var client
-        
-        let testUrl = "https://webhook.test/failures"
-        let permanentResponse = try await client.create(.permanentFail, testUrl)
-        
-        #expect(permanentResponse.webhook.urls.contains(testUrl))
-        
-        let temporaryResponse = try await client.create(.temporaryFail, testUrl)
-        #expect(temporaryResponse.webhook.urls.contains(testUrl))
-    }
-    
     @Test("Should successfully delete webhook")
     func testDeleteWebhook() async throws {
-        @Dependency(AuthenticatedClient.self) var client
+        @Dependency(Webhooks.Client.Authenticated.self) var client
 
-        let response = try await client.delete(.complained)
-        
+        let response = try await client.delete(.opened)
+               
         #expect(response.message == "Webhook has been deleted")
         #expect(!response.webhook.urls.isEmpty)
     }

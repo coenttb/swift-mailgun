@@ -50,26 +50,18 @@ extension Mailgun.Client {
             router: mailgunRouter) { makeRequest in
                 Mailgun.Client.init(
                     messages: .live(
-                        domain: domain,
                         makeRequest: { try makeRequest(Mailgun.API.messages($0)) }
                     ),
                     mailingLists: .live(
-                        apiKey: apiKey,
                         makeRequest: { try makeRequest(Mailgun.API.lists($0)) }
                     ),
                     events: .live(
-                        apiKey: apiKey,
-                        domain: domain,
                         makeRequest: { try makeRequest(Mailgun.API.events($0)) }
                     ),
                     suppressions: .live(
-                        apiKey: apiKey,
-                        domain: domain,
                         makeRequest: { try makeRequest(Mailgun.API.suppressions($0)) }
                     ),
                     webhooks: .live(
-                        apiKey: apiKey,
-                        domain: domain,
                         makeRequest: { try makeRequest(Mailgun.API.webhooks($0)) }
                     )
                 )

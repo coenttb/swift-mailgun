@@ -4,18 +4,20 @@ import EnvironmentVariables
 import Dependencies
 import DependenciesTestSupport
 import Lists
-import IssueReporting
+import ServerFoundation
+@testable import MailgunListsLive
 
 @Suite(
     "Lists Client Tests",
-    .dependency(\.envVars, .liveTest),
-    .dependency(AuthenticatedClient.testValue),
+    .dependency(\.context, .live),
+    .dependency(\.projectRoot, .mailgunLive),
+    .dependency(\.envVars, .development),
     .serialized
 )
 struct ListsClientTests {
     @Test("Should successfully create a mailing list")
     func testCreateList() async throws {
-        @Dependency(AuthenticatedClient.self) var client
+        @Dependency(Lists.Client.Authenticated.self) var client
         @Dependency(\.envVars.mailgunTestMailingList) var list
         
         let request = Lists.List.Create.Request(
@@ -37,7 +39,7 @@ struct ListsClientTests {
     
     @Test("Should successfully add member")
     func testAddMember() async throws {
-        @Dependency(AuthenticatedClient.self) var client
+        @Dependency(Lists.Client.Authenticated.self) var client
         @Dependency(\.envVars.mailgunTestMailingList) var list
         @Dependency(\.envVars.mailgunTestRecipient) var recipient
         
@@ -56,7 +58,7 @@ struct ListsClientTests {
     
     @Test("Should successfully get member")
     func testGetMember() async throws {
-        @Dependency(AuthenticatedClient.self) var client
+        @Dependency(Lists.Client.Authenticated.self) var client
         @Dependency(\.envVars.mailgunTestMailingList) var list
         @Dependency(\.envVars.mailgunTestRecipient) var recipient
         
@@ -71,7 +73,7 @@ struct ListsClientTests {
         .bug(id: 1)
     )
     func testUpdateMember() async throws {
-        @Dependency(AuthenticatedClient.self) var client
+        @Dependency(Lists.Client.Authenticated.self) var client
         @Dependency(\.envVars.mailgunTestMailingList) var list
         @Dependency(\.envVars.mailgunTestRecipient) var recipient
         
@@ -91,11 +93,10 @@ struct ListsClientTests {
     }
     
     @Test(
-        "Should successfully update list",
-        .bug(id: 2)
+        "Should successfully update list"
     )
     func testUpdateList() async throws {
-        @Dependency(AuthenticatedClient.self) var client
+        @Dependency(Lists.Client.Authenticated.self) var client
         @Dependency(\.envVars.mailgunTestMailingList) var list
         
         
@@ -114,7 +115,7 @@ struct ListsClientTests {
         "Should successfully delete list"
     )
     func testDeleteList() async throws {
-        @Dependency(AuthenticatedClient.self) var client
+        @Dependency(Lists.Client.Authenticated.self) var client
         @Dependency(\.envVars.mailgunTestMailingList) var list
         
         

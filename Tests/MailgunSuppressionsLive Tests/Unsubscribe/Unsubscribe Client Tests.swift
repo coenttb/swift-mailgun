@@ -16,43 +16,55 @@ import Suppressions
 
 @Suite(
     "Unsubscribe Client Tests",
-    .dependency(\.envVars, .liveTest)
+    .dependency(\.context, .live),
+    .dependency(\.projectRoot, .mailgunLive),
+    .dependency(\.envVars, .development),
+    .serialized
 )
 struct UnsubscribeClientTests {
+    @Test("Should successfully create unsubscribe record")
+    func testCreateUnsubscribeRecord() async throws {
+        @Dependency(Suppressions.Client.Authenticated.self) var client
+        
+        let request = Unsubscribe.Create.Request(
+            address: try .init("test@example.com"),
+            tags: ["newsletter"]
+        )
+        
+        let response = try await client.unsubscribe.create(request)
+        
+        #expect(response.message == "Address has been added to the unsubscribes table")
+    }
+    
     @Test("Should successfully import unsubscribe list")
     func testImportUnsubscribeList() async throws {
-        @Dependency(\.suppressions.unsubscribe) var client
-        let testData = Data("test@example.com".utf8)
+        @Dependency(Suppressions.Client.Authenticated.self) var client
         
-        let response = try await client.importList(testData)
+        let csvContent = """
+        address,tags,created_at
+        test@example.com,,
+        another@example.com,,
+        """
         
-        #expect(response.message == "file uploaded successfully")
+        let response = try await client.unsubscribe.importList(request: Data(csvContent.utf8))
+        
+        #expect(response.message == "file uploaded successfully for processing. standby...")
     }
     
     @Test("Should successfully get unsubscribe record")
     func testGetUnsubscribeRecord() async throws {
-        @Dependency(\.suppressions.unsubscribe) var client
+        @Dependency(Suppressions.Client.Authenticated.self) var client
         
-        let unsubscribe = try await client.get(.init("test@example.com"))
+        let unsubscribe = try await client.unsubscribe.get(.init("test@example.com"))
         
         #expect(unsubscribe.address.address == "test@example.com")
         #expect(!unsubscribe.tags.isEmpty)
         #expect(!unsubscribe.createdAt.isEmpty)
     }
     
-    @Test("Should successfully delete unsubscribe record")
-    func testDeleteUnsubscribeRecord() async throws {
-        @Dependency(\.suppressions.unsubscribe) var client
-        
-        let response = try await client.delete(try .init("test@example.com"))
-        
-        #expect(response.message == "Unsubscribe event has been removed")
-        #expect(response.address.address == "test@example.com")
-    }
-    
     @Test("Should successfully list unsubscribe records")
     func testListUnsubscribeRecords() async throws {
-        @Dependency(\.suppressions.unsubscribe) var client
+        @Dependency(Suppressions.Client.Authenticated.self) var client
         
         let request = Unsubscribe.List.Request(
             address: try .init("test@example.com"),
@@ -61,33 +73,29 @@ struct UnsubscribeClientTests {
             page: nil
         )
         
-        let response = try await client.list(request)
+        let response = try await client.unsubscribe.list(request)
         
         #expect(!response.items.isEmpty)
         #expect(!response.paging.first.isEmpty)
         #expect(!response.paging.last.isEmpty)
     }
     
-    @Test("Should successfully create unsubscribe record")
-    func testCreateUnsubscribeRecord() async throws {
-        @Dependency(\.suppressions.unsubscribe) var client
+    @Test("Should successfully delete unsubscribe record")
+    func testDeleteUnsubscribeRecord() async throws {
+        @Dependency(Suppressions.Client.Authenticated.self) var client
         
-        let request = Unsubscribe.Create.Request(
-            address: try .init("test@example.com"),
-            tags: ["newsletter"]
-        )
+        let response = try await client.unsubscribe.delete(try .init("test@example.com"))
         
-        let response = try await client.create(request)
-        
-        #expect(response.message == "Unsubscribe event has been created")
+        #expect(response.message == "Unsubscribe event has been removed")
+        #expect(response.address.address == "test@example.com")
     }
     
     @Test("Should successfully delete all unsubscribe records")
     func testDeleteAllUnsubscribeRecords() async throws {
-        @Dependency(\.suppressions.unsubscribe) var client
+        @Dependency(Suppressions.Client.Authenticated.self) var client
         
-        let response = try await client.deleteAll()
+        let response = try await client.unsubscribe.deleteAll()
         
-        #expect(response.message == "All unsubscribe events have been removed")
+        #expect(response.message == "Unsubscribe addresses for this domain have been removed")
     }
 }

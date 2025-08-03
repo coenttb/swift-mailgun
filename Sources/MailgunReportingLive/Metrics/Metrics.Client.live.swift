@@ -16,10 +16,10 @@ import FoundationNetworking
 
 extension Metrics.Client {
     public static func live(
-        apiKey: ApiKey,
         makeRequest: @escaping @Sendable (_ route: Metrics.API) throws -> URLRequest
     ) -> Self {
         @Dependency(URLRequest.Handler.self) var handleRequest
+        @Dependency(\.envVars.mailgunPrivateApiKey) var apiKey
         
         return Self(
             getAccountMetrics: { request in

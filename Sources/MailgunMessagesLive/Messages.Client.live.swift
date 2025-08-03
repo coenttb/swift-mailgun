@@ -16,9 +16,9 @@ import FoundationNetworking
 
 extension Messages.Client {
     public static func live(
-        domain: Domain,
         makeRequest: @escaping @Sendable (_ route: Messages.API) throws -> URLRequest
     ) -> Self {
+        @Dependency(\.envVars.mailgunDomain) var domain
         @Dependency(URLRequest.Handler.self) var handleRequest
         
         return Self(
@@ -61,25 +61,6 @@ extension Messages.Client {
 }
 
 extension Messages.Client {
-    public static func live(
-        apiKey: ApiKey
-    ) throws -> Messages.Client.Authenticated {
-        
-        @Dependency(Messages.API.Router.self) var router
-        @Dependency(\.envVars.mailgunDomain) var domain
-        @Dependency(\.envVars.mailgunBaseUrl) var baseUrl
-        
-        return try AuthenticatedClient.init(
-            apiKey: apiKey,
-            baseUrl: baseUrl,
-            router: router
-        ) { makeRequest in
-                .live(domain: domain, makeRequest: makeRequest)
-        }
-    }
-}
-
-extension Messages.Client {
     public typealias Authenticated = MailgunSharedLive.AuthenticatedClient<
         Messages.API,
         Messages.API.Router,
@@ -87,15 +68,9 @@ extension Messages.Client {
     >
 }
 
-extension Messages.API.Router: @retroactive DependencyKey {
-    public static let liveValue: Messages.API.Router = .init()
-}
-
 extension Messages.Client.Authenticated: @retroactive DependencyKey {
     public static var liveValue: Self {
-        @Dependency(\.envVars.mailgunDomain) var domain
-        return try! Messages.Client.Authenticated { Messages.Client.live(domain: domain, makeRequest: $0) }
-        
+        try! Messages.Client.Authenticated { Messages.Client.live(makeRequest: $0) }
     }
 }
 
@@ -105,3 +80,6 @@ extension Messages.Client.Authenticated: @retroactive TestDependencyKey {
     }
 }
 
+extension Messages.API.Router: @retroactive DependencyKey {
+    public static let liveValue: Messages.API.Router = .init()
+}

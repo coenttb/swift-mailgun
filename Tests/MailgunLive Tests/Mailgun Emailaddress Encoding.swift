@@ -5,12 +5,23 @@
 //  Created by Coen ten Thije Boonkkamp on 22/12/2024.
 //
 
+import Foundation
 import Testing
-import EmailAddress
-import Coenttb_Web
-@testable import Messages
+import EnvironmentVariables
+import Dependencies
+import DependenciesTestSupport
+import Messages
+import IssueReporting
+import MailgunSharedLive
+import MailgunMessagesLive
+import URLFormCoding
 
-@Suite("Mailgun Form Encoding Tests")
+@Suite(
+    "Mailgun Form Encoding Tests",
+    .dependency(\.context, .live),
+    .dependency(\.projectRoot, .mailgunLive),
+    .dependency(\.envVars, .development)
+)
 struct MailgunFormEncodingTests {
     
     @Test("Send Request encodes EmailAddress correctly in form data")
@@ -20,8 +31,8 @@ struct MailgunFormEncodingTests {
             to: [try .init("recipient@example.com")],
             subject: "Test Subject"
         )
-        
-        let formEncoded = urlFormEncode(value: request)
+
+        let formEncoded = String(data: try Form.Encoder().encode(request), encoding: .utf8)!
         
         let components = formEncoded.split(separator: "&")
         
@@ -32,8 +43,7 @@ struct MailgunFormEncodingTests {
         
         #expect(decodedFrom == "John Doe <test@example.com>")
         
-        let decoder = UrlFormDecoder()
-        decoder.parsingStrategy = .bracketsWithIndices
+        let decoder = Form.Decoder.mailgun
         
         let decoded = try decoder.decode(
             Messages.Send.Request.self,
@@ -53,7 +63,7 @@ struct MailgunFormEncodingTests {
             subject: "Test Subject"
         )
         
-        let formEncoded = urlFormEncode(value: request)
+        let formEncoded = String(data: try Form.Encoder().encode(request), encoding: .utf8)!
         let components = formEncoded.split(separator: "&")
         let fromField = components.first { $0.hasPrefix("from=") }
         let decodedFrom = try #require(fromField?.dropFirst("from=".count))
@@ -61,8 +71,7 @@ struct MailgunFormEncodingTests {
         
         #expect(decodedFrom == "test@example.com")
         
-        let decoder = UrlFormDecoder()
-        decoder.parsingStrategy = .bracketsWithIndices
+        let decoder = Form.Decoder.mailgun
         
         let decoded = try decoder.decode(
             Messages.Send.Request.self,
@@ -80,7 +89,7 @@ struct MailgunFormEncodingTests {
             subject: "Test Subject"
         )
         
-        let formEncoded = urlFormEncode(value: request)
+        let formEncoded = String(data: try Form.Encoder().encode(request), encoding: .utf8)!
         let components = formEncoded.split(separator: "&")
         let fromField = components.first { $0.hasPrefix("from=") }
         let decodedFrom = try #require(fromField?.dropFirst("from=".count))
@@ -88,8 +97,7 @@ struct MailgunFormEncodingTests {
         
         #expect(decodedFrom == "\"Doe, John\" <test@example.com>")
         
-        let decoder = UrlFormDecoder()
-        decoder.parsingStrategy = .bracketsWithIndices
+        let decoder = Form.Decoder.mailgun
         
         let decoded = try decoder.decode(
             Messages.Send.Request.self,

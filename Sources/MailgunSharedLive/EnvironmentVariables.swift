@@ -9,18 +9,21 @@ import Foundation
 import Coenttb_Server
 
 extension EnvironmentVariables {
-    package var mailgunBaseUrl: URL {
+    public var mailgunBaseUrl: URL {
         get { self["MAILGUN_BASE_URL"].flatMap(URL.init(string:))! }
     }
     
-    package var mailgunPrivateApiKey: ApiKey? {
-        get { self["MAILGUN_PRIVATE_API_KEY"].map(ApiKey.init(rawValue:)) }
+    public var mailgunPrivateApiKey: ApiKey {
+        get { self["MAILGUN_PRIVATE_API_KEY"].map(ApiKey.init(rawValue:))! }
     }
     
-    package var mailgunDomain: Domain {
+    public var mailgunDomain: Domain {
         get { try! self["MAILGUN_DOMAIN"].map(Domain.init)! }
+        set { self["MAILGUN_DOMAIN"] = newValue.description }
     }
-    
+}
+ 
+extension EnvironmentVariables {
     package var mailgunTestMailingList: EmailAddress {
         get { self["MAILGUN_TEST_MAILINGLIST"].map{ try! EmailAddress($0) }! }
     }
