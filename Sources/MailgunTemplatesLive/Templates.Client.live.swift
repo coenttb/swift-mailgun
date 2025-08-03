@@ -25,7 +25,7 @@ extension Templates.Client {
         return Self(
             create: { request in
                 try await handleRequest(
-                    for: makeRequest(.create(request: request)),
+                    for: makeRequest(.create(domainId: domain, request: request)),
                     decodingTo: Templates.Template.Create.Response.self
                 )
             },

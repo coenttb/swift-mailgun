@@ -63,9 +63,9 @@ extension Messages.Client {
 extension Messages.Client {
     public static func live(
         apiKey: ApiKey
-    ) throws -> AuthenticatedClient {
+    ) throws -> Messages.Client.Authenticated {
         
-        @Dependency(API.Router.self) var router
+        @Dependency(Messages.API.Router.self) var router
         @Dependency(\.envVars.mailgunDomain) var domain
         @Dependency(\.envVars.mailgunBaseUrl) var baseUrl
         
@@ -79,8 +79,29 @@ extension Messages.Client {
     }
 }
 
-public typealias AuthenticatedClient = MailgunSharedLive.AuthenticatedClient<
-    Messages.API,
-    Messages.API.Router,
-    Messages.Client
->
+extension Messages.Client {
+    public typealias Authenticated = MailgunSharedLive.AuthenticatedClient<
+        Messages.API,
+        Messages.API.Router,
+        Messages.Client
+    >
+}
+
+extension Messages.API.Router: @retroactive DependencyKey {
+    public static let liveValue: Messages.API.Router = .init()
+}
+
+extension Messages.Client.Authenticated: @retroactive DependencyKey {
+    public static var liveValue: Self {
+        @Dependency(\.envVars.mailgunDomain) var domain
+        return try! Messages.Client.Authenticated { Messages.Client.live(domain: domain, makeRequest: $0) }
+        
+    }
+}
+
+extension Messages.Client.Authenticated: @retroactive TestDependencyKey {
+    public static var testValue: Self {
+        return try! Messages.Client.Authenticated { Messages.Client.testValue }
+    }
+}
+

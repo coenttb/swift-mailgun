@@ -12,7 +12,7 @@ import Dependencies
 import DependenciesTestSupport
 import Templates
 import IssueReporting
-import Shared
+import MailgunSharedLive
 import Coenttb_Authentication
 
 #if canImport(FoundationNetworking)

@@ -11,7 +11,7 @@ import EnvironmentVariables
 import Dependencies
 import DependenciesTestSupport
 import IssueReporting
-import Shared
+import MailgunSharedLive
 import Webhooks
 import Coenttb_Authentication
 

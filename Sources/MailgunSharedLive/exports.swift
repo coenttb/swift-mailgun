@@ -6,3 +6,4 @@
 //
 
 @_exported import Coenttb_Authentication
+@_exported import Shared

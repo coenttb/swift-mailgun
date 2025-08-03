@@ -6,7 +6,7 @@
 //
 
 import Coenttb_Web
-import Shared
+import MailgunSharedLive
 import MailgunSharedLive
 import Tags
 

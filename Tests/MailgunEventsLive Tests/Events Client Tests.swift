@@ -5,7 +5,7 @@ import Dependencies
 import DependenciesTestSupport
 import Events
 import IssueReporting
-import Shared
+import MailgunSharedLive
 
 @Suite(
     "Events Client Tests",

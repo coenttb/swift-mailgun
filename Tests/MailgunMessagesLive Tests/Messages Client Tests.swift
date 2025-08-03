@@ -5,7 +5,8 @@ import Dependencies
 import DependenciesTestSupport
 import Messages
 import IssueReporting
-import Shared
+import MailgunSharedLive
+import MailgunMessagesLive
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking
@@ -13,20 +14,18 @@ import FoundationNetworking
 
 @Suite(
     "Messages Client Tests",
-    .dependency(\.envVars, .liveTest),
-    .dependency(TestStrategy.live)
-    
+    .dependency(\.context, .live),
+    .dependency(\.projectRoot, .mailgunLive),
+    .dependency(\.envVars, .development),
 )
 struct MessagesClientTests {
     @Test("Should successfully send an email")
     func testSendEmail() async throws {
-        @Dependency(AuthenticatedClient.self) var client
+        @Dependency(Messages.Client.Authenticated.self) var client
         @Dependency(\.envVars) var envVars
-        @Dependency(TestStrategy.self) var testStrategy
-        print(testStrategy)
         
-        let from = try #require(envVars.mailgunFrom)
-        let to = try #require(envVars.mailgunTo)
+        let from = envVars.mailgunFrom
+        let to = envVars.mailgunTo
         
         let request = Messages.Send.Request(
             from: from,

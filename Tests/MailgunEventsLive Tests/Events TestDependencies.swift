@@ -12,7 +12,7 @@ import Dependencies
 import DependenciesTestSupport
 import Events
 import IssueReporting
-import Shared
+import MailgunSharedLive
 import Domain
 import Coenttb_Authentication
 

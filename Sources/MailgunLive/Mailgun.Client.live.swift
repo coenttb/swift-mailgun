@@ -8,8 +8,28 @@
 import Foundation
 import Coenttb_Web
 import DependenciesMacros
-import Shared
+import MailgunSharedLive
+import Mailgun
 import Coenttb_Authentication
+
+import MailgunCredentialsLive
+import MailgunCustomMessageLimitLive
+import MailgunDomainsLive
+import MailgunEventsLive
+import MailgunIPAllowlistLive
+import MailgunIPPoolsLive
+import MailgunIPsLive
+import MailgunKeysLive
+import MailgunListsLive
+import MailgunMessagesLive
+import MailgunReportingLive
+import MailgunRoutesLive
+import MailgunSubaccountsLive
+import MailgunSuppressionsLive
+import MailgunTagsLive
+import MailgunTemplatesLive
+import MailgunUsersLive
+import MailgunWebhooksLive
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking
@@ -20,11 +40,11 @@ extension Mailgun.Client {
         apiKey: ApiKey,
         baseUrl: URL,
         domain: Domain
-    ) throws -> Shared.AuthenticatedClient<Mailgun.API, Mailgun.API.Router, Mailgun.Client> {
+    ) throws -> MailgunSharedLive.AuthenticatedClient<Mailgun.API, Mailgun.API.Router, Mailgun.Client> {
         
         @Dependency(\.mailgunRouter) var mailgunRouter
         
-        return try Shared.AuthenticatedClient(
+        return try MailgunSharedLive.AuthenticatedClient(
             apiKey: apiKey,
             baseUrl: baseUrl,
             router: mailgunRouter) { makeRequest in
@@ -57,11 +77,12 @@ extension Mailgun.Client {
     }
 }
 
+extension Mailgun.Client {
+    public typealias AuthenticatedClient = MailgunSharedLive.AuthenticatedClient<Mailgun.API, Mailgun.API.Router, Mailgun.Client>
+}
 
-public typealias AuthenticatedClient = Shared.AuthenticatedClient<Mailgun.API, Mailgun.API.Router, Mailgun.Client>
-
-extension Mailgun.Client: TestDependencyKey {
-    static public let testValue: Mailgun.AuthenticatedClient? = Mailgun.Client.testValue.map { client in
+extension Mailgun.Client: @retroactive TestDependencyKey {
+    static public let testValue: Mailgun.Client.AuthenticatedClient? = Mailgun.Client.testValue.map { client in
         do {
             return try .init(
                 apiKey: .init(rawValue: "test-api-key"),
@@ -84,7 +105,7 @@ extension Mailgun.Client: TestDependencyKey {
 }
 
 extension DependencyValues {
-    public var mailgunClient: Mailgun.AuthenticatedClient? {
+    public var mailgunClient: Mailgun.Client.AuthenticatedClient? {
         get { self[Mailgun.Client.self] }
         set { self[Mailgun.Client.self] = newValue }
     }

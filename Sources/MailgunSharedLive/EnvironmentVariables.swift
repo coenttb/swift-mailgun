@@ -38,11 +38,9 @@ extension EnvironmentVariables {
     }
 }
 
-extension ProjectRootKey: @retroactive DependencyKey {
-    public static var liveValue: URL {
-        .init(fileURLWithPath: #filePath)
-            .deletingLastPathComponent()
-            .deletingLastPathComponent()
-            .deletingLastPathComponent()
+extension EnvVars {
+    package static var development: Self {
+        @Dependency(\.projectRoot) var projectRoot
+        return try! .live(environmentConfiguration: .projectRoot(projectRoot, environment: "development"), requiredKeys: [])
     }
 }

@@ -6,7 +6,8 @@
 //
 
 import Foundation
-import Shared
+import MailgunSharedLive
+import Mailgun
 import Domain
 
 extension Mailgun.Client {
