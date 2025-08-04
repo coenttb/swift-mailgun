@@ -18,7 +18,7 @@ extension Reporting.Metrics.Client {
     public static func live(
         makeRequest: @escaping @Sendable (_ route: Reporting.Metrics.API) throws -> URLRequest
     ) -> Self {
-        @Dependency(URLRequest.Handler.self) var handleRequest
+        @Dependency(URLRequest.Handler.Mailgun.self) var handleRequest
 
         return Self(
             getAccountMetrics: { request in

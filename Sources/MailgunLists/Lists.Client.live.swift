@@ -18,7 +18,7 @@ extension Lists.Client {
     public static func live(
         makeRequest: @escaping @Sendable (_ route: Lists.API) throws -> URLRequest
     ) -> Self {
-        @Dependency(URLRequest.Handler.self) var handleRequest
+        @Dependency(URLRequest.Handler.Mailgun.self) var handleRequest
 
         return Self(
             create: { request in

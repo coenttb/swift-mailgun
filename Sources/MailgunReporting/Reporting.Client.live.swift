@@ -18,7 +18,7 @@ extension Reporting.Client {
     public static func live(
         makeRequest: @escaping @Sendable (_ route: Reporting.API) throws -> URLRequest
     ) -> Self {
-        @Dependency(URLRequest.Handler.self) var handleRequest
+        @Dependency(URLRequest.Handler.Mailgun.self) var handleRequest
         @Dependency(\.envVars.mailgunPrivateApiKey) var apiKey
         return Self(
             metrics: .live { try makeRequest(.metrics($0)) },

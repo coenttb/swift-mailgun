@@ -19,7 +19,7 @@ extension Messages.Client {
         makeRequest: @escaping @Sendable (_ route: Messages.API) throws -> URLRequest
     ) -> Self {
         @Dependency(\.envVars.mailgunDomain) var domain
-        @Dependency(URLRequest.Handler.self) var handleRequest
+        @Dependency(URLRequest.Handler.Mailgun.self) var handleRequest
 
         return Self(
             send: { request in

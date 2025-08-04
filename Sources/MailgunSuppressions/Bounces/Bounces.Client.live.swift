@@ -11,7 +11,7 @@ extension Suppressions.Bounces.Client {
     public static func live(
         makeRequest: @escaping @Sendable (_ route: Suppressions.Bounces.API) throws -> URLRequest
     ) -> Self {
-        @Dependency(URLRequest.Handler.self) var handleRequest
+        @Dependency(URLRequest.Handler.Mailgun.self) var handleRequest
         @Dependency(\.envVars.mailgunDomain) var domain
 
         return Self(

@@ -18,7 +18,7 @@ extension Templates.Client {
     public static func live(
         makeRequest: @escaping @Sendable (_ route: Templates.API) throws -> URLRequest
     ) -> Self {
-        @Dependency(URLRequest.Handler.self) var handleRequest
+        @Dependency(URLRequest.Handler.Mailgun.self) var handleRequest
         @Dependency(\.envVars.mailgunDomain) var domain
 
         return Self(
