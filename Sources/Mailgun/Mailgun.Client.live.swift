@@ -88,27 +88,3 @@ extension DependencyValues {
         set { self[Mailgun.Client.self] = newValue }
     }
 }
-
-
-//extension Mailgun.Client: @retroactive TestDependencyKey {
-//    static public let testValue: Mailgun.Client.AuthenticatedClient? = Mailgun.Client.testValue.map { _ in
-//        do {
-//            return try .init(
-//                apiKey: .init(rawValue: "test-api-key"),
-//                baseUrl: .init(string: "localhost:8080")!,
-//                router: .init()
-//            ) { _ in
-//                    .init(
-//                        messages: .testValue,
-//                        mailingLists: .testValue,
-//                        events: .testValue,
-//                        suppressions: .testValue,
-//                        webhooks: .testValue
-//                    )
-//            }
-//        } catch {
-//            print(error)
-//            fatalError()
-//        }
-//    }
-//}
