@@ -69,35 +69,46 @@ extension Mailgun.Client {
 }
 
 extension Mailgun.Client {
-    public typealias AuthenticatedClient = MailgunShared.AuthenticatedClient<Mailgun.API, Mailgun.API.Router, Mailgun.Client>
+    public typealias Authenticated = MailgunShared.AuthenticatedClient<Mailgun.API, Mailgun.API.Router, Mailgun.Client>
 }
 
-extension Mailgun.Client: @retroactive TestDependencyKey {
-    static public let testValue: Mailgun.Client.AuthenticatedClient? = Mailgun.Client.testValue.map { _ in
-        do {
-            return try .init(
-                apiKey: .init(rawValue: "test-api-key"),
-                baseUrl: .init(string: "localhost:8080")!,
-                router: .init()
-            ) { _ in
-                    .init(
-                        messages: .testValue,
-                        mailingLists: .testValue,
-                        events: .testValue,
-                        suppressions: .testValue,
-                        webhooks: .testValue
-                    )
-            }
-        } catch {
-            print(error)
-            fatalError()
-        }
+extension Mailgun.Client: @retroactive DependencyKey {
+    public static var liveValue: Mailgun.Client.Authenticated {
+        try! Mailgun.Client.live()
     }
 }
 
+extension Mailgun.API.Router: @retroactive DependencyKey {
+    public static let liveValue: Mailgun.API.Router = .init()
+}
+
 extension DependencyValues {
-    public var mailgunClient: Mailgun.Client.AuthenticatedClient? {
+    public var mailgun: Mailgun.Client.Authenticated {
         get { self[Mailgun.Client.self] }
         set { self[Mailgun.Client.self] = newValue }
     }
 }
+
+
+//extension Mailgun.Client: @retroactive TestDependencyKey {
+//    static public let testValue: Mailgun.Client.AuthenticatedClient? = Mailgun.Client.testValue.map { _ in
+//        do {
+//            return try .init(
+//                apiKey: .init(rawValue: "test-api-key"),
+//                baseUrl: .init(string: "localhost:8080")!,
+//                router: .init()
+//            ) { _ in
+//                    .init(
+//                        messages: .testValue,
+//                        mailingLists: .testValue,
+//                        events: .testValue,
+//                        suppressions: .testValue,
+//                        webhooks: .testValue
+//                    )
+//            }
+//        } catch {
+//            print(error)
+//            fatalError()
+//        }
+//    }
+//}

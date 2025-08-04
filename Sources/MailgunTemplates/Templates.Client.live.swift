@@ -115,15 +115,9 @@ extension Templates.Client {
     >
 }
 
-extension Templates.Client.Authenticated: @retroactive DependencyKey {
-    public static var liveValue: Self {
+extension Templates.Client: @retroactive DependencyKey {
+    public static var liveValue: Templates.Client.Authenticated {
         try! Templates.Client.Authenticated { .live(makeRequest: $0) }
-    }
-}
-
-extension Templates.Client.Authenticated: @retroactive TestDependencyKey {
-    public static var testValue: Self {
-        return try! Templates.Client.Authenticated { .testValue }
     }
 }
 

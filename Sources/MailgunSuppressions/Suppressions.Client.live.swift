@@ -35,15 +35,9 @@ extension Suppressions.Client {
     >
 }
 
-extension Suppressions.Client.Authenticated: @retroactive DependencyKey {
-    public static var liveValue: Self {
+extension Suppressions.Client: @retroactive DependencyKey {
+    public static var liveValue: Suppressions.Client.Authenticated {
         try! Suppressions.Client.Authenticated { .live(makeRequest: $0) }
-    }
-}
-
-extension Suppressions.Client.Authenticated: @retroactive TestDependencyKey {
-    public static var testValue: Self {
-        return try! Suppressions.Client.Authenticated { .testValue }
     }
 }
 

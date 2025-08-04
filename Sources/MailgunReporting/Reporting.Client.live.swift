@@ -35,18 +35,6 @@ extension Reporting.Client {
     >
 }
 
-extension Reporting.Client.Authenticated: @retroactive DependencyKey {
-    public static var liveValue: Self {
-        try! Reporting.Client.Authenticated { .live(makeRequest: $0) }
-    }
-}
-
-extension Reporting.Client.Authenticated: @retroactive TestDependencyKey {
-    public static var testValue: Self {
-        return try! Reporting.Client.Authenticated { .testValue }
-    }
-}
-
 extension Reporting.API.Router: @retroactive DependencyKey {
     public static let liveValue: Reporting.API.Router = .init()
 }

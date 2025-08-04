@@ -40,15 +40,9 @@ extension Events.Client {
     >
 }
 
-extension Events.Client.Authenticated: @retroactive DependencyKey {
-    public static var liveValue: Self {
+extension Events.Client: @retroactive DependencyKey {
+    public static var liveValue: Events.Client.Authenticated {
         try! Events.Client.Authenticated { .live(makeRequest: $0) }
-    }
-}
-
-extension Events.Client.Authenticated: @retroactive TestDependencyKey {
-    public static var testValue: Self {
-        return try! Events.Client.Authenticated { .testValue }
     }
 }
 

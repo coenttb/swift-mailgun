@@ -68,15 +68,9 @@ extension Webhooks.Client {
     >
 }
 
-extension Webhooks.Client.Authenticated: @retroactive DependencyKey {
-    public static var liveValue: Self {
+extension Webhooks.Client: @retroactive DependencyKey {
+    public static var liveValue: Webhooks.Client.Authenticated {
         try! Webhooks.Client.Authenticated { .live(makeRequest: $0) }
-    }
-}
-
-extension Webhooks.Client.Authenticated: @retroactive TestDependencyKey {
-    public static var testValue: Self {
-        return try! Webhooks.Client.Authenticated { .testValue }
     }
 }
 

@@ -82,18 +82,6 @@ extension Tags.Client {
     >
 }
 
-extension Tags.Client.Authenticated: @retroactive DependencyKey {
-    public static var liveValue: Self {
-        try! Tags.Client.Authenticated { .live(makeRequest: $0) }
-    }
-}
-
-extension Tags.Client.Authenticated: @retroactive TestDependencyKey {
-    public static var testValue: Self {
-        return try! Tags.Client.Authenticated { .testValue }
-    }
-}
-
 extension Tags.API.Router: @retroactive DependencyKey {
     public static let liveValue: Tags.API.Router = .init()
 }

@@ -68,18 +68,6 @@ extension Messages.Client {
     >
 }
 
-extension Messages.Client.Authenticated: @retroactive DependencyKey {
-    public static var liveValue: Self {
-        try! Messages.Client.Authenticated { .live(makeRequest: $0) }
-    }
-}
-
-extension Messages.Client.Authenticated: @retroactive TestDependencyKey {
-    public static var testValue: Self {
-        return try! Messages.Client.Authenticated { .testValue }
-    }
-}
-
 extension Messages.API.Router: @retroactive DependencyKey {
     public static let liveValue: Messages.API.Router = .init()
 }

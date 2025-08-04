@@ -131,15 +131,9 @@ extension Lists.Client {
     >
 }
 
-extension Lists.Client.Authenticated: @retroactive DependencyKey {
-    public static var liveValue: Self {
+extension Lists.Client: @retroactive DependencyKey {
+    public static var liveValue: Lists.Client.Authenticated {
         try! Lists.Client.Authenticated { .live(makeRequest: $0) }
-    }
-}
-
-extension Lists.Client.Authenticated: @retroactive TestDependencyKey {
-    public static var testValue: Self {
-        return try! Lists.Client.Authenticated { .testValue }
     }
 }
 
