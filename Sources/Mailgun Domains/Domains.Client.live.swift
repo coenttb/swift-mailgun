@@ -12,7 +12,6 @@ import Mailgun_Shared
 import Mailgun_Types_Shared
 import Mailgun_Domains_Types
 @_exported import enum Mailgun_Types.Mailgun
-
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
@@ -21,20 +20,19 @@ extension Mailgun.Domains.Client {
     public static func live(
         makeRequest: @escaping @Sendable (_ route: Mailgun.Domains.API) throws -> URLRequest
     ) -> Self {
-        
-        return Self(
-            domain: .live(makeRequest: { api in
-                try makeRequest(.domain(api))
-            }),
-            dkimSecurity: .live(makeRequest: { api in
-                try makeRequest(.dkimSecurity(api))
-            }),
-            domainKeys: .live(makeRequest: { api in
-                try makeRequest(.dkimKeys(api))
-            }),
-            domainTracking: .live(makeRequest: { api in
-                try makeRequest(.dkimTracking(api))
-            })
+        .init(
+            domains: .live {
+                try makeRequest(.domain($0))
+            },
+            dkimSecurity: .live {
+                try makeRequest(.dkimSecurity($0))
+            },
+            domainKeys: .live {
+                try makeRequest(.dkimKeys($0))
+            },
+            domainTracking: .live {
+                try makeRequest(.dkimTracking($0))
+            }
         )
     }
 }

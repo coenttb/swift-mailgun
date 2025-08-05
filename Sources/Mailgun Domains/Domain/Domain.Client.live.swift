@@ -12,14 +12,13 @@ import Mailgun_Shared
 import Mailgun_Types_Shared
 import Mailgun_Domains_Types
 @_exported import enum Mailgun_Types.Mailgun
-
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
 
-extension Mailgun.Domains.Domain.Client {
+extension Mailgun.Domains.Domains.Client {
     public static func live(
-        makeRequest: @escaping @Sendable (_ route: Mailgun.Domains.Domain.API) throws -> URLRequest
+        makeRequest: @escaping @Sendable (_ route: Mailgun.Domains.Domains.API) throws -> URLRequest
     ) -> Self {
         @Dependency(URLRequest.Handler.Mailgun.self) var handleRequest
 
@@ -27,62 +26,62 @@ extension Mailgun.Domains.Domain.Client {
             list: { request in
                 try await handleRequest(
                     for: makeRequest(.list(request: request)),
-                    decodingTo: Mailgun.Domains.Domain.List.Response.self
+                    decodingTo: Mailgun.Domains.Domains.List.Response.self
                 )
             },
             
             create: { request in
                 try await handleRequest(
                     for: makeRequest(.create(request: request)),
-                    decodingTo: Mailgun.Domains.Domain.Create.Response.self
+                    decodingTo: Mailgun.Domains.Domains.Create.Response.self
                 )
             },
             
             get: { domain in
                 try await handleRequest(
                     for: makeRequest(.get(domain: domain)),
-                    decodingTo: Mailgun.Domains.Domain.Get.Response.self
+                    decodingTo: Mailgun.Domains.Domains.Get.Response.self
                 )
             },
             
             update: { domain, request in
                 try await handleRequest(
                     for: makeRequest(.update(domain: domain, request: request)),
-                    decodingTo: Mailgun.Domains.Domain.Update.Response.self
+                    decodingTo: Mailgun.Domains.Domains.Update.Response.self
                 )
             },
             
             delete: { domain in
                 try await handleRequest(
                     for: makeRequest(.delete(domain: domain)),
-                    decodingTo: Mailgun.Domains.Domain.Delete.Response.self
+                    decodingTo: Mailgun.Domains.Domains.Delete.Response.self
                 )
             },
             
             verify: { domain in
                 try await handleRequest(
                     for: makeRequest(.verify(domain: domain)),
-                    decodingTo: Mailgun.Domains.Domain.Verify.Response.self
+                    decodingTo: Mailgun.Domains.Domains.Verify.Response.self
                 )
             }
         )
     }
 }
 
-extension Mailgun.Domains.Domain.Client {
+extension Mailgun.Domains.Domains.Client {
     public typealias Authenticated = Mailgun_Shared.AuthenticatedClient<
-        Mailgun.Domains.Domain.API,
-        Mailgun.Domains.Domain.API.Router,
-        Mailgun.Domains.Domain.Client
+        Mailgun.Domains.Domains.API,
+        Mailgun.Domains.Domains.API.Router,
+        Mailgun.Domains.Domains.Client
     >
 }
 
-extension Mailgun.Domains.Domain.Client: @retroactive DependencyKey {
-    public static var liveValue: Mailgun.Domains.Domain.Client.Authenticated {
-        try! Mailgun.Domains.Domain.Client.Authenticated { .live(makeRequest: $0) }
+extension Mailgun.Domains.Domains.Client: @retroactive DependencyKey {
+    public static var liveValue: Mailgun.Domains.Domains.Client.Authenticated {
+        try! Mailgun.Domains.Domains.Client.Authenticated { .live(makeRequest: $0) }
     }
 }
 
-extension Mailgun.Domains.Domain.API.Router: @retroactive DependencyKey {
-    public static let liveValue: Mailgun.Domains.Domain.API.Router = .init()
+extension Mailgun.Domains.Domains.API.Router: @retroactive DependencyKey {
+    public static let liveValue: Mailgun.Domains.Domains.API.Router = .init()
 }

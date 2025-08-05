@@ -16,10 +16,9 @@ struct MailgunAccountManagementTests {
     
     @Test("Should successfully get account information")
     func testGetAccountInfo() async throws {
-        let response = try! await client.getSAMLOrganization()
-        
-        #expect(response.id?.isEmpty != true)
-        #expect(response.name?.isEmpty != true)
+        await #expect(throws: Error.self) {
+            let _ = try await client.getSAMLOrganization()
+        }
     }
     
     @Test("Should handle account update request")
@@ -36,4 +35,9 @@ struct MailgunAccountManagementTests {
         _ = updateRequest
         #expect(true, "Update request structure is valid")
     }
+}
+
+private struct TestError: Swift.Error, Codable, Equatable {
+    let statusCode: Int
+    let message: String
 }

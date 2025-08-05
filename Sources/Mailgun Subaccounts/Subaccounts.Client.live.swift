@@ -9,10 +9,8 @@ import Dependencies
 import Foundation
 import IssueReporting
 import Mailgun_Shared
-import Mailgun_Types_Shared
 import Mailgun_Subaccounts_Types
 @_exported import enum Mailgun_Types.Mailgun
-
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif

@@ -30,6 +30,7 @@ import Mailgun_Users
 import Mailgun_Webhooks
 import Dependencies
 @_exported import enum Mailgun_Types.Mailgun
+
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
@@ -37,73 +38,72 @@ import FoundationNetworking
 extension Mailgun.Client {
     public static func live(
     ) throws -> Mailgun_Shared.AuthenticatedClient<Mailgun.API, Mailgun.API.Router, Mailgun.Client> {
-
+        
         @Dependency(Mailgun.API.Router.self) var mailgunRouter
         @Dependency(\.envVars.mailgunPrivateApiKey) var apiKey
-        @Dependency(\.envVars.mailgunBaseUrl) var baseUrl
         @Dependency(\.envVars.mailgunDomain) var domain
-
-        return try Mailgun_Shared.AuthenticatedClient(
+        
+        return try .init(
             apiKey: apiKey,
-            baseUrl: baseUrl,
-            router: mailgunRouter) { makeRequest in
-                Mailgun.Client.init(
-                    messages: .live(
-                        makeRequest: { try makeRequest(Mailgun.API.messages($0)) }
-                    ),
-                    mailingLists: .live(
-                        makeRequest: { try makeRequest(Mailgun.API.lists($0)) }
-                    ),
-                    events: .live(
-                        makeRequest: { try makeRequest(Mailgun.API.events($0)) }
-                    ),
-                    suppressions: .live(
-                        makeRequest: { try makeRequest(Mailgun.API.suppressions($0)) }
-                    ),
-                    webhooks: .live(
-                        makeRequest: { try makeRequest(Mailgun.API.webhooks($0)) }
-                    ),
-                    domains: .live(
-                        makeRequest: { try makeRequest(Mailgun.API.domains($0)) }
-                    ),
-                    templates: .live(
-                        makeRequest: { try makeRequest(Mailgun.API.templates($0)) }
-                    ),
-                    routes: .live(
-                        makeRequest: { try makeRequest(Mailgun.API.routes($0)) }
-                    ),
-                    ips: .live(
-                        makeRequest: { try makeRequest(Mailgun.API.ips($0)) }
-                    ),
-                    ipPools: .live(
-                        makeRequest: { try makeRequest(Mailgun.API.ipPools($0)) }
-                    ),
-                    ipAllowlist: .live(
-                        makeRequest: { try makeRequest(Mailgun.API.ipAllowlist($0)) }
-                    ),
-                    keys: .live(
-                        makeRequest: { try makeRequest(Mailgun.API.keys($0)) }
-                    ),
-                    users: .live(
-                        makeRequest: { try makeRequest(Mailgun.API.users($0)) }
-                    ),
-                    subaccounts: .live(
-                        makeRequest: { try makeRequest(Mailgun.API.subaccounts($0)) }
-                    ),
-                    credentials: .live(
-                        makeRequest: { try makeRequest(Mailgun.API.credentials($0)) }
-                    ),
-                    customMessageLimit: .live(
-                        makeRequest: { try makeRequest(Mailgun.API.customMessageLimit($0)) }
-                    ),
-                    accountManagement: .live(
-                        makeRequest: { try makeRequest(Mailgun.API.accountManagement($0)) }
-                    ),
-                    reporting: .live(
-                        makeRequest: { try makeRequest(Mailgun.API.reporting($0)) }
-                    )
-                )
-            }
+            router: mailgunRouter
+        ) { makeRequest in
+            .init(
+                messages: .live {
+                    try makeRequest(Mailgun.API.messages($0))
+                },
+                mailingLists: .live {
+                    try makeRequest(Mailgun.API.lists($0))
+                },
+                events: .live {
+                    try makeRequest(Mailgun.API.events($0))
+                },
+                suppressions: .live {
+                    try makeRequest(Mailgun.API.suppressions($0))
+                },
+                webhooks: .live {
+                    try makeRequest(Mailgun.API.webhooks($0))
+                },
+                domains: .live {
+                    try makeRequest(Mailgun.API.domains($0))
+                },
+                templates: .live {
+                    try makeRequest(Mailgun.API.templates($0))
+                },
+                routes: .live {
+                    try makeRequest(Mailgun.API.routes($0))
+                },
+                ips: .live {
+                    try makeRequest(Mailgun.API.ips($0))
+                },
+                ipPools: .live {
+                    try makeRequest(Mailgun.API.ipPools($0))
+                },
+                ipAllowlist: .live {
+                    try makeRequest(Mailgun.API.ipAllowlist($0))
+                },
+                keys: .live {
+                    try makeRequest(Mailgun.API.keys($0))
+                },
+                users: .live {
+                    try makeRequest(Mailgun.API.users($0))
+                },
+                subaccounts: .live {
+                    try makeRequest(Mailgun.API.subaccounts($0))
+                },
+                credentials: .live {
+                    try makeRequest(Mailgun.API.credentials($0))
+                },
+                customMessageLimit: .live {
+                    try makeRequest(Mailgun.API.customMessageLimit($0))
+                },
+                accountManagement: .live {
+                    try makeRequest(Mailgun.API.accountManagement($0))
+                },
+                reporting: .live {
+                    try makeRequest(Mailgun.API.reporting($0))
+                }
+            )
+        }
     }
 }
 

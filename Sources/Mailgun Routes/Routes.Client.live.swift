@@ -12,7 +12,6 @@ import Mailgun_Shared
 import Mailgun_Types_Shared
 import Mailgun_Routes_Types
 @_exported import enum Mailgun_Types.Mailgun
-
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif

@@ -12,7 +12,6 @@ import Mailgun_Shared
 import Mailgun_Types_Shared
 import Mailgun_Suppressions_Types
 @_exported import enum Mailgun_Types.Mailgun
-
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
@@ -22,10 +21,18 @@ extension Mailgun.Suppressions.Client {
         makeRequest: @escaping @Sendable (_ route: Mailgun.Suppressions.API) throws -> URLRequest
     ) -> Self {
         Self(
-            bounces: .live { try makeRequest(.bounces($0)) },
-            complaints: .live { try makeRequest(.complaints($0)) },
-            unsubscribe: .live { try makeRequest(.unsubscribe($0)) },
-            whitelist: .live { try makeRequest(.whitelist($0)) }
+            bounces: .live {
+                try makeRequest(.bounces($0))
+            },
+            complaints: .live {
+                try makeRequest(.complaints($0))
+            },
+            unsubscribe: .live {
+                try makeRequest(.unsubscribe($0))
+            },
+            whitelist: .live {
+                try makeRequest(.whitelist($0))
+            }
         )
     }
 }

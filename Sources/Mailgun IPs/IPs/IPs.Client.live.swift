@@ -13,7 +13,6 @@ import Mailgun_Types_Shared
 import Mailgun_IPs_Types
 import TypesFoundation
 @_exported import enum Mailgun_Types.Mailgun
-
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif

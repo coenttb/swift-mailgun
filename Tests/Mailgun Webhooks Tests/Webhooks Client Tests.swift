@@ -11,7 +11,6 @@ import EnvironmentVariables
 import Foundation
 @testable import Mailgun_Webhooks
 import Testing
-import WebhooksTypes
 
 @Suite(
     .dependency(\.context, .live),

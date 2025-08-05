@@ -28,11 +28,11 @@ public typealias AuthenticatedClient<
 extension AuthenticatedClient {
     public init(
         apiKey: ApiKey,
-        baseUrl: URL,
         router: APIRouter,
         buildClient: @escaping @Sendable (@escaping @Sendable (API) throws -> URLRequest) -> ClientOutput
     ) throws where Auth == BasicAuth, AuthRouter == BasicAuth.Router {
-
+        @Dependency(\.envVars.mailgunBaseUrl) var baseUrl
+        
         self = .init(
             baseURL: baseUrl,
             auth: try .init(username: "api", password: apiKey.rawValue),
@@ -52,12 +52,10 @@ extension AuthenticatedClient {
     ) throws -> Self where Auth == BasicAuth, AuthRouter == BasicAuth.Router {
         @Dependency(\.envVars) var envVars
 
-        let baseUrl = envVars.mailgunBaseUrl
         let apiKey = envVars.mailgunPrivateApiKey
 
         return try AuthenticatedClient(
             apiKey: apiKey,
-            baseUrl: baseUrl,
             router: router,
             buildClient: { buildClient($0) }
         )

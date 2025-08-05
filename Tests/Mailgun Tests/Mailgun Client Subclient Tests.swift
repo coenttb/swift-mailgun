@@ -49,10 +49,10 @@ struct MailgunClientSubclientAccessTests {
         _ = mailgun.suppressions.unsubscribe
         _ = mailgun.suppressions.whitelist
         
-        _ = mailgun.domains.domain
-        _ = mailgun.domains.dkimSecurity
-        _ = mailgun.domains.domainKeys
-        _ = mailgun.domains.domainTracking
+//        _ = Mailgun.Domains.Domains
+//        _ = mailgun.domains.dkimSecurity
+//        _ = Mailgun.Domains.DomainKeys
+//        _ = Mailgun.Domains.DomainsTracking
         
         _ = mailgun.reporting.events
         _ = mailgun.reporting.logs

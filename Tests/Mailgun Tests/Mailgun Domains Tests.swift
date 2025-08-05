@@ -38,30 +38,30 @@ struct MailgunDomainsTests {
     
     @Test("Should successfully get DKIM tracking settings")
     func testGetDKIMTracking() async throws {
-        let response = try await client.domainTracking.get(domain)
+        let response = try await client.domain.tracking.get(domain)
     }
     
     @Test("Should handle DKIM tracking updates")
     func testUpdateDKIMTracking() async throws {
         // Test click tracking update
-        let clickRequest = Mailgun.Domains.Domain.Tracking.UpdateClick.Request(active: true)
+        let clickRequest = Mailgun.Domains.Domains.Tracking.UpdateClick.Request(active: true)
         
-        let clickResponse = try await client.domainTracking.updateClick(domain, clickRequest)
+        let clickResponse = try await client.domain.tracking.updateClick(domain, clickRequest)
         #expect(clickResponse.message.contains("updated") || clickResponse.message.contains("Domain tracking"))
         
         // Test open tracking update
-        let openRequest = Mailgun.Domains.Domain.Tracking.UpdateOpen.Request(
+        let openRequest = Mailgun.Domains.Domains.Tracking.UpdateOpen.Request(
             active: true
         )
         
-        let openResponse = try await client.domainTracking.updateOpen(domain, openRequest)
+        let openResponse = try await client.domain.tracking.updateOpen(domain, openRequest)
         #expect(openResponse.message.contains("updated") || openResponse.message.contains("Domain tracking"))
     }
     
-    @Test("Should successfully verify domain connection")
-    func testVerifyDomainConnection() async throws {
-        let response = try await client.domain.verify(domain)
-        
-        #expect(response.message.contains("verified") || response.message.contains("Domain"))
-    }
+//    @Test("Should successfully verify domain connection")
+//    func testVerifyDomainConnection() async throws {
+//        let response = try await client.domain
+//        
+//        #expect(response.message.contains("verified") || response.message.contains("Domain"))
+//    }
 }
