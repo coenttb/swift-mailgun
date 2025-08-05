@@ -1,172 +1,435 @@
 # coenttb-mailgun
 
-`coenttb-mailgun` is an unofficial Swift SDK for Mailgun that is modern, safe, and a joy to write in.
+<p align="center">
+  <img src="https://img.shields.io/badge/Swift-6.0-orange.svg" alt="Swift 6.0">
+  <img src="https://img.shields.io/badge/Platforms-macOS%2014%2B%20|%20iOS%2017%2B-lightgray.svg" alt="Platforms">
+  <img src="https://img.shields.io/badge/License-AGPL--3.0%20|%20Commercial-blue.svg" alt="License">
+  <img src="https://img.shields.io/badge/Status-Active%20Development-green.svg" alt="Status">
+</p>
 
-![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
+<p align="center">
+  <strong>Modern, type-safe Swift SDK for Mailgun</strong><br>
+  Production-ready implementation with comprehensive API coverage
+</p>
 
-This package is currently in active development and is subject to frequent changes. Features and APIs may change without prior notice until a stable release is available.
+## Overview
+
+**coenttb-mailgun** is a modern, type-safe Swift SDK for Mailgun that brings the full power of Swift 6's concurrency model to email automation. Built on top of [swift-mailgun-types](https://github.com/coenttb/swift-mailgun-types), it provides production-ready implementations with comprehensive API coverage.
+
+```swift
+import Dependencies
+import Mailgun
+
+@Dependency(\.mailgun) var mailgun
+
+// Send a simple email
+let request = Mailgun.Messages.Send.Request(
+    from: .init("hello@yourdomain.com"),
+    to: [.init("user@example.com")],
+    subject: "Welcome to coenttb-mailgun!",
+    html: "<h1>Modern email delivery</h1><p>Built with Swift 6</p>"
+)
+
+let response = try await mailgun.client.messages.send(request)
+print("Email sent: \(response.id)")
+```
 
 ## Features
 
-### API Coverage
+### 🚀 Production Ready
+- **URLSession-based networking** with robust error handling
+- **Basic Authentication** via swift-authenticating
+- **Environment configuration** via swift-environment-variables
+- **Dependency injection** via swift-dependencies
+- **Swift 6 language mode** with complete concurrency support
 
-| Name | Implementation Status | Test Status |
-|------|---------------------|-------------|
-| Messages | ✅ | ✅ |
-| Domains - DKIM Security | | |
-| Domains - Domain Connection | | |
-| Domains - Domain Keys | | |
-| Domains - Domain Tracking | | |
-| Webhooks | ✅ | |🚧| Events | ✅ | |
-| Tags | ✅ | 🚧 |
-| Reporting - Metrics | ✅ | ✅ |
-| Reporting - Stats | ✅ | ✅ |
-| Suppressions - Bounces | ✅ | ✅ |
-| Suppressions - Complaints | ✅ | ✅ |
-| Suppressions - Unsubscribe | ✅ | ✅ |
-| Suppressions - Whitelist | ✅ | ✅ |
-| Routes | | |
-| Mailing Lists | ✅ | ✅ |
-| Templates | ✅ | 🚧 |
-| IP Pools | | |
-| IPs | | |
-| Subaccounts | | |
-| Custom Message Limit | | |
-| Keys | | |
-| Credentials | | |
-| IP Allowlist | | |
-| Users | | |
-  
-### Technical Features
+### 📋 Comprehensive API Coverage
 
-* **Type Safety & Swift Integration**
-  * Fully type-safe API & Client
-  * Swift concurrency with async/await
-  * Swift 6.0 optimized
+| Feature | Implementation | Tests |
+|---------|:--------------:|:-----:|
+| **Messages** | ✅ | ✅ |
+| **Domains** | ✅ | ✅ |
+| ├─ DKIM Security | ✅ | ✅ |
+| ├─ Connection Settings | ✅ | ✅ |
+| ├─ Domain Keys | ✅ | ✅ |
+| └─ Tracking Settings | ✅ | ✅ |
+| **Suppressions** | ✅ | ✅ |
+| ├─ Bounces | ✅ | ✅ |
+| ├─ Complaints | ✅ | ✅ |
+| ├─ Unsubscribes | ✅ | ✅ |
+| └─ Whitelist | ✅ | ✅ |
+| **Reporting** | ✅ | ✅ |
+| ├─ Events | ✅ | ✅ |
+| ├─ Stats | ✅ | ✅ |
+| ├─ Metrics | ✅ | ✅ |
+| ├─ Tags | ✅ | ✅ |
+| └─ Logs | ✅ | ✅ |
+| **Templates** | ✅ | ✅ |
+| **Webhooks** | ✅ | ✅ |
+| **Mailing Lists** | ✅ | ✅ |
+| **Routes** | ✅ | ✅ |
+| **IP Management** | ✅ | ✅ |
+| ├─ IPs | ✅ | ✅ |
+| ├─ IP Pools | ✅ | ✅ |
+| └─ IP Allowlist | ✅ | ✅ |
+| **Account Management** | ✅ | ✅ |
+| ├─ Subaccounts | ✅ | ✅ |
+| ├─ Users | ✅ | ✅ |
+| ├─ Credentials | ✅ | ✅ |
+| ├─ Keys | ✅ | ✅ |
+| └─ Message Limits | ✅ | ✅ |
 
-* **Authentication & Security**
-  * Secure credential management via `swift-environment-variables`
-  * Built-in Basic Auth handling
-
-* **Developer Experience**
-  * Comprehensive test coverage
-  * Dependency injection support via `swift-dependencies`
-  * Mock implementations for testing
+### 🛡️ Type Safety & Modern Swift
+- **Type-safe API** with compile-time validation
+- **Swift concurrency** with async/await throughout
+- **@Sendable closures** for thread-safe operations
+- **Structured concurrency** support
+- **Swift Testing framework** for comprehensive test coverage
 
 ## Installation
 
-Add the dependency to your `Package.swift`:
+Add coenttb-mailgun to your `Package.swift`:
 
 ```swift
 dependencies: [
     .package(url: "https://github.com/coenttb/coenttb-mailgun", branch: "main")
+],
+targets: [
+    .target(
+        name: "YourTarget",
+        dependencies: [
+            .product(name: "Mailgun", package: "coenttb-mailgun")
+        ]
+    )
 ]
 ```
 
-## Usage
+## Quick Start
 
-### Configuration
+### Environment Configuration
 
-#### [recommended] Configuration via Dependencies
+Set up your environment variables:
+
+```bash
+# Required
+MAILGUN_BASE_URL=https://api.mailgun.net
+MAILGUN_PRIVATE_API_KEY=your-api-key
+MAILGUN_DOMAIN=mg.yourdomain.com
+
+# Optional (for testing)
+MAILGUN_FROM_EMAIL=noreply@yourdomain.com
+MAILGUN_TO_EMAIL=test@example.com
+MAILGUN_TEST_MAILINGLIST=newsletter@mg.yourdomain.com
+MAILGUN_TEST_RECIPIENT=subscriber@example.com
+```
+
+### Basic Usage
+
 ```swift
+import Dependencies
 import Mailgun
 
-extension Mailgun.Client: @retroactive DependencyKey {
-    public static var liveValue: Mailgun.AuthenticatedClient? {
-        @Dependency(\.envVars) var envVars
+// Access the client via dependency injection
+@Dependency(\.mailgun) var mailgun
+
+// Send a simple email
+func sendWelcomeEmail(to email: String) async throws {
+    let request = Mailgun.Messages.Send.Request(
+        from: .init("welcome@yourdomain.com"),
+        to: [.init(email)],
+        subject: "Welcome!",
+        html: """
+            <h1>Welcome to our service!</h1>
+            <p>We're excited to have you on board.</p>
+        """,
+        text: "Welcome to our service! We're excited to have you on board."
+    )
+    
+    let response = try await mailgun.client.messages.send(request)
+    print("Welcome email sent: \(response.id)")
+}
+```
+
+### Advanced Features
+
+#### Templates with Variables
+
+```swift
+let request = Mailgun.Messages.Send.Request(
+    from: .init("noreply@yourdomain.com"),
+    to: [.init("user@example.com")],
+    subject: "Your Order #{{order_id}}",
+    template: "order-confirmation",
+    templateVariables: [
+        "customer_name": "John Doe",
+        "order_id": "12345",
+        "total": "$99.99",
+        "items": ["Swift Book", "Mailgun Guide"]
+    ],
+    templateVersion: "v2"
+)
+
+let response = try await mailgun.client.messages.send(request)
+```
+
+#### Batch Sending with Recipient Variables
+
+```swift
+let request = Mailgun.Messages.Send.Request(
+    from: .init("newsletter@yourdomain.com"),
+    to: [
+        .init("alice@example.com"),
+        .init("bob@example.com"),
+        .init("charlie@example.com")
+    ],
+    subject: "Hello %recipient.name%!",
+    html: "<p>Special offer just for %recipient.name%: Use code %recipient.code%</p>",
+    recipientVariables: [
+        "alice@example.com": ["name": "Alice", "code": "ALICE20"],
+        "bob@example.com": ["name": "Bob", "code": "BOB15"],
+        "charlie@example.com": ["name": "Charlie", "code": "CHARLIE25"]
+    ]
+)
+```
+
+#### Scheduled Delivery
+
+```swift
+let deliveryTime = Date().addingTimeInterval(3600) // 1 hour from now
+
+let request = Mailgun.Messages.Send.Request(
+    from: .init("reminder@yourdomain.com"),
+    to: [.init("user@example.com")],
+    subject: "Reminder: Meeting in 1 hour",
+    text: "Don't forget about your meeting!",
+    deliveryTime: deliveryTime
+)
+```
+
+#### Attachments
+
+```swift
+let attachment = Mailgun.Messages.Attachment(
+    filename: "report.pdf",
+    data: reportData,
+    contentType: "application/pdf"
+)
+
+let request = Mailgun.Messages.Send.Request(
+    from: .init("reports@yourdomain.com"),
+    to: [.init("manager@example.com")],
+    subject: "Monthly Report",
+    html: "<p>Please find the monthly report attached.</p>",
+    attachment: [attachment]
+)
+```
+
+### Suppression Management
+
+```swift
+// Check if an email is bounced
+let bounces = try await mailgun.client.suppressions.bounces.list()
+let isBounced = bounces.items.contains { $0.address == "user@example.com" }
+
+// Add to unsubscribe list
+try await mailgun.client.suppressions.unsubscribes.create(
+    address: "user@example.com",
+    tag: "newsletter"
+)
+
+// Whitelist an important address
+try await mailgun.client.suppressions.whitelist.create(
+    address: "vip@partner.com",
+    reason: "Important business partner"
+)
+```
+
+### Analytics & Reporting
+
+```swift
+// Get delivery statistics
+let stats = try await mailgun.client.stats.total(
+    event: .delivered,
+    start: Date().addingTimeInterval(-7 * 24 * 3600), // Last 7 days
+    resolution: .day
+)
+
+// Search events
+let events = try await mailgun.client.events.search(
+    recipient: "user@example.com",
+    limit: 50
+)
+
+// Get metrics
+let metrics = try await mailgun.client.metrics.query(
+    metrics: [.deliverability.deliveredRate],
+    start: Date().addingTimeInterval(-30 * 24 * 3600),
+    resolution: .day
+)
+```
+
+## Integration Examples
+
+### With Vapor
+
+```swift
+import Vapor
+import Mailgun
+import Dependencies
+
+extension Request {
+    var mailgun: Mailgun.Client.Authenticated {
+        @Dependency(\.mailgun) var mailgun
+        return mailgun
+    }
+}
+
+func routes(_ app: Application) throws {
+    app.post("send-welcome") { req async throws -> HTTPStatus in
+        let user = try req.content.decode(User.self)
         
-        guard
-            let baseUrl = envVars.mailgun?.baseUrl,
-            let apiKey = envVars.mailgun?.apiKey,
-            let domain = envVars.mailgun?.domain
-        else {
-            return nil
-        }
-        
-        return Mailgun.Client.live(
-            apiKey: apiKey,
-            baseUrl: baseUrl,
-            domain: domain,
-            session: { try await URLSession.shared.data(for: $0) }
+        let email = Mailgun.Messages.Send.Request(
+            from: .init("welcome@app.com"),
+            to: [.init(user.email)],
+            subject: "Welcome to our app!",
+            template: "welcome",
+            templateVariables: [
+                "name": user.name,
+                "activation_link": "https://app.com/activate/\(user.id)"
+            ]
         )
+        
+        try await req.mailgun.client.messages.send(email)
+        return .ok
     }
 }
 ```
 
-Access the client via `Dependency(\.mailgunClient) var mailgunClient`.
-
-### Sending Emails
+### With SwiftUI
 
 ```swift
-Dependency(\.mailgunClient) var mailgunClient
+import SwiftUI
+import Dependencies
+import Mailgun
 
-// Create a basic email request
-let request = try Mailgun.Messages.Send.Request(
-    from: .init("sender@yourdomain.com"),
-    to: [.init("recipient@example.com")],
-    subject: "Hello from Mailgun Swift SDK",
-    html: "<h1>Hello!</h1><p>This is a test email.</p>",
-    text: "Hello! This is a test email."
-)
-
-// Send the email
-let response = try await mailgunClient.messages.send(request)
-print("Message sent with ID: \(response.id)")
+@MainActor
+@Observable
+class ContactViewModel {
+    @ObservationIgnored
+    @Dependency(\.mailgun) var mailgun
+    
+    var isLoading = false
+    var message = ""
+    var error: Error?
+    
+    func sendContactForm(name: String, email: String, message: String) async {
+        isLoading = true
+        defer { isLoading = false }
+        
+        do {
+            let request = Mailgun.Messages.Send.Request(
+                from: .init(email),
+                to: [.init("contact@company.com")],
+                subject: "Contact Form: \(name)",
+                text: message,
+                replyTo: .init(email)
+            )
+            
+            let response = try await mailgun.client.messages.send(request)
+            self.message = "Message sent successfully!"
+        } catch {
+            self.error = error
+        }
+    }
+}
 ```
 
-### Testing Support
+## Testing
 
-The package includes a comprehensive test suite.
+The SDK includes comprehensive test coverage using Swift Testing:
+
+```swift
+import Testing
+import Dependencies
+import Mailgun
+
+@Suite(
+    "Email Tests",
+    .dependency(\.envVars, .development)
+)
+struct EmailTests {
+    @Test("Send test email")
+    func testSendEmail() async throws {
+        @Dependency(\.mailgun) var mailgun
+        
+        let request = Mailgun.Messages.Send.Request(
+            from: .init("test@yourdomain.com"),
+            to: [.init("test@example.com")],
+            subject: "Test Email",
+            text: "This is a test",
+            testMode: true  // Won't actually send
+        )
+        
+        let response = try await mailgun.client.messages.send(request)
+        #expect(response.message.contains("Queued"))
+    }
+}
+```
+
+## Architecture
+
+coenttb-mailgun implements the types and interfaces defined in [swift-mailgun-types](https://github.com/coenttb/swift-mailgun-types):
+
+```
+swift-mailgun-types              coenttb-mailgun
+       │                               │
+       ├─ Types & Models ─────────────►├─ Live Implementations
+       ├─ Client Interfaces ──────────►├─ URLSession Networking
+       ├─ API Routes ─────────────────►├─ Authentication
+       └─ Test Support ───────────────►└─ Production Features
+```
+
+### Key Components
+
+- **Modular Features**: Each API feature (Messages, Domains, etc.) is a separate module
+- **Dependency Injection**: Deep integration with swift-dependencies
+- **Type Safety**: All API interactions validated at compile time
+- **Error Handling**: Comprehensive error types with detailed messages
+- **Testing**: Real API integration tests with test mode support
 
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## Example
+## Example Projects
 
-Refer to [coenttb/coenttb-com-server](https://www.github.com/coenttb/coenttb-com-server) for an example of how to use coenttb-mailgun.
+See coenttb-mailgun in action:
 
-## Related projects
+- [coenttb.com](https://github.com/coenttb/coenttb-com-server) - Production website using coenttb-mailgun
+- [coenttb-newsletter](https://github.com/coenttb/coenttb-newsletter) - Newsletter system built with coenttb-mailgun
 
-### The coenttb stack
+## Support
 
-* [swift-css](https://www.github.com/coenttb/swift-css): A Swift DSL for type-safe CSS.
-* [swift-html](https://www.github.com/coenttb/swift-html): A Swift DSL for type-safe HTML & CSS, integrating [swift-css](https://www.github.com/coenttb/swift-css) and [pointfree-html](https://www.github.com/coenttb/pointfree-html).
-* [swift-web](https://www.github.com/coenttb/swift-web): Foundational tools for web development in Swift.
-* [coenttb-html](https://www.github.com/coenttb/coenttb-html): Builds on [swift-html](https://www.github.com/coenttb/swift-html), and adds functionality for HTML, Markdown, Email, and printing HTML to PDF.
-* [coenttb-web](https://www.github.com/coenttb/coenttb-web): Builds on [swift-web](https://www.github.com/coenttb/swift-web), and adds functionality for web development.
-* [coenttb-server](https://www.github.com/coenttb/coenttb-server): Build fast, modern, and safe servers that are a joy to write. `coenttb-server` builds on [coenttb-web](https://www.github.com/coenttb/coenttb-web), and adds functionality for server development.
-* [coenttb-vapor](https://www.github.com/coenttb/coenttb-server-vapor): `coenttb-server-vapor` builds on [coenttb-server](https://www.github.com/coenttb/coenttb-server), and adds functionality and integrations with Vapor and Fluent.
-* [coenttb-com-server](https://www.github.com/coenttb/coenttb-com-server): The backend server for coenttb.com, written entirely in Swift and powered by [coenttb-server-vapor](https://www.github.com/coenttb-server-vapor).
-
-### PointFree foundations
-* [coenttb/pointfree-html](https://www.github.com/coenttb/pointfree-html): A Swift DSL for type-safe HTML, forked from [pointfreeco/swift-html](https://www.github.com/pointfreeco/swift-html) and updated to the version on [pointfreeco/pointfreeco](https://github.com/pointfreeco/pointfreeco).
-* [coenttb/pointfree-web](https://www.github.com/coenttb/pointfree-html): Foundational tools for web development in Swift, forked from  [pointfreeco/swift-web](https://www.github.com/pointfreeco/swift-web).
-* [coenttb/pointfree-server](https://www.github.com/coenttb/pointfree-html): Foundational tools for server development in Swift, forked from  [pointfreeco/swift-web](https://www.github.com/pointfreeco/swift-web).
-
-### Other
-* [swift-languages](https://www.github.com/coenttb/swift-languages): A cross-platform translation library written in Swift.
-
-## Feedback is much appreciated!
-
-If you’re working on your own Swift project, feel free to learn, fork, and contribute.
-
-Got thoughts? Found something you love? Something you hate? Let me know! Your feedback helps make this project better for everyone. Open an issue or start a discussion—I’m all ears.
-
-> [Subscribe to my newsletter](http://coenttb.com/en/newsletter/subscribe)
->
-> [Follow me on X](http://x.com/coenttb)
-> 
-> [Link on Linkedin](https://www.linkedin.com/in/tenthijeboonkkamp)
+- 🐛 [Issues](https://github.com/coenttb/coenttb-mailgun/issues) - Report bugs or request features
+- 💬 [Discussions](https://github.com/coenttb/coenttb-mailgun/discussions) - Ask questions
+- 📧 [Newsletter](http://coenttb.com/en/newsletter/subscribe) - Get updates
+- 🐦 [X (Twitter)](http://x.com/coenttb) - Follow for news
+- 💼 [LinkedIn](https://www.linkedin.com/in/tenthijeboonkkamp) - Connect
 
 ## License
 
-This project is licensed under the **GNU Affero General Public License v3.0 (AGPL-3.0)**.  
-You are free to use, modify, and distribute this project under the terms of the AGPL-3.0.  
-For full details, please refer to the [LICENSE](LICENSE) file.
+This project is available under **dual licensing**:
 
-### Commercial Licensing
+### Open Source License
+**GNU Affero General Public License v3.0 (AGPL-3.0)**  
+Free for open source projects. See [LICENSE](LICENSE) for details.
 
-A **Commercial License** is available for organizations or individuals who wish to use this project without adhering to the terms of the AGPL-3.0 (e.g., to use it in proprietary software or SaaS products).  
+### Commercial License
+For proprietary/commercial use without AGPL restrictions.  
+Contact **info@coenttb.com** for licensing options.
 
-For inquiries about commercial licensing, please contact **info@coenttb.com**.
+---
+
+<p align="center">
+  Made with ❤️ by <a href="https://coenttb.com">coenttb</a>
+</p>
