@@ -6,7 +6,7 @@ import PackageDescription
 extension String {
     static let mailgun: Self = "Mailgun"
     static let credentials: Self = "MailgunCredentials"
-    static let customMessageLimit: Self = "MailgunCustomMessageLimit"
+    static let customMessageLimit: Self = "Mailgun CustomMessageLimit"
     static let domains: Self = "MailgunDomains"
     static let iPAllowlist: Self = "MailgunIPAllowlist"
     static let ipPools: Self = "MailgunIPPools"
@@ -77,9 +77,6 @@ extension Target.Dependency {
     static var urlrequestHandler: Self { .product(name: "URLRequestHandler", package: "swift-urlrequest-handler" ) }
     static var urlRouting: Self { .product(name: "URLRouting", package: "swift-url-routing" ) }
     static var urlFormCoding: Self { .product(name: "URLFormCoding", package: "swift-url-form-coding" ) }
-    
-    
-    
 }
 
 let package = Package(
