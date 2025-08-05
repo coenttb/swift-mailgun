@@ -5,7 +5,6 @@
 //  Created by Coen ten Thije Boonkkamp on 24/12/2024.
 //
 
-import Coenttb_Web
 import Foundation
 
 public struct ApiKey: Codable, Hashable, Sendable, RawRepresentable, ExpressibleByStringLiteral {

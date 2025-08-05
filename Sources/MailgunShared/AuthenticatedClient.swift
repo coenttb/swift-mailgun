@@ -5,8 +5,8 @@
 //  Created by Coen ten Thije Boonkkamp on 05/01/2025.
 //
 
-import Coenttb_Authentication
-import Coenttb_Web
+import Authenticating
+import Dependencies
 import Foundation
 import URLRouting
 
@@ -18,8 +18,7 @@ public typealias AuthenticatedClient<
     API: Equatable & Sendable,
     APIRouter: ParserPrinter & Sendable,
     Client: Sendable
-> = Coenttb_Authentication.Client<
-    BasicAuth,
+> = Authenticating<BasicAuth>.Client<
     BasicAuth.Router,
     API,
     APIRouter,

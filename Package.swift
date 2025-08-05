@@ -8,7 +8,6 @@ extension String {
     static let credentials: Self = "MailgunCredentials"
     static let customMessageLimit: Self = "MailgunCustomMessageLimit"
     static let domains: Self = "MailgunDomains"
-    static let events: Self = "MailgunEvents"
     static let iPAllowlist: Self = "MailgunIPAllowlist"
     static let ipPools: Self = "MailgunIPPools"
     static let ips: Self = "MailgunIPs"
@@ -19,7 +18,6 @@ extension String {
     static let routes: Self = "MailgunRoutes"
     static let subaccounts: Self = "MailgunSubaccounts"
     static let suppressions: Self = "MailgunSuppressions"
-    static let tags: Self = "MailgunTags"
     static let templates: Self = "MailgunTemplates"
     static let users: Self = "MailgunUsers"
     static let webhooks: Self = "MailgunWebhooks"
@@ -31,7 +29,6 @@ extension Target.Dependency {
     static var credentials: Self { .target(name: .credentials) }
     static var customMessageLimit: Self { .target(name: .customMessageLimit) }
     static var domains: Self { .target(name: .domains) }
-    static var events: Self { .target(name: .events) }
     static var iPAllowlist: Self { .target(name: .iPAllowlist) }
     static var ipPools: Self { .target(name: .ipPools) }
     static var ips: Self { .target(name: .ips) }
@@ -42,7 +39,6 @@ extension Target.Dependency {
     static var routes: Self { .target(name: .routes) }
     static var subaccounts: Self { .target(name: .subaccounts) }
     static var suppressions: Self { .target(name: .suppressions) }
-    static var tags: Self { .target(name: .tags) }
     static var templates: Self { .target(name: .templates) }
     static var users: Self { .target(name: .users) }
     static var webhooks: Self { .target(name: .webhooks) }
@@ -50,9 +46,8 @@ extension Target.Dependency {
 }
 
 extension Target.Dependency {
-    static var coenttbWeb: Self { .product(name: "Coenttb Web", package: "coenttb-web") }
-    static var coenttbServer: Self { .product(name: "Coenttb Server", package: "coenttb-server") }
-    static var coenttbAuthentication: Self { .product(name: "Coenttb Authentication", package: "coenttb-authentication") }
+    static var authenticating: Self { .product(name: "Authenticating", package: "swift-authenticating") }
+    static var environmentVariables: Self { .product(name: "EnvironmentVariables", package: "swift-environment-variables") }
     static var dependenciesMacros: Self { .product(name: "DependenciesMacros", package: "swift-dependencies") }
     static var dependenciesTestSupport: Self { .product(name: "DependenciesTestSupport", package: "swift-dependencies") }
     static var issueReporting: Self { .product(name: "IssueReporting", package: "xctest-dynamic-overlay") }
@@ -79,6 +74,12 @@ extension Target.Dependency {
     static var usersTypes: Self { .product(name: "Users".types, package: "swift-mailgun-types" ) }
     static var webhooksTypes: Self { .product(name: "Webhooks".types, package: "swift-mailgun-types" ) }
     static var mailgunTypesShared: Self { .product(name: "MailgunTypesShared", package: "swift-mailgun-types" ) }
+    static var urlrequestHandler: Self { .product(name: "URLRequestHandler", package: "swift-urlrequest-handler" ) }
+    static var urlRouting: Self { .product(name: "URLRouting", package: "swift-url-routing" ) }
+    static var urlFormCoding: Self { .product(name: "URLFormCoding", package: "swift-url-form-coding" ) }
+    
+    
+    
 }
 
 let package = Package(
@@ -92,7 +93,6 @@ let package = Package(
         .library(name: .credentials, targets: [.credentials]),
         .library(name: .customMessageLimit, targets: [.customMessageLimit]),
         .library(name: .domains, targets: [.domains]),
-        .library(name: .events, targets: [.events]),
         .library(name: .iPAllowlist, targets: [.iPAllowlist]),
         .library(name: .ipPools, targets: [.ipPools]),
         .library(name: .ips, targets: [.ips]),
@@ -103,31 +103,33 @@ let package = Package(
         .library(name: .routes, targets: [.routes]),
         .library(name: .subaccounts, targets: [.subaccounts]),
         .library(name: .suppressions, targets: [.suppressions]),
-        .library(name: .tags, targets: [.tags]),
         .library(name: .templates, targets: [.templates]),
         .library(name: .users, targets: [.users]),
         .library(name: .webhooks, targets: [.webhooks]),
         .library(name: .shared, targets: [.shared])
     ],
     dependencies: [
-        .package(url: "https://github.com/coenttb/coenttb-web", branch: "main"),
-        .package(url: "https://github.com/coenttb/coenttb-server", branch: "main"),
-        .package(url: "https://github.com/coenttb/coenttb-authentication", branch: "main"),
+        .package(url: "https://github.com/coenttb/swift-authenticating", branch: "main"),
+        .package(url: "https://github.com/coenttb/swift-environment-variables", from: "0.0.1"),
+        .package(url: "https://github.com/coenttb/swift-urlrequest-handler", from: "0.0.1"),
+        .package(url: "https://github.com/coenttb/swift-types-foundation", from: "0.0.1"),
 //        .package(url: "https://github.com/coenttb/swift-mailgun-types", from: "0.0.1"),
         .package(path: "../swift-mailgun-types"),
         .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.9.2"),
-        .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "1.4.3")
+        .package(url: "https://github.com/pointfreeco/swift-url-routing", from: "0.6.2"),
+        .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "1.4.3"),
+        .package(url: "https://github.com/coenttb/swift-url-form-coding", from: "0.1.0"),
     ],
     targets: [
         .target(
             name: .shared,
             dependencies: [
-                .coenttbWeb,
-                .coenttbServer,
                 .issueReporting,
-                .coenttbAuthentication,
-                .coenttbServer,
-                .mailgunTypesShared
+                .authenticating,
+                .mailgunTypesShared,
+                .environmentVariables,
+                .urlRouting,
+                .urlFormCoding
 
             ]
         ),
@@ -137,14 +139,11 @@ let package = Package(
                 .shared,
                 .mailgunTypesShared,
                 .mailgunTypes,
-                .coenttbWeb,
-                .coenttbServer,
                 .issueReporting,
                 .dependenciesMacros,
                 .credentials,
                 .customMessageLimit,
                 .domains,
-                .events,
                 .iPAllowlist,
                 .ipPools,
                 .ips,
@@ -155,10 +154,10 @@ let package = Package(
                 .routes,
                 .subaccounts,
                 .suppressions,
-                .tags,
                 .templates,
                 .users,
-                .webhooks
+                .webhooks,
+                .urlrequestHandler
             ]
         ),
         .testTarget(
@@ -174,10 +173,9 @@ let package = Package(
                 .shared,
                 .mailgunTypesShared,
                 .credentialsTypes,
-                .coenttbWeb,
-                .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros
+                .dependenciesMacros,
+                .urlrequestHandler
             ]
         ),
         .testTarget(
@@ -190,10 +188,9 @@ let package = Package(
                 .shared,
                 .mailgunTypesShared,
                 .customMessageLimitTypes,
-                .coenttbWeb,
-                .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros
+                .dependenciesMacros,
+                .urlrequestHandler
             ]
         ),
         .testTarget(
@@ -206,10 +203,9 @@ let package = Package(
                 .shared,
                 .mailgunTypesShared,
                 .domainsTypes,
-                .coenttbWeb,
-                .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros
+                .dependenciesMacros,
+                .urlrequestHandler
             ]
         ),
         .testTarget(
@@ -217,31 +213,14 @@ let package = Package(
             dependencies: [.domains, .shared, .dependenciesTestSupport]
         ),
         .target(
-            name: .events,
-            dependencies: [
-                .eventsTypes,
-                .shared,
-                .mailgunTypesShared,
-                .coenttbWeb,
-                .coenttbServer,
-                .issueReporting,
-                .dependenciesMacros
-            ]
-        ),
-        .testTarget(
-            name: .events.tests,
-            dependencies: [.events, .shared, .dependenciesTestSupport]
-        ),
-        .target(
             name: .iPAllowlist,
             dependencies: [
                 .shared,
                 .mailgunTypesShared,
                 .ipAllowlistTypes,
-                .coenttbWeb,
-                .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros
+                .dependenciesMacros,
+                .urlrequestHandler
             ]
         ),
         .testTarget(
@@ -254,10 +233,9 @@ let package = Package(
                 .ipPoolsTypes,
                 .shared,
                 .mailgunTypesShared,
-                .coenttbWeb,
-                .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros
+                .dependenciesMacros,
+                .urlrequestHandler
             ]
         ),
         .testTarget(
@@ -270,10 +248,9 @@ let package = Package(
                 .ipsTypes,
                 .shared,
                 .mailgunTypesShared,
-                .coenttbWeb,
-                .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros
+                .dependenciesMacros,
+                .urlrequestHandler
             ]
         ),
         .testTarget(
@@ -286,10 +263,9 @@ let package = Package(
                 .keysTypes,
                 .shared,
                 .mailgunTypesShared,
-                .coenttbWeb,
-                .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros
+                .dependenciesMacros,
+                .urlrequestHandler
             ]
         ),
         .testTarget(
@@ -302,10 +278,9 @@ let package = Package(
                 .listsTypes,
                 .shared,
                 .mailgunTypesShared,
-                .coenttbWeb,
-                .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros
+                .dependenciesMacros,
+                .urlrequestHandler
             ]
         ),
         .testTarget(
@@ -318,10 +293,9 @@ let package = Package(
                 .messagesTypes,
                 .shared,
                 .mailgunTypesShared,
-                .coenttbWeb,
-                .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros
+                .dependenciesMacros,
+                .urlrequestHandler
             ]
         ),
         .testTarget(
@@ -334,10 +308,9 @@ let package = Package(
                 .reportingTypes,
                 .shared,
                 .mailgunTypesShared,
-                .coenttbWeb,
-                .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros
+                .dependenciesMacros,
+                .urlrequestHandler
             ]
         ),
         .testTarget(
@@ -350,10 +323,9 @@ let package = Package(
                 .routesTypes,
                 .shared,
                 .mailgunTypesShared,
-                .coenttbWeb,
-                .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros
+                .dependenciesMacros,
+                .urlrequestHandler
             ]
         ),
         .testTarget(
@@ -366,10 +338,9 @@ let package = Package(
                 .subaccountsTypes,
                 .shared,
                 .mailgunTypesShared,
-                .coenttbWeb,
-                .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros
+                .dependenciesMacros,
+                .urlrequestHandler
             ]
         ),
         .testTarget(
@@ -382,10 +353,9 @@ let package = Package(
                 .suppressionsTypes,
                 .shared,
                 .mailgunTypesShared,
-                .coenttbWeb,
-                .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros
+                .dependenciesMacros,
+                .urlrequestHandler
             ]
         ),
         .testTarget(
@@ -393,31 +363,14 @@ let package = Package(
             dependencies: [.suppressions, .shared, .dependenciesTestSupport]
         ),
         .target(
-            name: .tags,
-            dependencies: [
-                .tagsTypes,
-                .shared,
-                .mailgunTypesShared,
-                .coenttbWeb,
-                .coenttbServer,
-                .issueReporting,
-                .dependenciesMacros
-            ]
-        ),
-        .testTarget(
-            name: .tags.tests,
-            dependencies: [.tags, .shared, .dependenciesTestSupport]
-        ),
-        .target(
             name: .templates,
             dependencies: [
                 .templatesTypes,
                 .shared,
                 .mailgunTypesShared,
-                .coenttbWeb,
-                .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros
+                .dependenciesMacros,
+                .urlrequestHandler
             ]
         ),
         .testTarget(
@@ -430,10 +383,9 @@ let package = Package(
                 .usersTypes,
                 .shared,
                 .mailgunTypesShared,
-                .coenttbWeb,
-                .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros
+                .dependenciesMacros,
+                .urlrequestHandler
             ]
         ),
         .testTarget(
@@ -446,10 +398,9 @@ let package = Package(
                 .webhooksTypes,
                 .shared,
                 .mailgunTypesShared,
-                .coenttbWeb,
-                .coenttbServer,
                 .issueReporting,
-                .dependenciesMacros
+                .dependenciesMacros,
+                .urlrequestHandler
             ]
         ),
         .testTarget(

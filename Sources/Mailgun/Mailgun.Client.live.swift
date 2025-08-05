@@ -5,14 +5,12 @@
 //  Created by Coen ten Thije Boonkkamp on 19/12/2024.
 //
 
-import Coenttb_Authentication
-import Coenttb_Web
+import Authenticating
 import DependenciesMacros
 import Foundation
 import MailgunCredentials
 import MailgunCustomMessageLimit
 import MailgunDomains
-import MailgunEvents
 import MailgunIPAllowlist
 import MailgunIPPools
 import MailgunIPs
@@ -24,11 +22,11 @@ import MailgunRoutes
 import MailgunShared
 import MailgunSubaccounts
 import MailgunSuppressions
-import MailgunTags
 import MailgunTemplates
 import MailgunTypes
 import MailgunUsers
 import MailgunWebhooks
+import Dependencies
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking

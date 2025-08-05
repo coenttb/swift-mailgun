@@ -4,7 +4,8 @@
 //  Created by Coen ten Thije Boonkkamp on 24/12/2024.
 //
 
-import Coenttb_Web
+import Dependencies
+import Foundation
 import IssueReporting
 import MailgunShared
 import ReportingTypes
@@ -54,3 +55,4 @@ extension Reporting.Stats.Client {
         )
     }
 }
+

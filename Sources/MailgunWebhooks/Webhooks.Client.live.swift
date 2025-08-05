@@ -5,14 +5,15 @@
 //  Created by Coen ten Thije Boonkkamp on 27/12/2024.
 //
 
-import Coenttb_Web
 import Dependencies
+import Foundation
 import IssueReporting
 import MailgunShared
 import WebhooksTypes
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
+
 
 extension Webhooks.Client {
    public static func live(

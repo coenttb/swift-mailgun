@@ -1,6 +1,7 @@
 // Suppressions.Complaints.Client.live.swift
 
-import Coenttb_Web
+import Dependencies
+import Foundation
 import IssueReporting
 import MailgunShared
 import SuppressionsTypes

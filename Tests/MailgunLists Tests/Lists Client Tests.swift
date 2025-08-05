@@ -4,7 +4,6 @@ import EnvironmentVariables
 import Foundation
 import ListsTypes
 @testable import MailgunLists
-import ServerFoundation
 import Testing
 
 @Suite(

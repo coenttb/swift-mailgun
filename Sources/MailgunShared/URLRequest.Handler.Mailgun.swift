@@ -5,8 +5,8 @@
 //  Created by Coen ten Thije Boonkkamp on 04/08/2025.
 //
 
-import Coenttb_Server
 import Foundation
+import URLRequestHandler
 
 extension URLRequest.Handler {
     package enum Mailgun {}

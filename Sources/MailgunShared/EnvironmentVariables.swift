@@ -5,8 +5,9 @@
 //  Created by Coen ten Thije Boonkkamp on 23/01/2025.
 //
 
-import Coenttb_Server
+import EnvironmentVariables
 import Foundation
+import Domain
 
 extension EnvironmentVariables {
     public var mailgunBaseUrl: URL {
@@ -43,7 +44,17 @@ extension EnvironmentVariables {
 
 extension EnvVars {
     package static var development: Self {
-        @Dependency(\.projectRoot) var projectRoot
-        return try! .live(environmentConfiguration: .projectRoot(projectRoot, environment: "development"), requiredKeys: [])
+        let projectRoot = URL(fileURLWithPath: #filePath)
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+        
+        return try! .live(
+            environmentConfiguration: .projectRoot(
+                projectRoot,
+                environment: "development"
+            ),
+            requiredKeys: []
+        )
     }
 }

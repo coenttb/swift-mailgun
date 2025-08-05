@@ -5,7 +5,8 @@
 //  Created by Coen ten Thije Boonkkamp on 27/12/2024.
 //
 
-import Coenttb_Web
+import Dependencies
+import Foundation
 import IssueReporting
 import MailgunShared
 import ReportingTypes
@@ -22,7 +23,10 @@ extension Reporting.Client {
         @Dependency(\.envVars.mailgunPrivateApiKey) var apiKey
         return Self(
             metrics: .live { try makeRequest(.metrics($0)) },
-            stats: .live { try makeRequest(.stats($0)) }
+            stats: .live { try makeRequest(.stats($0)) },
+            events: .live { try makeRequest(.events($0)) },
+            tags: .live { try makeRequest(.tags($0)) },
+            logs: .live { try makeRequest(.logs($0)) }
         )
     }
 }

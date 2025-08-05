@@ -7,7 +7,6 @@
 
 import Dependencies
 import Foundation
-import ServerFoundation
 
 extension URL {
     package static var mailgun: URL {

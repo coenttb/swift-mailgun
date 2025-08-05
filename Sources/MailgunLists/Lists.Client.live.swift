@@ -5,7 +5,8 @@
 //  Created by Coen ten Thije Boonkkamp on 19/12/2024.
 //
 
-import Coenttb_Web
+import Dependencies
+import Foundation
 import IssueReporting
 import ListsTypes
 import MailgunShared

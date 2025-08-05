@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import ServerFoundation
+import URLFormCoding
 
 extension Form.Decoder {
     public static var mailgun: Form.Decoder { Form.Decoder(parsingStrategy: .bracketsWithIndices) }
