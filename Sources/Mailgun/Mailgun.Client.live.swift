@@ -10,6 +10,7 @@ import DependenciesMacros
 import Foundation
 import Mailgun_Types_Shared
 import Mailgun_Types
+import Mailgun_AccountManagement
 import Mailgun_Credentials
 import Mailgun_CustomMessageLimit
 import Mailgun_Domains
@@ -61,6 +62,45 @@ extension Mailgun.Client {
                     ),
                     webhooks: .live(
                         makeRequest: { try makeRequest(Mailgun.API.webhooks($0)) }
+                    ),
+                    domains: .live(
+                        makeRequest: { try makeRequest(Mailgun.API.domains($0)) }
+                    ),
+                    templates: .live(
+                        makeRequest: { try makeRequest(Mailgun.API.templates($0)) }
+                    ),
+                    routes: .live(
+                        makeRequest: { try makeRequest(Mailgun.API.routes($0)) }
+                    ),
+                    ips: .live(
+                        makeRequest: { try makeRequest(Mailgun.API.ips($0)) }
+                    ),
+                    ipPools: .live(
+                        makeRequest: { try makeRequest(Mailgun.API.ipPools($0)) }
+                    ),
+                    ipAllowlist: .live(
+                        makeRequest: { try makeRequest(Mailgun.API.ipAllowlist($0)) }
+                    ),
+                    keys: .live(
+                        makeRequest: { try makeRequest(Mailgun.API.keys($0)) }
+                    ),
+                    users: .live(
+                        makeRequest: { try makeRequest(Mailgun.API.users($0)) }
+                    ),
+                    subaccounts: .live(
+                        makeRequest: { try makeRequest(Mailgun.API.subaccounts($0)) }
+                    ),
+                    credentials: .live(
+                        makeRequest: { try makeRequest(Mailgun.API.credentials($0)) }
+                    ),
+                    customMessageLimit: .live(
+                        makeRequest: { try makeRequest(Mailgun.API.customMessageLimit($0)) }
+                    ),
+                    accountManagement: .live(
+                        makeRequest: { try makeRequest(Mailgun.API.accountManagement($0)) }
+                    ),
+                    reporting: .live(
+                        makeRequest: { try makeRequest(Mailgun.API.reporting($0)) }
                     )
                 )
             }
