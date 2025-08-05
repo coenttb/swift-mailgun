@@ -49,8 +49,8 @@ struct TemplatesClientTests {
         #expect(response.items.count <= 10)
 
         if let firstTemplate = response.items.first {
-            #expect(firstTemplate.name != nil)
-            #expect(firstTemplate.createdAt != nil)
+            #expect(!firstTemplate.name.isEmpty)
+            #expect(!firstTemplate.createdAt.isEmpty)
         }
     }
 
