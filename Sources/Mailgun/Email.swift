@@ -6,6 +6,7 @@
 //
 
 import Foundation
-import MessagesTypes
+import Mailgun_Types_Shared
+import Mailgun_Messages_Types
 
-public typealias Email = Messages.Send.Request
+public typealias Email = Mailgun.Messages.Send.Request

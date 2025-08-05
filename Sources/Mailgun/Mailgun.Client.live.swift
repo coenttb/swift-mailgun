@@ -8,40 +8,41 @@
 import Authenticating
 import DependenciesMacros
 import Foundation
-import MailgunCredentials
-import MailgunCustomMessageLimit
-import MailgunDomains
-import MailgunIPAllowlist
-import MailgunIPPools
-import MailgunIPs
-import MailgunKeys
-import MailgunLists
-import MailgunMessages
-import MailgunReporting
-import MailgunRoutes
-import MailgunShared
-import MailgunSubaccounts
-import MailgunSuppressions
-import MailgunTemplates
-import MailgunTypes
-import MailgunUsers
-import MailgunWebhooks
+import Mailgun_Types_Shared
+import Mailgun_Types
+import Mailgun_Credentials
+import Mailgun_CustomMessageLimit
+import Mailgun_Domains
+import Mailgun_IPAllowlist
+import Mailgun_IPPools
+import Mailgun_IPs
+import Mailgun_Keys
+import Mailgun_Lists
+import Mailgun_Messages
+import Mailgun_Reporting
+import Mailgun_Routes
+import Mailgun_Shared
+import Mailgun_Subaccounts
+import Mailgun_Suppressions
+import Mailgun_Templates
+import Mailgun_Users
+import Mailgun_Webhooks
 import Dependencies
-
+@_exported import enum Mailgun_Types.Mailgun
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
 
 extension Mailgun.Client {
     public static func live(
-    ) throws -> MailgunShared.AuthenticatedClient<Mailgun.API, Mailgun.API.Router, Mailgun.Client> {
+    ) throws -> Mailgun_Shared.AuthenticatedClient<Mailgun.API, Mailgun.API.Router, Mailgun.Client> {
 
-        @Dependency(MailgunRouterKey.self) var mailgunRouter
+        @Dependency(Mailgun.API.Router.self) var mailgunRouter
         @Dependency(\.envVars.mailgunPrivateApiKey) var apiKey
         @Dependency(\.envVars.mailgunBaseUrl) var baseUrl
         @Dependency(\.envVars.mailgunDomain) var domain
 
-        return try MailgunShared.AuthenticatedClient(
+        return try Mailgun_Shared.AuthenticatedClient(
             apiKey: apiKey,
             baseUrl: baseUrl,
             router: mailgunRouter) { makeRequest in
@@ -67,7 +68,7 @@ extension Mailgun.Client {
 }
 
 extension Mailgun.Client {
-    public typealias Authenticated = MailgunShared.AuthenticatedClient<Mailgun.API, Mailgun.API.Router, Mailgun.Client>
+    public typealias Authenticated = Mailgun_Shared.AuthenticatedClient<Mailgun.API, Mailgun.API.Router, Mailgun.Client>
 }
 
 extension Mailgun.Client: @retroactive DependencyKey {

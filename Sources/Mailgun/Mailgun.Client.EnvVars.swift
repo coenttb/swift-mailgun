@@ -7,8 +7,9 @@
 
 import Domain
 import Foundation
-import MailgunShared
-import MailgunTypes
+import Mailgun_Shared
+import Mailgun_Types_Shared
+import Mailgun_Types
 
 extension Mailgun.Client {
     public struct EnvVars: Codable {

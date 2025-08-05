@@ -5,23 +5,23 @@ import PackageDescription
 
 extension String {
     static let mailgun: Self = "Mailgun"
-    static let credentials: Self = "MailgunCredentials"
+    static let credentials: Self = "Mailgun Credentials"
     static let customMessageLimit: Self = "Mailgun CustomMessageLimit"
-    static let domains: Self = "MailgunDomains"
-    static let iPAllowlist: Self = "MailgunIPAllowlist"
-    static let ipPools: Self = "MailgunIPPools"
-    static let ips: Self = "MailgunIPs"
-    static let keys: Self = "MailgunKeys"
-    static let lists: Self = "MailgunLists"
-    static let messages: Self = "MailgunMessages"
-    static let reporting: Self = "MailgunReporting"
-    static let routes: Self = "MailgunRoutes"
-    static let subaccounts: Self = "MailgunSubaccounts"
-    static let suppressions: Self = "MailgunSuppressions"
-    static let templates: Self = "MailgunTemplates"
-    static let users: Self = "MailgunUsers"
-    static let webhooks: Self = "MailgunWebhooks"
-    static let shared: Self = "MailgunShared"
+    static let domains: Self = "Mailgun Domains"
+    static let iPAllowlist: Self = "Mailgun IPAllowlist"
+    static let ipPools: Self = "Mailgun IPPools"
+    static let ips: Self = "Mailgun IPs"
+    static let keys: Self = "Mailgun Keys"
+    static let lists: Self = "Mailgun Lists"
+    static let messages: Self = "Mailgun Messages"
+    static let reporting: Self = "Mailgun Reporting"
+    static let routes: Self = "Mailgun Routes"
+    static let subaccounts: Self = "Mailgun Subaccounts"
+    static let suppressions: Self = "Mailgun Suppressions"
+    static let templates: Self = "Mailgun Templates"
+    static let users: Self = "Mailgun Users"
+    static let webhooks: Self = "Mailgun Webhooks"
+    static let shared: Self = "Mailgun Shared"
 }
 
 extension Target.Dependency {
@@ -54,26 +54,26 @@ extension Target.Dependency {
 }
 
 extension Target.Dependency {
-    static var mailgunTypes: Self { .product(name: "Mailgun".types, package: "swift-mailgun-types" ) }
-    static var credentialsTypes: Self { .product(name: "Credentials".types, package: "swift-mailgun-types" ) }
-    static var customMessageLimitTypes: Self { .product(name: "CustomMessageLimit".types, package: "swift-mailgun-types" ) }
-    static var domainsTypes: Self { .product(name: "Domains".types, package: "swift-mailgun-types" ) }
-    static var eventsTypes: Self { .product(name: "Events".types, package: "swift-mailgun-types" ) }
-    static var ipAllowlistTypes: Self { .product(name: "IPAllowlist".types, package: "swift-mailgun-types" ) }
-    static var ipPoolsTypes: Self { .product(name: "IPPools".types, package: "swift-mailgun-types" ) }
-    static var ipsTypes: Self { .product(name: "IPs".types, package: "swift-mailgun-types" ) }
-    static var keysTypes: Self { .product(name: "Keys".types, package: "swift-mailgun-types" ) }
-    static var listsTypes: Self { .product(name: "Lists".types, package: "swift-mailgun-types" ) }
-    static var messagesTypes: Self { .product(name: "Messages".types, package: "swift-mailgun-types" ) }
-    static var reportingTypes: Self { .product(name: "Reporting".types, package: "swift-mailgun-types" ) }
-    static var routesTypes: Self { .product(name: "Routes".types, package: "swift-mailgun-types" ) }
-    static var subaccountsTypes: Self { .product(name: "Subaccounts".types, package: "swift-mailgun-types" ) }
-    static var suppressionsTypes: Self { .product(name: "Suppressions".types, package: "swift-mailgun-types" ) }
-    static var tagsTypes: Self { .product(name: "Tags".types, package: "swift-mailgun-types" ) }
-    static var templatesTypes: Self { .product(name: "Templates".types, package: "swift-mailgun-types" ) }
-    static var usersTypes: Self { .product(name: "Users".types, package: "swift-mailgun-types" ) }
-    static var webhooksTypes: Self { .product(name: "Webhooks".types, package: "swift-mailgun-types" ) }
-    static var mailgunTypesShared: Self { .product(name: "MailgunTypesShared", package: "swift-mailgun-types" ) }
+    static var mailgunTypes: Self { .product(name: "Mailgun Types", package: "swift-mailgun-types" ) }
+    static var credentialsTypes: Self { .product(name: "Mailgun Credentials Types", package: "swift-mailgun-types" ) }
+    static var customMessageLimitTypes: Self { .product(name: "Mailgun CustomMessageLimit Types", package: "swift-mailgun-types" ) }
+    static var domainsTypes: Self { .product(name: "Mailgun Domains Types", package: "swift-mailgun-types" ) }
+    static var eventsTypes: Self { .product(name: "Mailgun Reporting Types", package: "swift-mailgun-types" ) }
+    static var ipAllowlistTypes: Self { .product(name: "Mailgun IPAllowlist Types", package: "swift-mailgun-types" ) }
+    static var ipPoolsTypes: Self { .product(name: "Mailgun IPPools Types", package: "swift-mailgun-types" ) }
+    static var ipsTypes: Self { .product(name: "Mailgun IPs Types", package: "swift-mailgun-types" ) }
+    static var keysTypes: Self { .product(name: "Mailgun Keys Types", package: "swift-mailgun-types" ) }
+    static var listsTypes: Self { .product(name: "Mailgun Lists Types", package: "swift-mailgun-types" ) }
+    static var messagesTypes: Self { .product(name: "Mailgun Messages Types", package: "swift-mailgun-types" ) }
+    static var reportingTypes: Self { .product(name: "Mailgun Reporting Types", package: "swift-mailgun-types" ) }
+    static var routesTypes: Self { .product(name: "Mailgun Routes Types", package: "swift-mailgun-types" ) }
+    static var subaccountsTypes: Self { .product(name: "Mailgun Subaccounts Types", package: "swift-mailgun-types" ) }
+    static var suppressionsTypes: Self { .product(name: "Mailgun Suppressions Types", package: "swift-mailgun-types" ) }
+    static var tagsTypes: Self { .product(name: "Mailgun Reporting Types", package: "swift-mailgun-types" ) }
+    static var templatesTypes: Self { .product(name: "Mailgun Templates Types", package: "swift-mailgun-types" ) }
+    static var usersTypes: Self { .product(name: "Mailgun Users Types", package: "swift-mailgun-types" ) }
+    static var webhooksTypes: Self { .product(name: "Mailgun Webhooks Types", package: "swift-mailgun-types" ) }
+    static var mailgunTypesShared: Self { .product(name: "Mailgun Types Shared", package: "swift-mailgun-types" ) }
     static var urlrequestHandler: Self { .product(name: "URLRequestHandler", package: "swift-urlrequest-handler" ) }
     static var urlRouting: Self { .product(name: "URLRouting", package: "swift-url-routing" ) }
     static var urlFormCoding: Self { .product(name: "URLFormCoding", package: "swift-url-form-coding" ) }
@@ -410,5 +410,5 @@ let package = Package(
 
 extension String {
     var tests: Self { self + " Tests" }
-    var types: Self { self + "Types" }
+    var types: Self { self + " Types" }
 }

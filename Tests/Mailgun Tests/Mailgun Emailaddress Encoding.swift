@@ -11,7 +11,7 @@ import EnvironmentVariables
 import Foundation
 import IssueReporting
 import MailgunMessages
-import MailgunShared
+import Mailgun_Shared
 import MessagesTypes
 import Testing
 import URLFormCoding
@@ -19,7 +19,6 @@ import URLFormCoding
 @Suite(
     "Mailgun Form Encoding Tests",
     .dependency(\.context, .live),
-    .dependency(\.projectRoot, .mailgun),
     .dependency(\.envVars, .development)
 )
 struct MailgunFormEncodingTests {
