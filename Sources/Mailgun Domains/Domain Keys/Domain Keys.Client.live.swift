@@ -17,9 +17,9 @@ import Mailgun_Domains_Types
 import FoundationNetworking
 #endif
 
-extension Mailgun.Domains.DKIM_Keys.Client {
+extension Mailgun.Domains.Domain.Keys.Client {
     public static func live(
-        makeRequest: @escaping @Sendable (_ route: Mailgun.Domains.DKIM_Keys.API) throws -> URLRequest
+        makeRequest: @escaping @Sendable (_ route: Mailgun.Domains.Domain.Keys.API) throws -> URLRequest
     ) -> Self {
         @Dependency(URLRequest.Handler.Mailgun.self) var handleRequest
 
@@ -27,33 +27,33 @@ extension Mailgun.Domains.DKIM_Keys.Client {
             list: { request in
                 try await handleRequest(
                     for: makeRequest(.list(request: request)),
-                    decodingTo: Mailgun.Domains.DKIM_Keys.List.Response.self
+                    decodingTo: Mailgun.Domains.Domain.Keys.List.Response.self
                 )
             },
             create: { request in
                 try await handleRequest(
                     for: makeRequest(.create(request: request)),
-                    decodingTo: Mailgun.Domains.DKIM_Keys.Create.Response.self
+                    decodingTo: Mailgun.Domains.Domain.Keys.Create.Response.self
                 )
             }
         )
     }
 }
 
-extension Mailgun.Domains.DKIM_Keys.Client {
+extension Mailgun.Domains.Domain.Keys.Client {
     public typealias Authenticated = Mailgun_Shared.AuthenticatedClient<
-        Mailgun.Domains.DKIM_Keys.API,
-        Mailgun.Domains.DKIM_Keys.API.Router,
-        Mailgun.Domains.DKIM_Keys.Client
+        Mailgun.Domains.Domain.Keys.API,
+        Mailgun.Domains.Domain.Keys.API.Router,
+        Mailgun.Domains.Domain.Keys.Client
     >
 }
 
-extension Mailgun.Domains.DKIM_Keys.Client: @retroactive DependencyKey {
-    public static var liveValue: Mailgun.Domains.DKIM_Keys.Client.Authenticated {
-        try! Mailgun.Domains.DKIM_Keys.Client.Authenticated { .live(makeRequest: $0) }
+extension Mailgun.Domains.Domain.Keys.Client: @retroactive DependencyKey {
+    public static var liveValue: Mailgun.Domains.Domain.Keys.Client.Authenticated {
+        try! Mailgun.Domains.Domain.Keys.Client.Authenticated { .live(makeRequest: $0) }
     }
 }
 
-extension Mailgun.Domains.DKIM_Keys.API.Router: @retroactive DependencyKey {
-    public static let liveValue: Mailgun.Domains.DKIM_Keys.API.Router = .init()
+extension Mailgun.Domains.Domain.Keys.API.Router: @retroactive DependencyKey {
+    public static let liveValue: Mailgun.Domains.Domain.Keys.API.Router = .init()
 }

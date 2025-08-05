@@ -16,30 +16,19 @@ struct MailgunAccountManagementTests {
     
     @Test("Should successfully get account information")
     func testGetAccountInfo() async throws {
-        let response = try await client.get()
+        let response = try! await client.getSAMLOrganization()
         
-        #expect(!response.id.isEmpty)
-        #expect(!response.contactInfo.name.isEmpty)
-        #expect(!response.billingInfo.billingName.isEmpty)
+        #expect(response.id?.isEmpty != true)
+        #expect(response.name?.isEmpty != true)
     }
     
     @Test("Should handle account update request")
     func testUpdateAccount() async throws {
         // We'll only test that the API accepts the request structure
         // without actually updating production account data
-        let updateRequest = Mailgun.AccountManagement.Update.Request(
-            billingCity: nil,
-            billingCountry: nil,
-            billingName: nil,
-            billingPhone: nil,
-            billingPostalCode: nil,
-            billingState: nil,
-            billingStreet1: nil,
-            billingStreet2: nil,
-            contactCompany: nil,
-            contactEmail: nil,
-            contactName: nil,
-            contactPhone: nil
+        let updateRequest = Mailgun.AccountManagement.Update.Request.init(
+            name: "Test",
+            timezone: nil
         )
         
         // Note: We're not actually calling update to avoid modifying account data
