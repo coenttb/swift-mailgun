@@ -5,6 +5,7 @@ import PackageDescription
 
 extension String {
     static let mailgun: Self = "Mailgun"
+    static let accountManagement: Self = "Mailgun AccountManagement"
     static let credentials: Self = "Mailgun Credentials"
     static let customMessageLimit: Self = "Mailgun CustomMessageLimit"
     static let domains: Self = "Mailgun Domains"
@@ -26,6 +27,7 @@ extension String {
 
 extension Target.Dependency {
     static var mailgun: Self { .target(name: .mailgun) }
+    static var accountManagement: Self { .target(name: .accountManagement) }
     static var credentials: Self { .target(name: .credentials) }
     static var customMessageLimit: Self { .target(name: .customMessageLimit) }
     static var domains: Self { .target(name: .domains) }
@@ -55,6 +57,7 @@ extension Target.Dependency {
 
 extension Target.Dependency {
     static var mailgunTypes: Self { .product(name: "Mailgun Types", package: "swift-mailgun-types" ) }
+    static var accountManagementTypes: Self { .product(name: "Mailgun AccountManagement Types", package: "swift-mailgun-types" ) }
     static var credentialsTypes: Self { .product(name: "Mailgun Credentials Types", package: "swift-mailgun-types" ) }
     static var customMessageLimitTypes: Self { .product(name: "Mailgun CustomMessageLimit Types", package: "swift-mailgun-types" ) }
     static var domainsTypes: Self { .product(name: "Mailgun Domains Types", package: "swift-mailgun-types" ) }
@@ -87,6 +90,7 @@ let package = Package(
     ],
     products: [
         .library(name: .mailgun, targets: [.mailgun]),
+        .library(name: .accountManagement, targets: [.accountManagement]),
         .library(name: .credentials, targets: [.credentials]),
         .library(name: .customMessageLimit, targets: [.customMessageLimit]),
         .library(name: .domains, targets: [.domains]),
@@ -138,6 +142,7 @@ let package = Package(
                 .mailgunTypes,
                 .issueReporting,
                 .dependenciesMacros,
+                .accountManagement,
                 .credentials,
                 .customMessageLimit,
                 .domains,
@@ -163,6 +168,21 @@ let package = Package(
                 .mailgun,
                 .dependenciesTestSupport
             ]
+        ),
+        .target(
+            name: .accountManagement,
+            dependencies: [
+                .shared,
+                .mailgunTypesShared,
+                .accountManagementTypes,
+                .issueReporting,
+                .dependenciesMacros,
+                .urlrequestHandler
+            ]
+        ),
+        .testTarget(
+            name: .accountManagement.tests,
+            dependencies: [.accountManagement, .shared, .dependenciesTestSupport]
         ),
         .target(
             name: .credentials,
