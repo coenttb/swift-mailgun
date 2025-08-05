@@ -41,6 +41,12 @@ extension Mailgun.Reporting.Client {
     >
 }
 
+extension Mailgun.Reporting.Client: @retroactive DependencyKey {
+    public static var liveValue: Mailgun.Reporting.Client.Authenticated {
+        try! Mailgun.Reporting.Client.Authenticated { .live(makeRequest: $0) }
+    }
+}
+
 extension Mailgun.Reporting.API.Router: @retroactive DependencyKey {
     public static let liveValue: Mailgun.Reporting.API.Router = .init()
 }

@@ -16,11 +16,11 @@ struct MailgunIPPoolsTests {
     
     @Test("Should successfully list IP pools")
     func testListIPPools() async throws {
-        let response = try await client.list(nil)
+        let response = try await client.list()
         
         // Check response structure
         #expect(response.ipPools != nil)
-        #expect(response.message != nil || response.ipPools.count >= 0)
+        #expect(!response.message.isEmpty)
     }
     
     @Test("Should successfully create and delete IP pool")
@@ -29,10 +29,10 @@ struct MailgunIPPoolsTests {
         let testPoolDescription = "Test IP Pool for automated tests"
         
         // Create IP pool
-        let createRequest = Mailgun.IPPools.Create.Request(
+        let createRequest = Mailgun.IPPools.CreateRequest(
             name: testPoolName,
             description: testPoolDescription,
-            ips: nil
+            ips: []
         )
         
         let createResponse = try await client.create(createRequest)
@@ -40,7 +40,7 @@ struct MailgunIPPoolsTests {
         #expect(createResponse.poolId == testPoolName)
         
         // List to verify it was created
-        let listResponse = try await client.list(nil)
+        let listResponse = try await client.list()
         let hasPool = listResponse.ipPools.contains { $0.name == testPoolName }
         #expect(hasPool, "Test pool should be in the list")
         
@@ -54,20 +54,20 @@ struct MailgunIPPoolsTests {
         let testPoolName = "test-update-pool-\(Int.random(in: 1000...9999))"
         
         // First create a pool
-        let createRequest = Mailgun.IPPools.Create.Request(
+        let createRequest = Mailgun.IPPools.CreateRequest(
             name: testPoolName,
             description: "Initial description",
-            ips: nil
+            ips: []
         )
         
         _ = try await client.create(createRequest)
         
         // Update the pool
-        let updateRequest = Mailgun.IPPools.Update.Request(
+        let updateRequest = Mailgun.IPPools.UpdateRequest(
             name: testPoolName,
             description: "Updated description",
-            addIp: nil,
-            removeIp: nil
+            addIps: nil,
+            removeIps: nil
         )
         
         let updateResponse = try await client.update(testPoolName, updateRequest)
