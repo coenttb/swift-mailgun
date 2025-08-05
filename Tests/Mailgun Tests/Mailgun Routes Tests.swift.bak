@@ -1,0 +1,86 @@
+import Testing
+import Dependencies
+import Mailgun
+import Mailgun_Routes
+import Mailgun_Routes_Types
+import TypesFoundation
+
+@Suite(
+    "Mailgun Routes Tests",
+    .dependency(\.context, .live),
+    .dependency(\.envVars, .development),
+    .serialized
+)
+struct MailgunRoutesTests {
+    @Dependency(Mailgun.Routes.Client.self) var client
+    
+    @Test("Should successfully list routes")
+    func testListRoutes() async throws {
+        let response = try await client.list()
+        
+        // Check response structure
+        #expect(response.items != nil)
+        #expect(response.totalCount >= 0)
+    }
+    
+    @Test("Should successfully create and delete route")
+    func testCreateAndDeleteRoute() async throws {
+        let testDescription = "Test route \(Int.random(in: 1000...9999))"
+        
+        // Create route
+        let createRequest = Mailgun.Routes.Create.Request(
+            priority: 100,
+            description: testDescription,
+            expression: "match_recipient(\"test-\(Int.random(in: 1000...9999))@.*\")",
+            action: ["forward(\"https://example.com/webhook\")", "stop()"]
+        )
+        
+        let createResponse = try await client.create(createRequest)
+        #expect(!createResponse.route.id.isEmpty)
+        #expect(createResponse.message.contains("Route has been created"))
+        
+        let routeId = createResponse.route.id
+        
+        // Get route details to verify
+        let getResponse = try await client.get(routeId)
+        #expect(getResponse.route.id == routeId)
+        #expect(getResponse.route.description == testDescription)
+        
+        // Delete the route
+        let deleteResponse = try await client.delete(routeId)
+        #expect(deleteResponse.message.contains("Route has been deleted"))
+    }
+    
+    @Test("Should successfully update route")
+    func testUpdateRoute() async throws {
+        // First create a route
+        let createRequest = Mailgun.Routes.Create.Request(
+            priority: 50,
+            description: "Initial description",
+            expression: "match_recipient(\"update-test@.*\")",
+            action: ["stop()"]
+        )
+        
+        let createResponse = try await client.create(createRequest)
+        let routeId = createResponse.route.id
+        
+        // Update the route
+        let updateRequest = Mailgun.Routes.Update.Request(
+            priority: 75,
+            description: "Updated description",
+            expression: nil,
+            action: nil
+        )
+        
+        let updateResponse = try await client.update(routeId, updateRequest)
+        #expect(updateResponse.message.contains("Route has been updated"))
+        
+        // Verify update
+        let getResponse = try await client.get(routeId)
+        #expect(getResponse.route.priority == 75)
+        #expect(getResponse.route.description == "Updated description")
+        
+        // Clean up
+        _ = try await client.delete(routeId)
+    }
+}
