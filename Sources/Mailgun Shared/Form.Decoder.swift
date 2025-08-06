@@ -7,7 +7,3 @@
 
 import Foundation
 import URLFormCoding
-
-extension Form.Decoder {
-    public static var mailgun: Form.Decoder { Form.Decoder(parsingStrategy: .bracketsWithIndices) }
-}

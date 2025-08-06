@@ -30,8 +30,8 @@ extension Mailgun.Suppressions.Client {
             unsubscribe: .live {
                 try makeRequest(.unsubscribe($0))
             },
-            whitelist: .live {
-                try makeRequest(.whitelist($0))
+            Allowlist: .live {
+                try makeRequest(.Allowlist($0))
             }
         )
     }

@@ -7,4 +7,3 @@
 
 @_exported import Authenticating
 @_exported import Mailgun_Types_Shared
-@_exported import enum Mailgun_Types.Mailgun

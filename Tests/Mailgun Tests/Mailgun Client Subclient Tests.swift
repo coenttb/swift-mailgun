@@ -47,7 +47,7 @@ struct MailgunClientSubclientAccessTests {
         _ = mailgun.suppressions.bounces
         _ = mailgun.suppressions.complaints
         _ = mailgun.suppressions.unsubscribe
-        _ = mailgun.suppressions.whitelist
+        _ = mailgun.suppressions.Allowlist
         
 //        _ = Mailgun.Domains.Domains
 //        _ = mailgun.domains.dkimSecurity

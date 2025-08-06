@@ -29,7 +29,6 @@ import Mailgun_Templates
 import Mailgun_Users
 import Mailgun_Webhooks
 import Dependencies
-@_exported import enum Mailgun_Types.Mailgun
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking

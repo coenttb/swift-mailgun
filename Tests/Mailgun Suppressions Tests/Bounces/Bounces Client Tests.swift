@@ -25,8 +25,8 @@ struct BouncesClientTests {
     func testCreateBounceRecord() async throws {
         @Dependency(Mailgun.Suppressions.Client.self) var client
 
-        // Use a unique email address to avoid conflicts with whitelist
-        // Note: Using test-bounces.com domain to avoid conflicts with whitelisted example.com
+        // Use a unique email address to avoid conflicts with Allowlist
+        // Note: Using test-bounces.com domain to avoid conflicts with Allowlisted example.com
         let timestamp = Date().timeIntervalSince1970
         let uniqueEmail = "bounce-test-\(Int(timestamp))@test-bounces.com"
         

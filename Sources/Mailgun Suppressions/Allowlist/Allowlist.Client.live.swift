@@ -16,9 +16,9 @@ import Mailgun_Suppressions_Types
 import FoundationNetworking
 #endif
 
-extension Mailgun.Suppressions.Whitelist.Client {
+extension Mailgun.Suppressions.Allowlist.Client {
     public static func live(
-        makeRequest: @escaping @Sendable (_ route: Mailgun.Suppressions.Whitelist.API) throws -> URLRequest
+        makeRequest: @escaping @Sendable (_ route: Mailgun.Suppressions.Allowlist.API) throws -> URLRequest
     ) -> Self {
         @Dependency(URLRequest.Handler.Mailgun.self) var handleRequest
         @Dependency(\.envVars.mailgunDomain) var domain
@@ -27,42 +27,42 @@ extension Mailgun.Suppressions.Whitelist.Client {
             get: { value in
                 try await handleRequest(
                     for: makeRequest(.get(domain: domain, value: value)),
-                    decodingTo: Mailgun.Suppressions.Whitelist.Record.self
+                    decodingTo: Mailgun.Suppressions.Allowlist.Record.self
                 )
             },
 
             delete: { value in
                 try await handleRequest(
                     for: makeRequest(.delete(domain: domain, value: value)),
-                    decodingTo: Mailgun.Suppressions.Whitelist.Delete.Response.self
+                    decodingTo: Mailgun.Suppressions.Allowlist.Delete.Response.self
                 )
             },
 
             list: { request in
                 try await handleRequest(
                     for: makeRequest(.list(domain: domain, request: request)),
-                    decodingTo: Mailgun.Suppressions.Whitelist.List.Response.self
+                    decodingTo: Mailgun.Suppressions.Allowlist.List.Response.self
                 )
             },
 
             create: { request in
                 try await handleRequest(
                     for: makeRequest(.create(domain: domain, request: request)),
-                    decodingTo: Mailgun.Suppressions.Whitelist.Create.Response.self
+                    decodingTo: Mailgun.Suppressions.Allowlist.Create.Response.self
                 )
             },
 
             deleteAll: {
                 try await handleRequest(
                     for: makeRequest(.deleteAll(domain: domain)),
-                    decodingTo: Mailgun.Suppressions.Whitelist.Delete.All.Response.self
+                    decodingTo: Mailgun.Suppressions.Allowlist.Delete.All.Response.self
                 )
             },
 
             importList: { request in
                 try await handleRequest(
                     for: makeRequest(.importList(domain: domain, request: request)),
-                    decodingTo: Mailgun.Suppressions.Whitelist.Import.Response.self
+                    decodingTo: Mailgun.Suppressions.Allowlist.Import.Response.self
                 )
             }
         )

@@ -110,12 +110,11 @@ let package = Package(
         .library(name: .shared, targets: [.shared])
     ],
     dependencies: [
-        .package(url: "https://github.com/coenttb/swift-authenticating", branch: "main"),
+        .package(url: "https://github.com/coenttb/swift-authenticating", from: "0.0.1"),
         .package(url: "https://github.com/coenttb/swift-environment-variables", from: "0.0.1"),
         .package(url: "https://github.com/coenttb/swift-urlrequest-handler", from: "0.0.1"),
         .package(url: "https://github.com/coenttb/swift-types-foundation", from: "0.0.1"),
-//        .package(url: "https://github.com/coenttb/swift-mailgun-types", from: "0.0.1"),
-        .package(path: "../swift-mailgun-types"),
+        .package(url: "https://github.com/coenttb/swift-mailgun-types", from: "0.0.1"),
         .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.9.2"),
         .package(url: "https://github.com/pointfreeco/swift-url-routing", from: "0.6.2"),
         .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "1.4.3"),

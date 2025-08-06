@@ -57,7 +57,7 @@ print("Email sent: \(response.id)")
 | ├─ Bounces | ✅ | ✅ |
 | ├─ Complaints | ✅ | ✅ |
 | ├─ Unsubscribes | ✅ | ✅ |
-| └─ Whitelist | ✅ | ✅ |
+| └─ Allowlist | ✅ | ✅ |
 | **Reporting** | ✅ | ✅ |
 | ├─ Events | ✅ | ✅ |
 | ├─ Stats | ✅ | ✅ |
@@ -237,8 +237,8 @@ try await mailgun.client.suppressions.unsubscribes.create(
     tag: "newsletter"
 )
 
-// Whitelist an important address
-try await mailgun.client.suppressions.whitelist.create(
+// Allowlist an important address
+try await mailgun.client.suppressions.Allowlist.create(
     address: "vip@partner.com",
     reason: "Important business partner"
 )
