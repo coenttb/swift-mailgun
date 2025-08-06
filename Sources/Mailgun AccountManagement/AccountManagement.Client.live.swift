@@ -32,35 +32,35 @@ extension Mailgun.AccountManagement.Client {
             getHttpSigningKey: {
                 try await handleRequest(
                     for: makeRequest(.getHttpSigningKey),
-                    decodingTo: Mailgun.AccountManagement.HttpSigningKey.self
+                    decodingTo: Mailgun.AccountManagement.HttpSigningKey.Get.Response.self
                 )
             },
             
             regenerateHttpSigningKey: {
                 try await handleRequest(
                     for: makeRequest(.regenerateHttpSigningKey),
-                    decodingTo: Mailgun.AccountManagement.RegenerateHttpSigningKey.Response.self
+                    decodingTo: Mailgun.AccountManagement.HttpSigningKey.Regenerate.Response.self
                 )
             },
             
             getSandboxAuthRecipients: {
                 try await handleRequest(
                     for: makeRequest(.getSandboxAuthRecipients),
-                    decodingTo: Mailgun.AccountManagement.Sandbox.AuthRecipientsList.self
+                    decodingTo: Mailgun.AccountManagement.Sandbox.Auth.Recipients.List.Response.self
                 )
             },
             
-            addSandboxAuthRecipient: { email in
+            addSandboxAuthRecipient: { request in
                 try await handleRequest(
-                    for: makeRequest(.addSandboxAuthRecipient(email: email)),
-                    decodingTo: Mailgun.AccountManagement.Sandbox.AddAuthRecipientResponse.self
+                    for: makeRequest(.addSandboxAuthRecipient(request: request)),
+                    decodingTo: Mailgun.AccountManagement.Sandbox.Auth.Recipients.Add.Response.self
                 )
             },
             
             deleteSandboxAuthRecipient: { email in
                 try await handleRequest(
                     for: makeRequest(.deleteSandboxAuthRecipient(email: email)),
-                    decodingTo: Mailgun.AccountManagement.Sandbox.DeleteAuthRecipientResponse.self
+                    decodingTo: Mailgun.AccountManagement.Sandbox.Auth.Recipients.Delete.Response.self
                 )
             },
             
@@ -74,14 +74,14 @@ extension Mailgun.AccountManagement.Client {
             getSAMLOrganization: {
                 try await handleRequest(
                     for: makeRequest(.getSAMLOrganization),
-                    decodingTo: Mailgun.AccountManagement.SAML.Organization.self
+                    decodingTo: Mailgun.AccountManagement.SAML.Organization.Get.Response.self
                 )
             },
             
-            createSAMLOrganization: { request in
+            addSAMLOrganization: { request in
                 try await handleRequest(
-                    for: makeRequest(.createSAMLOrganization(request: request)),
-                    decodingTo: Mailgun.AccountManagement.SAML.Organization.self
+                    for: makeRequest(.addSAMLOrganization(request: request)),
+                    decodingTo: Mailgun.AccountManagement.SAML.Organization.Add.Response.self
                 )
             }
         )

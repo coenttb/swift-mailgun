@@ -25,25 +25,25 @@ extension Mailgun.CustomMessageLimit.Client {
             getMonthlyLimit: {
                 try await handleRequest(
                     for: makeRequest(.getMonthly),
-                    decodingTo: Mailgun.CustomMessageLimit.Monthly.Status.self
+                    decodingTo: Mailgun.CustomMessageLimit.Monthly.Get.Response.self
                 )
             },
             setMonthlyLimit: { request in
                 try await handleRequest(
                     for: makeRequest(.setMonthly(request: request)),
-                    decodingTo: Mailgun.CustomMessageLimit.SuccessResponse.self
+                    decodingTo: Mailgun.CustomMessageLimit.Monthly.Set.Response.self
                 )
             },
             deleteMonthlyLimit: {
                 try await handleRequest(
                     for: makeRequest(.deleteMonthly),
-                    decodingTo: Mailgun.CustomMessageLimit.SuccessResponse.self
+                    decodingTo: Mailgun.CustomMessageLimit.Monthly.Delete.Response.self
                 )
             },
             enableAccount: {
                 try await handleRequest(
                     for: makeRequest(.enableAccount),
-                    decodingTo: Mailgun.CustomMessageLimit.SuccessResponse.self
+                    decodingTo: Mailgun.CustomMessageLimit.EnableAccount.Response.self
                 )
             }
         )
