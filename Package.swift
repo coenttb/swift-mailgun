@@ -113,7 +113,6 @@ let package = Package(
         .package(url: "https://github.com/coenttb/swift-authenticating", from: "0.0.1"),
         .package(url: "https://github.com/coenttb/swift-environment-variables", from: "0.0.1"),
         .package(url: "https://github.com/coenttb/swift-urlrequest-handler", from: "0.0.1"),
-        .package(url: "https://github.com/coenttb/swift-types-foundation", from: "0.0.1"),
 //        .package(url: "https://github.com/coenttb/swift-mailgun-types", from: "0.0.1"),
         .package(path: "../swift-mailgun-types"),
         .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.9.2"),

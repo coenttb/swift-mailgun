@@ -23,9 +23,9 @@ extension Mailgun.Credentials.Client {
         @Dependency(\.envVars.mailgunDomain) var domain
 
         return Self(
-            list: { domain in
+            list: { domain, request in
                 try await handleRequest(
-                    for: makeRequest(.list(domain: domain)),
+                    for: makeRequest(.list(domain: domain, request: request)),
                     decodingTo: Mailgun.Credentials.List.Response.self
                 )
             },
