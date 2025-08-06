@@ -35,7 +35,7 @@ struct MessagesAttachmentsTests {
             subject: "Email with Text Attachment",
             text: "Please find the attached text file.",
             attachments: [attachment],
-            testMode: false
+            testMode: true
         )
         
         let response = try await client.send(request)
