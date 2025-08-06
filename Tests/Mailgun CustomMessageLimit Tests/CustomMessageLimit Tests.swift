@@ -10,8 +10,6 @@
 //import DependenciesTestSupport
 //import Mailgun_Shared
 //import Mailgun_CustomMessageLimit
-//import Mailgun_CustomMessageLimit_Types
-//import TypesFoundation
 //
 //@Suite(
 //    "Mailgun CustomMessageLimit Tests",

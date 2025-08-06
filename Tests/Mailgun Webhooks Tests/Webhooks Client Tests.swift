@@ -1,18 +1,7 @@
-//
-//  File.swift
-//  coenttb-mailgun
-//
-//  Created by Coen ten Thije Boonkkamp on 27/12/2024.
-//
-
 import Testing
 import Dependencies
 import DependenciesTestSupport
-import EnvironmentVariables
-import Foundation
-import Mailgun_Shared
-@testable import Mailgun_Webhooks
-import Mailgun_Webhooks_Types
+import Mailgun_Webhooks
 
 @Suite(
     .dependency(\.context, .live),

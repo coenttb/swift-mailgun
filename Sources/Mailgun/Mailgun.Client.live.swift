@@ -8,8 +8,6 @@
 import Authenticating
 import DependenciesMacros
 import Foundation
-import Mailgun_Types_Shared
-import Mailgun_Types
 import Mailgun_AccountManagement
 import Mailgun_Credentials
 import Mailgun_CustomMessageLimit
@@ -28,6 +26,7 @@ import Mailgun_Templates
 import Mailgun_Users
 import Mailgun_Webhooks
 import Dependencies
+@_exported import Mailgun_Types
 @_exported import Mailgun_Shared
 
 #if canImport(FoundationNetworking)

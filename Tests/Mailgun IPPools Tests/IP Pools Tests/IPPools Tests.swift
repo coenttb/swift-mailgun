@@ -8,10 +8,7 @@
 //import Testing
 //import Dependencies
 //import DependenciesTestSupport
-//import Mailgun_Shared
 //import Mailgun_IPPools
-//import Mailgun_IPPools_Types
-//import TypesFoundation
 //
 //@Suite(
 //    "Mailgun IPPools Tests",
