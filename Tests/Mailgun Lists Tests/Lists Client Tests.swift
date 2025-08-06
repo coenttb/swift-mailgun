@@ -72,6 +72,15 @@ struct ListsClientTests {
         @Dependency(\.envVars.mailgunTestMailingList) var list
         @Dependency(\.envVars.mailgunTestRecipient) var recipient
 
+        // First, ensure the member exists with a known name
+        let addRequest = Mailgun.Lists.Member.Add.Request(
+            address: recipient,
+            name: "Original Test Name",
+            upsert: true
+        )
+        _ = try? await client.addMember(list, addRequest)
+
+        // Now update the member
         let request: Mailgun.Lists.Member.Update.Request = .init(
             name: "Test Member Updated"
         )
@@ -94,10 +103,20 @@ struct ListsClientTests {
         @Dependency(Mailgun.Lists.Client.self) var client
         @Dependency(\.envVars.mailgunTestMailingList) var list
 
+        // First, ensure the list exists
+        let createRequest = Mailgun.Lists.List.Create.Request(
+            address: list,
+            name: "Original List Name",
+            description: "Original description",
+            accessLevel: .readonly
+        )
+        _ = try? await client.create(createRequest)
+
         let updateRequest = Mailgun.Lists.List.Update.Request(
             description: "Updated description for the mailing list",
             name: "Updated Test List",
-            accessLevel: .readonly
+            accessLevel: .readonly,
+            replyPreference: .list
         )
 
         let updateResponse = try await client.update(list, updateRequest)
