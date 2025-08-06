@@ -20,17 +20,17 @@ extension Mailgun.Domains.Client {
         makeRequest: @escaping @Sendable (_ route: Mailgun.Domains.API) throws -> URLRequest
     ) -> Self {
         .init(
-            domains: .live {
-                try makeRequest(.domain($0))
+            domains: .live { route in
+                try makeRequest(.domain(route))
             },
-            dkimSecurity: .live {
-                try makeRequest(.dkimSecurity($0))
+            dkimSecurity: .live { route in
+                try makeRequest(.dkimSecurity(route))
             },
-            domainKeys: .live {
-                try makeRequest(.dkimKeys($0))
+            domainKeys: .live { route in
+                try makeRequest(.dkimKeys(route))
             },
-            domainTracking: .live {
-                try makeRequest(.dkimTracking($0))
+            domainTracking: .live { route in
+                try makeRequest(.dkimTracking(route))
             }
         )
     }

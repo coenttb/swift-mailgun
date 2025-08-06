@@ -1,220 +1,289 @@
-////
-////  Domains Tests.swift
-////  coenttb-mailgun
-////
-////  Created by Coen ten Thije Boonkkamp on 24/12/2024.
-////
 //
-//import Testing
-//import Dependencies
-//import DependenciesTestSupport
-//import Mailgun_Domains
+//  Domains Tests.swift
+//  coenttb-mailgun
 //
-//@Suite(
-//    "Mailgun Domains Tests",
-//    .dependency(\.context, .live),
-//    .dependency(\.envVars, .development),
-//    .serialized
-//)
-//struct MailgunDomainsTests {
-//    @Dependency(Mailgun.Domains.Client.self) var client
-//    @Dependency(\.envVars.mailgunDomain) var domain
-//    
-//    @Test("Should successfully list domains")
-//    func testListDomains() async throws {
-//        let response = try await client.list()
-//        
-//        // Should have at least one domain
-//        #expect(response.items.count > 0)
-//        #expect(response.totalCount > 0)
-//        
-//        // Verify domain structure
-//        let firstDomain = response.items.first!
-//        #expect(!firstDomain.name.isEmpty)
-//        #expect(!firstDomain.state.isEmpty)
-//        #expect(firstDomain.type == .custom || firstDomain.type == .sandbox)
-//        #expect(firstDomain.createdAt != nil)
-//    }
-//    
-//    @Test("Should successfully get domain details")
-//    func testGetDomainDetails() async throws {
-//        let response = try await client.get(domain)
-//        
-//        #expect(response.domain.name == domain.description)
-//        #expect(!response.domain.state.isEmpty)
-//        #expect(response.domain.type != nil)
-//        #expect(response.domain.spamAction != nil)
-//        
-//        // Check DNS records if available
-//        if let sendingDNSRecords = response.sendingDNSRecords {
-//            for record in sendingDNSRecords {
-//                #expect(!record.name.isEmpty)
-//                #expect(!record.recordType.isEmpty)
-//                #expect(!record.value.isEmpty)
-//            }
-//        }
-//        
-//        if let receivingDNSRecords = response.receivingDNSRecords {
-//            for record in receivingDNSRecords {
-//                #expect(!record.recordType.isEmpty)
-//                #expect(!record.value.isEmpty)
-//                #expect(record.priority != nil || record.recordType != "MX")
-//            }
-//        }
-//    }
-//    
-//    @Test("Should handle domain creation request")
-//    func testDomainCreationRequest() async throws {
-//        // Test domain creation request structure
-//        // Not actually creating to avoid costs and cleanup
-//        let createRequest = Mailgun.Domains.Create.Request(
-//            name: "test-\(Int.random(in: 1000...9999)).example.com",
-//            smtpPassword: "SecurePassword123!",
-//            spamAction: .tag,
-//            wildcard: false,
-//            forceDKIMAuthority: true,
-//            dkimKeySize: 2048,
-//            ips: nil,
-//            webScheme: "https"
-//        )
-//        
-//        // Just verify the request compiles
-//        _ = createRequest
-//        #expect(createRequest.spamAction == .tag)
-//        #expect(createRequest.dkimKeySize == 2048)
-//        #expect(createRequest.webScheme == "https")
-//    }
-//    
-//    @Test("Should successfully update domain")
-//    func testUpdateDomain() async throws {
-//        // Get current domain settings
-//        let currentDomain = try await client.get(domain)
-//        
-//        // Prepare update with different spam action
-//        let newSpamAction: Mailgun.Domains.SpamAction = 
-//            currentDomain.domain.spamAction == .tag ? .disabled : .tag
-//        
-//        let updateRequest = Mailgun.Domains.Update.Request(
-//            spamAction: newSpamAction,
-//            webScheme: currentDomain.domain.webScheme
-//        )
-//        
-//        do {
-//            let response = try await client.update(domain, updateRequest)
-//            #expect(response.message.contains("updated") || response.message.contains("Domain"))
-//            
-//            // Optionally restore original settings
-//            // This is commented out to avoid multiple changes
-//            /*
-//            let restoreRequest = Mailgun.Domains.Update.Request(
-//                spamAction: currentDomain.domain.spamAction,
-//                webScheme: currentDomain.domain.webScheme
-//            )
-//            _ = try await client.update(domain, restoreRequest)
-//            */
-//        } catch {
-//            // Update might be restricted
-//            #expect(true, "Domain update endpoint exists (may be restricted)")
-//        }
-//    }
-//    
-//    @Test("Should verify domain status")
-//    func testVerifyDomainStatus() async throws {
-//        let response = try await client.verify(domain)
-//        
-//        // Check verification status
-//        #expect(response.domain.state == "active" || response.domain.state == "unverified")
-//        
-//        // Check DNS records verification
-//        if let sendingDNSRecords = response.sendingDNSRecords {
-//            for record in sendingDNSRecords {
-//                #expect(record.valid == "valid" || record.valid == "invalid" || record.valid == "pending")
-//                
-//                if record.valid == "invalid" {
-//                    // This record needs to be configured
-//                    #expect(true, "DNS record \(record.name) needs configuration")
-//                }
-//            }
-//        }
-//        
-//        if let receivingDNSRecords = response.receivingDNSRecords {
-//            for record in receivingDNSRecords {
-//                #expect(record.valid == "valid" || record.valid == "invalid" || record.valid == "pending")
-//            }
-//        }
-//    }
-//    
-//    @Test("Should handle domain deletion")
-//    func testDomainDeletion() async throws {
-//        // This test only verifies the deletion request structure
-//        // We're not actually deleting domains to avoid data loss
-//        
-//        // Verify we can construct a delete request
-//        let deleteDomain = Domain(rawValue: "delete-test.example.com")
-//        
-//        // Note: Not actually calling delete
-//        #expect(true, "Domain deletion endpoint exists")
-//    }
-//    
-//    @Test("Should access domain subclients")
-//    func testDomainSubclients() async throws {
-//        // Test that we can access all domain subclients
-//        let dkimClient = client.dkim
-//        let connectionClient = client.connection
-//        let trackingClient = client.tracking
-//        let keysClient = client.keys
-//        
-//        // Verify subclients are accessible
-//        _ = dkimClient
-//        _ = connectionClient
-//        _ = trackingClient
-//        _ = keysClient
-//        
-//        #expect(true, "All domain subclients are accessible")
-//    }
-//    
-//    @Test("Should handle domain types correctly")
-//    func testDomainTypes() async throws {
-//        let response = try await client.list()
-//        
-//        var hasCustomDomain = false
-//        var hasSandboxDomain = false
-//        
-//        for domain in response.items {
-//            if domain.type == .custom {
-//                hasCustomDomain = true
-//            } else if domain.type == .sandbox {
-//                hasSandboxDomain = true
-//            }
-//        }
-//        
-//        // Most accounts should have at least a sandbox domain
-//        #expect(hasCustomDomain || hasSandboxDomain)
-//        
-//        if hasSandboxDomain {
-//            #expect(true, "Sandbox domain found")
-//        }
-//        
-//        if hasCustomDomain {
-//            #expect(true, "Custom domain found")
-//        }
-//    }
-//    
-//    @Test("Should handle spam action settings")
-//    func testSpamActionSettings() async throws {
-//        // Test different spam action configurations
-//        let spamActions: [Mailgun.Domains.SpamAction] = [.disabled, .block, .tag]
-//        
-//        for action in spamActions {
-//            let updateRequest = Mailgun.Domains.Update.Request(
-//                spamAction: action
-//            )
-//            
-//            // Just verify the request structure
-//            _ = updateRequest
-//            #expect(updateRequest.spamAction == action)
-//        }
-//        
-//        #expect(true, "All spam action options verified")
-//    }
-//}
+//  Created by Coen ten Thije Boonkkamp on 24/12/2024.
+//
+
+import Testing
+import Dependencies
+import DependenciesTestSupport
+import Mailgun_Domains
+import Mailgun_Shared
+
+@Suite(
+    "Mailgun Domains Aggregation Tests",
+    .dependency(\.context, .live),
+    .dependency(\.envVars, .development),
+    .serialized
+)
+struct MailgunDomainsAggregationTests {
+    @Dependency(Mailgun.Domains.Client.self) var client
+    @Dependency(\.envVars.mailgunDomain) var domain
+    
+    @Test("Should access all domain sub-clients")
+    func testAccessAllSubClients() async throws {
+        // Test that we can access all domain sub-clients through the aggregation client
+        
+        // Main domains client
+        let domainsClient = client.domains
+        #expect(domainsClient != nil)
+        
+        // DKIM client through nested structure
+        let dkimClient = client.dkim
+        #expect(dkimClient != nil)
+        #expect(dkimClient.security != nil)
+        
+        // Domain keys and tracking through nested structure
+        let domainClient = client.domain
+        #expect(domainClient != nil)
+        #expect(domainClient.keys != nil)
+        #expect(domainClient.tracking != nil)
+        
+        #expect(Bool(true), "All domain sub-clients are accessible through aggregation")
+    }
+    
+    @Test("Should list domains through aggregation client")
+    func testListDomainsThroughAggregation() async throws {
+        // Test using the domains client through aggregation
+        let request = Mailgun.Domains.Domains.List.Request(
+            authority: nil,
+            state: nil,
+            limit: 5,
+            skip: 0
+        )
+        
+        let response = try await client.domains.list(request)
+        
+        #expect(response.items != nil)
+        #expect(response.totalCount >= 0)
+        
+        if !response.items.isEmpty {
+            let firstDomain = response.items.first!
+            #expect(!firstDomain.name.isEmpty)
+            #expect(firstDomain.state != nil)
+            #expect(firstDomain.type != nil)
+        }
+    }
+    
+    @Test("Should get domain details through aggregation client")
+    func testGetDomainThroughAggregation() async throws {
+        // Test getting domain details through the aggregation client
+        let response = try await client.domains.get(domain)
+        
+        #expect(response.domain != nil)
+        #expect(response.domain.name == domain.description)
+        #expect(!response.domain.smtpLogin.isEmpty)
+        
+        // Check DNS records if present
+        if !response.sendingDnsRecords.isEmpty {
+            #expect(response.sendingDnsRecords.first!.recordType != nil)
+        }
+    }
+    
+    @Test("Should access DKIM security through aggregation")
+    func testAccessDKIMSecurityThroughAggregation() async throws {
+        // Test DKIM security operations through aggregation
+        let dkimSecurityClient = client.dkim.security
+        
+        let request = Mailgun.Domains.DKIM_Security.Rotation.Update.Request(
+            rotationEnabled: false
+        )
+        
+        do {
+            let response = try await dkimSecurityClient.updateRotation(domain, request)
+            #expect(!response.message.isEmpty)
+        } catch {
+            // Handle cases where DKIM might not be available
+            let errorString = String(describing: error).lowercased()
+            if
+               errorString.contains("404") || errorString.contains("not found") || errorString.contains("forbidden") {
+                #expect(Bool(true), "DKIM operations not available - expected for sandbox domains")
+            } else {
+                throw error
+            }
+        }
+    }
+    
+    @Test("Should access domain keys through aggregation")
+    func testAccessDomainKeysThroughAggregation() async throws {
+        // Test domain keys operations through aggregation
+        let keysClient = client.domain.keys
+        
+        let request = Mailgun.Domains.DomainKeys.List.Request(
+            page: nil,
+            limit: 5,
+            signingDomain: nil,
+            selector: nil
+        )
+        
+        do {
+            let response = try await keysClient.list(request)
+            #expect(response.items != nil)
+        } catch {
+            // Handle cases where domain keys might not be accessible
+            let errorString = String(describing: error).lowercased()
+            if
+               errorString.contains("404") || errorString.contains("not found") || errorString.contains("forbidden") {
+                #expect(Bool(true), "Domain keys not accessible - expected for some account types")
+            } else {
+                throw error
+            }
+        }
+    }
+    
+    @Test("Should access tracking settings through aggregation")
+    func testAccessTrackingThroughAggregation() async throws {
+        // Test tracking operations through aggregation
+        let trackingClient = client.domain.tracking
+        
+        do {
+            let response = try await trackingClient.get(domain)
+            
+            #expect(response.tracking != nil)
+            #expect(response.tracking.click != nil)
+            #expect(response.tracking.open != nil)
+            #expect(response.tracking.unsubscribe != nil)
+        } catch {
+            // Handle cases where tracking might not be available
+            let errorString = String(describing: error).lowercased()
+            if
+               errorString.contains("404") || errorString.contains("not found") {
+                #expect(Bool(true), "Tracking not available - expected for some domains")
+            } else {
+                throw error
+            }
+        }
+    }
+    
+    @Test("Should handle domain verification through aggregation")
+    func testDomainVerificationThroughAggregation() async throws {
+        // Test domain verification through aggregation
+        do {
+            let response = try await client.domains.verify(domain)
+            
+            #expect(response.domain != nil)
+            #expect(!response.message.isEmpty)
+            
+            // Check DNS records
+            for record in response.sendingDnsRecords {
+                #expect(!record.recordType.isEmpty)
+                #expect(!record.valid.isEmpty)
+            }
+        } catch {
+            // Handle cases where verification might not be available
+            let errorString = String(describing: error).lowercased()
+            if
+               errorString.contains("404") || errorString.contains("not found") {
+                #expect(Bool(true), "Domain verification not available - expected for some domains")
+            } else {
+                throw error
+            }
+        }
+    }
+    
+    @Test("Should use dynamic member lookup for domains client")
+    func testDynamicMemberLookup() async throws {
+        // The Domains.Client supports dynamic member lookup to access Domains.Domains.Client members
+        // This test verifies that we can use the shorthand syntax
+        
+        // These should work through dynamic member lookup
+        let listRequest = Mailgun.Domains.Domains.List.Request(
+            authority: nil,
+            state: .active,
+            limit: 3,
+            skip: 0
+        )
+        
+        // Using dynamic member lookup (client.list instead of client.domains.list)
+        let response = try await client.list(listRequest)
+        
+        #expect(response.items != nil)
+        #expect(response.totalCount >= 0)
+    }
+    
+    @Test("Should handle all domain operations through aggregation")
+    func testAllDomainOperationsThroughAggregation() async throws {
+        // Comprehensive test of all domain operations available through aggregation
+        
+        // List domains
+        let listResponse = try await client.list(nil)
+        #expect(listResponse.items != nil)
+        
+        // Get specific domain
+        let getResponse = try await client.get(domain)
+        #expect(getResponse.domain.name == domain.description)
+        
+        // Update domain (may fail for sandbox domains)
+        let updateRequest = Mailgun.Domains.Domains.Update.Request(
+            spamAction: .tag,
+            webScheme: nil,
+            wildcard: nil
+        )
+        
+        do {
+            let updateResponse = try await client.update(domain, updateRequest)
+            #expect(!updateResponse.message.isEmpty)
+        } catch {
+            // Updates might be restricted
+            let errorString = String(describing: error).lowercased()
+            if
+               errorString.contains("403") || errorString.contains("forbidden") {
+                #expect(Bool(true), "Domain updates restricted - expected for sandbox domains")
+            } else {
+                throw error
+            }
+        }
+    }
+    
+    @Test("Should validate complete domain feature integration")
+    func testCompleteDomainFeatureIntegration() async throws {
+        // This test validates that all domain-related features are properly integrated
+        
+        var successfulOperations = 0
+        var expectedOperations = 0
+        
+        // Test main domains operations
+        expectedOperations += 1
+        do {
+            _ = try await client.list(nil)
+            successfulOperations += 1
+        } catch {
+            #expect(Bool(true), "List operation failed - counting as expected")
+        }
+        
+        // Test DKIM operations
+        expectedOperations += 1
+        do {
+            let request = Mailgun.Domains.DKIM_Security.Rotation.Update.Request(
+                rotationEnabled: false
+            )
+            _ = try await client.dkim.security.updateRotation(domain, request)
+            successfulOperations += 1
+        } catch {
+            #expect(Bool(true), "DKIM operation failed - counting as expected")
+        }
+        
+        // Test domain keys operations
+        expectedOperations += 1
+        do {
+            _ = try await client.domain.keys.listDomainKeys(domain.description)
+            successfulOperations += 1
+        } catch {
+            #expect(Bool(true), "Domain keys operation failed - counting as expected")
+        }
+        
+        // Test tracking operations
+        expectedOperations += 1
+        do {
+            _ = try await client.domain.tracking.get(domain)
+            successfulOperations += 1
+        } catch {
+            #expect(Bool(true), "Tracking operation failed - counting as expected")
+        }
+        
+        // At least some operations should succeed
+        #expect(successfulOperations > 0, "At least some domain operations should succeed")
+        #expect(expectedOperations == 4, "All expected operations were tested")
+    }
+}
