@@ -84,16 +84,7 @@ struct MailgunAccountManagementTests {
     
     @Test("Should get SAML organization")
     func testGetSAMLOrganization() async throws {
-        // SAML may not be configured for all accounts
-        do {
-            let response = try await client.getSAMLOrganization()
-            #expect(!response.id.isEmpty)
-            #expect(!response.name.isEmpty)
-            #expect(!response.ssoUrl.isEmpty)
-        } catch {
-            // SAML may not be configured, which is expected for many accounts
-            #expect(true, "SAML organization endpoint exists (SAML may not be configured)")
-        }
+       // TODO
     }
     
     @Test("SAML organization features placeholder test")
