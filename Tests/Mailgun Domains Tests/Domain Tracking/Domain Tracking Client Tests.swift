@@ -26,7 +26,7 @@ struct DomainTrackingClientTests {
             let response = try await client.get(domain)
             
             // Verify response structure
-            #expect(response.tracking != nil)
+            #expect(response.tracking.click != nil)
             #expect(response.tracking.click != nil)
             #expect(response.tracking.open != nil)
             #expect(response.tracking.unsubscribe != nil)
