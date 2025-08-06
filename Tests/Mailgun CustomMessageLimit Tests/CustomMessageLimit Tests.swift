@@ -6,8 +6,9 @@
 //
 
 import Testing
+import Dependencies
 import DependenciesTestSupport
-import Mailgun
+import Mailgun_Shared
 import Mailgun_CustomMessageLimit
 import Mailgun_CustomMessageLimit_Types
 import TypesFoundation

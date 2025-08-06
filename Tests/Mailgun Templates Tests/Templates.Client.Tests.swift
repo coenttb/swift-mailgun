@@ -5,12 +5,14 @@
 //  Created by Coen ten Thije Boonkkamp on 30/12/2024.
 //
 
-import DependenciesTestSupport
+import Testing
+import Dependencies
 import DependenciesTestSupport
 import EnvironmentVariables
 import Foundation
+import Mailgun_Shared
 @testable import Mailgun_Templates
-import Testing
+import Mailgun_Templates_Types
 
 @Suite(
     "Templates Client Tests",

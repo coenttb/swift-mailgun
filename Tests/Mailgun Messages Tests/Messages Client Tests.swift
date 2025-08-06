@@ -1,10 +1,12 @@
-import DependenciesTestSupport
+import Testing
+import Dependencies
 import DependenciesTestSupport
 import EnvironmentVariables
 import Foundation
 import IssueReporting
+import Mailgun_Shared
 import Mailgun_Messages
-import Testing
+import Mailgun_Messages_Types
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking

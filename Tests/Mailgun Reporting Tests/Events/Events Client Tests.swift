@@ -1,9 +1,11 @@
-import DependenciesTestSupport
+import Testing
+import Dependencies
 import DependenciesTestSupport
 import EnvironmentVariables
 import Foundation
+import Mailgun_Shared
 @testable import Mailgun_Reporting
-import Testing
+import Mailgun_Reporting_Types
 
 @Suite(
     "Events Client Tests",

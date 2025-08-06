@@ -6,8 +6,9 @@
 //
 
 import Testing
+import Dependencies
 import DependenciesTestSupport
-import Mailgun
+import Mailgun_Shared
 import Mailgun_IPAllowlist
 import Mailgun_IPAllowlist_Types
 import TypesFoundation

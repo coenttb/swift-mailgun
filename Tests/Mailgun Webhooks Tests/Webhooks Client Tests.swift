@@ -5,12 +5,14 @@
 //  Created by Coen ten Thije Boonkkamp on 27/12/2024.
 //
 
-import DependenciesTestSupport
+import Testing
+import Dependencies
 import DependenciesTestSupport
 import EnvironmentVariables
 import Foundation
+import Mailgun_Shared
 @testable import Mailgun_Webhooks
-import Testing
+import Mailgun_Webhooks_Types
 
 @Suite(
     .dependency(\.context, .live),

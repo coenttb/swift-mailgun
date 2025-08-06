@@ -6,8 +6,9 @@
 //
 
 import Testing
+import Dependencies
 import DependenciesTestSupport
-import Mailgun
+import Mailgun_Shared
 import Mailgun_Routes
 import Mailgun_Routes_Types
 import TypesFoundation
@@ -19,10 +20,10 @@ import TypesFoundation
     .serialized
 )
 struct MailgunRoutesTests {
-    @Dependency(Mailgun.Routes.Client.self) var client
     
     @Test("Should successfully list routes")
     func testListRoutes() async throws {
+        @Dependency(Mailgun.Routes.Client.self) var client
         let response = try await client.list()
         
         // Check response structure
@@ -41,6 +42,7 @@ struct MailgunRoutesTests {
     
     @Test("Should successfully create and delete route")
     func testCreateAndDeleteRoute() async throws {
+        @Dependency(Mailgun.Routes.Client.self) var client
         let testDescription = "Test route \(Int.random(in: 1000...9999))"
         
         // Create route
@@ -70,6 +72,7 @@ struct MailgunRoutesTests {
     
     @Test("Should successfully get route details")
     func testGetRouteDetails() async throws {
+        @Dependency(Mailgun.Routes.Client.self) var client
         // First create a test route
         let createRequest = Mailgun.Routes.Create.Request(
             priority: 200,
@@ -95,6 +98,7 @@ struct MailgunRoutesTests {
     
     @Test("Should successfully update route")
     func testUpdateRoute() async throws {
+        @Dependency(Mailgun.Routes.Client.self) var client
         // First create a test route
         let createRequest = Mailgun.Routes.Create.Request(
             priority: 300,
@@ -125,6 +129,7 @@ struct MailgunRoutesTests {
     
     @Test("Should handle various route expressions")
     func testVariousRouteExpressions() async throws {
+        @Dependency(Mailgun.Routes.Client.self) var client
         // Test different expression types
         let expressions = [
             "match_recipient(\".*@example.com\")",
@@ -151,6 +156,7 @@ struct MailgunRoutesTests {
     
     @Test("Should handle various route actions")
     func testVariousRouteActions() async throws {
+        @Dependency(Mailgun.Routes.Client.self) var client
         // Test different action combinations
         let actionSets = [
             ["forward(\"https://example.com/webhook\")"],
@@ -177,6 +183,7 @@ struct MailgunRoutesTests {
     
     @Test("Should handle route priority ordering")
     func testRoutePriorityOrdering() async throws {
+        @Dependency(Mailgun.Routes.Client.self) var client
         // Create routes with different priorities
         let priorities = [100, 50, 150]
         var routeIds: [String] = []
@@ -214,6 +221,7 @@ struct MailgunRoutesTests {
     
     @Test("Should handle pagination when listing routes")
     func testListRoutesWithPagination() async throws {
+        @Dependency(Mailgun.Routes.Client.self) var client
         let response = try await client.list()
         
         #expect(response.totalCount >= 0)
