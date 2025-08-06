@@ -7,6 +7,7 @@
 
 import Dependencies
 import DependenciesTestSupport
+import Foundation
 import Mailgun_AccountManagement
 import Testing
 import TypesFoundation

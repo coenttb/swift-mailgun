@@ -36,7 +36,7 @@ extension Mailgun.Routes.Client {
             get: { routeId in
                 try await handleRequest(
                     for: makeRequest(.get(id: routeId)),
-                    decodingTo: Mailgun.Routes.Route.self
+                    decodingTo: Mailgun.Routes.Get.Response.self
                 )
             },
             update: { routeId, request in
@@ -51,9 +51,9 @@ extension Mailgun.Routes.Client {
                     decodingTo: Mailgun.Routes.Delete.Response.self
                 )
             },
-            match: { recipient in
+            match: { address in
                 try await handleRequest(
-                    for: makeRequest(.match(recipient: recipient)),
+                    for: makeRequest(.match(address: address)),
                     decodingTo: Mailgun.Routes.Match.Response.self
                 )
             }
