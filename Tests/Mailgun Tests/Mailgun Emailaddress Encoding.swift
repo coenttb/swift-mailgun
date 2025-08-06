@@ -5,7 +5,7 @@
 //  Created by Coen ten Thije Boonkkamp on 22/12/2024.
 //
 
-import Dependencies
+import DependenciesTestSupport
 import DependenciesTestSupport
 import EnvironmentVariables
 import Foundation

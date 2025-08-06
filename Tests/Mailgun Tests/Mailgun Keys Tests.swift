@@ -1,5 +1,5 @@
 import Testing
-import Dependencies
+import DependenciesTestSupport
 import Mailgun
 import Mailgun_Keys
 import Mailgun_Keys_Types

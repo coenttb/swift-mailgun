@@ -1,5 +1,5 @@
 import Testing
-import Dependencies
+import DependenciesTestSupport
 import Mailgun
 import Mailgun_IPs
 import Mailgun_IPs_Types

@@ -6,7 +6,7 @@
 //
 
 import Testing
-import Dependencies
+import DependenciesTestSupport
 import Mailgun
 import Mailgun_Routes
 import Mailgun_Routes_Types

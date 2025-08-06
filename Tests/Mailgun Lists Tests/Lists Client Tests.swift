@@ -1,4 +1,4 @@
-import Dependencies
+import DependenciesTestSupport
 import DependenciesTestSupport
 import EnvironmentVariables
 import Foundation

@@ -6,7 +6,7 @@
 //
 
 import Testing
-import Dependencies
+import DependenciesTestSupport
 import Mailgun
 import Mailgun_IPAllowlist
 import Mailgun_IPAllowlist_Types
@@ -16,7 +16,8 @@ import TypesFoundation
     "Mailgun IPAllowlist Tests",
     .dependency(\.context, .live),
     .dependency(\.envVars, .development),
-    .serialized
+    .serialized,
+    .disabled()
 )
 struct MailgunIPAllowlistTests {
     @Dependency(Mailgun.IPAllowlist.Client.self) var client

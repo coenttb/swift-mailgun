@@ -1,5 +1,5 @@
 import Testing
-import Dependencies
+import DependenciesTestSupport
 import Mailgun
 import Mailgun_Users
 import Mailgun_Users_Types

@@ -11,7 +11,6 @@ import IssueReporting
 import Mailgun_Types_Shared
 import Mailgun_Lists_Types
 import Mailgun_Shared
-@_exported import enum Mailgun_Types.Mailgun
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif

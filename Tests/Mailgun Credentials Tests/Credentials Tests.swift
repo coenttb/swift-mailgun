@@ -6,11 +6,9 @@
 //
 
 import Testing
-import Dependencies
+import DependenciesTestSupport
 import Mailgun
 import Mailgun_Credentials
-import Mailgun_Credentials_Types
-import TypesFoundation
 
 @Suite(
     "Mailgun Credentials Tests",

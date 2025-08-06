@@ -6,7 +6,7 @@
 //
 
 import Testing
-import Dependencies
+import DependenciesTestSupport
 import Mailgun
 import Mailgun_AccountManagement
 import Mailgun_AccountManagement_Types

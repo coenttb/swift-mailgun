@@ -1,5 +1,5 @@
 import Testing
-import Dependencies
+import DependenciesTestSupport
 import Mailgun
 import Mailgun_Types
 import TypesFoundation

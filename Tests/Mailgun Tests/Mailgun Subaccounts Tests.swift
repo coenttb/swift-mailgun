@@ -1,5 +1,5 @@
 import Testing
-import Dependencies
+import DependenciesTestSupport
 import Mailgun
 import Mailgun_Subaccounts
 import Mailgun_Subaccounts_Types
