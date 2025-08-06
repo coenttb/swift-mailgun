@@ -79,7 +79,7 @@ struct MailgunClientSubclientAccessTests {
         
         // This will throw because we're using testValue implementation
         // which is unimplemented by design. This is expected behavior.
-        await #expect(throws: Error.self) {
+        await #expect(throws: Swift.Error.self) {
             try await mailgun.messages.send(sendRequest)
         }
     }

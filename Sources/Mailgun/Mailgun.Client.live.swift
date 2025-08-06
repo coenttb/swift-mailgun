@@ -22,13 +22,13 @@ import Mailgun_Lists
 import Mailgun_Messages
 import Mailgun_Reporting
 import Mailgun_Routes
-import Mailgun_Shared
 import Mailgun_Subaccounts
 import Mailgun_Suppressions
 import Mailgun_Templates
 import Mailgun_Users
 import Mailgun_Webhooks
 import Dependencies
+@_exported import Mailgun_Shared
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking

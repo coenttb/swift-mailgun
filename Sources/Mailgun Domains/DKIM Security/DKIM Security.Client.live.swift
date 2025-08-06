@@ -8,12 +8,11 @@
 import Dependencies
 import Foundation
 import IssueReporting
-import Mailgun_Shared
-import Mailgun_Types_Shared
 import Mailgun_Domains_Types
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
+@_exported import Mailgun_Shared
 
 extension Mailgun.Domains.DKIM_Security.Client {
     public static func live(

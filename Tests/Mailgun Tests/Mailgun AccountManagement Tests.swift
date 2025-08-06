@@ -33,10 +33,7 @@ struct MailgunAccountManagementTests {
     @Test("Should get HTTP signing key")
     func testGetHttpSigningKey() async throws {
         let response = try await client.getHttpSigningKey()
-        
-        #expect(!response.active.isEmpty)
-        #expect(!response.signingKey.isEmpty)
-        #expect(response.expiresAt != nil || response.active == "yes")
+        #expect(!response.httpSigningKey.isEmpty)
     }
     
     @Test("Should regenerate HTTP signing key")
@@ -56,13 +53,7 @@ struct MailgunAccountManagementTests {
         let response = try await client.getSandboxAuthRecipients()
         
         // Response contains items array
-        #expect(response.items != nil)
-        if let items = response.items {
-            for item in items {
-                #expect(!item.address.isEmpty)
-                #expect(item.createdAt != nil)
-            }
-        }
+        #expect(response.authRecipients.count > 0)
     }
     
     @Test("Should add and delete sandbox authorized recipient")
@@ -70,11 +61,11 @@ struct MailgunAccountManagementTests {
         let testEmail = "sandboxtest\(Int.random(in: 1000...9999))@example.com"
         
         // Add recipient
-        let addResponse = try await client.addSandboxAuthRecipient(testEmail)
+        let addResponse = try await client.addSandboxAuthRecipient(.init(testEmail))
         #expect(addResponse.message.contains("Added") || addResponse.message.contains("created"))
         
         // Delete recipient (cleanup)
-        let deleteResponse = try await client.deleteSandboxAuthRecipient(testEmail)
+        let deleteResponse = try await client.deleteSandboxAuthRecipient(.init(testEmail))
         #expect(deleteResponse.message.contains("Deleted") || deleteResponse.message.contains("removed"))
     }
     

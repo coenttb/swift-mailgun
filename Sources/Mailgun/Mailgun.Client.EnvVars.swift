@@ -7,8 +7,7 @@
 
 import Domain
 import Foundation
-import Mailgun_Shared
-import Mailgun_Types_Shared
+@_exported import Mailgun_Shared
 import Mailgun_Types
 
 extension Mailgun.Client {

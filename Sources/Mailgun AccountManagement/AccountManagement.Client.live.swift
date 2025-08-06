@@ -9,7 +9,7 @@ import Dependencies
 import Foundation
 import IssueReporting
 import Mailgun_Shared
-import Mailgun_Types_Shared
+@_exported import Mailgun_Shared
 import Mailgun_AccountManagement_Types
 #if canImport(FoundationNetworking)
 import FoundationNetworking

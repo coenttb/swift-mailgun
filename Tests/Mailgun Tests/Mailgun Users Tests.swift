@@ -65,7 +65,7 @@ struct MailgunUsersTests {
     }
 }
 
-private struct TestError: Error {
+private struct TestError: Swift.Error {
     let message: String
     init(_ message: String) {
         self.message = message

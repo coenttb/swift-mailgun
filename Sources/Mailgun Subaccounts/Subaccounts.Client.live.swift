@@ -39,9 +39,9 @@ extension Mailgun.Subaccounts.Client {
                     decodingTo: Mailgun.Subaccounts.Subaccount.self
                 )
             },
-            delete: {
+            delete: { subaccountId in
                 try await handleRequest(
-                    for: makeRequest(.delete),
+                    for: makeRequest(.delete(subaccountId: subaccountId)),
                     decodingTo: Mailgun.Subaccounts.Delete.Response.self
                 )
             },

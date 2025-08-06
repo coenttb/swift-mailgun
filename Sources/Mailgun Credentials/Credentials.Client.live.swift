@@ -8,12 +8,11 @@
 import Dependencies
 import Foundation
 import IssueReporting
-import Mailgun_Shared
 import Mailgun_Credentials_Types
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
-@_exported import Mailgun_Types_Shared
+@_exported import Mailgun_Shared
 
 extension Mailgun.Credentials.Client {
     public static func live(

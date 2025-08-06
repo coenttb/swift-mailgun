@@ -10,7 +10,7 @@ import Foundation
 import IssueReporting
 import Mailgun_Types_Shared
 import Mailgun_Lists_Types
-import Mailgun_Shared
+@_exported import Mailgun_Shared
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
