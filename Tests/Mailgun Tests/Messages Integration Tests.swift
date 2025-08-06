@@ -233,7 +233,7 @@ struct MessagesIntegrationTests {
     
     @Test(
         "Send MIME with multiple authorized recipients",
-        .bug(id: 2, "MIME endpoint requires multipart/form-data but currently uses application/x-www-form-urlencoded")
+        .bug(id: 2, "MIME message field needs to be sent as file attachment, not form field")
     )
     func testMimeWithAuthorizedRecipients() async throws {
         @Dependency(\.mailgun) var mailgun
