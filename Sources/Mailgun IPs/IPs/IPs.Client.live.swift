@@ -25,7 +25,7 @@ extension Mailgun.IPs.Client {
             list: {
                 try await handleRequest(
                     for: makeRequest(.list),
-                    decodingTo: Mailgun.IPs.ListResponse.self
+                    decodingTo: Mailgun.IPs.List.Response.self
                 )
             },
             
@@ -39,42 +39,42 @@ extension Mailgun.IPs.Client {
             listDomains: { ip in
                 try await handleRequest(
                     for: makeRequest(.listDomains(ip: ip)),
-                    decodingTo: Mailgun.IPs.DomainListResponse.self
+                    decodingTo: Mailgun.IPs.DomainList.Response.self
                 )
             },
             
             assignDomain: { ip, request in
                 try await handleRequest(
                     for: makeRequest(.assignDomain(ip: ip, request: request)),
-                    decodingTo: Mailgun.IPs.AssignDomainResponse.self
+                    decodingTo: Mailgun.IPs.AssignDomain.Response.self
                 )
             },
             
             unassignDomain: { ip, domain in
                 try await handleRequest(
                     for: makeRequest(.unassignDomain(ip: ip, domain: domain)),
-                    decodingTo: Mailgun.IPs.DeleteResponse.self
+                    decodingTo: Mailgun.IPs.Delete.Response.self
                 )
             },
             
             assignIPBand: { ip, request in
                 try await handleRequest(
                     for: makeRequest(.assignIPBand(ip: ip, request: request)),
-                    decodingTo: Mailgun.IPs.IPBandResponse.self
+                    decodingTo: Mailgun.IPs.IPBand.Response.self
                 )
             },
             
             requestNew: { request in
                 try await handleRequest(
                     for: makeRequest(.requestNew(request: request)),
-                    decodingTo: Mailgun.IPs.RequestNewResponse.self
+                    decodingTo: Mailgun.IPs.RequestNew.Response.self
                 )
             },
             
             getRequestedIPs: {
                 try await handleRequest(
                     for: makeRequest(.getRequestedIPs),
-                    decodingTo: Mailgun.IPs.RequestNewResponse.self
+                    decodingTo: Mailgun.IPs.RequestNew.Response.self
                 )
             },
             
@@ -83,7 +83,7 @@ extension Mailgun.IPs.Client {
                 let parsedDomain = try Domain(domain)
                 return try await handleRequest(
                     for: makeRequest(.deleteDomainIP(domain: parsedDomain, ip: ip)),
-                    decodingTo: Mailgun.IPs.DeleteResponse.self
+                    decodingTo: Mailgun.IPs.Delete.Response.self
                 )
             },
             
@@ -92,7 +92,7 @@ extension Mailgun.IPs.Client {
                 let parsedDomain = try Domain(domain)
                 return try await handleRequest(
                     for: makeRequest(.deleteDomainPool(domain: parsedDomain, ip: ip)),
-                    decodingTo: Mailgun.IPs.DeleteResponse.self
+                    decodingTo: Mailgun.IPs.Delete.Response.self
                 )
             }
         )

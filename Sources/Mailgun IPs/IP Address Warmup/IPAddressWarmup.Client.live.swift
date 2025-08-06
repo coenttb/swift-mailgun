@@ -24,7 +24,7 @@ extension Mailgun.IPAddressWarmup.Client {
             list: {
                 try await handleRequest(
                     for: makeRequest(.list),
-                    decodingTo: Mailgun.IPAddressWarmup.ListResponse.self
+                    decodingTo: Mailgun.IPAddressWarmup.List.Response.self
                 )
             },
             
@@ -38,14 +38,14 @@ extension Mailgun.IPAddressWarmup.Client {
             create: { ip, request in
                 try await handleRequest(
                     for: makeRequest(.create(ip: ip, request: request)),
-                    decodingTo: Mailgun.IPAddressWarmup.CreateResponse.self
+                    decodingTo: Mailgun.IPAddressWarmup.Create.Response.self
                 )
             },
             
             delete: { ip in
                 try await handleRequest(
                     for: makeRequest(.delete(ip: ip)),
-                    decodingTo: Mailgun.IPAddressWarmup.DeleteResponse.self
+                    decodingTo: Mailgun.IPAddressWarmup.Delete.Response.self
                 )
             }
         )
