@@ -8,8 +8,8 @@
 import Dependencies
 import Foundation
 import IssueReporting
-@_exported import Mailgun_Shared
 import Mailgun_IPs_Types
+@_exported import Mailgun_Shared
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
@@ -27,21 +27,21 @@ extension Mailgun.IPAddressWarmup.Client {
                     decodingTo: Mailgun.IPAddressWarmup.List.Response.self
                 )
             },
-            
+
             get: { ip in
                 try await handleRequest(
                     for: makeRequest(.get(ip: ip)),
                     decodingTo: Mailgun.IPAddressWarmup.IPWarmup.self
                 )
             },
-            
+
             create: { ip, request in
                 try await handleRequest(
                     for: makeRequest(.create(ip: ip, request: request)),
                     decodingTo: Mailgun.IPAddressWarmup.Create.Response.self
                 )
             },
-            
+
             delete: { ip in
                 try await handleRequest(
                     for: makeRequest(.delete(ip: ip)),

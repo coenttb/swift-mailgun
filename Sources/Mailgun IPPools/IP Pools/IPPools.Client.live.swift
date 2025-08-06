@@ -8,8 +8,8 @@
 import Dependencies
 import Foundation
 import IssueReporting
-@_exported import Mailgun_Shared
 import Mailgun_IPPools_Types
+@_exported import Mailgun_Shared
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
@@ -27,35 +27,35 @@ extension Mailgun.IPPools.Client {
                     decodingTo: Mailgun.IPPools.List.Response.self
                 )
             },
-            
+
             create: { request in
                 try await handleRequest(
                     for: makeRequest(.create(request: request)),
                     decodingTo: Mailgun.IPPools.Create.Response.self
                 )
             },
-            
+
             get: { poolId in
                 try await handleRequest(
                     for: makeRequest(.get(poolId: poolId)),
                     decodingTo: Mailgun.IPPools.IPPool.self
                 )
             },
-            
+
             update: { poolId, request in
                 try await handleRequest(
                     for: makeRequest(.update(poolId: poolId, request: request)),
                     decodingTo: Mailgun.IPPools.Update.Response.self
                 )
             },
-            
+
             delete: { poolId, request in
                 try await handleRequest(
                     for: makeRequest(.delete(poolId: poolId, request: request)),
                     decodingTo: Mailgun.IPPools.Delete.Response.self
                 )
             },
-            
+
             listDomains: { poolId in
                 try await handleRequest(
                     for: makeRequest(.listDomains(poolId: poolId)),

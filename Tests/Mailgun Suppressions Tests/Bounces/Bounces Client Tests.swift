@@ -5,18 +5,18 @@
 ////  Created by Coen ten Thije Boonkkamp on 27/12/2024.
 ////
 //
-//import Testing
-//import Dependencies
-//import DependenciesTestSupport
-//import Mailgun_Suppressions
+// import Testing
+// import Dependencies
+// import DependenciesTestSupport
+// import Mailgun_Suppressions
 //
-//@Suite(
+// @Suite(
 //    "Bounces Client Tests",
 //    .dependency(\.context, .live),
 //    .dependency(\.envVars, .development),
 //    .serialized
-//)
-//struct BouncesClientTests {
+// )
+// struct BouncesClientTests {
 //    @Test("Should successfully create bounce record")
 //    func testCreateBounceRecord() async throws {
 //        @Dependency(Mailgun.Suppressions.Client.self) var client
@@ -130,4 +130,4 @@
 //
 //        #expect(response.message == "Bounced addresses for this domain have been removed")
 //    }
-//}
+// }

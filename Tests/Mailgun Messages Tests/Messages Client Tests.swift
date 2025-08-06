@@ -1,7 +1,7 @@
-import Testing
 import Dependencies
 import DependenciesTestSupport
 import Mailgun_Messages
+import Testing
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking

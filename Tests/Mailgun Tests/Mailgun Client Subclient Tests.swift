@@ -1,15 +1,15 @@
-import Testing
 import Dependencies
 import DependenciesTestSupport
 import Mailgun
+import Testing
 //
-//@Suite(
+// @Suite(
 //    "Mailgun Client Subclient Access Tests",
 //    .dependency(\.context, .live),
 //    .dependency(\.envVars, .development),
 //    .serialized
-//)
-//struct MailgunClientSubclientAccessTests {
+// )
+// struct MailgunClientSubclientAccessTests {
 //    @Dependency(\.mailgun) var mailgun
 //    
 //    @Test("All subclients are accessible through dependency")
@@ -94,4 +94,4 @@ import Mailgun
 //        // If we can access subclients, authentication is configured
 //        #expect(true, "Client is properly authenticated")
 //    }
-//}
+// }

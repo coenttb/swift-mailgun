@@ -5,18 +5,18 @@
 ////  Created by Coen ten Thije Boonkkamp on 24/12/2024.
 ////
 //
-//import Testing
-//import Dependencies
-//import DependenciesTestSupport
-//import Mailgun_Suppressions
+// import Testing
+// import Dependencies
+// import DependenciesTestSupport
+// import Mailgun_Suppressions
 //
-//@Suite(
+// @Suite(
 //    "Mailgun Suppressions Client Tests",
 //    .dependency(\.context, .live),
 //    .dependency(\.envVars, .development),
 //    .serialized
-//)
-//struct MailgunSuppressionsClientTests {
+// )
+// struct MailgunSuppressionsClientTests {
 //    @Dependency(Mailgun.Suppressions.Client.self) var client
 //    @Dependency(\.envVars.mailgunDomain) var domain
 //    
@@ -71,4 +71,4 @@
 //        #expect(!response.items.isEmpty || response.items.isEmpty) // May be empty
 //        #expect(!response.paging.first.isEmpty)
 //    }
-//}
+// }

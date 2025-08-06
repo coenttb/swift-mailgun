@@ -1,15 +1,15 @@
-import Testing
 import Dependencies
 import DependenciesTestSupport
 import Mailgun
+import Testing
 //
-//@Suite(
+// @Suite(
 //    "Mailgun Keys Tests",
 //    .dependency(\.context, .live),
 //    .dependency(\.envVars, .development),
 //    .serialized
-//)
-//struct MailgunKeysTests {
+// )
+// struct MailgunKeysTests {
 //    @Dependency(Mailgun.Keys.Client.self) var client
 //    
 ////    @Test("Should successfully list API keys")
@@ -55,11 +55,11 @@ import Mailgun
 ////        _ = rotateRequest
 ////        #expect(true, "Rotate request structure is valid")
 ////    }
-//}
+// }
 ////
-////private struct TestError: Error {
+//// private struct TestError: Error {
 ////    let message: String
 ////    init(_ message: String) {
 ////        self.message = message
 ////    }
-////}
+//// }

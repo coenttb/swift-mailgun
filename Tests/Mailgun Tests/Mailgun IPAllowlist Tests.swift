@@ -1,15 +1,15 @@
-import Testing
 import Dependencies
 import DependenciesTestSupport
 import Mailgun
+import Testing
 //
-//@Suite(
+// @Suite(
 //    "Mailgun IPAllowlist Tests",
 //    .dependency(\.context, .live),
 //    .dependency(\.envVars, .development),
 //    .serialized
-//)
-//struct MailgunIPAllowlistTests {
+// )
+// struct MailgunIPAllowlistTests {
 //    @Dependency(Mailgun.IPAllowlist.Client.self) var client
 //    
 //    @Test("Should successfully list IP allowlist entries")
@@ -72,4 +72,4 @@ import Mailgun
 //        let deleteRequest = Mailgun.IPAllowlist.DeleteRequest(address: testIP)
 //        _ = try await client.delete(deleteRequest)
 //    }
-//}
+// }

@@ -5,9 +5,9 @@
 //  Created by Coen ten Thije Boonkkamp on 23/01/2025.
 //
 
+import Domain
 import EnvironmentVariables
 import Foundation
-import Domain
 
 extension EnvironmentVariables {
     public var mailgunBaseUrl: URL {
@@ -48,7 +48,7 @@ extension EnvVars {
             .deletingLastPathComponent()
             .deletingLastPathComponent()
             .deletingLastPathComponent()
-        
+
         return try! .live(
             environmentConfiguration: .projectRoot(
                 projectRoot,

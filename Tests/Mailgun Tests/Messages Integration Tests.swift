@@ -1,10 +1,10 @@
-import Testing
 import Dependencies
 import DependenciesTestSupport
-import Mailgun
-import Mailgun_Messages
-import Mailgun_AccountManagement
 import Foundation
+import Mailgun
+import Mailgun_AccountManagement
+import Mailgun_Messages
+import Testing
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking
@@ -17,46 +17,46 @@ import FoundationNetworking
     .serialized
 )
 struct MessagesIntegrationTests {
-    
+
     // Helper to get authorized sandbox recipients
     func getAuthorizedRecipients() async throws -> [EmailAddress] {
         @Dependency(\.mailgun) var mailgun
-        
+
         let response = try await mailgun.accountManagement.getSandboxAuthRecipients()
-        
+
         // Filter only activated recipients and convert to EmailAddress
         let recipients = try response.recipients
             .filter { $0.activated }
             .map { try EmailAddress($0.email) }
-        
+
         // Ensure we have at least one recipient
         guard !recipients.isEmpty else {
             throw TestError.noAuthorizedRecipients
         }
-        
+
         return recipients
     }
-    
+
     enum TestError: Swift.Error {
         case noAuthorizedRecipients
         case insufficientRecipients(needed: Int, available: Int)
     }
-    
+
     @Test("Send to multiple authorized recipients")
     func testSendToMultipleAuthorizedRecipients() async throws {
         @Dependency(\.mailgun) var mailgun
         @Dependency(\.envVars.mailgunFrom) var from
-        
+
         // Get all authorized recipients
         let authorizedRecipients = try await getAuthorizedRecipients()
-        
+
         // Use at least 2 recipients if available
         let recipientsToUse = Array(authorizedRecipients.prefix(3))
-        
+
         guard recipientsToUse.count >= 2 else {
             throw TestError.insufficientRecipients(needed: 2, available: recipientsToUse.count)
         }
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: recipientsToUse,
@@ -71,21 +71,21 @@ struct MessagesIntegrationTests {
             text: "This email is being sent to \(recipientsToUse.count) authorized recipients: \(recipientsToUse.map { $0.rawValue }.joined(separator: ", "))",
             testMode: true
         )
-        
+
         let response = try await mailgun.messages.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send batch email with recipient variables using authorized recipients")
     func testBatchEmailWithAuthorizedRecipients() async throws {
         @Dependency(\.mailgun) var mailgun
         @Dependency(\.envVars.mailgunFrom) var from
-        
+
         // Get authorized recipients
         let authorizedRecipients = try await getAuthorizedRecipients()
-        
+
         // Create recipient variables for each authorized recipient
         var recipientVarsDict: [String: [String: Any]] = [:]
         for (index, recipient) in authorizedRecipients.enumerated() {
@@ -95,13 +95,13 @@ struct MessagesIntegrationTests {
                 "email": recipient.rawValue
             ]
         }
-        
+
         // Convert to JSON string
         let recipientVariables = try String(
             data: JSONSerialization.data(withJSONObject: recipientVarsDict),
             encoding: .utf8
         )!
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: authorizedRecipients,
@@ -116,30 +116,30 @@ struct MessagesIntegrationTests {
             testMode: true,
             recipientVariables: recipientVariables
         )
-        
+
         let response = try await mailgun.messages.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send with CC and BCC using authorized recipients")
     func testSendWithCcBccAuthorized() async throws {
         @Dependency(\.mailgun) var mailgun
         @Dependency(\.envVars.mailgunFrom) var from
-        
+
         // Get authorized recipients
         let authorizedRecipients = try await getAuthorizedRecipients()
-        
+
         guard authorizedRecipients.count >= 3 else {
             throw TestError.insufficientRecipients(needed: 3, available: authorizedRecipients.count)
         }
-        
+
         // Assign roles to recipients
         let toRecipient = authorizedRecipients[0]
         let ccRecipient = authorizedRecipients[1]
         let bccRecipient = authorizedRecipients[2]
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [toRecipient],
@@ -158,21 +158,21 @@ struct MessagesIntegrationTests {
             bcc: [bccRecipient.rawValue],
             testMode: true
         )
-        
+
         let response = try await mailgun.messages.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send template email with authorized recipients")
     func testTemplateEmailWithAuthorizedRecipients() async throws {
         @Dependency(\.mailgun) var mailgun
         @Dependency(\.envVars.mailgunFrom) var from
-        
+
         // Get authorized recipients
         let authorizedRecipients = try await getAuthorizedRecipients()
-        
+
         // Create template variables for batch sending
         var recipientVarsDict: [String: [String: Any]] = [:]
         for (index, recipient) in authorizedRecipients.enumerated() {
@@ -183,12 +183,12 @@ struct MessagesIntegrationTests {
                 "renewalDate": "2024-\(String(format: "%02d", (index % 12) + 1))-15"
             ]
         }
-        
+
         let recipientVariables = try String(
             data: JSONSerialization.data(withJSONObject: recipientVarsDict),
             encoding: .utf8
         )!
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: authorizedRecipients,
@@ -204,33 +204,33 @@ struct MessagesIntegrationTests {
             testMode: true,
             recipientVariables: recipientVariables
         )
-        
+
         let response = try await mailgun.messages.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("List and verify authorized recipients")
     func testListAuthorizedRecipients() async throws {
         @Dependency(\.mailgun) var mailgun
-        
+
         let response = try await mailgun.accountManagement.getSandboxAuthRecipients()
-        
+
         // Verify we have recipients
         #expect(!response.recipients.isEmpty)
-        
+
         // Log recipients for debugging
         print("Found \(response.recipients.count) authorized recipients:")
         for recipient in response.recipients {
             print("  - \(recipient.email) (activated: \(recipient.activated))")
         }
-        
+
         // Verify at least one is activated
         let activatedCount = response.recipients.filter { $0.activated }.count
         #expect(activatedCount > 0)
     }
-    
+
     @Test(
         "Send MIME with multiple authorized recipients",
         .bug(id: 2, "MIME message field needs to be sent as file attachment, not form field")
@@ -238,32 +238,32 @@ struct MessagesIntegrationTests {
     func testMimeWithAuthorizedRecipients() async throws {
         @Dependency(\.mailgun) var mailgun
         @Dependency(\.envVars.mailgunFrom) var from
-        
+
         // Get authorized recipients
         let authorizedRecipients = try await getAuthorizedRecipients()
-        
+
         let recipientList = authorizedRecipients.map { $0.rawValue }.joined(separator: ", ")
-        
+
         let mimeContent = """
             MIME-Version: 1.0
             Content-Type: text/plain; charset=UTF-8
             From: \(from.rawValue)
             To: \(recipientList)
             Subject: MIME Email to Authorized Recipients
-            
+
             This MIME email is being sent to all authorized sandbox recipients.
-            
+
             Recipients: \(recipientList)
             """
-        
+
         let request = Mailgun.Messages.Send.Mime.Request(
             to: authorizedRecipients,
             message: Data(mimeContent.utf8),
             testMode: true
         )
-        
+
         let response = try await mailgun.messages.sendMime(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }

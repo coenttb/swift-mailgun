@@ -1,15 +1,15 @@
-import Testing
 import Dependencies
 import DependenciesTestSupport
 import Mailgun_Reporting
+import Testing
 //
-//@Suite(
+// @Suite(
 //    "Events Client Tests",
 //    .dependency(\.calendar, .current),
 //    .dependency(\.context, .live),
 //    .dependency(\.envVars, .development)
-//)
-//struct EventsClientTests {
+// )
+// struct EventsClientTests {
 //    @Test("Should successfully list events with default parameters")
 //    func testListEvents() async throws {
 //        @Dependency(Mailgun.Reporting.Events.Client.self) var client
@@ -108,4 +108,4 @@ import Mailgun_Reporting
 //            #expect(response.paging.next != nil)
 //        }
 //    }
-//}
+// }

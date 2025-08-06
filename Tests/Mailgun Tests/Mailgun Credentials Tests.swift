@@ -1,15 +1,15 @@
-import Testing
 import Dependencies
 import DependenciesTestSupport
 import Mailgun
+import Testing
 //
-//@Suite(
+// @Suite(
 //    "Mailgun Credentials Tests",
 //    .dependency(\.context, .live),
 //    .dependency(\.envVars, .development),
 //    .serialized
-//)
-//struct MailgunCredentialsTests {
+// )
+// struct MailgunCredentialsTests {
 //    @Dependency(Mailgun.Credentials.Client.self) var client
 //    @Dependency(\.envVars.mailgunDomain) var domain
 //    
@@ -169,10 +169,10 @@ import Mailgun
 //            #expect(true, "Large credential list handled")
 //        }
 //    }
-//}
+// }
 //
 //// Helper error type for testing
-//private struct TestError: Swift.Error, Codable, Equatable {
+// private struct TestError: Swift.Error, Codable, Equatable {
 //    let statusCode: Int
 //    let message: String
-//}
+// }

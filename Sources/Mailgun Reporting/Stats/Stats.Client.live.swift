@@ -7,8 +7,8 @@
 import Dependencies
 import Foundation
 import IssueReporting
-@_exported import Mailgun_Shared
 import Mailgun_Reporting_Types
+@_exported import Mailgun_Shared
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
@@ -72,4 +72,3 @@ extension Mailgun.Reporting.Stats.Client: @retroactive DependencyKey {
 extension Mailgun.Reporting.Stats.API.Router: @retroactive DependencyKey {
     public static let liveValue: Mailgun.Reporting.Stats.API.Router = .init()
 }
-

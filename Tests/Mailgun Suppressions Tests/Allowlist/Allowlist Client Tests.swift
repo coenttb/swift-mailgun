@@ -5,18 +5,18 @@
 ////  Created by Coen ten Thije Boonkkamp on 27/12/2024.
 ////
 //
-//import Testing
-//import Dependencies
-//import DependenciesTestSupport
-//import Mailgun_Suppressions
+// import Testing
+// import Dependencies
+// import DependenciesTestSupport
+// import Mailgun_Suppressions
 //
-//@Suite(
+// @Suite(
 //    "Allowlist Client Tests",
 //    .dependency(\.context, .live),
 //    .dependency(\.envVars, .development),
 //    .serialized
-//)
-//struct SuppressionsAllowlistClientTests {
+// )
+// struct SuppressionsAllowlistClientTests {
 //    @Test("Should successfully create Allowlist record for domain")
 //    func testCreateDomainAllowlistRecord() async throws {
 //        @Dependency(Mailgun.Suppressions.Client.self) var client
@@ -108,4 +108,4 @@
 //
 //        #expect(response.message == "Allowlist addresses/domains for this domain have been removed")
 //    }
-//}
+// }

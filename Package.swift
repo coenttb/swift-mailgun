@@ -118,7 +118,7 @@ let package = Package(
         .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.9.2"),
         .package(url: "https://github.com/pointfreeco/swift-url-routing", from: "0.6.2"),
         .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "1.4.3"),
-        .package(url: "https://github.com/coenttb/swift-url-form-coding", from: "0.1.0"),
+        .package(url: "https://github.com/coenttb/swift-url-form-coding", from: "0.1.0")
     ],
     targets: [
         .target(

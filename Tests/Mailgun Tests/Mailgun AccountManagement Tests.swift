@@ -1,15 +1,15 @@
-import Testing
 import Dependencies
 import DependenciesTestSupport
 import Mailgun
+import Testing
 //
-//@Suite(
+// @Suite(
 //    "Mailgun AccountManagement Tests",
 //    .dependency(\.context, .live),
 //    .dependency(\.envVars, .development),
 //    .serialized
-//)
-//struct MailgunAccountManagementTests {
+// )
+// struct MailgunAccountManagementTests {
 //    @Dependency(Mailgun.AccountManagement.Client.self) var client
 //    
 //    @Test("Should handle account update request")
@@ -91,10 +91,10 @@ import Mailgun
 //        // This is a placeholder test for when they are added
 //        #expect(true, "SAML organization types will be tested when implemented")
 //    }
-//}
+// }
 //
 //// Helper error type for testing
-//private struct TestError: Swift.Error, Codable, Equatable {
+// private struct TestError: Swift.Error, Codable, Equatable {
 //    let statusCode: Int
 //    let message: String
-//}
+// }

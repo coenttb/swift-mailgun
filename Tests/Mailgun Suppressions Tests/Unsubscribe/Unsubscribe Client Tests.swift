@@ -5,18 +5,18 @@
 ////  Created by Coen ten Thije Boonkkamp on 27/12/2024.
 ////
 //
-//import Testing
-//import Dependencies
-//import DependenciesTestSupport
-//import Mailgun_Suppressions
+// import Testing
+// import Dependencies
+// import DependenciesTestSupport
+// import Mailgun_Suppressions
 //
-//@Suite(
+// @Suite(
 //    "Unsubscribe Client Tests",
 //    .dependency(\.context, .live),
 //    .dependency(\.envVars, .development),
 //    .serialized
-//)
-//struct UnsubscribeClientTests {
+// )
+// struct UnsubscribeClientTests {
 //    @Test("Should successfully create unsubscribe record")
 //    func testCreateUnsubscribeRecord() async throws {
 //        @Dependency(Mailgun.Suppressions.Client.self) var client
@@ -93,4 +93,4 @@
 //
 //        #expect(response.message == "Unsubscribe addresses for this domain have been removed")
 //    }
-//}
+// }

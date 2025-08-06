@@ -8,8 +8,8 @@
 import Dependencies
 import Foundation
 import IssueReporting
-@_exported import Mailgun_Shared
 import Mailgun_IPs_Types
+@_exported import Mailgun_Shared
 import TypesFoundation
 #if canImport(FoundationNetworking)
 import FoundationNetworking
@@ -28,56 +28,56 @@ extension Mailgun.IPs.Client {
                     decodingTo: Mailgun.IPs.List.Response.self
                 )
             },
-            
+
             get: { ip in
                 try await handleRequest(
                     for: makeRequest(.get(ip: ip)),
                     decodingTo: Mailgun.IPs.IP.self
                 )
             },
-            
+
             listDomains: { ip in
                 try await handleRequest(
                     for: makeRequest(.listDomains(ip: ip)),
                     decodingTo: Mailgun.IPs.DomainList.Response.self
                 )
             },
-            
+
             assignDomain: { ip, request in
                 try await handleRequest(
                     for: makeRequest(.assignDomain(ip: ip, request: request)),
                     decodingTo: Mailgun.IPs.AssignDomain.Response.self
                 )
             },
-            
+
             unassignDomain: { ip, domain in
                 try await handleRequest(
                     for: makeRequest(.unassignDomain(ip: ip, domain: domain)),
                     decodingTo: Mailgun.IPs.Delete.Response.self
                 )
             },
-            
+
             assignIPBand: { ip, request in
                 try await handleRequest(
                     for: makeRequest(.assignIPBand(ip: ip, request: request)),
                     decodingTo: Mailgun.IPs.IPBand.Response.self
                 )
             },
-            
+
             requestNew: { request in
                 try await handleRequest(
                     for: makeRequest(.requestNew(request: request)),
                     decodingTo: Mailgun.IPs.RequestNew.Response.self
                 )
             },
-            
+
             getRequestedIPs: {
                 try await handleRequest(
                     for: makeRequest(.getRequestedIPs),
                     decodingTo: Mailgun.IPs.RequestNew.Response.self
                 )
             },
-            
+
             deleteDomainIP: { domain, ip in
                 @Dependency(\.envVars.mailgunDomain) var defaultDomain
                 let parsedDomain = try Domain(domain)
@@ -86,7 +86,7 @@ extension Mailgun.IPs.Client {
                     decodingTo: Mailgun.IPs.Delete.Response.self
                 )
             },
-            
+
             deleteDomainPool: { domain, ip in
                 @Dependency(\.envVars.mailgunDomain) var defaultDomain
                 let parsedDomain = try Domain(domain)

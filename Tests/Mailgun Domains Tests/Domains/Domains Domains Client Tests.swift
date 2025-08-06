@@ -5,11 +5,11 @@
 //  Created by Coen ten Thije Boonkkamp on 27/12/2024.
 //
 
-import Testing
 import Dependencies
 import DependenciesTestSupport
 import Mailgun_Domains
 import Mailgun_Shared
+import Testing
 import TypesFoundation
 
 @Suite(
@@ -21,7 +21,7 @@ import TypesFoundation
 struct DomainsDomainsClientTests {
     @Dependency(Mailgun.Domains.Domains.Client.self) var client
     @Dependency(\.envVars.mailgunDomain) var domain
-    
+
     @Test("Should successfully list domains")
     func testListDomains() async throws {
         let request = Mailgun.Domains.Domains.List.Request(
@@ -30,13 +30,13 @@ struct DomainsDomainsClientTests {
             limit: 10,
             skip: 0
         )
-        
+
         let response = try await client.list(request)
-        
+
         // Verify response structure
         #expect(!response.items.isEmpty || response.items.isEmpty)
         #expect(response.totalCount >= 0)
-        
+
         // If there are domains, verify structure
         if !response.items.isEmpty {
             let firstDomain = response.items.first!
@@ -47,17 +47,17 @@ struct DomainsDomainsClientTests {
             #expect(firstDomain.type == .sandbox || firstDomain.type == .custom)
         }
     }
-    
+
     @Test("Should successfully get a specific domain")
     func testGetDomain() async throws {
         let response = try await client.get(domain)
-        
+
         // Verify domain details
         #expect(response.domain.name == domain.description)
         #expect(response.domain.name == domain.description)
         #expect(response.domain.smtpLogin == nil || !response.domain.smtpLogin!.isEmpty || response.domain.smtpLogin!.isEmpty)
         #expect(response.domain.smtpPassword == nil || !response.domain.smtpPassword!.isEmpty || response.domain.smtpPassword!.isEmpty)
-        
+
         // Check DNS records if present
         if let receivingRecords = response.receivingDnsRecords, !receivingRecords.isEmpty {
             let firstRecord = receivingRecords.first!
@@ -65,7 +65,7 @@ struct DomainsDomainsClientTests {
             #expect(!firstRecord.name.isEmpty)
             #expect(!firstRecord.value.isEmpty)
         }
-        
+
         if let sendingRecords = response.sendingDnsRecords, !sendingRecords.isEmpty {
             let firstRecord = sendingRecords.first!
             #expect(!firstRecord.recordType.isEmpty)
@@ -73,15 +73,15 @@ struct DomainsDomainsClientTests {
             #expect(!firstRecord.value.isEmpty)
         }
     }
-    
+
     @Test("Should successfully verify a domain")
     func testVerifyDomain() async throws {
         do {
             let response = try await client.verify(domain)
-            
+
             #expect(response.domain.name == domain.description)
             #expect(!response.message.isEmpty)
-            
+
             // Check DNS records verification
             if let receivingRecords = response.receivingDnsRecords {
                 for record in receivingRecords {
@@ -89,7 +89,7 @@ struct DomainsDomainsClientTests {
                     #expect(!record.valid.isEmpty)
                 }
             }
-            
+
             if let sendingRecords = response.sendingDnsRecords {
                 for record in sendingRecords {
                     #expect(!record.recordType.isEmpty)
@@ -106,31 +106,31 @@ struct DomainsDomainsClientTests {
             }
         }
     }
-    
+
     @Test("Should successfully update domain settings")
     func testUpdateDomain() async throws {
         // First get current settings
         let currentDomain = try await client.get(domain)
         let currentSpamAction = currentDomain.domain.spamAction
-        
+
         // Try to update with a different spam action
-        let newSpamAction: Mailgun.Domains.Domains.SpamAction = 
+        let newSpamAction: Mailgun.Domains.Domains.SpamAction =
             currentSpamAction == .disabled ? .tag : .disabled
-        
+
         let updateRequest = Mailgun.Domains.Domains.Update.Request(
             spamAction: newSpamAction,
             webScheme: nil,
             wildcard: nil
         )
-        
+
         do {
             let response = try await client.update(domain, updateRequest)
-            
+
             #expect(response.domain.name == domain.description)
             #expect(!response.message.isEmpty)
             // For sandbox domains, spam action may not actually change
             #expect(response.domain.spamAction == newSpamAction || response.domain.spamAction == currentSpamAction)
-            
+
             // Restore original settings
             let restoreRequest = Mailgun.Domains.Domains.Update.Request(
                 spamAction: currentSpamAction,
@@ -138,7 +138,7 @@ struct DomainsDomainsClientTests {
                 wildcard: nil
             )
             _ = try await client.update(domain, restoreRequest)
-            
+
         } catch {
             // Handle cases where updates might not be allowed
             let errorString = String(describing: error).lowercased()
@@ -149,7 +149,7 @@ struct DomainsDomainsClientTests {
             }
         }
     }
-    
+
     @Test("Should handle listing domains with filters")
     func testListDomainsWithFilters() async throws {
         // Test with state filter
@@ -159,17 +159,17 @@ struct DomainsDomainsClientTests {
             limit: 5,
             skip: 0
         )
-        
+
         let activeResponse = try await client.list(activeRequest)
         #expect(!activeResponse.items.isEmpty || activeResponse.items.isEmpty)
-        
+
         // All returned domains should be active
         for domain in activeResponse.items {
             if domain.state == .active {
                 #expect(domain.state == .active)
             }
         }
-        
+
         // Test with unverified filter
         let unverifiedRequest = Mailgun.Domains.Domains.List.Request(
             authority: nil,
@@ -177,11 +177,11 @@ struct DomainsDomainsClientTests {
             limit: 5,
             skip: 0
         )
-        
+
         let unverifiedResponse = try await client.list(unverifiedRequest)
         #expect(!unverifiedResponse.items.isEmpty || unverifiedResponse.items.isEmpty)
     }
-    
+
     @Test("Should handle pagination when listing domains")
     func testListDomainsWithPagination() async throws {
         // First page
@@ -191,10 +191,10 @@ struct DomainsDomainsClientTests {
             limit: 2,
             skip: 0
         )
-        
+
         let firstPageResponse = try await client.list(firstPageRequest)
         #expect(!firstPageResponse.items.isEmpty || firstPageResponse.items.isEmpty)
-        
+
         // Second page
         let secondPageRequest = Mailgun.Domains.Domains.List.Request(
             authority: nil,
@@ -202,10 +202,10 @@ struct DomainsDomainsClientTests {
             limit: 2,
             skip: 2
         )
-        
+
         let secondPageResponse = try await client.list(secondPageRequest)
         #expect(!secondPageResponse.items.isEmpty || secondPageResponse.items.isEmpty)
-        
+
         // If there are domains on both pages, they should be different
         if !firstPageResponse.items.isEmpty && !secondPageResponse.items.isEmpty {
             let firstPageDomains = Set(firstPageResponse.items.map { $0.name })
@@ -213,7 +213,7 @@ struct DomainsDomainsClientTests {
             #expect(firstPageDomains.intersection(secondPageDomains).isEmpty)
         }
     }
-    
+
     @Test("Should validate domain creation request structure")
     func testDomainCreationRequest() async throws {
         // We won't actually create a domain, just validate the request structure
@@ -228,7 +228,7 @@ struct DomainsDomainsClientTests {
             poolId: nil,
             webScheme: "https"
         )
-        
+
         #expect(!request.name.isEmpty)
         #expect(request.smtpPassword == "secure-password-123")
         #expect(request.spamAction == .tag)
@@ -237,28 +237,28 @@ struct DomainsDomainsClientTests {
         #expect(request.dkimKeySize == 2048)
         #expect(request.webScheme == "https")
     }
-    
+
     @Test("Should validate all spam action types")
     func testSpamActionTypes() async throws {
         let spamActions: [Mailgun.Domains.Domains.SpamAction] = [.disabled, .block, .tag]
-        
+
         for action in spamActions {
             let request = Mailgun.Domains.Domains.Update.Request(
                 spamAction: action,
                 webScheme: nil,
                 wildcard: nil
             )
-            
+
             #expect(request.spamAction == action)
         }
-        
+
         #expect(spamActions.count == 3, "All spam action types are covered")
     }
-    
+
     @Test("Should validate all domain states")
     func testDomainStates() async throws {
         let states: [Mailgun.Domains.Domains.State] = [.active, .unverified, .disabled]
-        
+
         for state in states {
             let request = Mailgun.Domains.Domains.List.Request(
                 authority: nil,
@@ -266,17 +266,17 @@ struct DomainsDomainsClientTests {
                 limit: 10,
                 skip: 0
             )
-            
+
             #expect(request.state == state)
         }
-        
+
         #expect(states.count == 3, "All domain states are covered")
     }
-    
+
     @Test("Should validate domain types")
     func testDomainTypes() async throws {
         let types: [Mailgun.Domains.Domains.DomainType] = [.sandbox, .custom]
-        
+
         #expect(types.count == 2, "All domain types are covered")
         #expect(types.contains(.sandbox))
         #expect(types.contains(.custom))

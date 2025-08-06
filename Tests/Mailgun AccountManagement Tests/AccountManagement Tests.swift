@@ -5,10 +5,10 @@
 //  Created by Coen ten Thije Boonkkamp on 24/12/2024.
 //
 
-import Testing
 import Dependencies
 import DependenciesTestSupport
 import Mailgun_AccountManagement
+import Testing
 import TypesFoundation
 
 @Suite(
@@ -19,7 +19,7 @@ import TypesFoundation
 )
 struct MailgunAccountManagementTests {
     @Dependency(Mailgun.AccountManagement.Client.self) var client
-    
+
     @Test("Should handle account update request")
     func testUpdateAccount() async throws {
         // We'll only test that the API accepts the request structure
@@ -30,7 +30,7 @@ struct MailgunAccountManagementTests {
             absoluteSessionTimeout: 86400,
             logoutRedirectUrl: "https://example.com/logout"
         )
-        
+
         // Note: We're not actually calling update to avoid modifying account data
         // Just verify the request structure compiles
         _ = updateRequest
@@ -39,14 +39,14 @@ struct MailgunAccountManagementTests {
         #expect(updateRequest.absoluteSessionTimeout == 86400)
         #expect(updateRequest.logoutRedirectUrl == "https://example.com/logout")
     }
-    
+
     @Test("Should get HTTP signing key")
     func testGetHttpSigningKey() async throws {
         let response = try await client.getHttpSigningKey()
-        
+
         #expect(!response.httpSigningKey.isEmpty)
     }
-    
+
     @Test("Should regenerate HTTP signing key")
     func testRegenerateHttpSigningKey() async throws {
         // This test is commented out to avoid regenerating production keys
@@ -55,27 +55,27 @@ struct MailgunAccountManagementTests {
         let response = try await client.regenerateHttpSigningKey()
         #expect(response.message.contains("regenerated") || response.message.contains("updated"))
         */
-        
+
         #expect(true, "Regenerate HTTP signing key endpoint exists")
     }
-    
+
     @Test("Should get sandbox authorized recipients")
     func testGetSandboxAuthRecipients() async throws {
         let response = try await client.getSandboxAuthRecipients()
-        #expect(response.recipients.count >= 0)
+        #expect(response.recipients.isEmpty)
     }
-    
+
     @Test("Should add and delete sandbox authorized recipient")
     func testAddAndDeleteSandboxAuthRecipient() async throws {
         let testEmail = "sandboxtest\(Int.random(in: 1000...9999))@example.com"
-        
+
         do {
             // Add recipient
             let addRequest = Mailgun.AccountManagement.Sandbox.Auth.Recipients.Add.Request(email: testEmail)
             let addResponse = try await client.addSandboxAuthRecipient(addRequest)
             #expect(addResponse.recipient.email == testEmail)
             #expect(!addResponse.recipient.activated) // Typically false for new recipients
-            
+
             // Delete recipient (cleanup)
             let deleteResponse = try await client.deleteSandboxAuthRecipient(testEmail)
             #expect(deleteResponse.message.contains("Sandbox recipient deleted") || deleteResponse.message.contains("deleted"))
@@ -90,7 +90,7 @@ struct MailgunAccountManagementTests {
             }
         }
     }
-    
+
     @Test("Should handle resend activation email")
     func testResendActivationEmail() async throws {
         // This test verifies the endpoint exists and is callable
@@ -103,20 +103,20 @@ struct MailgunAccountManagementTests {
             #expect(true, "Resend activation endpoint exists (account may already be activated)")
         }
     }
-    
+
     @Test("Should get SAML organization")
     func testGetSAMLOrganization() async throws {
         // SAML may not be configured for all accounts
         do {
             let response = try await client.getSAMLOrganization()
-            
+
             #expect(!response.samlOrgId.isEmpty)
         } catch {
             // SAML may not be configured, which is expected for many accounts
             #expect(true, "SAML organization endpoint exists (SAML may not be configured)")
         }
     }
-    
+
     @Test("Should handle SAML organization creation request")
     func testAddSAMLOrganization() async throws {
         // We'll only test that the API accepts the request structure
@@ -125,7 +125,7 @@ struct MailgunAccountManagementTests {
             userId: "test-user-123",
             domain: "example.com"
         )
-        
+
         // Note: We're not actually calling add to avoid modifying account data
         // Just verify the request structure compiles
         _ = addRequest

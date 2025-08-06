@@ -32,7 +32,7 @@ extension AuthenticatedClient {
         buildClient: @escaping @Sendable (@escaping @Sendable (API) throws -> URLRequest) -> ClientOutput
     ) throws where Auth == BasicAuth, AuthRouter == BasicAuth.Router {
         @Dependency(\.envVars.mailgunBaseUrl) var baseUrl
-        
+
         self = .init(
             baseURL: baseUrl,
             auth: try .init(username: "api", password: apiKey.rawValue),

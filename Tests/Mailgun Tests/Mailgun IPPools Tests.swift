@@ -1,15 +1,15 @@
-import Testing
 import Dependencies
 import DependenciesTestSupport
 import Mailgun
+import Testing
 //
-//@Suite(
+// @Suite(
 //    "Mailgun IPPools Tests",
 //    .dependency(\.context, .live),
 //    .dependency(\.envVars, .development),
 //    .serialized
-//)
-//struct MailgunIPPoolsTests {
+// )
+// struct MailgunIPPoolsTests {
 //    @Dependency(Mailgun.IPPools.Client.self) var client
 //    
 //    @Test("Should successfully list IP pools")
@@ -74,4 +74,4 @@ import Mailgun
 //        // Clean up
 //        _ = try await client.delete(testPoolName, nil)
 //    }
-//}
+// }

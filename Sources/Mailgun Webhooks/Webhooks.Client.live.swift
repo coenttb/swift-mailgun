@@ -14,7 +14,6 @@ import Mailgun_Webhooks_Types
 import FoundationNetworking
 #endif
 
-
 extension Mailgun.Webhooks.Client {
    public static func live(
        makeRequest: @escaping @Sendable (_ route: Mailgun.Webhooks.API) throws -> URLRequest

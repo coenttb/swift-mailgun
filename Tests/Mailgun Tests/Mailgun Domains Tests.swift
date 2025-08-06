@@ -1,15 +1,15 @@
-import Testing
 import Dependencies
 import DependenciesTestSupport
 import Mailgun
+import Testing
 //
-//@Suite(
+// @Suite(
 //    "Mailgun Domains Tests",
 //    .dependency(\.context, .live),
 //    .dependency(\.envVars, .development),
 //    .serialized
-//)
-//struct MailgunDomainsTests {
+// )
+// struct MailgunDomainsTests {
 //    @Dependency(Mailgun.Domains.Client.self) var client
 //    @Dependency(\.envVars.mailgunDomain) var domain
 //    
@@ -62,4 +62,4 @@ import Mailgun
 ////        
 ////        #expect(response.message.contains("verified") || response.message.contains("Domain"))
 ////    }
-//}
+// }

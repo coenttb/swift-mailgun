@@ -1,8 +1,8 @@
-import Testing
 import Dependencies
 import DependenciesTestSupport
-import Mailgun_Messages
 import Foundation
+import Mailgun_Messages
+import Testing
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking
@@ -15,13 +15,13 @@ import FoundationNetworking
     .serialized
 )
 struct MessagesTemplateTests {
-    
+
     @Test("Send email with template")
     func testSendEmailWithTemplate() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to],
@@ -29,19 +29,19 @@ struct MessagesTemplateTests {
             template: "welcome-template",
             testMode: true
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send email with template and variables")
     func testSendEmailWithTemplateVariables() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         let templateVariables = """
             {
                 "name": "John Doe",
@@ -50,7 +50,7 @@ struct MessagesTemplateTests {
                 "support_email": "support@example.com"
             }
             """
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to],
@@ -59,19 +59,19 @@ struct MessagesTemplateTests {
             templateVariables: templateVariables,
             testMode: true
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send email with template version")
     func testSendEmailWithTemplateVersion() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to],
@@ -86,19 +86,19 @@ struct MessagesTemplateTests {
                 """,
             testMode: true
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send email with template and generate text version")
     func testSendEmailWithTemplateText() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to],
@@ -113,29 +113,29 @@ struct MessagesTemplateTests {
                 """,
             testMode: true
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send MIME email with template")
     func testSendMimeWithTemplate() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         let mimeContent = """
             MIME-Version: 1.0
             Content-Type: text/plain; charset=UTF-8
             From: \(from.rawValue)
             To: \(to.rawValue)
             Subject: MIME with Template Override
-            
+
             This is the fallback content if template is not found.
             """
-        
+
         let request = Mailgun.Messages.Send.Mime.Request(
             to: [to],
             message: Data(mimeContent.utf8),
@@ -147,19 +147,19 @@ struct MessagesTemplateTests {
                 """,
             testMode: true
         )
-        
+
         let response = try await client.sendMime(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send email with template and custom variables")
     func testSendEmailWithTemplateAndCustomVars() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to],
@@ -178,19 +178,19 @@ struct MessagesTemplateTests {
                 "tracking_id": "test-123"
             ]
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send email with template override subject")
     func testSendEmailTemplateOverrideSubject() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to],
@@ -203,19 +203,19 @@ struct MessagesTemplateTests {
                 """,
             testMode: true
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send batch email with template and recipient variables")
     func testSendBatchTemplateEmail() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         let recipientVariables = """
             {
                 "\(to.rawValue)": {
@@ -230,7 +230,7 @@ struct MessagesTemplateTests {
                 }
             }
             """
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to, try EmailAddress("user2@example.com")],
@@ -239,9 +239,9 @@ struct MessagesTemplateTests {
             testMode: true,
             recipientVariables: recipientVariables
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }

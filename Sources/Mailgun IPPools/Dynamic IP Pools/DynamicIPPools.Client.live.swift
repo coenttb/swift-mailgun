@@ -8,8 +8,8 @@
 import Dependencies
 import Foundation
 import IssueReporting
-@_exported import Mailgun_Shared
 import Mailgun_IPPools_Types
+@_exported import Mailgun_Shared
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
@@ -27,7 +27,7 @@ extension Mailgun.DynamicIPPools.Client {
                     decodingTo: Mailgun.DynamicIPPools.HistoryList.Response.self
                 )
             },
-            
+
             removeOverride: { domain in
                 try await handleRequest(
                     for: makeRequest(.removeOverride(domain: domain)),

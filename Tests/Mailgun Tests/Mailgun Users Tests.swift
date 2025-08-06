@@ -1,15 +1,15 @@
-import Testing
 import Dependencies
 import DependenciesTestSupport
 import Mailgun
+import Testing
 //
-//@Suite(
+// @Suite(
 //    "Mailgun Users Tests",
 //    .dependency(\.context, .live),
 //    .dependency(\.envVars, .development),
 //    .serialized
-//)
-//struct MailgunUsersTests {
+// )
+// struct MailgunUsersTests {
 //    @Dependency(Mailgun.Users.Client.self) var client
 //    
 //    @Test("Should successfully list users")
@@ -61,11 +61,11 @@ import Mailgun
 //        _ = updateRequest
 //        #expect(true, "Organization request structures are valid")
 //    }
-//}
+// }
 //
-//private struct TestError: Swift.Error {
+// private struct TestError: Swift.Error {
 //    let message: String
 //    init(_ message: String) {
 //        self.message = message
 //    }
-//}
+// }

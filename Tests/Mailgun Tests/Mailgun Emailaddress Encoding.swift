@@ -1,14 +1,14 @@
-import Testing
 import Dependencies
 import DependenciesTestSupport
 import Mailgun
+import Testing
 //
-//@Suite(
+// @Suite(
 //    "Mailgun Form Encoding Tests",
 //    .dependency(\.context, .live),
 //    .dependency(\.envVars, .development)
-//)
-//struct MailgunFormEncodingTests {
+// )
+// struct MailgunFormEncodingTests {
 //
 //    @Test("Send Request encodes EmailAddress correctly in form data")
 //    func testSendRequestFormEncoding() throws {
@@ -93,4 +93,4 @@ import Mailgun
 //        #expect(decoded.from.name == "Doe, John")
 //        #expect(decoded.from.description == "\"Doe, John\" <test@example.com>")
 //    }
-//}
+// }

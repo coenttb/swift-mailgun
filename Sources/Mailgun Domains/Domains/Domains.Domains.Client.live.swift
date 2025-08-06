@@ -10,7 +10,6 @@ import Foundation
 import IssueReporting
 @_exported import Mailgun_Domains_Types
 @_exported import Mailgun_Shared
-import Mailgun_Domains_Types
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
@@ -28,35 +27,35 @@ extension Mailgun.Domains.Domains.Client {
                     decodingTo: Mailgun.Domains.Domains.List.Response.self
                 )
             },
-            
+
             create: { request in
                 try await handleRequest(
                     for: makeRequest(.create(request: request)),
                     decodingTo: Mailgun.Domains.Domains.Create.Response.self
                 )
             },
-            
+
             get: { domain in
                 try await handleRequest(
                     for: makeRequest(.get(domain: domain)),
                     decodingTo: Mailgun.Domains.Domains.Get.Response.self
                 )
             },
-            
+
             update: { domain, request in
                 try await handleRequest(
                     for: makeRequest(.update(domain: domain, request: request)),
                     decodingTo: Mailgun.Domains.Domains.Update.Response.self
                 )
             },
-            
+
             delete: { domain in
                 try await handleRequest(
                     for: makeRequest(.delete(domain: domain)),
                     decodingTo: Mailgun.Domains.Domains.Delete.Response.self
                 )
             },
-            
+
             verify: { domain in
                 try await handleRequest(
                     for: makeRequest(.verify(domain: domain)),

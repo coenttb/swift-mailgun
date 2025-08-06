@@ -5,18 +5,18 @@
 ////  Created by Coen ten Thije Boonkkamp on 27/12/2024.
 ////
 //
-//import Testing
-//import Dependencies
-//import DependenciesTestSupport
-//import Mailgun_Suppressions
+// import Testing
+// import Dependencies
+// import DependenciesTestSupport
+// import Mailgun_Suppressions
 //
-//@Suite(
+// @Suite(
 //    "Complaints Client Tests",
 //    .dependency(\.context, .live),
 //    .dependency(\.envVars, .development),
 //    .serialized
-//)
-//struct ComplaintsClientTests {
+// )
+// struct ComplaintsClientTests {
 //    @Test("Should successfully create complaint record")
 //    func testCreateComplaintRecord() async throws {
 //        @Dependency(Mailgun.Suppressions.Client.self) var client
@@ -90,4 +90,4 @@
 //
 //        #expect(response.message == "Complaint addresses for this domain have been removed")
 //    }
-//}
+// }

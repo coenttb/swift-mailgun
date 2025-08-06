@@ -1,15 +1,15 @@
-import Testing
 import Dependencies
 import DependenciesTestSupport
 import Mailgun_Users
+import Testing
 //
-//@Suite(
+// @Suite(
 //    "Mailgun Users Tests",
 //    .dependency(\.context, .live),
 //    .dependency(\.envVars, .development),
 //    .serialized
-//)
-//struct MailgunUsersTests {
+// )
+// struct MailgunUsersTests {
 //    @Dependency(Mailgun.Users.Client.self) var client
 //    
 //    @Test("Should successfully list users")
@@ -136,9 +136,9 @@ import Mailgun_Users
 //            #expect(true, "Large user list handled")
 //        }
 //    }
-//}
+// }
 //
 //// Helper error type for testing
-//private struct TestError: Swift.Error {
+// private struct TestError: Swift.Error {
 //    let message: String
-//}
+// }

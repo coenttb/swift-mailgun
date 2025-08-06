@@ -1,15 +1,15 @@
-import Testing
 import Dependencies
 import DependenciesTestSupport
 import Mailgun
+import Testing
 //
-//@Suite(
+// @Suite(
 //    "Mailgun Domain Keys Tests",
 //    .dependency(\.context, .live),
 //    .dependency(\.envVars, .development),
 //    .serialized
-//)
-//struct MailgunDomainKeysTests {
+// )
+// struct MailgunDomainKeysTests {
 //    @Dependency(Mailgun.Domains.DomainKeys.Client.self) var client
 //    @Dependency(\.envVars.mailgunDomain) var domain
 //    
@@ -55,4 +55,4 @@ import Mailgun
 //        #expect(client.setDkimAuthority != nil)
 //        #expect(client.setDkimSelector != nil)
 //    }
-//}
+// }

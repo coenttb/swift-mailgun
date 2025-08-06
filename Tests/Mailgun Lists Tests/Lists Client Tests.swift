@@ -1,7 +1,7 @@
-import Testing
 import Dependencies
 import DependenciesTestSupport
 import Mailgun_Lists
+import Testing
 
 @Suite(
     "Lists Client Tests",

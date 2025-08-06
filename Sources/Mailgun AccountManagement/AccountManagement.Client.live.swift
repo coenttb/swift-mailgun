@@ -8,9 +8,8 @@
 import Dependencies
 import Foundation
 import IssueReporting
-import Mailgun_Shared
-@_exported import Mailgun_Shared
 @_exported import Mailgun_AccountManagement_Types
+import Mailgun_Shared
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
@@ -28,56 +27,56 @@ extension Mailgun.AccountManagement.Client {
                     decodingTo: Mailgun.AccountManagement.Update.Response.self
                 )
             },
-            
+
             getHttpSigningKey: {
                 try await handleRequest(
                     for: makeRequest(.getHttpSigningKey),
                     decodingTo: Mailgun.AccountManagement.HttpSigningKey.Get.Response.self
                 )
             },
-            
+
             regenerateHttpSigningKey: {
                 try await handleRequest(
                     for: makeRequest(.regenerateHttpSigningKey),
                     decodingTo: Mailgun.AccountManagement.HttpSigningKey.Regenerate.Response.self
                 )
             },
-            
+
             getSandboxAuthRecipients: {
                 try await handleRequest(
                     for: makeRequest(.getSandboxAuthRecipients),
                     decodingTo: Mailgun.AccountManagement.Sandbox.Auth.Recipients.List.Response.self
                 )
             },
-            
+
             addSandboxAuthRecipient: { request in
                 try await handleRequest(
                     for: makeRequest(.addSandboxAuthRecipient(request: request)),
                     decodingTo: Mailgun.AccountManagement.Sandbox.Auth.Recipients.Add.Response.self
                 )
             },
-            
+
             deleteSandboxAuthRecipient: { email in
                 try await handleRequest(
                     for: makeRequest(.deleteSandboxAuthRecipient(email: email)),
                     decodingTo: Mailgun.AccountManagement.Sandbox.Auth.Recipients.Delete.Response.self
                 )
             },
-            
+
             resendActivationEmail: {
                 try await handleRequest(
                     for: makeRequest(.resendActivationEmail),
                     decodingTo: Mailgun.AccountManagement.ResendActivationEmail.Response.self
                 )
             },
-            
+
             getSAMLOrganization: {
                 try await handleRequest(
                     for: makeRequest(.getSAMLOrganization),
                     decodingTo: Mailgun.AccountManagement.SAML.Organization.Get.Response.self
                 )
             },
-            
+
             addSAMLOrganization: { request in
                 try await handleRequest(
                     for: makeRequest(.addSAMLOrganization(request: request)),

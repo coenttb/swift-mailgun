@@ -5,18 +5,18 @@
 ////  Created by Coen ten Thije Boonkkamp on 30/12/2024.
 ////
 //
-//import Testing
-//import Dependencies
-//import DependenciesTestSupport
-//import Mailgun_Suppressions
+// import Testing
+// import Dependencies
+// import DependenciesTestSupport
+// import Mailgun_Suppressions
 //
-//@Suite(
+// @Suite(
 //    "Templates Client Tests",
 //    .dependency(\.context, .live),
 //    .dependency(\.envVars, .development),
 //    .serialized
-//)
-//struct TemplatesClientTests {
+// )
+// struct TemplatesClientTests {
 //    @Test("Should successfully create a template")
 //    func testCreateTemplate() async throws {
 //        @Dependency(Mailgun.Templates.Client.self) var client
@@ -201,4 +201,4 @@
 //        let deleteResponse = try await client.deleteAll()
 //        #expect(deleteResponse.message.contains("deleted"))
 //    }
-//}
+// }

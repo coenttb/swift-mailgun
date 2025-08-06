@@ -1,15 +1,15 @@
-import Testing
 import Dependencies
 import DependenciesTestSupport
 import Mailgun
+import Testing
 //
-//@Suite(
+// @Suite(
 //    "Mailgun Reporting Tests",
 //    .dependency(\.context, .live),
 //    .dependency(\.envVars, .development),
 //    .serialized
-//)
-//struct MailgunReportingTests {
+// )
+// struct MailgunReportingTests {
 //    @Dependency(Mailgun.Reporting.Client.self) var client
 //    @Dependency(\.envVars.mailgunDomain) var domain
 //    
@@ -24,4 +24,4 @@ import Mailgun
 //        
 //        #expect(true, "All reporting subclients are accessible")
 //    }
-//}
+// }

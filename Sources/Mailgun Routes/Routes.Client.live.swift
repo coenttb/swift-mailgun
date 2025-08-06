@@ -8,8 +8,8 @@
 import Dependencies
 import Foundation
 import IssueReporting
-@_exported import Mailgun_Shared
 import Mailgun_Routes_Types
+@_exported import Mailgun_Shared
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif

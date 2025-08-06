@@ -1,8 +1,8 @@
-import Testing
 import Dependencies
 import DependenciesTestSupport
-import Mailgun_Messages
 import Foundation
+import Mailgun_Messages
+import Testing
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking
@@ -15,20 +15,20 @@ import FoundationNetworking
     .serialized
 )
 struct MessagesAttachmentsTests {
-    
+
     @Test("Send email with text attachment")
     func testSendEmailWithTextAttachment() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         let attachmentContent = "This is the content of the text attachment.\nLine 2\nLine 3"
         let attachment = Mailgun.Messages.Attachment.Data(
             data: Data(attachmentContent.utf8),
             filename: "test-document.txt",
             contentType: "text/plain"
         )
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to],
@@ -37,25 +37,25 @@ struct MessagesAttachmentsTests {
             attachments: [attachment],
             testMode: true
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send email with multiple attachments")
     func testSendEmailWithMultipleAttachments() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         let textAttachment = Mailgun.Messages.Attachment.Data(
             data: Data("Text file content".utf8),
             filename: "document.txt",
             contentType: "text/plain"
         )
-        
+
         let jsonAttachment = Mailgun.Messages.Attachment.Data(
             data: Data("""
                 {
@@ -67,7 +67,7 @@ struct MessagesAttachmentsTests {
             filename: "data.json",
             contentType: "application/json"
         )
-        
+
         let csvAttachment = Mailgun.Messages.Attachment.Data(
             data: Data("""
                 Name,Email,Score
@@ -78,7 +78,7 @@ struct MessagesAttachmentsTests {
             filename: "report.csv",
             contentType: "text/csv"
         )
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to],
@@ -96,19 +96,19 @@ struct MessagesAttachmentsTests {
             attachments: [textAttachment, jsonAttachment, csvAttachment],
             testMode: true
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send email with inline image")
     func testSendEmailWithInlineImage() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         // Create a simple 1x1 pixel PNG image
         let pngData = Data([
             0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A,  // PNG signature
@@ -121,13 +121,13 @@ struct MessagesAttachmentsTests {
             0x00, 0x00, 0x00, 0x00, 0x49, 0x45, 0x4E, 0x44,  // IEND chunk
             0xAE, 0x42, 0x60, 0x82
         ])
-        
+
         let inlineImage = Mailgun.Messages.Attachment.Data(
             data: pngData,
             filename: "logo.png",
             contentType: "image/png"
         )
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to],
@@ -146,33 +146,33 @@ struct MessagesAttachmentsTests {
             inline: [inlineImage],
             testMode: true
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send email with both attachments and inline images")
     func testSendEmailWithAttachmentsAndInline() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         // Regular attachment
         let pdfAttachment = Mailgun.Messages.Attachment.Data(
             data: Data("%PDF-1.4\n%âãÏÓ\n1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n2 0 obj\n<< /Type /Pages /Kids [] /Count 0 >>\nendobj\ntrailer\n<< /Size 3 /Root 1 0 R >>\n%%EOF".utf8),
             filename: "document.pdf",
             contentType: "application/pdf"
         )
-        
+
         // Inline image
         let inlineImage = Mailgun.Messages.Attachment.Data(
             data: Data([0x89, 0x50, 0x4E, 0x47]), // Simplified PNG header
             filename: "embedded.png",
             contentType: "image/png"
         )
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to],
@@ -192,19 +192,19 @@ struct MessagesAttachmentsTests {
             inline: [inlineImage],
             testMode: true
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send email with large attachment")
     func testSendEmailWithLargeAttachment() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         // Create a 1MB attachment
         let largeContent = String(repeating: "A", count: 1024 * 1024)
         let largeAttachment = Mailgun.Messages.Attachment.Data(
@@ -212,7 +212,7 @@ struct MessagesAttachmentsTests {
             filename: "large-file.txt",
             contentType: "text/plain"
         )
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to],
@@ -221,19 +221,19 @@ struct MessagesAttachmentsTests {
             attachments: [largeAttachment],
             testMode: true
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send email with various file types")
     func testSendEmailWithVariousFileTypes() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         let xmlAttachment = Mailgun.Messages.Attachment.Data(
             data: Data("""
                 <?xml version="1.0" encoding="UTF-8"?>
@@ -244,7 +244,7 @@ struct MessagesAttachmentsTests {
             filename: "data.xml",
             contentType: "application/xml"
         )
-        
+
         let htmlAttachment = Mailgun.Messages.Attachment.Data(
             data: Data("""
                 <!DOCTYPE html>
@@ -256,11 +256,11 @@ struct MessagesAttachmentsTests {
             filename: "page.html",
             contentType: "text/html"
         )
-        
+
         let markdownAttachment = Mailgun.Messages.Attachment.Data(
             data: Data("""
                 # Markdown Document
-                
+
                 This is a **markdown** file with:
                 - Lists
                 - *Formatting*
@@ -269,7 +269,7 @@ struct MessagesAttachmentsTests {
             filename: "README.md",
             contentType: "text/markdown"
         )
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to],
@@ -286,31 +286,31 @@ struct MessagesAttachmentsTests {
             attachments: [xmlAttachment, htmlAttachment, markdownAttachment],
             testMode: true
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send email with binary attachment")
     func testSendEmailWithBinaryAttachment() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         // Create some binary data
         var binaryData = Data()
         for i in 0..<256 {
             binaryData.append(UInt8(i))
         }
-        
+
         let binaryAttachment = Mailgun.Messages.Attachment.Data(
             data: binaryData,
             filename: "binary.dat",
             contentType: "application/octet-stream"
         )
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to],
@@ -319,25 +319,25 @@ struct MessagesAttachmentsTests {
             attachments: [binaryAttachment],
             testMode: true
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send email with special characters in filename")
     func testSendEmailWithSpecialFilename() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         let attachment = Mailgun.Messages.Attachment.Data(
             data: Data("File content with special filename".utf8),
             filename: "test file (2024) - copy [1].txt",
             contentType: "text/plain"
         )
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to],
@@ -346,9 +346,9 @@ struct MessagesAttachmentsTests {
             attachments: [attachment],
             testMode: true
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }

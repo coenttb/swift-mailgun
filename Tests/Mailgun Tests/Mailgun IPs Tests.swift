@@ -1,15 +1,15 @@
-import Testing
 import Dependencies
 import DependenciesTestSupport
 import Mailgun
+import Testing
 //
-//@Suite(
+// @Suite(
 //    "Mailgun IPs Tests",
 //    .dependency(\.context, .live),
 //    .dependency(\.envVars, .development),
 //    .serialized
-//)
-//struct MailgunIPsTests {
+// )
+// struct MailgunIPsTests {
 //    @Dependency(Mailgun.IPs.Client.self) var client
 //    @Dependency(\.envVars.mailgunDomain) var domain
 //    
@@ -59,4 +59,4 @@ import Mailgun
 //        // Should return a domain list response (even if empty)
 //        #expect(response.items.count >= 0)
 //    }
-//}
+// }

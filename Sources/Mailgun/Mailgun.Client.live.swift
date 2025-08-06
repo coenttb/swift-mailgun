@@ -6,6 +6,7 @@
 //
 
 import Authenticating
+import Dependencies
 import DependenciesMacros
 import Foundation
 import Mailgun_AccountManagement
@@ -20,14 +21,13 @@ import Mailgun_Lists
 import Mailgun_Messages
 import Mailgun_Reporting
 import Mailgun_Routes
+@_exported import Mailgun_Shared
 import Mailgun_Subaccounts
 import Mailgun_Suppressions
 import Mailgun_Templates
+@_exported import Mailgun_Types
 import Mailgun_Users
 import Mailgun_Webhooks
-import Dependencies
-@_exported import Mailgun_Types
-@_exported import Mailgun_Shared
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking
@@ -36,11 +36,11 @@ import FoundationNetworking
 extension Mailgun.Client {
     public static func live(
     ) throws -> Mailgun_Shared.AuthenticatedClient<Mailgun.API, Mailgun.API.Router, Mailgun.Client> {
-        
+
         @Dependency(Mailgun.API.Router.self) var mailgunRouter
         @Dependency(\.envVars.mailgunPrivateApiKey) var apiKey
         @Dependency(\.envVars.mailgunDomain) var domain
-        
+
         return try .init(
             apiKey: apiKey,
             router: mailgunRouter

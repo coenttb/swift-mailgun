@@ -1,15 +1,15 @@
-import Testing
 import Dependencies
 import DependenciesTestSupport
 import Mailgun
+import Testing
 //
-//@Suite(
+// @Suite(
 //    "Mailgun Subaccounts Tests",
 //    .dependency(\.context, .live),
 //    .dependency(\.envVars, .development),
 //    .serialized
-//)
-//struct MailgunSubaccountsTests {
+// )
+// struct MailgunSubaccountsTests {
 //    @Dependency(Mailgun.Subaccounts.Client.self) var client
 //    
 //    @Test("Should successfully list subaccounts")
@@ -72,11 +72,11 @@ import Mailgun
 //        #expect(!response.name.isEmpty)
 //        #expect(response.status == .enabled || response.status == .disabled)
 //    }
-//}
+// }
 //
-//private struct TestError: Swift.Error {
+// private struct TestError: Swift.Error {
 //    let message: String
 //    init(_ message: String) {
 //        self.message = message
 //    }
-//}
+// }

@@ -5,18 +5,18 @@
 ////  Created by Coen ten Thije Boonkkamp on 24/12/2024.
 ////
 //
-//import Testing
-//import Dependencies
-//import DependenciesTestSupport
-//import Mailgun_Subaccounts
+// import Testing
+// import Dependencies
+// import DependenciesTestSupport
+// import Mailgun_Subaccounts
 //
-//@Suite(
+// @Suite(
 //    "Mailgun Subaccounts Tests",
 //    .dependency(\.context, .live),
 //    .dependency(\.envVars, .development),
 //    .serialized
-//)
-//struct MailgunSubaccountsTests {
+// )
+// struct MailgunSubaccountsTests {
 //    @Dependency(Mailgun.Subaccounts.Client.self) var client
 //    
 //    @Test("Should successfully list subaccounts")
@@ -172,4 +172,4 @@
 //            #expect(true, "Large subaccount list handled")
 //        }
 //    }
-//}
+// }

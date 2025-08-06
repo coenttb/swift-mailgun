@@ -1,8 +1,8 @@
-import Testing
 import Dependencies
 import DependenciesTestSupport
-import Mailgun_Messages
 import Foundation
+import Mailgun_Messages
+import Testing
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking
@@ -15,13 +15,13 @@ import FoundationNetworking
     .serialized
 )
 struct MessagesComprehensiveTests {
-    
+
     @Test("Send simple text email")
     func testSendSimpleTextEmail() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to],
@@ -29,19 +29,19 @@ struct MessagesComprehensiveTests {
             text: "This is a simple text email sent from the test suite.",
             testMode: true
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send HTML email with text fallback")
     func testSendHtmlEmailWithTextFallback() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to],
@@ -62,19 +62,19 @@ struct MessagesComprehensiveTests {
             text: "Welcome to Mailgun Tests\n\nThis is an HTML email with formatting.\n\n- Feature 1\n- Feature 2\n- Feature 3",
             testMode: true
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send email with CC and BCC recipients")
     func testSendEmailWithCcBcc() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to],
@@ -85,19 +85,19 @@ struct MessagesComprehensiveTests {
             bcc: ["bcc@example.com"],
             testMode: true
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send email with tags")
     func testSendEmailWithTags() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to],
@@ -106,19 +106,19 @@ struct MessagesComprehensiveTests {
             tags: ["test", "automated", "sdk-test"],
             testMode: true
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send email with custom headers")
     func testSendEmailWithCustomHeaders() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to],
@@ -131,19 +131,19 @@ struct MessagesComprehensiveTests {
                 "X-Campaign": "sdk-testing"
             ]
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send email with custom variables")
     func testSendEmailWithVariables() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to],
@@ -156,19 +156,19 @@ struct MessagesComprehensiveTests {
                 "source": "sdk_test"
             ]
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send email with tracking options")
     func testSendEmailWithTracking() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to],
@@ -183,19 +183,19 @@ struct MessagesComprehensiveTests {
             trackingClicks: .htmlOnly,
             trackingOpens: true
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send email with DKIM settings")
     func testSendEmailWithDkim() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to],
@@ -204,19 +204,19 @@ struct MessagesComprehensiveTests {
             dkim: true,
             testMode: true
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send email with TLS requirements")
     func testSendEmailWithTlsRequirement() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to],
@@ -226,25 +226,25 @@ struct MessagesComprehensiveTests {
             requireTls: true,
             skipVerification: false
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send email to multiple recipients")
     func testSendEmailToMultipleRecipients() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         let additionalRecipients = [
             try EmailAddress("test1@example.com"),
             try EmailAddress("test2@example.com"),
             try EmailAddress("test3@example.com")
         ]
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to] + additionalRecipients,
@@ -252,19 +252,19 @@ struct MessagesComprehensiveTests {
             text: "This email is being sent to multiple recipients",
             testMode: true
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send email with recipient variables for batch sending")
     func testSendBatchEmailWithRecipientVariables() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         let recipientVariables = """
             {
                 "\(to.rawValue)": {"name": "Test User", "id": 1},
@@ -272,7 +272,7 @@ struct MessagesComprehensiveTests {
                 "user3@example.com": {"name": "User Three", "id": 3}
             }
             """
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to, try EmailAddress("user2@example.com"), try EmailAddress("user3@example.com")],
@@ -281,19 +281,19 @@ struct MessagesComprehensiveTests {
             testMode: true,
             recipientVariables: recipientVariables
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send AMP HTML email")
     func testSendAmpHtmlEmail() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         let ampHtml = """
             <!doctype html>
             <html ⚡4email>
@@ -308,7 +308,7 @@ struct MessagesComprehensiveTests {
             </body>
             </html>
             """
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to],
@@ -318,21 +318,21 @@ struct MessagesComprehensiveTests {
             ampHtml: ampHtml,
             testMode: true
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send scheduled email")
     func testSendScheduledEmail() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         let futureDate = Date().addingTimeInterval(3600) // 1 hour from now
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to],
@@ -341,19 +341,19 @@ struct MessagesComprehensiveTests {
             deliveryTime: futureDate,
             testMode: true
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send email with send time optimization")
     func testSendEmailWithSTO() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to],
@@ -362,19 +362,19 @@ struct MessagesComprehensiveTests {
             deliveryTimeOptimizePeriod: "24h",
             testMode: true
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send email with timezone optimization")
     func testSendEmailWithTZO() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to],
@@ -383,19 +383,19 @@ struct MessagesComprehensiveTests {
             timeZoneLocalize: "09:00",
             testMode: true
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send email with tracking pixel location top")
     func testSendEmailWithTrackingPixelTop() async throws {
         @Dependency(Mailgun.Messages.Client.self) var client
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
-        
+
         let request = Mailgun.Messages.Send.Request(
             from: from,
             to: [to],
@@ -405,9 +405,9 @@ struct MessagesComprehensiveTests {
             trackingOpens: true,
             trackingPixelLocationTop: true
         )
-        
+
         let response = try await client.send(request)
-        
+
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
