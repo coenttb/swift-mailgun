@@ -24,14 +24,14 @@ extension Mailgun.DynamicIPPools.Client {
             listHistory: { request in
                 try await handleRequest(
                     for: makeRequest(.listHistory(request: request)),
-                    decodingTo: Mailgun.DynamicIPPools.HistoryListResponse.self
+                    decodingTo: Mailgun.DynamicIPPools.HistoryList.Response.self
                 )
             },
             
             removeOverride: { domain in
                 try await handleRequest(
                     for: makeRequest(.removeOverride(domain: domain)),
-                    decodingTo: Mailgun.DynamicIPPools.RemoveOverrideResponse.self
+                    decodingTo: Mailgun.DynamicIPPools.RemoveOverride.Response.self
                 )
             }
         )

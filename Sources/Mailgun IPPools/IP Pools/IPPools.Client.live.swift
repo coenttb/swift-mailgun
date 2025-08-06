@@ -24,14 +24,14 @@ extension Mailgun.IPPools.Client {
             list: {
                 try await handleRequest(
                     for: makeRequest(.list),
-                    decodingTo: Mailgun.IPPools.ListResponse.self
+                    decodingTo: Mailgun.IPPools.List.Response.self
                 )
             },
             
             create: { request in
                 try await handleRequest(
                     for: makeRequest(.create(request: request)),
-                    decodingTo: Mailgun.IPPools.CreateResponse.self
+                    decodingTo: Mailgun.IPPools.Create.Response.self
                 )
             },
             
@@ -45,21 +45,21 @@ extension Mailgun.IPPools.Client {
             update: { poolId, request in
                 try await handleRequest(
                     for: makeRequest(.update(poolId: poolId, request: request)),
-                    decodingTo: Mailgun.IPPools.UpdateResponse.self
+                    decodingTo: Mailgun.IPPools.Update.Response.self
                 )
             },
             
             delete: { poolId, request in
                 try await handleRequest(
                     for: makeRequest(.delete(poolId: poolId, request: request)),
-                    decodingTo: Mailgun.IPPools.DeleteResponse.self
+                    decodingTo: Mailgun.IPPools.Delete.Response.self
                 )
             },
             
             listDomains: { poolId in
                 try await handleRequest(
                     for: makeRequest(.listDomains(poolId: poolId)),
-                    decodingTo: Mailgun.IPPools.DomainsListResponse.self
+                    decodingTo: Mailgun.IPPools.DomainsList.Response.self
                 )
             }
         )
