@@ -7,6 +7,7 @@
   <img src="https://img.shields.io/badge/Coverage-100%25%20APIs-brightgreen.svg" alt="API Coverage">
   <img src="https://img.shields.io/badge/License-AGPL--3.0%20|%20Commercial-blue.svg" alt="License">
   <img src="https://img.shields.io/badge/Status-Production%20Ready-green.svg" alt="Status">
+  <img src="https://img.shields.io/badge/Version-0.0.1-brightgreen.svg" alt="Version">
 </p>
 
 <p align="center">
@@ -96,7 +97,7 @@ Add coenttb-mailgun to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/coenttb/coenttb-mailgun", branch: "main")
+    .package(url: "https://github.com/coenttb/coenttb-mailgun", from: "0.0.1")
 ],
 targets: [
     .target(
@@ -110,15 +111,24 @@ targets: [
 
 ## Recent Updates 🎉
 
-### January 2025 Release
-- ✅ **All 238 Tests Passing**: 100% test success rate
+### Version 0.0.1 (February 2025) - Initial Release
+- ✅ **All 238 Tests Passing**: 100% test success rate across all modules
 - ✅ **Complete API Implementation**: Every Mailgun API endpoint implemented
-- ✅ **Production Ready**: Used in production at coenttb.com
-- ✅ **Swift 6.0**: Full language mode with strict concurrency
-- ✅ **Bug Fixes**: 
-  - Fixed sandbox recipient authorization in tests
-  - Fixed Routes match test with catch-all patterns
-  - Fixed Lists.Response JSON decoding
+- ✅ **Production Ready**: Battle-tested in production at coenttb.com
+- ✅ **Swift 6.0 Support**: Full language mode with strict concurrency
+- ✅ **Updated Dependencies**: 
+  - swift-mailgun-types 0.1.0 (with all test fixes)
+  - swift-authenticating 0.0.2
+- ✅ **Code Quality**: SwiftLint applied across entire codebase
+- ✅ **Test Improvements**:
+  - Fixed Events API date parameter ordering
+  - Added proper delays for tag data propagation
+  - Sandbox recipient authorization handling
+- ✅ **Comprehensive Features**:
+  - Messages, Templates, Suppressions, Domains
+  - Reporting (Events, Stats, Tags, Metrics)
+  - Lists, Routes, Webhooks, IP management
+  - Subaccounts, Users, and more
   - Fixed Suppressions Allowlist API paths
 - ✅ **New Features**:
   - Sandbox reset utility for test cleanup

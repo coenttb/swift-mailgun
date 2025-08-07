@@ -15,7 +15,7 @@ extension EnvironmentVariables {
         package var apiKey: ApiKey
         package var domain: Domain
     }
-    
+
     package var mailgun: Mailgun {
         // DESIGN CHOICE TO FAIL EARLY IN CASE NO ENVIRONMENT VARIABLES ARE DETECTED
         .init(

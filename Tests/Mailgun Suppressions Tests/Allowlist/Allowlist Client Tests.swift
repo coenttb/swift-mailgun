@@ -5,10 +5,10 @@
 //  Created by Coen ten Thije Boonkkamp on 27/12/2024.
 //
 
- import Testing
  import Dependencies
  import DependenciesTestSupport
  import Mailgun_Suppressions
+ import Testing
 
  @Suite(
     "Allowlist Client Tests",
@@ -79,7 +79,7 @@
         // First create an allowlist record to ensure there's something to list
         let testDomain = "list-test-\(Int.random(in: 10000...99999)).com"
         let createRequest = Mailgun.Suppressions.Allowlist.Create.Request.domain(try .init(testDomain))
-        
+
         _ = try await suppressions.client.Allowlist.create(createRequest)
 
         // Now list allowlist records
@@ -95,7 +95,7 @@
         #expect(!response.items.isEmpty)
         #expect(!response.paging.first.isEmpty)
         #expect(!response.paging.last.isEmpty)
-        
+
         // Clean up
         _ = try? await suppressions.client.Allowlist.delete(testDomain)
     }
@@ -107,9 +107,9 @@
         // First create an allowlist record to delete
         let testDomain = "delete-test-\(Int.random(in: 10000...99999)).com"
         let createRequest = Mailgun.Suppressions.Allowlist.Create.Request.domain(try .init(testDomain))
-        
+
         _ = try await suppressions.client.Allowlist.create(createRequest)
-        
+
         // Now delete it
         let response = try await suppressions.client.Allowlist.delete(testDomain)
 

@@ -28,7 +28,7 @@ extension Mailgun.Suppressions.Unsubscribe.Client {
                     decodingTo: Mailgun.Suppressions.Unsubscribe.Import.Response.self
                 )
             },
-            
+
             get: { address in
                 try await handleRequest(
                     for: makeRequest(.get(domain: domain, address: address)),

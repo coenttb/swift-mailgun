@@ -267,20 +267,20 @@ struct MessagesIntegrationTests {
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     // Tests moved from Messages Comprehensive Tests and MIME Tests that require multiple recipients
-    
+
     @Test("Send email to multiple recipients (moved from Comprehensive Tests)")
     func testSendEmailToMultipleRecipients() async throws {
         @Dependency(\.mailgun) var mailgun
         @Dependency(\.envVars.mailgunFrom) var from
-        
+
         // Get all authorized recipients
         let authorizedRecipients = try await getAuthorizedRecipients()
-        
+
         // Use at least 2 recipients if available, up to 4
         let recipientsToUse = Array(authorizedRecipients.prefix(4))
-        
+
         guard recipientsToUse.count >= 2 else {
             throw TestError.insufficientRecipients(needed: 2, available: recipientsToUse.count)
         }
@@ -298,22 +298,22 @@ struct MessagesIntegrationTests {
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send email with recipient variables for batch sending (moved from Comprehensive Tests)")
     func testSendBatchEmailWithRecipientVariables() async throws {
         @Dependency(\.mailgun) var mailgun
         @Dependency(\.envVars.mailgunFrom) var from
-        
+
         // Get authorized recipients
         let authorizedRecipients = try await getAuthorizedRecipients()
-        
+
         // Use at least 2 recipients
         let recipientsToUse = Array(authorizedRecipients.prefix(3))
-        
+
         guard recipientsToUse.count >= 2 else {
             throw TestError.insufficientRecipients(needed: 2, available: recipientsToUse.count)
         }
-        
+
         // Create recipient variables
         var recipientVarsDict: [String: [String: Any]] = [:]
         for (index, recipient) in recipientsToUse.enumerated() {
@@ -322,7 +322,7 @@ struct MessagesIntegrationTests {
                 "id": index + 1
             ]
         }
-        
+
         let recipientVariables = try String(
             data: JSONSerialization.data(withJSONObject: recipientVarsDict),
             encoding: .utf8
@@ -342,22 +342,22 @@ struct MessagesIntegrationTests {
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-    
+
     @Test("Send MIME with recipient variables (moved from MIME Tests)")
     func testSendMimeWithRecipientVariables() async throws {
         @Dependency(\.mailgun) var mailgun
         @Dependency(\.envVars.mailgunFrom) var from
-        
+
         // Get authorized recipients
         let authorizedRecipients = try await getAuthorizedRecipients()
-        
+
         // Use at least 2 recipients
         let recipientsToUse = Array(authorizedRecipients.prefix(2))
-        
+
         guard recipientsToUse.count >= 2 else {
             throw TestError.insufficientRecipients(needed: 2, available: recipientsToUse.count)
         }
-        
+
         // Create recipient variables
         var recipientVarsDict: [String: [String: Any]] = [:]
         for (index, recipient) in recipientsToUse.enumerated() {
@@ -366,12 +366,12 @@ struct MessagesIntegrationTests {
                 "code": "CODE\(100 + index)"
             ]
         }
-        
+
         let recipientVariables = try String(
             data: JSONSerialization.data(withJSONObject: recipientVarsDict),
             encoding: .utf8
         )!
-        
+
         let toAddresses = recipientsToUse.map { $0.rawValue }.joined(separator: ", ")
 
         let mimeContent = """
