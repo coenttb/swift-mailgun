@@ -79,7 +79,7 @@ extension Mailgun.IPs.Client {
             },
 
             deleteDomainIP: { domain, ip in
-                @Dependency(\.envVars.mailgunDomain) var defaultDomain
+                @Dependency(\.envVars.mailgun.domain) var defaultDomain
                 let parsedDomain = try Domain(domain)
                 return try await handleRequest(
                     for: makeRequest(.deleteDomainIP(domain: parsedDomain, ip: ip)),
@@ -88,7 +88,7 @@ extension Mailgun.IPs.Client {
             },
 
             deleteDomainPool: { domain, ip in
-                @Dependency(\.envVars.mailgunDomain) var defaultDomain
+                @Dependency(\.envVars.mailgun.domain) var defaultDomain
                 let parsedDomain = try Domain(domain)
                 return try await handleRequest(
                     for: makeRequest(.deleteDomainPool(domain: parsedDomain, ip: ip)),

@@ -18,7 +18,7 @@
 // )
 // struct MailgunSuppressionsClientTests {
 //    @Dependency(Mailgun.Suppressions.self) var suppressions
-//    @Dependency(\.envVars.mailgunDomain) var domain
+//    @Dependency(\.envVars.mailgun.domain) var domain
 //    
 //    @Test("Should successfully access bounces client")
 //    func testBouncesClientAccess() async throws {

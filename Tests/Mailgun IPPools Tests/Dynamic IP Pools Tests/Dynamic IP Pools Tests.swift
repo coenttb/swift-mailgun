@@ -193,7 +193,7 @@ struct MailgunDynamicIPPoolsTests {
 
     @Test("Should handle domain-specific history queries")
     func testDomainSpecificHistory() async throws {
-        @Dependency(\.envVars.mailgunDomain) var domain
+        @Dependency(\.envVars.mailgun.domain) var domain
 
         let request = Mailgun.DynamicIPPools.HistoryList.Request(
             limit: 5,

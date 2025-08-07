@@ -19,7 +19,7 @@ import Testing
 )
 struct DomainKeysClientTests {
     @Dependency(Mailgun.Domains.DomainKeys.self) var domainKeys
-    @Dependency(\.envVars.mailgunDomain) var domain
+    @Dependency(\.envVars.mailgun.domain) var domain
 
     @Test("Should successfully list domain keys")
     func testListDomainKeys() async throws {

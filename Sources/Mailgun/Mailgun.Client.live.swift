@@ -38,11 +38,9 @@ extension Mailgun.Client {
     ) throws -> Mailgun_Shared.Authenticated<Mailgun.API, Mailgun.API.Router, Mailgun.Client> {
 
         @Dependency(Mailgun.API.Router.self) var mailgunRouter
-        @Dependency(\.envVars.mailgunPrivateApiKey) var apiKey
-        @Dependency(\.envVars.mailgunDomain) var domain
+        @Dependency(\.envVars.mailgun.domain) var domain
 
         return try .init(
-            apiKey: apiKey,
             router: mailgunRouter
         ) { makeRequest in
             .init(

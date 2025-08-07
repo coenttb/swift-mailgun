@@ -18,7 +18,7 @@ import Testing
 )
 struct MailgunCredentialsTests {
     @Dependency(Mailgun.Credentials.self) var credentials
-    @Dependency(\.envVars.mailgunDomain) var domain
+    @Dependency(\.envVars.mailgun.domain) var domain
 
     @Test("Should successfully list credentials")
     func testListCredentials() async throws {

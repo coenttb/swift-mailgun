@@ -19,7 +19,7 @@ import Testing
 )
 struct MailgunDomainsAggregationTests {
     @Dependency(Mailgun.Domains.self) var domains
-    @Dependency(\.envVars.mailgunDomain) var domain
+    @Dependency(\.envVars.mailgun.domain) var domain
 
     @Test("Should access all domain sub-clients")
     func testAccessAllSubClients() async throws {

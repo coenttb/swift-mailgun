@@ -197,7 +197,7 @@ struct MailgunIPsTests {
 
     @Test("Should handle domain IP deletion request")
     func testDomainIPDeletionRequest() async throws {
-        @Dependency(\.envVars.mailgunDomain) var domain
+        @Dependency(\.envVars.mailgun.domain) var domain
 
         // Test request structure only (not actually deleting)
         // The client expects a string domain, not a Domain type
@@ -214,7 +214,7 @@ struct MailgunIPsTests {
 
     @Test("Should handle domain pool deletion request")
     func testDomainPoolDeletionRequest() async throws {
-        @Dependency(\.envVars.mailgunDomain) var domain
+        @Dependency(\.envVars.mailgun.domain) var domain
 
         // Test request structure only
         let testDomain = domain.description

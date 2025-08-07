@@ -11,7 +11,7 @@ import Testing
 // )
 // struct MailgunIPsTests {
 //    @Dependency(Mailgun.IPs.self) var ips
-//    @Dependency(\.envVars.mailgunDomain) var domain
+//    @Dependency(\.envVars.mailgun.domain) var domain
 //    
 //    @Test("Should successfully list all IPs")
 //    func testListIPs() async throws {

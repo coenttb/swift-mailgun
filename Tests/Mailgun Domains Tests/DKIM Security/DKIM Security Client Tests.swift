@@ -19,7 +19,7 @@ import Testing
 )
 struct DKIMSecurityClientTests {
     @Dependency(Mailgun.Domains.DKIM_Security.self) var dkimSecurity
-    @Dependency(\.envVars.mailgunDomain) var domain
+    @Dependency(\.envVars.mailgun.domain) var domain
 
     @Test("Should successfully update DKIM rotation settings")
     func testUpdateDKIMRotation() async throws {

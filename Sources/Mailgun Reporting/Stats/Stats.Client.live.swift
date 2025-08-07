@@ -18,7 +18,7 @@ extension Mailgun.Reporting.Stats.Client {
         makeRequest: @escaping @Sendable (_ route: Mailgun.Reporting.Stats.API) throws -> URLRequest
     ) -> Self {
         @Dependency(URLRequest.Handler.Mailgun.self) var handleRequest
-        @Dependency(\.envVars.mailgunDomain) var domain
+        @Dependency(\.envVars.mailgun.domain) var domain
 
         return Self(
             total: { request in

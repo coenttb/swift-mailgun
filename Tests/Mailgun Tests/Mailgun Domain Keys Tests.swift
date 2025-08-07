@@ -9,9 +9,9 @@ import Testing
 //    .dependency(\.envVars, .development),
 //    .serialized
 // )
-// struct MailgunDomainKeysTests {
+// struct mailgun.domainKeysTests {
 //    @Dependency(Mailgun.Domains.DomainKeys.self) var domainKeys
-//    @Dependency(\.envVars.mailgunDomain) var domain
+//    @Dependency(\.envVars.mailgun.domain) var domain
 //    
 //    @Test("Should successfully list DKIM keys")
 //    func testListDkimKeys() async throws {

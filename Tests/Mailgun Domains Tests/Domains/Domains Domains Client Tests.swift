@@ -20,7 +20,7 @@ import TypesFoundation
 )
 struct DomainsDomainsClientTests {
     @Dependency(Mailgun.Domains.Domains.self) var domainsDomains
-    @Dependency(\.envVars.mailgunDomain) var domain
+    @Dependency(\.envVars.mailgun.domain) var domain
 
     @Test("Should successfully list domains")
     func testListDomains() async throws {
