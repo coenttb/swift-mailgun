@@ -21,13 +21,27 @@ struct MailgunSuppressionsComplaintsTests {
     
     @Test("Should successfully list complaints")
     func testListComplaints() async throws {
+        // First create a complaint to ensure there's something to list
+        let testEmail = try EmailAddress("testcomplaint-list-\(Int.random(in: 10000...99999))@example.com")
+        
+        let createRequest = Mailgun.Suppressions.Complaints.Create.Request(
+            address: testEmail,
+            createdAt: nil
+        )
+        
+        _ = try await complaints.client.create(createRequest)
+        
+        // Now list complaints
         let request = Mailgun.Suppressions.Complaints.List.Request(limit: 10)
         let response = try await complaints.client.list(request)
         
         // The response contains an array of complaints
-        #expect(response.items.count >= 0)
+        #expect(response.items.count >= 1)
         #expect(!response.paging.first.isEmpty)
         #expect(!response.paging.last.isEmpty)
+        
+        // Clean up
+        _ = try? await complaints.client.delete(testEmail)
     }
     
     @Test("Should successfully create and delete complaint")

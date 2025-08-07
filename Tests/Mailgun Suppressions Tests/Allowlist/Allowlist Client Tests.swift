@@ -76,8 +76,15 @@
     func testListAllowlistRecords() async throws {
         @Dependency(Mailgun.Suppressions.self) var suppressions
 
+        // First create an allowlist record to ensure there's something to list
+        let testDomain = "list-test-\(Int.random(in: 10000...99999)).com"
+        let createRequest = Mailgun.Suppressions.Allowlist.Create.Request.domain(try .init(testDomain))
+        
+        _ = try await suppressions.client.Allowlist.create(createRequest)
+
+        // Now list allowlist records
         let request = Mailgun.Suppressions.Allowlist.List.Request(
-            address: try .init("test@example.com"),
+            address: nil,
             term: nil,
             limit: 25,
             page: nil
@@ -88,16 +95,26 @@
         #expect(!response.items.isEmpty)
         #expect(!response.paging.first.isEmpty)
         #expect(!response.paging.last.isEmpty)
+        
+        // Clean up
+        _ = try? await suppressions.client.Allowlist.delete(testDomain)
     }
 
     @Test("Should successfully delete Allowlist record")
     func testDeleteAllowlistRecord() async throws {
         @Dependency(Mailgun.Suppressions.self) var suppressions
 
-        let response = try await suppressions.client.Allowlist.delete("example.com")
+        // First create an allowlist record to delete
+        let testDomain = "delete-test-\(Int.random(in: 10000...99999)).com"
+        let createRequest = Mailgun.Suppressions.Allowlist.Create.Request.domain(try .init(testDomain))
+        
+        _ = try await suppressions.client.Allowlist.create(createRequest)
+        
+        // Now delete it
+        let response = try await suppressions.client.Allowlist.delete(testDomain)
 
         #expect(response.message == "Allowlist address/domain has been removed")
-        #expect(response.value == "example.com")
+        #expect(response.value == testDomain)
     }
 
     @Test("Should successfully delete all Allowlist records")

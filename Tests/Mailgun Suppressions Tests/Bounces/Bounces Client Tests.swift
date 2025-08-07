@@ -84,18 +84,34 @@ struct SuppressionsBouncesClientTests {
     @Test("Should successfully list bounce records")
     func testListBounceRecords() async throws {
         @Dependency(Mailgun.Suppressions.self) var suppressions
-//
-        let request = Mailgun.Suppressions.Bounces.List.Request(
+
+        // First create a bounce record to ensure there's something to list
+        let timestamp = Date().timeIntervalSince1970
+        let uniqueEmail = "bounce-list-test-\(Int(timestamp))@test-bounces.com"
+        
+        let createRequest = Mailgun.Suppressions.Bounces.Create.Request(
+            address: try .init(uniqueEmail),
+            code: "550",
+            error: "Test error for list"
+        )
+        
+        _ = try await suppressions.client.bounces.create(createRequest)
+
+        // Now list the bounce records
+        let listRequest = Mailgun.Suppressions.Bounces.List.Request(
             limit: 25,
             page: nil,
             term: nil
         )
-//
-        let response = try await suppressions.client.bounces.list(request)
+
+        let response = try await suppressions.client.bounces.list(listRequest)
 
         #expect(!response.items.isEmpty)
         #expect(!response.paging.first.isEmpty)
         #expect(!response.paging.last.isEmpty)
+        
+        // Clean up
+        _ = try? await suppressions.client.bounces.delete(try .init(uniqueEmail))
     }
     @Test("Should successfully delete bounce record")
     func testDeleteBounceRecord() async throws {
