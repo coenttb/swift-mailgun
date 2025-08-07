@@ -32,7 +32,7 @@ struct MailgunUsersTests {
         // Verify user structure
         if let firstUser = response.users.first {
             #expect(!firstUser.id.isEmpty)
-            #expect(!firstUser.email.isEmpty)
+            #expect(!firstUser.email.description.isEmpty)
         }
     }
     
@@ -69,12 +69,12 @@ struct MailgunUsersTests {
             let response = try await users.client.me()
             
             #expect(!response.id.isEmpty)
-            #expect(!response.email.isEmpty)
+            #expect(!response.email.description.isEmpty)
             
             // Current user should have email details
             if let emailDetails = response.emailDetails {
                 #expect(!emailDetails.address.isEmpty)
-                #expect(emailDetails.address == response.email)
+                #expect(emailDetails.address == response.email.description)
             }
         } catch {
             // The /me endpoint requires a user API key, not an account API key
@@ -102,7 +102,7 @@ struct MailgunUsersTests {
         let userDetails = try await users.client.get(firstUser.id)
         
         #expect(userDetails.id == firstUser.id)
-        #expect(!userDetails.email.isEmpty)
+        #expect(!userDetails.email.description.isEmpty)
         
         // Should have more details than the list response
         if userDetails.preferences != nil {

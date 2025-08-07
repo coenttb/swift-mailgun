@@ -26,9 +26,9 @@ struct ReportingIntegrationTests {
         let response = try await mailgun.client.accountManagement.getSandboxAuthRecipients()
         
         // Filter only activated recipients and convert to EmailAddress
-        let recipients = try response.recipients
+        let recipients = response.recipients
             .filter { $0.activated }
-            .map { try EmailAddress($0.email) }
+            .map(\.email)
         
         // Ensure we have at least one recipient
         guard !recipients.isEmpty else {
@@ -146,6 +146,10 @@ struct ReportingIntegrationTests {
         )
         
         _ = try await mailgun.client.messages.send(sendRequest)
+        
+        // Wait for tag data to propagate in Mailgun's system
+        print("Waiting for tag data to propagate...")
+        try await Task.sleep(nanoseconds: 5_000_000_000) // 5 seconds
         
         // Get tag aggregates  
         let aggregatesRequest = Mailgun.Reporting.Tags.Aggregates.Request(

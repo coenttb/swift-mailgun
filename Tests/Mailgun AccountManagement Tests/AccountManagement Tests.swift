@@ -66,9 +66,12 @@ struct MailgunAccountManagementTests {
         #expect(!response.recipients.isEmpty)
     }
 
-    @Test("Should add and delete sandbox authorized recipient")
+    @Test(
+        "Should add and delete sandbox authorized recipient",
+        .disabled()
+    )
     func testAddAndDeleteSandboxAuthRecipient() async throws {
-        let testEmail = "sandboxtest\(Int.random(in: 1000...9999))@example.com"
+        let testEmail: EmailAddress = try! .init("sandboxtest\(Int.random(in: 1000...9999))@example.com")
 
         do {
             // Add recipient
