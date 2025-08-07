@@ -25,35 +25,35 @@ extension Mailgun.Webhooks.Client {
            list: {
                try await handleRequest(
                    for: makeRequest(.list(domain: domain)),
-                   decodingTo: Mailgun.Webhooks.Client.Response.List.self
+                   decodingTo: Mailgun.Webhooks.List.Response.self
                )
            },
 
-           get: { type in
+           get: { webhookName in
                try await handleRequest(
-                   for: makeRequest(.get(domain: domain, type: type)),
-                   decodingTo: Mailgun.Webhooks.Client.Response.Webhook.self
+                   for: makeRequest(.get(domain: domain, webhookName: webhookName)),
+                   decodingTo: Mailgun.Webhooks.Get.Response.self
                )
            },
 
-           create: { type, url in
+           create: { request in
                try await handleRequest(
-                   for: makeRequest(.create(domain: domain, type: type, url: url)),
-                   decodingTo: Mailgun.Webhooks.Client.Response.self
+                   for: makeRequest(.create(domain: domain, request: request)),
+                   decodingTo: Mailgun.Webhooks.Create.Response.self
                )
            },
 
-           update: { type, url in
+           update: { webhookName, request in
                try await handleRequest(
-                   for: makeRequest(.update(domain: domain, type: type, url: url)),
-                   decodingTo: Mailgun.Webhooks.Client.Response.self
+                   for: makeRequest(.update(domain: domain, webhookName: webhookName, request: request)),
+                   decodingTo: Mailgun.Webhooks.Update.Response.self
                )
            },
 
-           delete: { type in
+           delete: { webhookName in
                try await handleRequest(
-                   for: makeRequest(.delete(domain: domain, type: type)),
-                   decodingTo: Mailgun.Webhooks.Client.Response.self
+                   for: makeRequest(.delete(domain: domain, webhookName: webhookName)),
+                   decodingTo: Mailgun.Webhooks.Delete.Response.self
                )
            }
        )
