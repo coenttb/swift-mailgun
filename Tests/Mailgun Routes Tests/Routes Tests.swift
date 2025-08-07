@@ -206,14 +206,12 @@ struct RoutesTests {
             
             // The Mailgun API returns an empty/default route when no match is found
             // Check if the route appears to be empty or a default placeholder
-            if nonMatchResponse.route.id.isEmpty || 
-               nonMatchResponse.route.description == nil || 
-               nonMatchResponse.route.description == "" {
+            if nonMatchResponse.route.id.isEmpty  || nonMatchResponse.route.description.isEmpty {
                 // OK - API returned empty/default route for non-match
             } else {
                 // There might be a catch-all route that matches this address
                 // This is not necessarily an error, just log it
-                print("Note: Address '\(nonMatchingEmail)' matched route: \(nonMatchResponse.route.id) - \(nonMatchResponse.route.description ?? "")")
+                print("Note: Address '\(nonMatchingEmail)' matched route: \(nonMatchResponse.route.id) - \(nonMatchResponse.route.description)")
                 
                 // Only fail if it matched our specific test route (which it shouldn't)
                 if nonMatchResponse.route.id == routeId {
