@@ -210,60 +210,62 @@ struct MessagesComprehensiveTests {
         #expect(response.message.contains("Queued"))
     }
 
-    @Test("Send email to multiple recipients")
-    func testSendEmailToMultipleRecipients() async throws {
-        @Dependency(Mailgun.Messages.self) var messages
-        @Dependency(\.envVars.mailgunFrom) var from
-        @Dependency(\.envVars.mailgunTo) var to
+    // Moved to Messages Integration Tests - requires authorized recipients
+    // @Test("Send email to multiple recipients")
+    // func testSendEmailToMultipleRecipients() async throws {
+    //     @Dependency(Mailgun.Messages.self) var messages
+    //     @Dependency(\.envVars.mailgunFrom) var from
+    //     @Dependency(\.envVars.mailgunTo) var to
 
-        let additionalRecipients = [
-            try EmailAddress("test1@example.com"),
-            try EmailAddress("test2@example.com"),
-            try EmailAddress("test3@example.com")
-        ]
+    //     let additionalRecipients = [
+    //         try EmailAddress("test1@example.com"),
+    //         try EmailAddress("test2@example.com"),
+    //         try EmailAddress("test3@example.com")
+    //     ]
 
-        let request = Mailgun.Messages.Send.Request(
-            from: from,
-            to: [to] + additionalRecipients,
-            subject: "Email to Multiple Recipients",
-            text: "This email is being sent to multiple recipients",
-            testMode: true
-        )
+    //     let request = Mailgun.Messages.Send.Request(
+    //         from: from,
+    //         to: [to] + additionalRecipients,
+    //         subject: "Email to Multiple Recipients",
+    //         text: "This email is being sent to multiple recipients",
+    //         testMode: true
+    //     )
 
-        let response = try await messages.client.send(request)
+    //     let response = try await messages.client.send(request)
 
-        #expect(!response.id.isEmpty)
-        #expect(response.message.contains("Queued"))
-    }
+    //     #expect(!response.id.isEmpty)
+    //     #expect(response.message.contains("Queued"))
+    // }
 
-    @Test("Send email with recipient variables for batch sending")
-    func testSendBatchEmailWithRecipientVariables() async throws {
-        @Dependency(Mailgun.Messages.self) var messages
-        @Dependency(\.envVars.mailgunFrom) var from
-        @Dependency(\.envVars.mailgunTo) var to
+    // Moved to Messages Integration Tests - requires authorized recipients
+    // @Test("Send email with recipient variables for batch sending")
+    // func testSendBatchEmailWithRecipientVariables() async throws {
+    //     @Dependency(Mailgun.Messages.self) var messages
+    //     @Dependency(\.envVars.mailgunFrom) var from
+    //     @Dependency(\.envVars.mailgunTo) var to
 
-        let recipientVariables = """
-            {
-                "\(to.rawValue)": {"name": "Test User", "id": 1},
-                "user2@example.com": {"name": "User Two", "id": 2},
-                "user3@example.com": {"name": "User Three", "id": 3}
-            }
-            """
+    //     let recipientVariables = """
+    //         {
+    //             "\(to.rawValue)": {"name": "Test User", "id": 1},
+    //             "user2@example.com": {"name": "User Two", "id": 2},
+    //             "user3@example.com": {"name": "User Three", "id": 3}
+    //         }
+    //         """
 
-        let request = Mailgun.Messages.Send.Request(
-            from: from,
-            to: [to, try EmailAddress("user2@example.com"), try EmailAddress("user3@example.com")],
-            subject: "Personalized Email for %recipient.name%",
-            text: "Hello %recipient.name%! Your user ID is %recipient.id%.",
-            testMode: true,
-            recipientVariables: recipientVariables
-        )
+    //     let request = Mailgun.Messages.Send.Request(
+    //         from: from,
+    //         to: [to, try EmailAddress("user2@example.com"), try EmailAddress("user3@example.com")],
+    //         subject: "Personalized Email for %recipient.name%",
+    //         text: "Hello %recipient.name%! Your user ID is %recipient.id%.",
+    //         testMode: true,
+    //         recipientVariables: recipientVariables
+    //     )
 
-        let response = try await messages.client.send(request)
+    //     let response = try await messages.client.send(request)
 
-        #expect(!response.id.isEmpty)
-        #expect(response.message.contains("Queued"))
-    }
+    //     #expect(!response.id.isEmpty)
+    //     #expect(response.message.contains("Queued"))
+    // }
 
     @Test("Send AMP HTML email")
     func testSendAmpHtmlEmail() async throws {

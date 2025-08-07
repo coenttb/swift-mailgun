@@ -278,43 +278,44 @@ struct MessagesMIMETests {
         #expect(response.message.contains("Queued"))
     }
 
-    @Test("Send MIME with recipient variables")
-    func testSendMimeWithRecipientVariables() async throws {
-        @Dependency(Mailgun.Messages.self) var messages
-        @Dependency(\.envVars.mailgunFrom) var from
-        @Dependency(\.envVars.mailgunTo) var to
+    // Moved to Messages Integration Tests - requires authorized recipients
+    // @Test("Send MIME with recipient variables")
+    // func testSendMimeWithRecipientVariables() async throws {
+    //     @Dependency(Mailgun.Messages.self) var messages
+    //     @Dependency(\.envVars.mailgunFrom) var from
+    //     @Dependency(\.envVars.mailgunTo) var to
 
-        let recipientVariables = """
-            {
-                "\(to.rawValue)": {"name": "Primary User", "code": "ABC123"},
-                "user2@example.com": {"name": "Secondary User", "code": "DEF456"}
-            }
-            """
+    //     let recipientVariables = """
+    //         {
+    //             "\(to.rawValue)": {"name": "Primary User", "code": "ABC123"},
+    //             "user2@example.com": {"name": "Secondary User", "code": "DEF456"}
+    //         }
+    //         """
 
-        let mimeContent = """
-            MIME-Version: 1.0
-            Content-Type: text/plain; charset=UTF-8
-            From: \(from.rawValue)
-            To: \(to.rawValue), user2@example.com
-            Subject: Personalized MIME: %recipient.name%
+    //     let mimeContent = """
+    //         MIME-Version: 1.0
+    //         Content-Type: text/plain; charset=UTF-8
+    //         From: \(from.rawValue)
+    //         To: \(to.rawValue), user2@example.com
+    //         Subject: Personalized MIME: %recipient.name%
 
-            Hello %recipient.name%,
+    //         Hello %recipient.name%,
 
-            Your unique code is: %recipient.code%
-            """
+    //         Your unique code is: %recipient.code%
+    //         """
 
-        let request = Mailgun.Messages.Send.Mime.Request(
-            to: [to, try EmailAddress("user2@example.com")],
-            message: Data(mimeContent.utf8),
-            testMode: true,
-            recipientVariables: recipientVariables
-        )
+    //     let request = Mailgun.Messages.Send.Mime.Request(
+    //         to: [to, try EmailAddress("user2@example.com")],
+    //         message: Data(mimeContent.utf8),
+    //         testMode: true,
+    //         recipientVariables: recipientVariables
+    //     )
 
-        let response = try await messages.client.sendMime(request)
+    //     let response = try await messages.client.sendMime(request)
 
-        #expect(!response.id.isEmpty)
-        #expect(response.message.contains("Queued"))
-    }
+    //     #expect(!response.id.isEmpty)
+    //     #expect(response.message.contains("Queued"))
+    // }
 
     @Test("Send MIME with base64 encoded content")
     func testSendMimeWithBase64Content() async throws {
