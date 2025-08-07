@@ -25,9 +25,9 @@ struct MessagesIntegrationTests {
         let response = try await mailgun.client.accountManagement.getSandboxAuthRecipients()
 
         // Filter only activated recipients and convert to EmailAddress
-        let recipients = try response.recipients
+        let recipients = response.recipients
             .filter { $0.activated }
-            .map { try EmailAddress($0.email) }
+            .map(\.email)
 
         // Ensure we have at least one recipient
         guard !recipients.isEmpty else {

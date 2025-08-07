@@ -154,7 +154,7 @@ import Mailgun
 @Dependency(\.mailgun) var mailgun
 
 // Send a simple email
-func sendWelcomeEmail(to email: String) async throws {
+func sendWelcomeEmail(to email: EmailAddress) async throws {
     let request = Mailgun.Messages.Send.Request(
         from: .init("welcome@yourdomain.com"),
         to: [.init(email)],
@@ -343,7 +343,7 @@ class ContactViewModel {
     var message = ""
     var error: Error?
     
-    func sendContactForm(name: String, email: String, message: String) async {
+    func sendContactForm(name: String, email: EmailAddress, message: String) async {
         isLoading = true
         defer { isLoading = false }
         
