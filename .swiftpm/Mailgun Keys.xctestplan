@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "6CD0CCCD-56C4-4348-9F35-3085AD478296",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Mailgun Keys Tests",
+        "name" : "Mailgun Keys Tests"
+      }
+    }
+  ],
+  "version" : 1
+}

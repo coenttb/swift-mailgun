@@ -1,0 +1,136 @@
+{
+  "configurations" : [
+    {
+      "id" : "D64F0269-0CF0-4346-BA8F-28CE917D9514",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Mailgun Tests",
+        "name" : "Mailgun Tests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Mailgun CustomMessageLimit Tests",
+        "name" : "Mailgun CustomMessageLimit Tests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Mailgun Credentials Tests",
+        "name" : "Mailgun Credentials Tests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Mailgun Domains Tests",
+        "name" : "Mailgun Domains Tests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Mailgun IPAllowlist Tests",
+        "name" : "Mailgun IPAllowlist Tests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Mailgun IPPools Tests",
+        "name" : "Mailgun IPPools Tests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Mailgun IPs Tests",
+        "name" : "Mailgun IPs Tests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Mailgun Keys Tests",
+        "name" : "Mailgun Keys Tests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Mailgun Lists Tests",
+        "name" : "Mailgun Lists Tests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Mailgun Messages Tests",
+        "name" : "Mailgun Messages Tests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Mailgun Reporting Tests",
+        "name" : "Mailgun Reporting Tests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Mailgun Routes Tests",
+        "name" : "Mailgun Routes Tests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Mailgun Subaccounts Tests",
+        "name" : "Mailgun Subaccounts Tests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Mailgun Suppressions Tests",
+        "name" : "Mailgun Suppressions Tests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Mailgun Templates Tests",
+        "name" : "Mailgun Templates Tests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Mailgun Users Tests",
+        "name" : "Mailgun Users Tests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Mailgun Webhooks Tests",
+        "name" : "Mailgun Webhooks Tests"
+      }
+    }
+  ],
+  "version" : 1
+}

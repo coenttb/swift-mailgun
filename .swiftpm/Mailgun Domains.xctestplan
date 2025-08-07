@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "B265343B-A872-4FAE-99D0-6BF2677E6C2A",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Mailgun Domains Tests",
+        "name" : "Mailgun Domains Tests"
+      }
+    }
+  ],
+  "version" : 1
+}

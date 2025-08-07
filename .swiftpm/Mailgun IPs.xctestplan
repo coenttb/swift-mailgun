@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "12E2E762-7065-42E6-B9B7-825012E4155B",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Mailgun IPs Tests",
+        "name" : "Mailgun IPs Tests"
+      }
+    }
+  ],
+  "version" : 1
+}

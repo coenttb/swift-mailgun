@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "C8065CAA-54B1-4E65-9859-B5AF3A014D66",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Mailgun Suppressions Tests",
+        "name" : "Mailgun Suppressions Tests"
+      }
+    }
+  ],
+  "version" : 1
+}

@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "516DEE1A-85D7-40D3-9ED3-892A1BF41D88",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Mailgun IPAllowlist Tests",
+        "name" : "Mailgun IPAllowlist Tests"
+      }
+    }
+  ],
+  "version" : 1
+}

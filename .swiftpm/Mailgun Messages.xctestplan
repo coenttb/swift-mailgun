@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "76094F79-9445-492D-971E-A0D37B573A40",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Mailgun Messages Tests",
+        "name" : "Mailgun Messages Tests"
+      }
+    }
+  ],
+  "version" : 1
+}

@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "FD08FC17-C052-45BF-B110-E0C014C298A3",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Mailgun AccountManagement Tests",
+        "name" : "Mailgun AccountManagement Tests"
+      }
+    }
+  ],
+  "version" : 1
+}

@@ -1,6 +1,7 @@
 # Swift
 .build/
-.swiftpm/
+.swiftpm/*
+!.swiftpm/*.xctestplan
 Package.resolved
 
 # Environment files

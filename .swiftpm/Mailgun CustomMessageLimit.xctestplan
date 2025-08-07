@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "48952CC9-559B-449F-8C93-EFA52814E916",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Mailgun CustomMessageLimit Tests",
+        "name" : "Mailgun CustomMessageLimit Tests"
+      }
+    }
+  ],
+  "version" : 1
+}

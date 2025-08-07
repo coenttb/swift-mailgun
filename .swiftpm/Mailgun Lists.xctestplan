@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "AEF23044-1C47-46AA-B282-0C8B20A59575",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Mailgun Lists Tests",
+        "name" : "Mailgun Lists Tests"
+      }
+    }
+  ],
+  "version" : 1
+}

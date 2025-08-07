@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "ABD2BD18-B4FF-4765-87CA-2B6F2D964592",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Mailgun IPPools Tests",
+        "name" : "Mailgun IPPools Tests"
+      }
+    }
+  ],
+  "version" : 1
+}
