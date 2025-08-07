@@ -27,7 +27,7 @@ extension Mailgun.Suppressions.Complaints.Client {
             get: { address in
                 try await handleRequest(
                     for: makeRequest(.get(domain: domain, address: address)),
-                    decodingTo: Mailgun.Suppressions.Complaints.Record.self
+                    decodingTo: Mailgun.Suppressions.Complaints.Get.Response.self
                 )
             },
 
