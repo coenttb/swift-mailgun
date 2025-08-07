@@ -110,7 +110,8 @@ let package = Package(
         .library(name: .shared, targets: [.shared])
     ],
     dependencies: [
-        .package(url: "https://github.com/coenttb/swift-authenticating", from: "0.0.1"),
+//        .package(url: "https://github.com/coenttb/swift-authenticating", from: "0.0.1"),
+        .package(path: "../../swift-authenticating"),
         .package(url: "https://github.com/coenttb/swift-environment-variables", from: "0.0.1"),
         .package(url: "https://github.com/coenttb/swift-urlrequest-handler", from: "0.0.1"),
 //        .package(url: "https://github.com/coenttb/swift-mailgun-types", from: "0.0.1"),

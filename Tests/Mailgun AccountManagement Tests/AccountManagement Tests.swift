@@ -19,7 +19,7 @@ import TypesFoundation
     .serialized
 )
 struct MailgunAccountManagementTests {
-    @Dependency(Mailgun.AccountManagement.Client.self) var client
+    @Dependency(Mailgun.AccountManagement.self) var accountManagement
 
     @Test("Should handle account update request")
     func testUpdateAccount() async throws {
@@ -43,7 +43,7 @@ struct MailgunAccountManagementTests {
 
     @Test("Should get HTTP signing key")
     func testGetHttpSigningKey() async throws {
-        let response = try await client.getHttpSigningKey()
+        let response = try await accountManagement.client.getHttpSigningKey()
 
         #expect(!response.httpSigningKey.isEmpty)
     }
@@ -53,7 +53,7 @@ struct MailgunAccountManagementTests {
         // This test is commented out to avoid regenerating production keys
         // Uncomment only for testing in a dedicated test environment
         /*
-        let response = try await client.regenerateHttpSigningKey()
+        let response = try await accountManagement.client.regenerateHttpSigningKey()
         #expect(response.message.contains("regenerated") || response.message.contains("updated"))
         */
 
@@ -62,8 +62,8 @@ struct MailgunAccountManagementTests {
 
     @Test("Should get sandbox authorized recipients")
     func testGetSandboxAuthRecipients() async throws {
-        let response = try await client.getSandboxAuthRecipients()
-        #expect(response.recipients.isEmpty)
+        let response = try await accountManagement.client.getSandboxAuthRecipients()
+        #expect(!response.recipients.isEmpty)
     }
 
     @Test("Should add and delete sandbox authorized recipient")
@@ -73,12 +73,12 @@ struct MailgunAccountManagementTests {
         do {
             // Add recipient
             let addRequest = Mailgun.AccountManagement.Sandbox.Auth.Recipients.Add.Request(email: testEmail)
-            let addResponse = try await client.addSandboxAuthRecipient(addRequest)
+            let addResponse = try await accountManagement.client.addSandboxAuthRecipient(request: addRequest)
             #expect(addResponse.recipient.email == testEmail)
             #expect(!addResponse.recipient.activated) // Typically false for new recipients
 
             // Delete recipient (cleanup)
-            let deleteResponse = try await client.deleteSandboxAuthRecipient(testEmail)
+            let deleteResponse = try await accountManagement.client.deleteSandboxAuthRecipient(email: testEmail)
             #expect(deleteResponse.message.contains("Sandbox recipient deleted") || deleteResponse.message.contains("deleted"))
         } catch {
             // Sandbox may already be at max capacity (5 recipients)
@@ -97,7 +97,7 @@ struct MailgunAccountManagementTests {
         // This test verifies the endpoint exists and is callable
         // Actual resending may fail if account is already activated
         do {
-            let response = try await client.resendActivationEmail()
+            let response = try await accountManagement.client.resendActivationEmail()
             #expect(response.success == true)
         } catch {
             // Account may already be activated, which is fine
@@ -109,7 +109,7 @@ struct MailgunAccountManagementTests {
     func testGetSAMLOrganization() async throws {
         // SAML may not be configured for all accounts
         do {
-            let response = try await client.getSAMLOrganization()
+            let response = try await accountManagement.client.getSAMLOrganization()
 
             #expect(!response.samlOrgId.isEmpty)
         } catch {

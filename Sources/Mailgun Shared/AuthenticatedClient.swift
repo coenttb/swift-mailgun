@@ -14,18 +14,19 @@ import URLRouting
 import FoundationNetworking
 #endif
 
-public typealias AuthenticatedClient<
+public typealias Authenticated<
     API: Equatable & Sendable,
     APIRouter: ParserPrinter & Sendable,
     Client: Sendable
-> = Authenticating<BasicAuth>.Client<
+> = Authenticating<
+    BasicAuth,
     BasicAuth.Router,
     API,
     APIRouter,
     Client
 > where APIRouter.Output == API, APIRouter.Input == URLRequestData
 
-extension AuthenticatedClient {
+extension Authenticated {
     public init(
         apiKey: ApiKey,
         router: APIRouter,
@@ -36,14 +37,14 @@ extension AuthenticatedClient {
         self = .init(
             baseURL: baseUrl,
             auth: try .init(username: "api", password: apiKey.rawValue),
-            router: router,
+            apiRouter: router,
             authRouter: BasicAuth.Router(),
             buildClient: buildClient
         )
     }
 }
 
-extension AuthenticatedClient {
+extension Authenticated {
     package static func fromEnvironmentVariables(
         router: APIRouter,
         buildClient: @escaping @Sendable (
@@ -54,7 +55,7 @@ extension AuthenticatedClient {
 
         let apiKey = envVars.mailgunPrivateApiKey
 
-        return try AuthenticatedClient(
+        return try Authenticated(
             apiKey: apiKey,
             router: router,
             buildClient: { buildClient($0) }
@@ -62,7 +63,7 @@ extension AuthenticatedClient {
     }
 }
 
-extension AuthenticatedClient where APIRouter: TestDependencyKey, APIRouter.Value == APIRouter {
+extension Authenticated where APIRouter: TestDependencyKey, APIRouter.Value == APIRouter {
     package init (
         buildClient: @escaping @Sendable () -> ClientOutput
     ) throws where Auth == BasicAuth, AuthRouter == BasicAuth.Router {
@@ -73,7 +74,7 @@ extension AuthenticatedClient where APIRouter: TestDependencyKey, APIRouter.Valu
     }
 }
 
-extension AuthenticatedClient where APIRouter: TestDependencyKey, APIRouter.Value == APIRouter {
+extension Authenticated where APIRouter: TestDependencyKey, APIRouter.Value == APIRouter {
     package init(
         _ buildClient: @escaping @Sendable (
             _ makeRequest: @escaping @Sendable (_ route: API) throws -> URLRequest
