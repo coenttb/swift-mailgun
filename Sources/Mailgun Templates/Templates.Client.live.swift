@@ -22,84 +22,86 @@ extension Mailgun.Templates.Client {
         @Dependency(\.envVars.mailgunDomain) var domain
 
         return Self(
+            list: { request in
+                try await handleRequest(
+                    for: makeRequest(.list(domainId: domain, request: request)),
+                    decodingTo: Mailgun.Templates.List.Response.self
+                )
+            },
+            
             create: { request in
                 try await handleRequest(
                     for: makeRequest(.create(domainId: domain, request: request)),
-                    decodingTo: Mailgun.Templates.Template.Create.Response.self
+                    decodingTo: Mailgun.Templates.Create.Response.self
                 )
             },
-
-            list: { request in
-                try await handleRequest(
-                    for: makeRequest(.list(domainId: domain, page: request.page, limit: request.limit, p: request.p)),
-                    decodingTo: Mailgun.Templates.Template.List.Response.self
-                )
-            },
-
-            get: { templateId, active in
-                try await handleRequest(
-                    for: makeRequest(.get(domainId: domain, templateId: templateId, active: active)),
-                    decodingTo: Mailgun.Templates.Template.Get.Response.self
-                )
-            },
-
-            update: { templateId, request in
-                try await handleRequest(
-                    for: makeRequest(.update(domainId: domain, templateId: templateId, request: request)),
-                    decodingTo: Mailgun.Templates.Template.Update.Response.self
-                )
-            },
-
-            delete: { templateId in
-                try await handleRequest(
-                    for: makeRequest(.delete(domainId: domain, templateId: templateId)),
-                    decodingTo: Mailgun.Templates.Template.Delete.Response.self
-                )
-            },
+            
             deleteAll: {
                 try await handleRequest(
                     for: makeRequest(.deleteAll(domainId: domain)),
-                    decodingTo: Mailgun.Templates.Template.Delete.All.Response.self
+                    decodingTo: Mailgun.Templates.DeleteAll.Response.self
                 )
             },
-            versions: { templateName, page, limit, p in
+            
+            versions: { templateName, request in
                 try await handleRequest(
-                    for: makeRequest(.versions(domainId: domain, templateName: templateName, page: page, limit: limit, p: p)),
-                    decodingTo: Mailgun.Templates.Template.Versions.Response.self
+                    for: makeRequest(.versions(domainId: domain, templateName: templateName, request: request)),
+                    decodingTo: Mailgun.Templates.Versions.Response.self
                 )
             },
-
-            createVersion: { templateId, request in
+            
+            createVersion: { templateName, request in
                 try await handleRequest(
-                    for: makeRequest(.createVersion(domainId: domain, templateId: templateId, request: request)),
+                    for: makeRequest(.createVersion(domainId: domain, templateName: templateName, request: request)),
                     decodingTo: Mailgun.Templates.Version.Create.Response.self
                 )
             },
-
-            getVersion: { templateId, versionId in
+            
+            get: { templateName, request in
                 try await handleRequest(
-                    for: makeRequest(.getVersion(domainId: domain, templateId: templateId, versionId: versionId)),
+                    for: makeRequest(.get(domainId: domain, templateName: templateName, request: request)),
+                    decodingTo: Mailgun.Templates.Get.Response.self
+                )
+            },
+            
+            update: { templateName, request in
+                try await handleRequest(
+                    for: makeRequest(.update(domainId: domain, templateName: templateName, request: request)),
+                    decodingTo: Mailgun.Templates.Update.Response.self
+                )
+            },
+            
+            delete: { templateName in
+                try await handleRequest(
+                    for: makeRequest(.delete(domainId: domain, templateName: templateName)),
+                    decodingTo: Mailgun.Templates.Delete.Response.self
+                )
+            },
+            
+            getVersion: { templateName, versionName in
+                try await handleRequest(
+                    for: makeRequest(.getVersion(domainId: domain, templateName: templateName, versionName: versionName)),
                     decodingTo: Mailgun.Templates.Version.Get.Response.self
                 )
             },
-
-            updateVersion: { templateId, versionId, request in
+            
+            updateVersion: { templateName, versionName, request in
                 try await handleRequest(
-                    for: makeRequest(.updateVersion(domainId: domain, templateId: templateId, versionId: versionId, request: request)),
+                    for: makeRequest(.updateVersion(domainId: domain, templateName: templateName, versionName: versionName, request: request)),
                     decodingTo: Mailgun.Templates.Version.Update.Response.self
                 )
             },
-
-            deleteVersion: { templateId, versionId in
+            
+            deleteVersion: { templateName, versionName in
                 try await handleRequest(
-                    for: makeRequest(.deleteVersion(domainId: domain, templateId: templateId, versionId: versionId)),
+                    for: makeRequest(.deleteVersion(domainId: domain, templateName: templateName, versionName: versionName)),
                     decodingTo: Mailgun.Templates.Version.Delete.Response.self
                 )
             },
-
-            copyVersion: { templateName, versionName, newVersionName, comment in
+            
+            copyVersion: { templateName, versionName, newVersionName, request in
                 try await handleRequest(
-                    for: makeRequest(.copyVersion(domainId: domain, templateName: templateName, versionName: versionName, newVersionName: newVersionName, comment: comment)),
+                    for: makeRequest(.copyVersion(domainId: domain, templateName: templateName, versionName: versionName, newVersionName: newVersionName, request: request)),
                     decodingTo: Mailgun.Templates.Version.Copy.Response.self
                 )
             }
