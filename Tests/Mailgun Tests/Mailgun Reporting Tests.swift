@@ -29,9 +29,11 @@ struct MailgunReportingTests {
     
     @Test("Should list events")
     func testListEvents() async throws {
+        
         let response = try await mailgun.client.reporting.events.list(nil)
         // Response.items is non-optional array
-        #expect(response.items.isEmpty || !response.items.isEmpty)
+//        #expect(response.items.isEmpty || !response.items.isEmpty)
+        print(response)
     }
     
     @Test("Should get stats")
