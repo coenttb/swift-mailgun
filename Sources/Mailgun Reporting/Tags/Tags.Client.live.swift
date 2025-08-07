@@ -25,7 +25,7 @@ extension Mailgun.Reporting.Tags.Client {
             list: { request in
                 try await handleRequest(
                     for: makeRequest(.list(domain: domain, request: request)),
-                    decodingTo: Mailgun.Reporting.Tags.Tag.List.Response.self
+                    decodingTo: Mailgun.Reporting.Tags.List.Response.self
                 )
             },
 
@@ -36,39 +36,39 @@ extension Mailgun.Reporting.Tags.Client {
                 )
             },
 
-            update: { tag, description in
+            update: { tag, request in
                 try await handleRequest(
-                    for: makeRequest(.update(domain: domain, tag: tag, description: description)),
-                    decodingTo: Mailgun.Reporting.Tags.Tag.self
+                    for: makeRequest(.update(domain: domain, tag: tag, request: request)),
+                    decodingTo: Mailgun.Reporting.Tags.Update.Response.self
                 )
             },
 
             delete: { tag in
                 let response = try await handleRequest(
                     for: makeRequest(.delete(domain: domain, tag: tag)),
-                    decodingTo: Mailgun.Reporting.Tags.Tag.Delete.Response.self
+                    decodingTo: Mailgun.Reporting.Tags.Delete.Response.self
                 )
-                return response.message
+                return response
             },
 
             stats: { tag, request in
                 try await handleRequest(
                     for: makeRequest(.stats(domain: domain, tag: tag, request: request)),
-                    decodingTo: Mailgun.Reporting.Tags.Tag.Stats.Response.self
+                    decodingTo: Mailgun.Reporting.Tags.Stats.Response.self
                 )
             },
 
             aggregates: { tag, request in
                 try await handleRequest(
                     for: makeRequest(.aggregates(domain: domain, tag: tag, request: request)),
-                    decodingTo: Mailgun.Reporting.Tags.Tag.Aggregates.Response.self
+                    decodingTo: Mailgun.Reporting.Tags.Aggregates.Response.self
                 )
             },
 
             limits: {
                 try await handleRequest(
                     for: makeRequest(.limits(domain: domain)),
-                    decodingTo: Mailgun.Reporting.Tags.Tag.Limits.Response.self
+                    decodingTo: Mailgun.Reporting.Tags.Limits.Response.self
                 )
             }
         )
