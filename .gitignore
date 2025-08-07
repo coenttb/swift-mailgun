@@ -6,6 +6,7 @@ Package.resolved
 
 # Environment files
 .env*
+!.env.example
 
 # Xcode
 *.xcodeproj
