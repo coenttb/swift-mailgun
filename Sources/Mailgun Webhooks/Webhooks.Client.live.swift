@@ -9,7 +9,7 @@ import Dependencies
 import Foundation
 import IssueReporting
 @_exported import Mailgun_Shared
-import Mailgun_Webhooks_Types
+@_exported import Mailgun_Webhooks_Types
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif

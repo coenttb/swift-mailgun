@@ -14,9 +14,16 @@ extension URLRequest.Handler {
 
 extension URLRequest.Handler.Mailgun: DependencyKey {
     package static var liveValue: URLRequest.Handler {
-        .init(
+        let decoder = JSONDecoder()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss zzz"
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone(abbreviation: "GMT")
+        decoder.dateDecodingStrategy = .formatted(formatter)
+        
+        return .init(
             debug: false,
-            decoder: JSONDecoder()
+            decoder: decoder
         )
     }
 }

@@ -9,7 +9,7 @@ import Dependencies
 import Foundation
 import IssueReporting
 @_exported import Mailgun_Shared
-import Mailgun_Templates_Types
+@_exported import Mailgun_Templates_Types
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif

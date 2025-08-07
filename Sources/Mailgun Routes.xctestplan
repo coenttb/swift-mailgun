@@ -12,7 +12,13 @@
 
   },
   "testTargets" : [
-
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Mailgun Routes Tests",
+        "name" : "Mailgun Routes Tests"
+      }
+    }
   ],
   "version" : 1
 }

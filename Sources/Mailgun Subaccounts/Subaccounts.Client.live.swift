@@ -8,8 +8,8 @@
 import Dependencies
 import Foundation
 import IssueReporting
-import Mailgun_Shared
-import Mailgun_Subaccounts_Types
+@_exported import Mailgun_Shared
+@_exported import Mailgun_Subaccounts_Types
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
@@ -24,19 +24,19 @@ extension Mailgun.Subaccounts.Client {
             get: { subaccountId in
                 try await handleRequest(
                     for: makeRequest(.get(subaccountId: subaccountId)),
-                    decodingTo: Mailgun.Subaccounts.Subaccount.self
+                    decodingTo: Mailgun.Subaccounts.Get.Response.self
                 )
             },
-            list: {
+            list: { request in
                 try await handleRequest(
-                    for: makeRequest(.list),
+                    for: makeRequest(.list(request: request)),
                     decodingTo: Mailgun.Subaccounts.List.Response.self
                 )
             },
             create: { request in
                 try await handleRequest(
                     for: makeRequest(.create(request: request)),
-                    decodingTo: Mailgun.Subaccounts.Subaccount.self
+                    decodingTo: Mailgun.Subaccounts.Create.Response.self
                 )
             },
             delete: { subaccountId in
@@ -45,9 +45,9 @@ extension Mailgun.Subaccounts.Client {
                     decodingTo: Mailgun.Subaccounts.Delete.Response.self
                 )
             },
-            disable: { subaccountId in
+            disable: { subaccountId, request in
                 try await handleRequest(
-                    for: makeRequest(.disable(subaccountId: subaccountId)),
+                    for: makeRequest(.disable(subaccountId: subaccountId, request: request)),
                     decodingTo: Mailgun.Subaccounts.Disable.Response.self
                 )
             },
@@ -60,25 +60,25 @@ extension Mailgun.Subaccounts.Client {
             getCustomLimit: { subaccountId in
                 try await handleRequest(
                     for: makeRequest(.getCustomLimit(subaccountId: subaccountId)),
-                    decodingTo: Mailgun.Subaccounts.CustomLimit.Response.self
+                    decodingTo: Mailgun.Subaccounts.CustomLimit.Get.Response.self
                 )
             },
-            updateCustomLimit: { subaccountId, request in
+            updateCustomLimit: { subaccountId, limit in
                 try await handleRequest(
-                    for: makeRequest(.updateCustomLimit(subaccountId: subaccountId, request: request)),
-                    decodingTo: Mailgun.Subaccounts.CustomLimit.Response.self
+                    for: makeRequest(.updateCustomLimit(subaccountId: subaccountId, limit: limit)),
+                    decodingTo: Mailgun.Subaccounts.CustomLimit.Update.Response.self
                 )
             },
             deleteCustomLimit: { subaccountId in
                 try await handleRequest(
                     for: makeRequest(.deleteCustomLimit(subaccountId: subaccountId)),
-                    decodingTo: Mailgun.Subaccounts.CustomLimit.DeleteResponse.self
+                    decodingTo: Mailgun.Subaccounts.CustomLimit.Delete.Response.self
                 )
             },
             updateFeatures: { subaccountId, request in
                 try await handleRequest(
                     for: makeRequest(.updateFeatures(subaccountId: subaccountId, request: request)),
-                    decodingTo: Mailgun.Subaccounts.Features.Response.self
+                    decodingTo: Mailgun.Subaccounts.Features.Update.Response.self
                 )
             }
         )

@@ -8,7 +8,7 @@
 import Dependencies
 import Foundation
 import IssueReporting
-import Mailgun_IPPools_Types
+@_exported import Mailgun_IPPools_Types
 @_exported import Mailgun_Shared
 #if canImport(FoundationNetworking)
 import FoundationNetworking
