@@ -18,7 +18,7 @@ import Testing
 )
 struct DomainTrackingClientTests {
     @Dependency(Mailgun.Domains.Domains.Tracking.self) var domainTracking
-    @Dependency(\.envVars.mailgunDomain) var domain
+    @Dependency(\.envVars.mailgun.domain) var domain
 
     @Test("Should successfully get tracking settings")
     func testGetTrackingSettings() async throws {

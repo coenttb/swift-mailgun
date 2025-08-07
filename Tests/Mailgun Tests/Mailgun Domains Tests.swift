@@ -9,9 +9,9 @@ import Testing
 //    .dependency(\.envVars, .development),
 //    .serialized
 // )
-// struct MailgunDomainsTests {
+// struct mailgun.domainsTests {
 //    @Dependency(Mailgun.Domains.self) var domains
-//    @Dependency(\.envVars.mailgunDomain) var domain
+//    @Dependency(\.envVars.mailgun.domain) var domain
 //    
 ////    @Test("Should successfully list domains")
 ////    func testListDomains() async throws {

@@ -11,7 +11,7 @@ import Testing
 // )
 // struct MailgunReportingTests {
 //    @Dependency(Mailgun.Reporting.self) var reporting
-//    @Dependency(\.envVars.mailgunDomain) var domain
+//    @Dependency(\.envVars.mailgun.domain) var domain
 //    
 //    @Test("Should successfully access reporting subclients")
 //    func testReportingSubclients() async throws {

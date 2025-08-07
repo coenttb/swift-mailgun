@@ -29,7 +29,7 @@ struct SandboxResetTests {
     )
     func testResetSandbox() async throws {
         @Dependency(\.mailgun) var mailgun
-        @Dependency(\.envVars.mailgunDomain) var domain
+        @Dependency(\.envVars.mailgun.domain) var domain
         
         print("🗑️ Starting sandbox reset for domain: \(domain)")
         
@@ -211,7 +211,7 @@ struct SandboxResetTests {
     @Test("Dry run - show what would be deleted")
     func testDryRun() async throws {
         @Dependency(\.mailgun) var mailgun
-        @Dependency(\.envVars.mailgunDomain) var domain
+        @Dependency(\.envVars.mailgun.domain) var domain
         
         print("🔍 Dry run for domain: \(domain)")
         print("The following items would be deleted:")

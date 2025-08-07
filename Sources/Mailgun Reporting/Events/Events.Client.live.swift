@@ -19,7 +19,7 @@ extension Mailgun.Reporting.Events.Client {
         makeRequest: @escaping @Sendable (_ route: Mailgun.Reporting.Events.API) throws -> URLRequest
     ) -> Self {
         @Dependency(URLRequest.Handler.Mailgun.self) var handleRequest
-        @Dependency(\.envVars.mailgunDomain) var domain
+        @Dependency(\.envVars.mailgun.domain) var domain
 
         return Self(
             list: { query in

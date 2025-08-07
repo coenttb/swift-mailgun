@@ -19,7 +19,7 @@ extension Mailgun.Suppressions.Allowlist.Client {
         makeRequest: @escaping @Sendable (_ route: Mailgun.Suppressions.Allowlist.API) throws -> URLRequest
     ) -> Self {
         @Dependency(URLRequest.Handler.Mailgun.self) var handleRequest
-        @Dependency(\.envVars.mailgunDomain) var domain
+        @Dependency(\.envVars.mailgun.domain) var domain
 
         return Self(
             get: { value in

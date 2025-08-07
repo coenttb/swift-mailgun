@@ -18,7 +18,7 @@ extension Mailgun.Messages.Client {
     public static func live(
         makeRequest: @escaping @Sendable (_ route: Mailgun.Messages.API) throws -> URLRequest
     ) -> Self {
-        @Dependency(\.envVars.mailgunDomain) var domain
+        @Dependency(\.envVars.mailgun.domain) var domain
         @Dependency(URLRequest.Handler.Mailgun.self) var handleRequest
 
         return Self(

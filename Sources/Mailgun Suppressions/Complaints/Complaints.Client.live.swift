@@ -14,7 +14,7 @@ extension Mailgun.Suppressions.Complaints.Client {
         makeRequest: @escaping @Sendable (_ route: Mailgun.Suppressions.Complaints.API) throws -> URLRequest
     ) -> Self {
         @Dependency(URLRequest.Handler.Mailgun.self) var handleRequest
-        @Dependency(\.envVars.mailgunDomain) var domain
+        @Dependency(\.envVars.mailgun.domain) var domain
 
         return Self(
             importList: { request in

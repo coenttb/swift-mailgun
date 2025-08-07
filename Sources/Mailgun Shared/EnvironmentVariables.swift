@@ -10,19 +10,23 @@ import EnvironmentVariables
 import Foundation
 
 extension EnvironmentVariables {
-    public var mailgunBaseUrl: URL {
-        get { self["MAILGUN_BASE_URL"].flatMap(URL.init(string:))! }
+    public struct Mailgun: Sendable {
+        package var baseUrl: URL
+        package var apiKey: ApiKey
+        package var domain: Domain
     }
-
-    public var mailgunPrivateApiKey: ApiKey {
-        get { self["MAILGUN_PRIVATE_API_KEY"].map(ApiKey.init(rawValue:))! }
-    }
-
-    public var mailgunDomain: Domain {
-        get { try! self["MAILGUN_DOMAIN"].map(Domain.init)! }
-        set { self["MAILGUN_DOMAIN"] = newValue.description }
+    
+    package var mailgun: Mailgun {
+        // DESIGN CHOICE TO FAIL EARLY IN CASE NO ENVIRONMENT VARIABLES ARE DETECTED
+        .init(
+            baseUrl: self["MAILGUN_BASE_URL"].flatMap(URL.init(string:))!,
+            apiKey: self["MAILGUN_PRIVATE_API_KEY"].map(ApiKey.init(rawValue:))!,
+            domain: try! self["MAILGUN_DOMAIN"].map(Domain.init)!
+        )
     }
 }
+
+// MARK: - Testing conveniences
 
 extension EnvironmentVariables {
     package var mailgunTestMailingList: EmailAddress {
