@@ -10,7 +10,7 @@ import Testing
 //    .serialized
 // )
 // struct MailgunIPPoolsTests {
-//    @Dependency(Mailgun.IPPools.Client.self) var client
+//    @Dependency(Mailgun.IPPools.self) var ipPools
 //    
 //    @Test("Should successfully list IP pools")
 //    func testListIPPools() async throws {

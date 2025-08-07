@@ -12,9 +12,9 @@ import Testing
 // struct EventsClientTests {
 //    @Test("Should successfully list events with default parameters")
 //    func testListEvents() async throws {
-//        @Dependency(Mailgun.Reporting.Events.Client.self) var client
+//        @Dependency(Mailgun.Reporting.Events.self) var events
 //
-//        let response = try await client.list(nil)
+//        let response = try await events.client.list(nil)
 //
 //        #expect(!response.items.isEmpty)
 //        #expect(response.items.allSatisfy { !$0.id!.isEmpty })
@@ -23,7 +23,7 @@ import Testing
 //
 //    @Test("Should successfully list events with date range filter")
 //    func testListEventsWithDateRange() async throws {
-//        @Dependency(Mailgun.Reporting.Events.Client.self) var client
+//        @Dependency(Mailgun.Reporting.Events.self) var events
 //        @Dependency(\.calendar) var calendar
 //
 //        let end = Date()
@@ -35,7 +35,7 @@ import Testing
 //            ascending: .yes
 //        )
 //
-//        let response = try await client.list(query)
+//        let response = try await events.client.list(query)
 //
 //        #expect(response.items.allSatisfy {
 //            $0.timestamp! >= begin.timeIntervalSince1970 &&
@@ -45,14 +45,14 @@ import Testing
 //
 //    @Test("Should successfully list events filtered by event type")
 //    func testListEventsWithEventType() async throws {
-//        @Dependency(Mailgun.Reporting.Events.Client.self) var client
+//        @Dependency(Mailgun.Reporting.Events.self) var events
 //
 //        let query = Mailgun.Reporting.Events.List.Query(
 //            limit: 25,
 //            event: .delivered
 //        )
 //
-//        let response = try await client.list(query)
+//        let response = try await events.client.list(query)
 //
 //        if !response.items.isEmpty {
 //            #expect(response.items.allSatisfy { $0.event == .delivered })
@@ -62,7 +62,7 @@ import Testing
 //
 //    @Test("Should successfully list events with recipient filter")
 //    func testListEventsWithRecipientFilter() async throws {
-//        @Dependency(Mailgun.Reporting.Events.Client.self) var client
+//        @Dependency(Mailgun.Reporting.Events.self) var events
 //        @Dependency(\.envVars.mailgunTestRecipient) var recipient
 //
 //        let query = Mailgun.Reporting.Events.List.Query(
@@ -70,7 +70,7 @@ import Testing
 //            recipient: recipient
 //        )
 //
-//        let response = try await client.list(query)
+//        let response = try await events.client.list(query)
 //
 //        if !response.items.isEmpty {
 //            #expect(response.items.count <= 25)
@@ -80,14 +80,14 @@ import Testing
 //
 //    @Test("Should successfully list events with tag filter")
 //    func testListEventsWithTagFilter() async throws {
-//        @Dependency(Mailgun.Reporting.Events.Client.self) var client
+//        @Dependency(Mailgun.Reporting.Events.self) var events
 //
 //        let query = Mailgun.Reporting.Events.List.Query(
 //            limit: 25,
 //            tags: ["test-tag"]
 //        )
 //
-//        let response = try await client.list(query)
+//        let response = try await events.client.list(query)
 //
 //        if !response.items.isEmpty {
 //            #expect(response.items.count <= 25)
@@ -97,11 +97,11 @@ import Testing
 //
 //    @Test("Should successfully handle pagination")
 //    func testListEventsPagination() async throws {
-//        @Dependency(Mailgun.Reporting.Events.Client.self) var client
+//        @Dependency(Mailgun.Reporting.Events.self) var events
 //
 //        let query = Mailgun.Reporting.Events.List.Query(limit: 5)
 //
-//        let response = try await client.list(query)
+//        let response = try await events.client.list(query)
 //
 //        if !response.items.isEmpty {
 //            #expect(response.items.count <= 5)

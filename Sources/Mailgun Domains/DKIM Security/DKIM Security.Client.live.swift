@@ -37,17 +37,17 @@ extension Mailgun.Domains.DKIM_Security.Client {
     }
 }
 
-extension Mailgun.Domains.DKIM_Security.Client {
-    public typealias Authenticated = Mailgun_Shared.AuthenticatedClient<
+extension Mailgun.Domains.DKIM_Security {
+    public typealias Authenticated = Mailgun_Shared.Authenticated<
         Mailgun.Domains.DKIM_Security.API,
         Mailgun.Domains.DKIM_Security.API.Router,
         Mailgun.Domains.DKIM_Security.Client
     >
 }
 
-extension Mailgun.Domains.DKIM_Security.Client: @retroactive DependencyKey {
-    public static var liveValue: Mailgun.Domains.DKIM_Security.Client.Authenticated {
-        try! Mailgun.Domains.DKIM_Security.Client.Authenticated { .live(makeRequest: $0) }
+extension Mailgun.Domains.DKIM_Security: @retroactive DependencyKey {
+    public static var liveValue: Mailgun.Domains.DKIM_Security.Authenticated {
+        try! Mailgun.Domains.DKIM_Security.Authenticated { .live(makeRequest: $0) }
     }
 }
 

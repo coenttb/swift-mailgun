@@ -10,7 +10,7 @@ import Testing
 //    .serialized
 // )
 // struct MailgunCredentialsTests {
-//    @Dependency(Mailgun.Credentials.Client.self) var client
+//    @Dependency(Mailgun.Credentials.self) var credentials
 //    @Dependency(\.envVars.mailgunDomain) var domain
 //    
 //    @Test("Should successfully list credentials")

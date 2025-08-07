@@ -52,17 +52,17 @@ extension Mailgun.IPAddressWarmup.Client {
     }
 }
 
-extension Mailgun.IPAddressWarmup.Client {
-    public typealias Authenticated = Mailgun_Shared.AuthenticatedClient<
+extension Mailgun.IPAddressWarmup {
+    public typealias Authenticated = Mailgun_Shared.Authenticated<
         Mailgun.IPAddressWarmup.API,
         Mailgun.IPAddressWarmup.API.Router,
         Mailgun.IPAddressWarmup.Client
     >
 }
 
-extension Mailgun.IPAddressWarmup.Client: @retroactive DependencyKey {
-    public static var liveValue: Mailgun.IPAddressWarmup.Client.Authenticated {
-        try! Mailgun.IPAddressWarmup.Client.Authenticated { .live(makeRequest: $0) }
+extension Mailgun.IPAddressWarmup: @retroactive DependencyKey {
+    public static var liveValue: Mailgun.IPAddressWarmup.Authenticated {
+        try! Mailgun.IPAddressWarmup.Authenticated { .live(makeRequest: $0) }
     }
 }
 

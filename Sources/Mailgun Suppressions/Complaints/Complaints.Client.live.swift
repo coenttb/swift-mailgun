@@ -61,3 +61,21 @@ extension Mailgun.Suppressions.Complaints.Client {
         )
     }
 }
+
+extension Mailgun.Suppressions.Complaints {
+    public typealias Authenticated = Mailgun_Shared.Authenticated<
+        Mailgun.Suppressions.Complaints.API,
+        Mailgun.Suppressions.Complaints.API.Router,
+        Mailgun.Suppressions.Complaints.Client
+    >
+}
+
+extension Mailgun.Suppressions.Complaints: @retroactive DependencyKey {
+    public static var liveValue: Mailgun.Suppressions.Complaints.Authenticated {
+        try! Mailgun.Suppressions.Complaints.Authenticated { .live(makeRequest: $0) }
+    }
+}
+
+extension Mailgun.Suppressions.Complaints.API.Router: @retroactive DependencyKey {
+    public static let liveValue: Mailgun.Suppressions.Complaints.API.Router = .init()
+}

@@ -14,7 +14,7 @@ struct ListsUpdateDebugTests {
 
     @Test("Debug member update issue")
     func testMemberUpdateDebug() async throws {
-        @Dependency(Mailgun.Lists.Client.self) var client
+        @Dependency(Mailgun.Lists.self) var lists
         @Dependency(\.envVars.mailgunTestMailingList) var list
 
         // Ensure the test list exists
@@ -24,7 +24,7 @@ struct ListsUpdateDebugTests {
             description: "Test list for debugging member updates",
             accessLevel: .readonly
         )
-        _ = try? await client.create(createListRequest)
+        _ = try? await lists.client.create(createListRequest)
 
         // Use a unique email for this test
         let uniqueEmail = try EmailAddress("debug_\(UUID().uuidString.prefix(8))@example.com")
@@ -35,7 +35,7 @@ struct ListsUpdateDebugTests {
             name: "Initial Name"
         )
 
-        let addResponse = try await client.addMember(list, addRequest)
+        let addResponse = try await lists.client.addMember(list, addRequest)
         print("Added member: \(addResponse.member.name ?? "nil")")
         #expect(addResponse.member.name == "Initial Name")
 
@@ -44,7 +44,7 @@ struct ListsUpdateDebugTests {
             name: "Updated Name"
         )
 
-        let updateResponse = try await client.updateMember(list, uniqueEmail, updateRequest)
+        let updateResponse = try await lists.client.updateMember(list, uniqueEmail, updateRequest)
         print("Update response message: \(updateResponse.message)")
         print("Updated member name: \(updateResponse.member.name ?? "nil")")
 
@@ -52,12 +52,12 @@ struct ListsUpdateDebugTests {
         #expect(updateResponse.member.name == "Updated Name")
 
         // Clean up
-        _ = try? await client.deleteMember(list, uniqueEmail)
+        _ = try? await lists.client.deleteMember(list, uniqueEmail)
     }
 
     @Test("Debug list update issue")
     func testListUpdateDebug() async throws {
-        @Dependency(Mailgun.Lists.Client.self) var client
+        @Dependency(Mailgun.Lists.self) var lists
 
         // Create a unique list for this test
         let uniqueList = try EmailAddress("debug_\(UUID().uuidString.prefix(8))@sandbox5f32d4b6aad14a6d9cb17d67f85e44e9.mailgun.org")
@@ -70,7 +70,7 @@ struct ListsUpdateDebugTests {
             accessLevel: .readonly
         )
 
-        let createResponse = try await client.create(createRequest)
+        let createResponse = try await lists.client.create(createRequest)
         print("Created list: \(createResponse.list.name ?? "nil")")
         #expect(createResponse.list.name == "Initial List Name")
 
@@ -81,7 +81,7 @@ struct ListsUpdateDebugTests {
         )
 
         do {
-            let updateResponse = try await client.update(uniqueList, updateRequest)
+            let updateResponse = try await lists.client.update(uniqueList, updateRequest)
             print("Update response message: \(updateResponse.message)")
             print("Updated list name: \(updateResponse.list.name ?? "nil")")
             #expect(updateResponse.list.name == "Updated List Name")
@@ -91,6 +91,6 @@ struct ListsUpdateDebugTests {
         }
 
         // Clean up
-        _ = try? await client.delete(uniqueList)
+        _ = try? await lists.client.delete(uniqueList)
     }
 }

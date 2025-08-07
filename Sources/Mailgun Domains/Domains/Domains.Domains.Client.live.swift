@@ -66,17 +66,17 @@ extension Mailgun.Domains.Domains.Client {
     }
 }
 
-extension Mailgun.Domains.Domains.Client {
-    public typealias Authenticated = Mailgun_Shared.AuthenticatedClient<
+extension Mailgun.Domains.Domains {
+    public typealias Authenticated = Mailgun_Shared.Authenticated<
         Mailgun.Domains.Domains.API,
         Mailgun.Domains.Domains.API.Router,
         Mailgun.Domains.Domains.Client
     >
 }
 
-extension Mailgun.Domains.Domains.Client: @retroactive DependencyKey {
-    public static var liveValue: Mailgun.Domains.Domains.Client.Authenticated {
-        try! Mailgun.Domains.Domains.Client.Authenticated { .live(makeRequest: $0) }
+extension Mailgun.Domains.Domains: @retroactive DependencyKey {
+    public static var liveValue: Mailgun.Domains.Domains.Authenticated {
+        try! Mailgun.Domains.Domains.Authenticated { .live(makeRequest: $0) }
     }
 }
 

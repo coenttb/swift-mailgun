@@ -15,7 +15,7 @@ import FoundationNetworking
 struct MessagesClientTests {
     @Test("Should successfully send an email")
     func testSendEmail() async throws {
-        @Dependency(Mailgun.Messages.Client.self) var client
+        @Dependency(Mailgun.Messages.self) var messages
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
 
@@ -28,7 +28,7 @@ struct MessagesClientTests {
             testMode: true
         )
 
-        let response = try await client.send(request)
+        let response = try await messages.client.send(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))

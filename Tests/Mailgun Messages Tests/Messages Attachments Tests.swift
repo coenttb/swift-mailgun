@@ -18,7 +18,7 @@ struct MessagesAttachmentsTests {
 
     @Test("Send email with text attachment")
     func testSendEmailWithTextAttachment() async throws {
-        @Dependency(Mailgun.Messages.Client.self) var client
+        @Dependency(Mailgun.Messages.self) var messages
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
 
@@ -38,7 +38,7 @@ struct MessagesAttachmentsTests {
             testMode: true
         )
 
-        let response = try await client.send(request)
+        let response = try await messages.client.send(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
@@ -46,7 +46,7 @@ struct MessagesAttachmentsTests {
 
     @Test("Send email with multiple attachments")
     func testSendEmailWithMultipleAttachments() async throws {
-        @Dependency(Mailgun.Messages.Client.self) var client
+        @Dependency(Mailgun.Messages.self) var messages
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
 
@@ -97,7 +97,7 @@ struct MessagesAttachmentsTests {
             testMode: true
         )
 
-        let response = try await client.send(request)
+        let response = try await messages.client.send(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
@@ -105,7 +105,7 @@ struct MessagesAttachmentsTests {
 
     @Test("Send email with inline image")
     func testSendEmailWithInlineImage() async throws {
-        @Dependency(Mailgun.Messages.Client.self) var client
+        @Dependency(Mailgun.Messages.self) var messages
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
 
@@ -147,7 +147,7 @@ struct MessagesAttachmentsTests {
             testMode: true
         )
 
-        let response = try await client.send(request)
+        let response = try await messages.client.send(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
@@ -155,7 +155,7 @@ struct MessagesAttachmentsTests {
 
     @Test("Send email with both attachments and inline images")
     func testSendEmailWithAttachmentsAndInline() async throws {
-        @Dependency(Mailgun.Messages.Client.self) var client
+        @Dependency(Mailgun.Messages.self) var messages
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
 
@@ -193,7 +193,7 @@ struct MessagesAttachmentsTests {
             testMode: true
         )
 
-        let response = try await client.send(request)
+        let response = try await messages.client.send(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
@@ -201,7 +201,7 @@ struct MessagesAttachmentsTests {
 
     @Test("Send email with large attachment")
     func testSendEmailWithLargeAttachment() async throws {
-        @Dependency(Mailgun.Messages.Client.self) var client
+        @Dependency(Mailgun.Messages.self) var messages
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
 
@@ -222,7 +222,7 @@ struct MessagesAttachmentsTests {
             testMode: true
         )
 
-        let response = try await client.send(request)
+        let response = try await messages.client.send(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
@@ -230,7 +230,7 @@ struct MessagesAttachmentsTests {
 
     @Test("Send email with various file types")
     func testSendEmailWithVariousFileTypes() async throws {
-        @Dependency(Mailgun.Messages.Client.self) var client
+        @Dependency(Mailgun.Messages.self) var messages
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
 
@@ -287,7 +287,7 @@ struct MessagesAttachmentsTests {
             testMode: true
         )
 
-        let response = try await client.send(request)
+        let response = try await messages.client.send(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
@@ -295,7 +295,7 @@ struct MessagesAttachmentsTests {
 
     @Test("Send email with binary attachment")
     func testSendEmailWithBinaryAttachment() async throws {
-        @Dependency(Mailgun.Messages.Client.self) var client
+        @Dependency(Mailgun.Messages.self) var messages
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
 
@@ -320,7 +320,7 @@ struct MessagesAttachmentsTests {
             testMode: true
         )
 
-        let response = try await client.send(request)
+        let response = try await messages.client.send(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
@@ -328,7 +328,7 @@ struct MessagesAttachmentsTests {
 
     @Test("Send email with special characters in filename")
     func testSendEmailWithSpecialFilename() async throws {
-        @Dependency(Mailgun.Messages.Client.self) var client
+        @Dependency(Mailgun.Messages.self) var messages
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
 
@@ -347,7 +347,7 @@ struct MessagesAttachmentsTests {
             testMode: true
         )
 
-        let response = try await client.send(request)
+        let response = try await messages.client.send(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))

@@ -10,7 +10,7 @@ import Testing
 //    .serialized
 // )
 // struct MailgunDomainsTests {
-//    @Dependency(Mailgun.Domains.Client.self) var client
+//    @Dependency(Mailgun.Domains.self) var domains
 //    @Dependency(\.envVars.mailgunDomain) var domain
 //    
 ////    @Test("Should successfully list domains")

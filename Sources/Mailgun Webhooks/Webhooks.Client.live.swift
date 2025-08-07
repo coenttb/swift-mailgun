@@ -60,17 +60,17 @@ extension Mailgun.Webhooks.Client {
    }
 }
 
-extension Mailgun.Webhooks.Client {
-    public typealias Authenticated = Mailgun_Shared.AuthenticatedClient<
+extension Mailgun.Webhooks {
+    public typealias Authenticated = Mailgun_Shared.Authenticated<
         Mailgun.Webhooks.API,
         Mailgun.Webhooks.API.Router,
         Mailgun.Webhooks.Client
     >
 }
 
-extension Mailgun.Webhooks.Client: @retroactive DependencyKey {
-    public static var liveValue: Mailgun.Webhooks.Client.Authenticated {
-        try! Mailgun.Webhooks.Client.Authenticated { .live(makeRequest: $0) }
+extension Mailgun.Webhooks: @retroactive DependencyKey {
+    public static var liveValue: Mailgun.Webhooks.Authenticated {
+        try! Mailgun.Webhooks.Authenticated { .live(makeRequest: $0) }
     }
 }
 

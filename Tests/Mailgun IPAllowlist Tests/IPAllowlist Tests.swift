@@ -17,12 +17,12 @@ import Testing
     .serialized
 )
 struct MailgunIPAllowlistTests {
-    @Dependency(Mailgun.IPAllowlist.Client.self) var client
+    @Dependency(Mailgun.IPAllowlist.self) var ipAllowlist
 
     @Test("Should successfully list IP allowlist entries")
     func testListIPAllowlist() async throws {
         do {
-            let response = try await client.list()
+            let response = try await ipAllowlist.client.list()
 
             // Check response structure - addresses is not optional
             #expect(response.addresses.isEmpty || !response.addresses.isEmpty)
@@ -58,7 +58,7 @@ struct MailgunIPAllowlistTests {
         )
 
         do {
-            let addResponse = try await client.add(addRequest)
+            let addResponse = try await ipAllowlist.client.add(addRequest)
             if let message = addResponse.message {
                 #expect(message.contains("added") || message.contains("Added") || !message.isEmpty)
             }
@@ -68,7 +68,7 @@ struct MailgunIPAllowlistTests {
                 Task {
                     do {
                         let deleteRequest = Mailgun.IPAllowlist.DeleteRequest(address: testIP)
-                        _ = try await client.delete(deleteRequest)
+                        _ = try await ipAllowlist.client.delete(deleteRequest)
                     } catch {
                         // Silently ignore cleanup errors
                     }
@@ -76,13 +76,13 @@ struct MailgunIPAllowlistTests {
             }
 
             // Verify it was added by listing
-            let listResponse = try await client.list()
+            let listResponse = try await ipAllowlist.client.list()
             let found = listResponse.addresses.contains { $0.ipAddress == testIP }
             #expect(found == true || found == false) // May or may not be visible immediately
 
             // Clean up - remove the IP
             let deleteRequest = Mailgun.IPAllowlist.DeleteRequest(address: testIP)
-            let removeResponse = try await client.delete(deleteRequest)
+            let removeResponse = try await ipAllowlist.client.delete(deleteRequest)
             if let message = removeResponse.message {
                 #expect(message.contains("removed") || message.contains("Removed") || !message.isEmpty)
             }
@@ -97,7 +97,7 @@ struct MailgunIPAllowlistTests {
                 // Always try to clean up even on error
                 do {
                     let deleteRequest = Mailgun.IPAllowlist.DeleteRequest(address: testIP)
-                    _ = try await client.delete(deleteRequest)
+                    _ = try await ipAllowlist.client.delete(deleteRequest)
                 } catch {
                     // Silently ignore cleanup errors
                 }
@@ -117,14 +117,14 @@ struct MailgunIPAllowlistTests {
         )
 
         do {
-            let addResponse = try await client.add(addRequest)
+            let addResponse = try await ipAllowlist.client.add(addRequest)
             if let message = addResponse.message {
                 #expect(message.contains("added") || message.contains("Added") || !message.isEmpty)
             }
 
             // Clean up
             let deleteRequest = Mailgun.IPAllowlist.DeleteRequest(address: testCIDR)
-            try await client.delete(deleteRequest)
+            try await ipAllowlist.client.delete(deleteRequest)
         } catch {
             // CIDR might not be supported or operation might be restricted
             let errorString = String(describing: error).lowercased()
@@ -149,7 +149,7 @@ struct MailgunIPAllowlistTests {
         )
 
         do {
-            let firstAddResponse = try await client.add(addRequest)
+            let firstAddResponse = try await ipAllowlist.client.add(addRequest)
             if let message = firstAddResponse.message {
                 #expect(message.contains("added") || message.contains("Added") || !message.isEmpty)
             }
@@ -159,7 +159,7 @@ struct MailgunIPAllowlistTests {
                 Task {
                     do {
                         let deleteRequest = Mailgun.IPAllowlist.DeleteRequest(address: testIP)
-                        _ = try await client.delete(deleteRequest)
+                        _ = try await ipAllowlist.client.delete(deleteRequest)
                     } catch {
                         // Silently ignore cleanup errors
                     }
@@ -168,7 +168,7 @@ struct MailgunIPAllowlistTests {
 
             // Try to add the same IP again
             do {
-                _ = try await client.add(addRequest)
+                _ = try await ipAllowlist.client.add(addRequest)
                 // If this succeeds, the API might be idempotent
                 #expect(Bool(true), "API handles duplicate additions gracefully")
             } catch {
@@ -178,7 +178,7 @@ struct MailgunIPAllowlistTests {
 
             // Clean up
             let deleteRequest = Mailgun.IPAllowlist.DeleteRequest(address: testIP)
-            _ = try await client.delete(deleteRequest)
+            _ = try await ipAllowlist.client.delete(deleteRequest)
         } catch {
             // First addition might have failed
             let errorString = String(describing: error).lowercased()
@@ -190,7 +190,7 @@ struct MailgunIPAllowlistTests {
                 // Always try to clean up even on error
                 do {
                     let deleteRequest = Mailgun.IPAllowlist.DeleteRequest(address: testIP)
-                    _ = try await client.delete(deleteRequest)
+                    _ = try await ipAllowlist.client.delete(deleteRequest)
                 } catch {
                     // Silently ignore cleanup errors
                 }
@@ -215,7 +215,7 @@ struct MailgunIPAllowlistTests {
             )
 
             do {
-                _ = try await client.add(addRequest)
+                _ = try await ipAllowlist.client.add(addRequest)
                 // If this succeeds, the API might have different validation
                 #expect(Bool(false), "Invalid IP \(invalidIP) was accepted unexpectedly")
             } catch {
@@ -228,7 +228,7 @@ struct MailgunIPAllowlistTests {
     @Test("Should handle listing IP allowlist without pagination issues")
     func testListIPAllowlistHandling() async throws {
         do {
-            let response = try await client.list()
+            let response = try await ipAllowlist.client.list()
 
             // Check response structure - addresses is not optional
             #expect(response.addresses.isEmpty || !response.addresses.isEmpty)

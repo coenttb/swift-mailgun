@@ -12,7 +12,7 @@ import Testing
 struct ListsClientTests {
     @Test("Should successfully create a mailing list")
     func testCreateList() async throws {
-        @Dependency(Mailgun.Lists.Client.self) var client
+        @Dependency(Mailgun.Lists.self) var lists
         @Dependency(\.envVars.mailgunTestMailingList) var list
 
         let request = Mailgun.Lists.List.Create.Request(
@@ -23,7 +23,7 @@ struct ListsClientTests {
             replyPreference: .list
         )
 
-        let response = try await client.create(request)
+        let response = try await lists.client.create(request)
 
         if response.message != "Duplicate object" {
             #expect(response.list.address == request.address)
@@ -34,7 +34,7 @@ struct ListsClientTests {
 
     @Test("Should successfully add member")
     func testAddMember() async throws {
-        @Dependency(Mailgun.Lists.Client.self) var client
+        @Dependency(Mailgun.Lists.self) var lists
         @Dependency(\.envVars.mailgunTestMailingList) var list
         @Dependency(\.envVars.mailgunTestRecipient) var recipient
 
@@ -44,7 +44,7 @@ struct ListsClientTests {
             vars: ["role": "tester"]
         )
 
-        let addResponse = try await client.addMember(list, addRequest)
+        let addResponse = try await lists.client.addMember(list, addRequest)
 
         if !addResponse.message.contains("Address already exists") {
             #expect(addResponse.member.address == recipient)
@@ -53,11 +53,11 @@ struct ListsClientTests {
 
     @Test("Should successfully get member")
     func testGetMember() async throws {
-        @Dependency(Mailgun.Lists.Client.self) var client
+        @Dependency(Mailgun.Lists.self) var lists
         @Dependency(\.envVars.mailgunTestMailingList) var list
         @Dependency(\.envVars.mailgunTestRecipient) var recipient
 
-        let member = try await client.getMember(list, recipient)
+        let member = try await lists.client.getMember(list, recipient)
 
         #expect(member.address == recipient)
         #expect(member.name == "Test Member")
@@ -68,7 +68,7 @@ struct ListsClientTests {
         .bug(id: 1)
     )
     func testUpdateMember() async throws {
-        @Dependency(Mailgun.Lists.Client.self) var client
+        @Dependency(Mailgun.Lists.self) var lists
         @Dependency(\.envVars.mailgunTestMailingList) var list
         @Dependency(\.envVars.mailgunTestRecipient) var recipient
 
@@ -78,14 +78,14 @@ struct ListsClientTests {
             name: "Original Test Name",
             upsert: true
         )
-        _ = try? await client.addMember(list, addRequest)
+        _ = try? await lists.client.addMember(list, addRequest)
 
         // Now update the member
         let request: Mailgun.Lists.Member.Update.Request = .init(
             name: "Test Member Updated"
         )
 
-        let response = try await client.updateMember(
+        let response = try await lists.client.updateMember(
             list,
             recipient,
             request
@@ -100,7 +100,7 @@ struct ListsClientTests {
         "Should successfully update list"
     )
     func testUpdateList() async throws {
-        @Dependency(Mailgun.Lists.Client.self) var client
+        @Dependency(Mailgun.Lists.self) var lists
         @Dependency(\.envVars.mailgunTestMailingList) var list
 
         // First, ensure the list exists
@@ -110,7 +110,7 @@ struct ListsClientTests {
             description: "Original description",
             accessLevel: .readonly
         )
-        _ = try? await client.create(createRequest)
+        _ = try? await lists.client.create(createRequest)
 
         let updateRequest = Mailgun.Lists.List.Update.Request(
             description: "Updated description for the mailing list",
@@ -119,7 +119,7 @@ struct ListsClientTests {
             replyPreference: .list
         )
 
-        let updateResponse = try await client.update(list, updateRequest)
+        let updateResponse = try await lists.client.update(list, updateRequest)
         #expect(updateResponse.list.name == updateRequest.name)
         #expect(updateResponse.list.description == updateRequest.description)
     }
@@ -128,10 +128,10 @@ struct ListsClientTests {
         "Should successfully delete list"
     )
     func testDeleteList() async throws {
-        @Dependency(Mailgun.Lists.Client.self) var client
+        @Dependency(Mailgun.Lists.self) var lists
         @Dependency(\.envVars.mailgunTestMailingList) var list
 
-        let deleteResponse = try await client.delete(list)
+        let deleteResponse = try await lists.client.delete(list)
         #expect(deleteResponse.message.contains("removed"))
     }
 }

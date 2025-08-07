@@ -35,7 +35,7 @@ import FoundationNetworking
 
 extension Mailgun.Client {
     public static func live(
-    ) throws -> Mailgun_Shared.AuthenticatedClient<Mailgun.API, Mailgun.API.Router, Mailgun.Client> {
+    ) throws -> Mailgun_Shared.Authenticated<Mailgun.API, Mailgun.API.Router, Mailgun.Client> {
 
         @Dependency(Mailgun.API.Router.self) var mailgunRouter
         @Dependency(\.envVars.mailgunPrivateApiKey) var apiKey
@@ -105,12 +105,12 @@ extension Mailgun.Client {
     }
 }
 
-extension Mailgun.Client {
-    public typealias Authenticated = Mailgun_Shared.AuthenticatedClient<Mailgun.API, Mailgun.API.Router, Mailgun.Client>
+extension Mailgun {
+    public typealias Authenticated = Mailgun_Shared.Authenticated<Mailgun.API, Mailgun.API.Router, Mailgun.Client>
 }
 
-extension Mailgun.Client: @retroactive DependencyKey {
-    public static var liveValue: Mailgun.Client.Authenticated {
+extension Mailgun: @retroactive DependencyKey {
+    public static var liveValue: Mailgun.Authenticated {
         try! Mailgun.Client.live()
     }
 }
@@ -120,8 +120,8 @@ extension Mailgun.API.Router: @retroactive DependencyKey {
 }
 
 extension DependencyValues {
-    public var mailgun: Mailgun.Client.Authenticated {
-        get { self[Mailgun.Client.self] }
-        set { self[Mailgun.Client.self] = newValue }
+    public var mailgun: Mailgun.Authenticated {
+        get { self[Mailgun.self] }
+        set { self[Mailgun.self] = newValue }
     }
 }

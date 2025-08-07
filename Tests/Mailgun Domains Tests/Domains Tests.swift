@@ -18,7 +18,7 @@ import Testing
     .serialized
 )
 struct MailgunDomainsAggregationTests {
-    @Dependency(Mailgun.Domains.Client.self) var client
+    @Dependency(Mailgun.Domains.self) var domains
     @Dependency(\.envVars.mailgunDomain) var domain
 
     @Test("Should access all domain sub-clients")
@@ -26,16 +26,16 @@ struct MailgunDomainsAggregationTests {
         // Test that we can access all domain sub-clients through the aggregation client
 
         // Main domains client
-        _ = client.domains
+        _ = domains.client.domains
 
         // DKIM client through nested structure
-        _ = client.dkim
-        _ = client.dkim.security
+        _ = domains.client.dkim
+        _ = domains.client.dkim.security
 
         // Domain keys and tracking through nested structure
-        _ = client.domain
-        _ = client.domain.keys
-        _ = client.domain.tracking
+        _ = domains.client.domain
+        _ = domains.client.domain.keys
+        _ = domains.client.domain.tracking
 
         #expect(Bool(true), "All domain sub-clients are accessible through aggregation")
     }
@@ -50,7 +50,7 @@ struct MailgunDomainsAggregationTests {
             skip: 0
         )
 
-        let response = try await client.domains.list(request)
+        let response = try await domains.client.domains.list(request)
 
         #expect(!response.items.isEmpty || response.items.isEmpty)
         #expect(response.totalCount >= 0)
@@ -66,7 +66,7 @@ struct MailgunDomainsAggregationTests {
     @Test("Should get domain details through aggregation client")
     func testGetDomainThroughAggregation() async throws {
         // Test getting domain details through the aggregation client
-        let response = try await client.domains.get(domain)
+        let response = try await domains.client.domains.get(domain)
 
         #expect(response.domain.name == domain.description)
         if let smtpLogin = response.domain.smtpLogin {
@@ -82,7 +82,7 @@ struct MailgunDomainsAggregationTests {
     @Test("Should access DKIM security through aggregation")
     func testAccessDKIMSecurityThroughAggregation() async throws {
         // Test DKIM security operations through aggregation
-        let dkimSecurityClient = client.dkim.security
+        let dkimSecurityClient = domains.client.dkim.security
 
         let request = Mailgun.Domains.DKIM_Security.Rotation.Update.Request(
             rotationEnabled: false,
@@ -108,7 +108,7 @@ struct MailgunDomainsAggregationTests {
     @Test("Should access domain keys through aggregation")
     func testAccessDomainKeysThroughAggregation() async throws {
         // Test domain keys operations through aggregation
-        let keysClient = client.domain.keys
+        let keysClient = domains.client.domain.keys
 
         let request = Mailgun.Domains.DomainKeys.List.Request(
             page: nil,
@@ -135,7 +135,7 @@ struct MailgunDomainsAggregationTests {
     @Test("Should access tracking settings through aggregation")
     func testAccessTrackingThroughAggregation() async throws {
         // Test tracking operations through aggregation
-        let trackingClient = client.domain.tracking
+        let trackingClient = domains.client.domain.tracking
 
         do {
             let response = try await trackingClient.get(domain)
@@ -159,7 +159,7 @@ struct MailgunDomainsAggregationTests {
     func testDomainVerificationThroughAggregation() async throws {
         // Test domain verification through aggregation
         do {
-            let response = try await client.domains.verify(domain)
+            let response = try await domains.client.domains.verify(domain)
 
             #expect(response.domain.name == domain.description)
             #expect(!response.message.isEmpty)
@@ -196,8 +196,8 @@ struct MailgunDomainsAggregationTests {
             skip: 0
         )
 
-        // Using dynamic member lookup (client.list instead of client.domains.list)
-        let response = try await client.list(listRequest)
+        // Using dynamic member lookup (domains.client.list instead of domains.client.domains.list)
+        let response = try await domains.client.list(listRequest)
 
         #expect(!response.items.isEmpty || response.items.isEmpty)
         #expect(response.totalCount >= 0)
@@ -208,11 +208,11 @@ struct MailgunDomainsAggregationTests {
         // Comprehensive test of all domain operations available through aggregation
 
         // List domains
-        let listResponse = try await client.list(nil)
+        let listResponse = try await domains.client.list(nil)
         #expect(!listResponse.items.isEmpty || listResponse.items.isEmpty)
 
         // Get specific domain
-        let getResponse = try await client.get(domain)
+        let getResponse = try await domains.client.get(domain)
         #expect(getResponse.domain.name == domain.description)
 
         // Update domain (may fail for sandbox domains)
@@ -223,7 +223,7 @@ struct MailgunDomainsAggregationTests {
         )
 
         do {
-            let updateResponse = try await client.update(domain, updateRequest)
+            let updateResponse = try await domains.client.update(domain, updateRequest)
             #expect(!updateResponse.message.isEmpty)
         } catch {
             // Updates might be restricted
@@ -247,7 +247,7 @@ struct MailgunDomainsAggregationTests {
         // Test main domains operations
         expectedOperations += 1
         do {
-            _ = try await client.list(nil)
+            _ = try await domains.client.list(nil)
             successfulOperations += 1
         } catch {
             #expect(Bool(true), "List operation failed - counting as expected")
@@ -259,7 +259,7 @@ struct MailgunDomainsAggregationTests {
             let request = Mailgun.Domains.DKIM_Security.Rotation.Update.Request(
                 rotationEnabled: false
             )
-            _ = try await client.dkim.security.updateRotation(domain, request)
+            _ = try await domains.client.dkim.security.updateRotation(domain, request)
             successfulOperations += 1
         } catch {
             #expect(Bool(true), "DKIM operation failed - counting as expected")
@@ -268,7 +268,7 @@ struct MailgunDomainsAggregationTests {
         // Test domain keys operations
         expectedOperations += 1
         do {
-            _ = try await client.domain.keys.listDomainKeys(domain.description)
+            _ = try await domains.client.domain.keys.listDomainKeys(domain.description)
             successfulOperations += 1
         } catch {
             #expect(Bool(true), "Domain keys operation failed - counting as expected")
@@ -277,7 +277,7 @@ struct MailgunDomainsAggregationTests {
         // Test tracking operations
         expectedOperations += 1
         do {
-            _ = try await client.domain.tracking.get(domain)
+            _ = try await domains.client.domain.tracking.get(domain)
             successfulOperations += 1
         } catch {
             #expect(Bool(true), "Tracking operation failed - counting as expected")

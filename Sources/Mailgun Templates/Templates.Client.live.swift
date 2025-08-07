@@ -109,17 +109,17 @@ extension Mailgun.Templates.Client {
     }
 }
 
-extension Mailgun.Templates.Client {
-    public typealias Authenticated = Mailgun_Shared.AuthenticatedClient<
+extension Mailgun.Templates {
+    public typealias Authenticated = Mailgun_Shared.Authenticated<
         Mailgun.Templates.API,
         Mailgun.Templates.API.Router,
         Mailgun.Templates.Client
     >
 }
 
-extension Mailgun.Templates.Client: @retroactive DependencyKey {
-    public static var liveValue: Mailgun.Templates.Client.Authenticated {
-        try! Mailgun.Templates.Client.Authenticated { .live(makeRequest: $0) }
+extension Mailgun.Templates: @retroactive DependencyKey {
+    public static var liveValue: Mailgun.Templates.Authenticated {
+        try! Mailgun.Templates.Authenticated { .live(makeRequest: $0) }
     }
 }
 

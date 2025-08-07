@@ -17,13 +17,13 @@ import Testing
     .serialized
 )
 struct DomainTrackingClientTests {
-    @Dependency(Mailgun.Domains.Domains.Tracking.Client.self) var client
+    @Dependency(Mailgun.Domains.Domains.Tracking.self) var domainTracking
     @Dependency(\.envVars.mailgunDomain) var domain
 
     @Test("Should successfully get tracking settings")
     func testGetTrackingSettings() async throws {
         do {
-            let response = try await client.get(domain)
+            let response = try await domainTracking.client.get(domain)
 
             // Verify response structure
             #expect(response.tracking.click != nil)
@@ -54,7 +54,7 @@ struct DomainTrackingClientTests {
         // First get current state
         var currentState = false
         do {
-            let currentSettings = try await client.get(domain)
+            let currentSettings = try await domainTracking.client.get(domain)
             currentState = currentSettings.tracking.click.active
         } catch {
             // If we can't get current state, assume false
@@ -68,7 +68,7 @@ struct DomainTrackingClientTests {
         )
 
         do {
-            let response = try await client.updateClick(domain, request)
+            let response = try await domainTracking.client.updateClick(domain, request)
 
             #expect(!response.message.isEmpty)
             // For sandbox domains, the state may not actually change
@@ -78,7 +78,7 @@ struct DomainTrackingClientTests {
             let restoreRequest = Mailgun.Domains.Domains.Tracking.UpdateClick.Request(
                 active: currentState
             )
-            _ = try await client.updateClick(domain, restoreRequest)
+            _ = try await domainTracking.client.updateClick(domain, restoreRequest)
 
         } catch {
             // Handle cases where tracking updates might not be available
@@ -97,7 +97,7 @@ struct DomainTrackingClientTests {
         // First get current state
         var currentState = false
         do {
-            let currentSettings = try await client.get(domain)
+            let currentSettings = try await domainTracking.client.get(domain)
             currentState = currentSettings.tracking.open.active
         } catch {
             // If we can't get current state, assume false
@@ -111,7 +111,7 @@ struct DomainTrackingClientTests {
         )
 
         do {
-            let response = try await client.updateOpen(domain, request)
+            let response = try await domainTracking.client.updateOpen(domain, request)
 
             #expect(!response.message.isEmpty)
             // For sandbox domains, the state may not actually change
@@ -121,7 +121,7 @@ struct DomainTrackingClientTests {
             let restoreRequest = Mailgun.Domains.Domains.Tracking.UpdateOpen.Request(
                 active: currentState
             )
-            _ = try await client.updateOpen(domain, restoreRequest)
+            _ = try await domainTracking.client.updateOpen(domain, restoreRequest)
 
         } catch {
             // Handle cases where tracking updates might not be available
@@ -143,7 +143,7 @@ struct DomainTrackingClientTests {
         var currentTextFooter: String?
 
         do {
-            let currentSettings = try await client.get(domain)
+            let currentSettings = try await domainTracking.client.get(domain)
             currentState = currentSettings.tracking.unsubscribe.active
             currentHtmlFooter = currentSettings.tracking.unsubscribe.htmlFooter
             currentTextFooter = currentSettings.tracking.unsubscribe.textFooter
@@ -161,7 +161,7 @@ struct DomainTrackingClientTests {
         )
 
         do {
-            let response = try await client.updateUnsubscribe(domain, request)
+            let response = try await domainTracking.client.updateUnsubscribe(domain, request)
 
             #expect(!response.message.isEmpty)
             // For sandbox domains, the state may not actually change
@@ -177,7 +177,7 @@ struct DomainTrackingClientTests {
                 htmlFooter: currentHtmlFooter,
                 textFooter: currentTextFooter
             )
-            _ = try await client.updateUnsubscribe(domain, restoreRequest)
+            _ = try await domainTracking.client.updateUnsubscribe(domain, restoreRequest)
 
         } catch {
             // Handle cases where tracking updates might not be available

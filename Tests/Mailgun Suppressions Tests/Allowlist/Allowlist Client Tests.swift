@@ -19,11 +19,11 @@
 // struct SuppressionsAllowlistClientTests {
 //    @Test("Should successfully create Allowlist record for domain")
 //    func testCreateDomainAllowlistRecord() async throws {
-//        @Dependency(Mailgun.Suppressions.Client.self) var client
+//        @Dependency(Mailgun.Suppressions.self) var suppressions
 //
 //        let request = Mailgun.Suppressions.Allowlist.Create.Request.domain(try .init("example.com"))
 //
-//        let response = try await client.Allowlist.create(request)
+//        let response = try await suppressions.client.Allowlist.create(request)
 //
 //        #expect(response.message == "Address/Domain has been added to the allowlists table")
 //        #expect(response.type == "domain")
@@ -32,11 +32,11 @@
 //
 //    @Test("Should successfully create Allowlist record for address")
 //    func testCreateAddressAllowlistRecord() async throws {
-//        @Dependency(Mailgun.Suppressions.Client.self) var client
+//        @Dependency(Mailgun.Suppressions.self) var suppressions
 //
 //        let request = Mailgun.Suppressions.Allowlist.Create.Request.address(try .init("test@example.com"))
 //
-//        let response = try await client.Allowlist.create(request)
+//        let response = try await suppressions.client.Allowlist.create(request)
 //
 //        #expect(response.message == "Address/Domain has been added to the allowlists table")
 //        #expect(response.type == "address")
@@ -45,7 +45,7 @@
 //
 //    @Test("Should successfully get Allowlist record")
 //    func testGetAllowlistRecord() async throws {
-//        @Dependency(Mailgun.Suppressions.Client.self) var client
+//        @Dependency(Mailgun.Suppressions.self) var suppressions
 //
 //        let Allowlist = try await client.Allowlist.get("example.com")
 //
@@ -58,7 +58,7 @@
 //        "Should successfully import Allowlist"
 //    )
 //    func testImportAllowlist() async throws {
-//        @Dependency(Mailgun.Suppressions.Client.self) var client
+//        @Dependency(Mailgun.Suppressions.self) var suppressions
 //
 //        let csvContent = """
 //        address,domain
@@ -67,14 +67,14 @@
 //        """
 //        let testData = Data(csvContent.utf8)
 //
-//        let response = try await client.Allowlist.importList(testData)
+//        let response = try await suppressions.client.Allowlist.importList(testData)
 //
 //        #expect(response.message == "file uploaded successfully for processing. standby...")
 //    }
 //
 //    @Test("Should successfully list Allowlist records")
 //    func testListAllowlistRecords() async throws {
-//        @Dependency(Mailgun.Suppressions.Client.self) var client
+//        @Dependency(Mailgun.Suppressions.self) var suppressions
 //
 //        let request = Mailgun.Suppressions.Allowlist.List.Request(
 //            address: try .init("test@example.com"),
@@ -83,7 +83,7 @@
 //            page: nil
 //        )
 //
-//        let response = try await client.Allowlist.list(request)
+//        let response = try await suppressions.client.Allowlist.list(request)
 //
 //        #expect(!response.items.isEmpty)
 //        #expect(!response.paging.first.isEmpty)
@@ -92,9 +92,9 @@
 //
 //    @Test("Should successfully delete Allowlist record")
 //    func testDeleteAllowlistRecord() async throws {
-//        @Dependency(Mailgun.Suppressions.Client.self) var client
+//        @Dependency(Mailgun.Suppressions.self) var suppressions
 //
-//        let response = try await client.Allowlist.delete("example.com")
+//        let response = try await suppressions.client.Allowlist.delete("example.com")
 //
 //        #expect(response.message == "Allowlist address/domain has been removed")
 //        #expect(response.value == "example.com")
@@ -102,9 +102,9 @@
 //
 //    @Test("Should successfully delete all Allowlist records")
 //    func testDeleteAllAllowlistRecords() async throws {
-//        @Dependency(Mailgun.Suppressions.Client.self) var client
+//        @Dependency(Mailgun.Suppressions.self) var suppressions
 //
-//        let response = try await client.Allowlist.deleteAll()
+//        let response = try await suppressions.client.Allowlist.deleteAll()
 //
 //        #expect(response.message == "Allowlist addresses/domains for this domain have been removed")
 //    }

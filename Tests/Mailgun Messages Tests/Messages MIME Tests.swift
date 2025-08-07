@@ -18,7 +18,7 @@ struct MessagesMIMETests {
 
     @Test("Send MIME email with basic content")
     func testSendBasicMimeEmail() async throws {
-        @Dependency(Mailgun.Messages.Client.self) var client
+        @Dependency(Mailgun.Messages.self) var messages
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
 
@@ -38,7 +38,7 @@ struct MessagesMIMETests {
             testMode: true
         )
 
-        let response = try await client.sendMime(request)
+        let response = try await messages.client.sendMime(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
@@ -46,7 +46,7 @@ struct MessagesMIMETests {
 
     @Test("Send multipart MIME email")
     func testSendMultipartMimeEmail() async throws {
-        @Dependency(Mailgun.Messages.Client.self) var client
+        @Dependency(Mailgun.Messages.self) var messages
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
 
@@ -82,7 +82,7 @@ struct MessagesMIMETests {
             testMode: true
         )
 
-        let response = try await client.sendMime(request)
+        let response = try await messages.client.sendMime(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
@@ -90,7 +90,7 @@ struct MessagesMIMETests {
 
     @Test("Send MIME email with custom headers")
     func testSendMimeWithCustomHeaders() async throws {
-        @Dependency(Mailgun.Messages.Client.self) var client
+        @Dependency(Mailgun.Messages.self) var messages
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
 
@@ -117,7 +117,7 @@ struct MessagesMIMETests {
             ]
         )
 
-        let response = try await client.sendMime(request)
+        let response = try await messages.client.sendMime(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
@@ -125,7 +125,7 @@ struct MessagesMIMETests {
 
     @Test("Send MIME email with tags")
     func testSendMimeWithTags() async throws {
-        @Dependency(Mailgun.Messages.Client.self) var client
+        @Dependency(Mailgun.Messages.self) var messages
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
 
@@ -146,7 +146,7 @@ struct MessagesMIMETests {
             testMode: true
         )
 
-        let response = try await client.sendMime(request)
+        let response = try await messages.client.sendMime(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
@@ -154,7 +154,7 @@ struct MessagesMIMETests {
 
     @Test("Send MIME email with tracking options")
     func testSendMimeWithTracking() async throws {
-        @Dependency(Mailgun.Messages.Client.self) var client
+        @Dependency(Mailgun.Messages.self) var messages
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
 
@@ -182,7 +182,7 @@ struct MessagesMIMETests {
             trackingOpens: true
         )
 
-        let response = try await client.sendMime(request)
+        let response = try await messages.client.sendMime(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
@@ -190,7 +190,7 @@ struct MessagesMIMETests {
 
     @Test("Send MIME email with DKIM options")
     func testSendMimeWithDkim() async throws {
-        @Dependency(Mailgun.Messages.Client.self) var client
+        @Dependency(Mailgun.Messages.self) var messages
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
 
@@ -211,7 +211,7 @@ struct MessagesMIMETests {
             testMode: true
         )
 
-        let response = try await client.sendMime(request)
+        let response = try await messages.client.sendMime(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
@@ -219,7 +219,7 @@ struct MessagesMIMETests {
 
     @Test("Send scheduled MIME email")
     func testSendScheduledMime() async throws {
-        @Dependency(Mailgun.Messages.Client.self) var client
+        @Dependency(Mailgun.Messages.self) var messages
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
 
@@ -242,7 +242,7 @@ struct MessagesMIMETests {
             testMode: true
         )
 
-        let response = try await client.sendMime(request)
+        let response = try await messages.client.sendMime(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
@@ -250,7 +250,7 @@ struct MessagesMIMETests {
 
     @Test("Send MIME with TLS requirements")
     func testSendMimeWithTls() async throws {
-        @Dependency(Mailgun.Messages.Client.self) var client
+        @Dependency(Mailgun.Messages.self) var messages
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
 
@@ -272,7 +272,7 @@ struct MessagesMIMETests {
             skipVerification: false
         )
 
-        let response = try await client.sendMime(request)
+        let response = try await messages.client.sendMime(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
@@ -280,7 +280,7 @@ struct MessagesMIMETests {
 
     @Test("Send MIME with recipient variables")
     func testSendMimeWithRecipientVariables() async throws {
-        @Dependency(Mailgun.Messages.Client.self) var client
+        @Dependency(Mailgun.Messages.self) var messages
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
 
@@ -310,7 +310,7 @@ struct MessagesMIMETests {
             recipientVariables: recipientVariables
         )
 
-        let response = try await client.sendMime(request)
+        let response = try await messages.client.sendMime(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
@@ -318,7 +318,7 @@ struct MessagesMIMETests {
 
     @Test("Send MIME with base64 encoded content")
     func testSendMimeWithBase64Content() async throws {
-        @Dependency(Mailgun.Messages.Client.self) var client
+        @Dependency(Mailgun.Messages.self) var messages
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
 
@@ -342,7 +342,7 @@ struct MessagesMIMETests {
             testMode: true
         )
 
-        let response = try await client.sendMime(request)
+        let response = try await messages.client.sendMime(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))

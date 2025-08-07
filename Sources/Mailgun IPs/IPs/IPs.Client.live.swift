@@ -99,17 +99,17 @@ extension Mailgun.IPs.Client {
     }
 }
 
-extension Mailgun.IPs.Client {
-    public typealias Authenticated = Mailgun_Shared.AuthenticatedClient<
+extension Mailgun.IPs {
+    public typealias Authenticated = Mailgun_Shared.Authenticated<
         Mailgun.IPs.API,
         Mailgun.IPs.API.Router,
         Mailgun.IPs.Client
     >
 }
 
-extension Mailgun.IPs.Client: @retroactive DependencyKey {
-    public static var liveValue: Mailgun.IPs.Client.Authenticated {
-        try! Mailgun.IPs.Client.Authenticated { .live(makeRequest: $0) }
+extension Mailgun.IPs: @retroactive DependencyKey {
+    public static var liveValue: Mailgun.IPs.Authenticated {
+        try! Mailgun.IPs.Authenticated { .live(makeRequest: $0) }
     }
 }
 

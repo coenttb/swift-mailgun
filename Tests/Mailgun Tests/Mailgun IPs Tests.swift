@@ -10,7 +10,7 @@ import Testing
 //    .serialized
 // )
 // struct MailgunIPsTests {
-//    @Dependency(Mailgun.IPs.Client.self) var client
+//    @Dependency(Mailgun.IPs.self) var ips
 //    @Dependency(\.envVars.mailgunDomain) var domain
 //    
 //    @Test("Should successfully list all IPs")

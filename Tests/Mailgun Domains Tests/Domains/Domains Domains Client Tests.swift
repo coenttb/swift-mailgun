@@ -19,7 +19,7 @@ import TypesFoundation
     .serialized
 )
 struct DomainsDomainsClientTests {
-    @Dependency(Mailgun.Domains.Domains.Client.self) var client
+    @Dependency(Mailgun.Domains.Domains.self) var domainsDomains
     @Dependency(\.envVars.mailgunDomain) var domain
 
     @Test("Should successfully list domains")
@@ -31,7 +31,7 @@ struct DomainsDomainsClientTests {
             skip: 0
         )
 
-        let response = try await client.list(request)
+        let response = try await domainsDomains.client.list(request)
 
         // Verify response structure
         #expect(!response.items.isEmpty || response.items.isEmpty)
@@ -50,7 +50,7 @@ struct DomainsDomainsClientTests {
 
     @Test("Should successfully get a specific domain")
     func testGetDomain() async throws {
-        let response = try await client.get(domain)
+        let response = try await domainsDomains.client.get(domain)
 
         // Verify domain details
         #expect(response.domain.name == domain.description)
@@ -77,7 +77,7 @@ struct DomainsDomainsClientTests {
     @Test("Should successfully verify a domain")
     func testVerifyDomain() async throws {
         do {
-            let response = try await client.verify(domain)
+            let response = try await domainsDomains.client.verify(domain)
 
             #expect(response.domain.name == domain.description)
             #expect(!response.message.isEmpty)
@@ -110,7 +110,7 @@ struct DomainsDomainsClientTests {
     @Test("Should successfully update domain settings")
     func testUpdateDomain() async throws {
         // First get current settings
-        let currentDomain = try await client.get(domain)
+        let currentDomain = try await domainsDomains.client.get(domain)
         let currentSpamAction = currentDomain.domain.spamAction
 
         // Try to update with a different spam action
@@ -124,7 +124,7 @@ struct DomainsDomainsClientTests {
         )
 
         do {
-            let response = try await client.update(domain, updateRequest)
+            let response = try await domainsDomains.client.update(domain, updateRequest)
 
             #expect(response.domain.name == domain.description)
             #expect(!response.message.isEmpty)
@@ -137,7 +137,7 @@ struct DomainsDomainsClientTests {
                 webScheme: nil,
                 wildcard: nil
             )
-            _ = try await client.update(domain, restoreRequest)
+            _ = try await domainsDomains.client.update(domain, restoreRequest)
 
         } catch {
             // Handle cases where updates might not be allowed
@@ -160,7 +160,7 @@ struct DomainsDomainsClientTests {
             skip: 0
         )
 
-        let activeResponse = try await client.list(activeRequest)
+        let activeResponse = try await domainsDomains.client.list(activeRequest)
         #expect(!activeResponse.items.isEmpty || activeResponse.items.isEmpty)
 
         // All returned domains should be active
@@ -178,7 +178,7 @@ struct DomainsDomainsClientTests {
             skip: 0
         )
 
-        let unverifiedResponse = try await client.list(unverifiedRequest)
+        let unverifiedResponse = try await domainsDomains.client.list(unverifiedRequest)
         #expect(!unverifiedResponse.items.isEmpty || unverifiedResponse.items.isEmpty)
     }
 
@@ -192,7 +192,7 @@ struct DomainsDomainsClientTests {
             skip: 0
         )
 
-        let firstPageResponse = try await client.list(firstPageRequest)
+        let firstPageResponse = try await domainsDomains.client.list(firstPageRequest)
         #expect(!firstPageResponse.items.isEmpty || firstPageResponse.items.isEmpty)
 
         // Second page
@@ -203,7 +203,7 @@ struct DomainsDomainsClientTests {
             skip: 2
         )
 
-        let secondPageResponse = try await client.list(secondPageRequest)
+        let secondPageResponse = try await domainsDomains.client.list(secondPageRequest)
         #expect(!secondPageResponse.items.isEmpty || secondPageResponse.items.isEmpty)
 
         // If there are domains on both pages, they should be different

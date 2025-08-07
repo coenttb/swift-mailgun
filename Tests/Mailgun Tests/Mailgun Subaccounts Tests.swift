@@ -10,7 +10,7 @@ import Testing
 //    .serialized
 // )
 // struct MailgunSubaccountsTests {
-//    @Dependency(Mailgun.Subaccounts.Client.self) var client
+//    @Dependency(Mailgun.Subaccounts.self) var subaccounts
 //    
 //    @Test("Should successfully list subaccounts")
 //    func testListSubaccounts() async throws {

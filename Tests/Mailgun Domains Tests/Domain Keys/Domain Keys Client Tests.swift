@@ -18,7 +18,7 @@ import Testing
     .serialized
 )
 struct DomainKeysClientTests {
-    @Dependency(Mailgun.Domains.DomainKeys.Client.self) var client
+    @Dependency(Mailgun.Domains.DomainKeys.self) var domainKeys
     @Dependency(\.envVars.mailgunDomain) var domain
 
     @Test("Should successfully list domain keys")
@@ -31,7 +31,7 @@ struct DomainKeysClientTests {
         )
 
         do {
-            let response = try await client.list(request)
+            let response = try await domainKeys.client.list(request)
 
             // Verify response structure
             #expect(!response.items.isEmpty || response.items.isEmpty)
@@ -63,7 +63,7 @@ struct DomainKeysClientTests {
         )
 
         do {
-            let response = try await client.list(request)
+            let response = try await domainKeys.client.list(request)
 
             #expect(!response.items.isEmpty || response.items.isEmpty)
 
@@ -98,7 +98,7 @@ struct DomainKeysClientTests {
 
         do {
             // Create the key
-            let createResponse = try await client.create(createRequest)
+            let createResponse = try await domainKeys.client.create(createRequest)
             #expect(createResponse.message != nil || createResponse.signingDomain != nil)
 
             // Delete the key
@@ -107,7 +107,7 @@ struct DomainKeysClientTests {
                 selector: testSelector
             )
 
-            let deleteResponse = try await client.delete(deleteRequest)
+            let deleteResponse = try await domainKeys.client.delete(deleteRequest)
             #expect(!deleteResponse.message.isEmpty)
 
         } catch {
@@ -126,7 +126,7 @@ struct DomainKeysClientTests {
     @Test("Should list domain keys for a specific authority")
     func testListDomainKeysForAuthority() async throws {
         do {
-            let response = try await client.listDomainKeys(domain.description)
+            let response = try await domainKeys.client.listDomainKeys(domain.description)
 
             #expect(!response.items.isEmpty || response.items.isEmpty)
 
@@ -156,11 +156,11 @@ struct DomainKeysClientTests {
 
         do {
             // Try to activate
-            let activateResponse = try await client.activate(domain.description, testSelector)
+            let activateResponse = try await domainKeys.client.activate(domain.description, testSelector)
             #expect(!activateResponse.message.isEmpty)
 
             // Try to deactivate
-            let deactivateResponse = try await client.deactivate(domain.description, testSelector)
+            let deactivateResponse = try await domainKeys.client.deactivate(domain.description, testSelector)
             #expect(!deactivateResponse.message.isEmpty)
 
         } catch {
@@ -182,7 +182,7 @@ struct DomainKeysClientTests {
         )
 
         do {
-            let response = try await client.setDkimAuthority(domain.description, request)
+            let response = try await domainKeys.client.setDkimAuthority(domain.description, request)
             #expect(!response.message.isEmpty)
         } catch {
             // Handle cases where this operation might not be available
@@ -205,7 +205,7 @@ struct DomainKeysClientTests {
         )
 
         do {
-            let response = try await client.setDkimSelector(domain.description, request)
+            let response = try await domainKeys.client.setDkimSelector(domain.description, request)
             #expect(!response.message.isEmpty)
         } catch {
             // Handle cases where this operation might not be available

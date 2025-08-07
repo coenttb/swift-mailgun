@@ -85,17 +85,17 @@ extension Mailgun.Subaccounts.Client {
     }
 }
 
-extension Mailgun.Subaccounts.Client {
-    public typealias Authenticated = Mailgun_Shared.AuthenticatedClient<
+extension Mailgun.Subaccounts {
+    public typealias Authenticated = Mailgun_Shared.Authenticated<
         Mailgun.Subaccounts.API,
         Mailgun.Subaccounts.API.Router,
         Mailgun.Subaccounts.Client
     >
 }
 
-extension Mailgun.Subaccounts.Client: @retroactive DependencyKey {
-    public static var liveValue: Mailgun.Subaccounts.Client.Authenticated {
-        try! Mailgun.Subaccounts.Client.Authenticated { .live(makeRequest: $0) }
+extension Mailgun.Subaccounts: @retroactive DependencyKey {
+    public static var liveValue: Mailgun.Subaccounts.Authenticated {
+        try! Mailgun.Subaccounts.Authenticated { .live(makeRequest: $0) }
     }
 }
 

@@ -18,7 +18,7 @@ import Testing
     .serialized
 )
 struct MailgunDynamicIPPoolsTests {
-    @Dependency(Mailgun.DynamicIPPools.Client.self) var client
+    @Dependency(Mailgun.DynamicIPPools.self) var dynamicIPPools
 
     @Test("Should successfully list dynamic IP pool history")
     func testListDynamicIPPoolHistory() async throws {
@@ -33,7 +33,7 @@ struct MailgunDynamicIPPoolsTests {
         )
 
         do {
-            let response = try await client.listHistory(request)
+            let response = try await dynamicIPPools.client.listHistory(request)
 
             // Check response structure
             #expect(response.items.isEmpty || !response.items.isEmpty)
@@ -102,7 +102,7 @@ struct MailgunDynamicIPPoolsTests {
         let testDomain = "test-override.example.com"
 
         do {
-            let response = try await client.removeOverride(testDomain)
+            let response = try await dynamicIPPools.client.removeOverride(testDomain)
 
             #expect(!response.message.isEmpty)
             #expect(response.message.contains("removed") || response.message.contains("success") || !response.message.isEmpty)
@@ -135,7 +135,7 @@ struct MailgunDynamicIPPoolsTests {
         )
 
         do {
-            let response = try await client.listHistory(request)
+            let response = try await dynamicIPPools.client.listHistory(request)
 
             // If there are enough records, pagination should be present
             if response.items.count >= 2 {
@@ -206,7 +206,7 @@ struct MailgunDynamicIPPoolsTests {
         )
 
         do {
-            let response = try await client.listHistory(request)
+            let response = try await dynamicIPPools.client.listHistory(request)
 
             // If there are results, they should all be for the specified domain
             for record in response.items {
@@ -278,7 +278,7 @@ struct MailgunDynamicIPPoolsTests {
         )
 
         do {
-            let response = try await client.listHistory(request)
+            let response = try await dynamicIPPools.client.listHistory(request)
 
             // Empty response is valid
             if response.items.isEmpty {

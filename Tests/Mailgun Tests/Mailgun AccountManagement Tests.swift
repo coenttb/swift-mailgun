@@ -10,7 +10,7 @@ import Testing
 //    .serialized
 // )
 // struct MailgunAccountManagementTests {
-//    @Dependency(Mailgun.AccountManagement.Client.self) var client
+//    @Dependency(Mailgun.AccountManagement.self) var accountManagement
 //    
 //    @Test("Should handle account update request")
 //    func testUpdateAccount() async throws {

@@ -22,7 +22,7 @@ struct MessagesIntegrationTests {
     func getAuthorizedRecipients() async throws -> [EmailAddress] {
         @Dependency(\.mailgun) var mailgun
 
-        let response = try await mailgun.accountManagement.getSandboxAuthRecipients()
+        let response = try await mailgun.client.accountManagement.getSandboxAuthRecipients()
 
         // Filter only activated recipients and convert to EmailAddress
         let recipients = try response.recipients
@@ -72,7 +72,7 @@ struct MessagesIntegrationTests {
             testMode: true
         )
 
-        let response = try await mailgun.messages.send(request)
+        let response = try await mailgun.client.messages.send(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
@@ -117,7 +117,7 @@ struct MessagesIntegrationTests {
             recipientVariables: recipientVariables
         )
 
-        let response = try await mailgun.messages.send(request)
+        let response = try await mailgun.client.messages.send(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
@@ -159,7 +159,7 @@ struct MessagesIntegrationTests {
             testMode: true
         )
 
-        let response = try await mailgun.messages.send(request)
+        let response = try await mailgun.client.messages.send(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
@@ -205,7 +205,7 @@ struct MessagesIntegrationTests {
             recipientVariables: recipientVariables
         )
 
-        let response = try await mailgun.messages.send(request)
+        let response = try await mailgun.client.messages.send(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
@@ -215,7 +215,7 @@ struct MessagesIntegrationTests {
     func testListAuthorizedRecipients() async throws {
         @Dependency(\.mailgun) var mailgun
 
-        let response = try await mailgun.accountManagement.getSandboxAuthRecipients()
+        let response = try await mailgun.client.accountManagement.getSandboxAuthRecipients()
 
         // Verify we have recipients
         #expect(!response.recipients.isEmpty)
@@ -262,7 +262,7 @@ struct MessagesIntegrationTests {
             testMode: true
         )
 
-        let response = try await mailgun.messages.sendMime(request)
+        let response = try await mailgun.client.messages.sendMime(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))

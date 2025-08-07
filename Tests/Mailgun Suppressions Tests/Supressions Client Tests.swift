@@ -17,13 +17,13 @@
 //    .serialized
 // )
 // struct MailgunSuppressionsClientTests {
-//    @Dependency(Mailgun.Suppressions.Client.self) var client
+//    @Dependency(Mailgun.Suppressions.self) var suppressions
 //    @Dependency(\.envVars.mailgunDomain) var domain
 //    
 //    @Test("Should successfully access bounces client")
 //    func testBouncesClientAccess() async throws {
 //        // Test that we can access the bounces subclient
-//        let bouncesClient = client.bounces
+//        let bouncesClient = suppressions.client.bounces
 //        
 //        // List bounces to verify the client works
 //        let request = Mailgun.Suppressions.Bounces.List.Request(limit: 10)

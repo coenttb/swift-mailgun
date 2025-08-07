@@ -10,7 +10,7 @@ import Testing
 //    .serialized
 // )
 // struct MailgunIPAllowlistTests {
-//    @Dependency(Mailgun.IPAllowlist.Client.self) var client
+//    @Dependency(Mailgun.IPAllowlist.self) var ipAllowlist
 //    
 //    @Test("Should successfully list IP allowlist entries")
 //    func testListIPAllowlist() async throws {

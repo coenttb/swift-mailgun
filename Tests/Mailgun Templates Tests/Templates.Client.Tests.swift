@@ -19,7 +19,7 @@
 // struct TemplatesClientTests {
 //    @Test("Should successfully create a template")
 //    func testCreateTemplate() async throws {
-//        @Dependency(Mailgun.Templates.Client.self) var client
+//        @Dependency(Mailgun.Templates.self) var templates
 //
 //        let request = Mailgun.Templates.Template.Create.Request(
 //            name: "Test Template",
@@ -30,7 +30,7 @@
 //            comment: "Initial version"
 //        )
 //
-//        let response = try await client.create(request)
+//        let response = try await templates.client.create(request)
 //
 //        if response.message != "Duplicate template" {
 //            #expect(response.template.name == request.name?.lowercased())
@@ -41,9 +41,9 @@
 //
 //    @Test("Should successfully list templates")
 //    func testListTemplates() async throws {
-//        @Dependency(Mailgun.Templates.Client.self) var client
+//        @Dependency(Mailgun.Templates.self) var templates
 //
-//        let response = try await client.list(.init())
+//        let response = try await templates.client.list(.init())
 //        #expect(response.items.count <= 10)
 //
 //        if let firstTemplate = response.items.first {
@@ -54,7 +54,7 @@
 //
 //    @Test("Should successfully get template")
 //    func testGetTemplate() async throws {
-//        @Dependency(Mailgun.Templates.Client.self) var client
+//        @Dependency(Mailgun.Templates.self) var templates
 //
 //        // First create a template to ensure we have one to get
 //        let createRequest = Mailgun.Templates.Template.Create.Request(
@@ -76,7 +76,7 @@
 //
 //    @Test("Should successfully update template")
 //    func testUpdateTemplate() async throws {
-//        @Dependency(Mailgun.Templates.Client.self) var client
+//        @Dependency(Mailgun.Templates.self) var templates
 //
 //        // First create a template to update
 //        let createRequest = Mailgun.Templates.Template.Create.Request(
@@ -103,7 +103,7 @@
 //
 //    @Test("Should successfully create and manage template versions")
 //    func testTemplateVersions() async throws {
-//        @Dependency(Mailgun.Templates.Client.self) var client
+//        @Dependency(Mailgun.Templates.self) var templates
 //
 //        // Create initial template
 //        let createRequest = Mailgun.Templates.Template.Create.Request(
@@ -142,7 +142,7 @@
 //
 //    @Test("Should successfully delete template")
 //    func testDeleteTemplate() async throws {
-//        @Dependency(Mailgun.Templates.Client.self) var client
+//        @Dependency(Mailgun.Templates.self) var templates
 //
 //        // First create a template to delete
 //        let createRequest = Mailgun.Templates.Template.Create.Request(
@@ -163,7 +163,7 @@
 //
 //    @Test("Should successfully copy template version")
 //    func testCopyTemplateVersion() async throws {
-//        @Dependency(Mailgun.Templates.Client.self) var client
+//        @Dependency(Mailgun.Templates.self) var templates
 //
 //        // First create a template with initial version
 //        let createRequest = Mailgun.Templates.Template.Create.Request(
@@ -196,7 +196,7 @@
 //
 //    @Test("Should successfully delete all templates")
 //    func testDeleteAllTemplates() async throws {
-//        @Dependency(Mailgun.Templates.Client.self) var client
+//        @Dependency(Mailgun.Templates.self) var templates
 //
 //        let deleteResponse = try await client.deleteAll()
 //        #expect(deleteResponse.message.contains("deleted"))

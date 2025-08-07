@@ -18,12 +18,12 @@ import Testing
     .serialized
 )
 struct MailgunIPsTests {
-    @Dependency(Mailgun.IPs.Client.self) var client
+    @Dependency(Mailgun.IPs.self) var ips
 
     @Test("Should successfully list IPs")
     func testListIPs() async throws {
         do {
-            let response = try await client.list()
+            let response = try await ips.client.list()
 
             // Check response structure
             #expect(response.items.isEmpty || !response.items.isEmpty)
@@ -63,11 +63,11 @@ struct MailgunIPsTests {
     func testGetSpecificIP() async throws {
         do {
             // First list IPs to get a valid IP address
-            let listResponse = try await client.list()
+            let listResponse = try await ips.client.list()
 
             if let details = listResponse.details, let firstIP = details.first {
                 // Get specific IP details
-                let ipDetails = try await client.get(firstIP.ip)
+                let ipDetails = try await ips.client.get(firstIP.ip)
 
                 #expect(ipDetails.ip == firstIP.ip)
                 #expect(ipDetails.dedicated == firstIP.dedicated)
@@ -97,11 +97,11 @@ struct MailgunIPsTests {
     func testListDomainsForIP() async throws {
         do {
             // First list IPs to get a valid IP address
-            let listResponse = try await client.list()
+            let listResponse = try await ips.client.list()
 
             if let details = listResponse.details, let firstIP = details.first {
                 // List domains for this IP
-                let domainsResponse = try await client.listDomains(firstIP.ip)
+                let domainsResponse = try await ips.client.listDomains(firstIP.ip)
 
                 #expect(domainsResponse.items.isEmpty || !domainsResponse.items.isEmpty)
                 #expect(domainsResponse.totalCount >= 0)
@@ -169,7 +169,7 @@ struct MailgunIPsTests {
     @Test("Should check requested IPs status")
     func testGetRequestedIPsStatus() async throws {
         do {
-            let response = try await client.getRequestedIPs()
+            let response = try await ips.client.getRequestedIPs()
 
             // Check for either requested count or allowed limits
             if let requested = response.requested {
@@ -237,12 +237,12 @@ struct MailgunIPsTests {
     .serialized
 )
 struct MailgunIPAddressWarmupTests {
-    @Dependency(Mailgun.IPAddressWarmup.Client.self) var client
+    @Dependency(Mailgun.IPAddressWarmup.self) var ipAddressWarmup
 
     @Test("Should successfully list IP warmups")
     func testListIPWarmups() async throws {
         do {
-            let response = try await client.list()
+            let response = try await ipAddressWarmup.client.list()
 
             // Check response structure
             #expect(response.items.isEmpty || !response.items.isEmpty)
@@ -288,11 +288,11 @@ struct MailgunIPAddressWarmupTests {
     func testGetSpecificIPWarmup() async throws {
         do {
             // First list warmups to get a valid IP
-            let listResponse = try await client.list()
+            let listResponse = try await ipAddressWarmup.client.list()
 
             if let firstWarmup = listResponse.items.first {
                 // Get specific warmup details
-                let warmupDetails = try await client.get(firstWarmup.ip)
+                let warmupDetails = try await ipAddressWarmup.client.get(firstWarmup.ip)
 
                 #expect(warmupDetails.ip == firstWarmup.ip)
                 #expect(warmupDetails.enabled == firstWarmup.enabled)

@@ -18,7 +18,7 @@ import Testing
     .serialized
 )
 struct DKIMSecurityClientTests {
-    @Dependency(Mailgun.Domains.DKIM_Security.Client.self) var client
+    @Dependency(Mailgun.Domains.DKIM_Security.self) var dkimSecurity
     @Dependency(\.envVars.mailgunDomain) var domain
 
     @Test("Should successfully update DKIM rotation settings")
@@ -29,7 +29,7 @@ struct DKIMSecurityClientTests {
         )
 
         do {
-            let response = try await client.updateRotation(domain, request)
+            let response = try await dkimSecurity.client.updateRotation(domain, request)
 
             #expect(!response.message.isEmpty)
             #expect(response.message.contains("updated") || response.message.contains("success"))
@@ -54,7 +54,7 @@ struct DKIMSecurityClientTests {
         )
 
         do {
-            let response = try await client.updateRotation(domain, request)
+            let response = try await dkimSecurity.client.updateRotation(domain, request)
 
             #expect(!response.message.isEmpty)
             #expect(response.message.contains("updated") || response.message.contains("disabled") || response.message.contains("success"))
@@ -74,7 +74,7 @@ struct DKIMSecurityClientTests {
     @Test("Should handle manual DKIM rotation")
     func testManualDKIMRotation() async throws {
         do {
-            let response = try await client.rotateManually(domain)
+            let response = try await dkimSecurity.client.rotateManually(domain)
 
             #expect(!response.message.isEmpty)
             #expect(response.message.contains("rotated") || response.message.contains("success"))

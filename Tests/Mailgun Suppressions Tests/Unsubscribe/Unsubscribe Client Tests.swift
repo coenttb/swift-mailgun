@@ -14,10 +14,10 @@ import EmailAddress
 struct UnsubscribeClientTests {
     @Test("Should successfully list unsubscribe records")
     func testListUnsubscribeRecords() async throws {
-        @Dependency(Mailgun.Suppressions.Unsubscribe.Client.self) var client
+        @Dependency(Mailgun.Suppressions.Unsubscribe.self) var unsubscribe
         
         // List without filters
-        let response = try await client.list(nil)
+        let response = try await unsubscribe.client.list(nil)
         
         // Verify response structure
         #expect(response.items.count >= 0)
@@ -27,13 +27,13 @@ struct UnsubscribeClientTests {
     
     @Test("Should successfully list with filters")
     func testListWithFilters() async throws {
-        @Dependency(Mailgun.Suppressions.Unsubscribe.Client.self) var client
+        @Dependency(Mailgun.Suppressions.Unsubscribe.self) var unsubscribe
         
         let request = Mailgun.Suppressions.Unsubscribe.List.Request(
             limit: 10
         )
         
-        let response = try await client.list(request)
+        let response = try await unsubscribe.client.list(request)
         
         #expect(response.items.count <= 10)
         #expect(!response.paging.first.isEmpty)
@@ -41,7 +41,7 @@ struct UnsubscribeClientTests {
     
     @Test("Should successfully create single unsubscribe record")
     func testCreateSingleUnsubscribeRecord() async throws {
-        @Dependency(Mailgun.Suppressions.Unsubscribe.Client.self) var client
+        @Dependency(Mailgun.Suppressions.Unsubscribe.self) var unsubscribe
         
         let testEmail = "test-\(UUID().uuidString)@example.com"
         
@@ -51,11 +51,11 @@ struct UnsubscribeClientTests {
         )
         
         do {
-            let response = try await client.create(request)
+            let response = try await unsubscribe.client.create(request)
             #expect(response.message.contains("added") || response.message.contains("Address"))
             
             // Clean up
-            _ = try? await client.delete(try EmailAddress(testEmail))
+            _ = try? await unsubscribe.client.delete(try EmailAddress(testEmail))
         } catch {
             // Handle case where address might already exist
             let errorMessage = "\(error)".lowercased()
@@ -69,7 +69,7 @@ struct UnsubscribeClientTests {
     
     @Test("Should successfully create batch unsubscribe records")
     func testCreateBatchUnsubscribeRecords() async throws {
-        @Dependency(Mailgun.Suppressions.Unsubscribe.Client.self) var client
+        @Dependency(Mailgun.Suppressions.Unsubscribe.self) var unsubscribe
         
         let uuid = UUID().uuidString
         let testEmails = [
@@ -88,7 +88,7 @@ struct UnsubscribeClientTests {
                 tags: ["batch-test"]
             )
             do {
-                _ = try await client.create(request)
+                _ = try await unsubscribe.client.create(request)
                 createdCount += 1
             } catch {
                 // Some might fail if they already exist
@@ -99,13 +99,13 @@ struct UnsubscribeClientTests {
         
         // Clean up
         for email in testEmails {
-            _ = try? await client.delete(try EmailAddress(email))
+            _ = try? await unsubscribe.client.delete(try EmailAddress(email))
         }
     }
     
     @Test("Should successfully get unsubscribe record")
     func testGetUnsubscribeRecord() async throws {
-        @Dependency(Mailgun.Suppressions.Unsubscribe.Client.self) var client
+        @Dependency(Mailgun.Suppressions.Unsubscribe.self) var unsubscribe
         
         // First create a record to get
         let testEmail = "get-test-\(UUID().uuidString)@example.com"
@@ -116,16 +116,16 @@ struct UnsubscribeClientTests {
         
         do {
             // Create the record
-            _ = try await client.create(createRequest)
+            _ = try await unsubscribe.client.create(createRequest)
             
             // Get the record
-            let response = try await client.get(try .init(testEmail))
+            let response = try await unsubscribe.client.get(try .init(testEmail))
             
             #expect(response.address.rawValue.lowercased() == testEmail.lowercased())
             #expect(!response.createdAt.isEmpty)
             
             // Clean up
-            _ = try? await client.delete(try EmailAddress(testEmail))
+            _ = try? await unsubscribe.client.delete(try EmailAddress(testEmail))
         } catch {
             // Handle case where record doesn't exist
             let errorMessage = "\(error)".lowercased()
@@ -139,7 +139,7 @@ struct UnsubscribeClientTests {
     
     @Test("Should successfully delete unsubscribe record")
     func testDeleteUnsubscribeRecord() async throws {
-        @Dependency(Mailgun.Suppressions.Unsubscribe.Client.self) var client
+        @Dependency(Mailgun.Suppressions.Unsubscribe.self) var unsubscribe
         
         // First create a record to delete
         let testEmail = "delete-test-\(UUID().uuidString)@example.com"
@@ -150,10 +150,10 @@ struct UnsubscribeClientTests {
         
         do {
             // Create the record
-            _ = try await client.create(createRequest)
+            _ = try await unsubscribe.client.create(createRequest)
             
             // Delete the record
-            let response = try await client.delete(try .init(testEmail))
+            let response = try await unsubscribe.client.delete(try .init(testEmail))
             
             #expect(response.message.contains("removed") || response.message.contains("Unsubscribe"))
             #expect(response.address.rawValue.lowercased() == testEmail.lowercased())
@@ -170,7 +170,7 @@ struct UnsubscribeClientTests {
     
     @Test("Should handle pagination in list")
     func testListPagination() async throws {
-        @Dependency(Mailgun.Suppressions.Unsubscribe.Client.self) var client
+        @Dependency(Mailgun.Suppressions.Unsubscribe.self) var unsubscribe
         
         do {
             // First page
@@ -178,7 +178,7 @@ struct UnsubscribeClientTests {
                 limit: 5
             )
             
-            let firstPage = try await client.list(firstPageRequest)
+            let firstPage = try await unsubscribe.client.list(firstPageRequest)
             
             #expect(firstPage.items.count <= 5)
             #expect(!firstPage.paging.first.isEmpty)
@@ -195,7 +195,7 @@ struct UnsubscribeClientTests {
                     page: "next"  // Direction relative to the address
                 )
                 
-                let secondPage = try await client.list(secondPageRequest)
+                let secondPage = try await unsubscribe.client.list(secondPageRequest)
                 
                 #expect(secondPage.items.count <= 5)
                 
@@ -220,7 +220,7 @@ struct UnsubscribeClientTests {
     
     @Test("Should successfully import CSV unsubscribe list")
     func testImportUnsubscribeList() async throws {
-        @Dependency(Mailgun.Suppressions.Unsubscribe.Client.self) var client
+        @Dependency(Mailgun.Suppressions.Unsubscribe.self) var unsubscribe
         
         let uuid = UUID().uuidString
         let csvContent = """
@@ -231,16 +231,16 @@ struct UnsubscribeClientTests {
         """
         
         do {
-            let response = try await client.importList(Data(csvContent.utf8))
+            let response = try await unsubscribe.client.importList(Data(csvContent.utf8))
             
             #expect(response.message.contains("uploaded") || response.message.contains("processing"))
             
             // Clean up imported addresses after processing
             // Note: Import is async, so cleanup might need to wait
             try await Task.sleep(for: .seconds(2))
-            _ = try? await client.delete(try EmailAddress("import1-\(uuid)@example.com"))
-            _ = try? await client.delete(try EmailAddress("import2-\(uuid)@example.com"))
-            _ = try? await client.delete(try EmailAddress("import3-\(uuid)@example.com"))
+            _ = try? await unsubscribe.client.delete(try EmailAddress("import1-\(uuid)@example.com"))
+            _ = try? await unsubscribe.client.delete(try EmailAddress("import2-\(uuid)@example.com"))
+            _ = try? await unsubscribe.client.delete(try EmailAddress("import3-\(uuid)@example.com"))
         } catch {
             // Handle API limitations
             let errorMessage = "\(error)".lowercased()
@@ -254,12 +254,12 @@ struct UnsubscribeClientTests {
     
     @Test("Should handle non-existent address gracefully")
     func testNonExistentAddress() async throws {
-        @Dependency(Mailgun.Suppressions.Unsubscribe.Client.self) var client
+        @Dependency(Mailgun.Suppressions.Unsubscribe.self) var unsubscribe
         
         let nonExistentEmail = "nonexistent-\(UUID().uuidString)@example.com"
         
         do {
-            _ = try await client.get(try EmailAddress(nonExistentEmail))
+            _ = try await unsubscribe.client.get(try EmailAddress(nonExistentEmail))
             #expect(Bool(false), "Should have thrown an error for non-existent address")
         } catch {
             let errorMessage = "\(error)".lowercased()
@@ -269,13 +269,13 @@ struct UnsubscribeClientTests {
     
     @Test("Should handle term-based search")
     func testTermBasedSearch() async throws {
-        @Dependency(Mailgun.Suppressions.Unsubscribe.Client.self) var client
+        @Dependency(Mailgun.Suppressions.Unsubscribe.self) var unsubscribe
         
         let request = Mailgun.Suppressions.Unsubscribe.List.Request(
             term: "test"
         )
         
-        let response = try await client.list(request)
+        let response = try await unsubscribe.client.list(request)
         
         // Verify we got results (or empty if no matches)
         #expect(response.items.count >= 0)
@@ -292,12 +292,12 @@ struct UnsubscribeClientTests {
     
     @Test("Should NOT delete all unsubscribes without confirmation", .disabled("Dangerous operation - only run manually"))
     func testDeleteAllUnsubscribeRecords() async throws {
-        @Dependency(Mailgun.Suppressions.Unsubscribe.Client.self) var client
+        @Dependency(Mailgun.Suppressions.Unsubscribe.self) var unsubscribe
         
         // This is a dangerous operation - disabled by default
         // Only run this test manually when you're sure you want to clear all unsubscribes
         
-        let response = try await client.deleteAll()
+        let response = try await unsubscribe.client.deleteAll()
         
         #expect(response.message.contains("removed") || response.message.contains("Unsubscribe"))
     }

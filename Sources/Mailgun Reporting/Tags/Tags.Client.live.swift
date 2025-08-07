@@ -75,17 +75,17 @@ extension Mailgun.Reporting.Tags.Client {
     }
 }
 
-extension Mailgun.Reporting.Tags.Client {
-    public typealias Authenticated = Mailgun_Shared.AuthenticatedClient<
+extension Mailgun.Reporting.Tags {
+    public typealias Authenticated = Mailgun_Shared.Authenticated<
         Mailgun.Reporting.Tags.API,
         Mailgun.Reporting.Tags.API.Router,
         Mailgun.Reporting.Tags.Client
     >
 }
 
-extension Mailgun.Reporting.Tags.Client: @retroactive DependencyKey {
-    public static var liveValue: Mailgun.Reporting.Tags.Client.Authenticated {
-        try! Mailgun.Reporting.Tags.Client.Authenticated { .live(makeRequest: $0) }
+extension Mailgun.Reporting.Tags: @retroactive DependencyKey {
+    public static var liveValue: Mailgun.Reporting.Tags.Authenticated {
+        try! Mailgun.Reporting.Tags.Authenticated { .live(makeRequest: $0) }
     }
 }
 

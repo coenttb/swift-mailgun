@@ -17,12 +17,12 @@ import Testing
     .serialized
 )
 struct MailgunCredentialsTests {
-    @Dependency(Mailgun.Credentials.Client.self) var client
+    @Dependency(Mailgun.Credentials.self) var credentials
     @Dependency(\.envVars.mailgunDomain) var domain
 
     @Test("Should successfully list credentials")
     func testListCredentials() async throws {
-        let response = try await client.list(domain, nil)
+        let response = try await credentials.client.list(domain, nil)
 
         // The response contains an array of credentials
         #expect(response.totalCount >= 0)
@@ -44,11 +44,11 @@ struct MailgunCredentialsTests {
             password: testPassword
         )
 
-        let createResponse = try await client.create(domain, createRequest)
+        let createResponse = try await credentials.client.create(domain, createRequest)
         #expect(createResponse.message.contains("Created") || createResponse.message.contains("added"))
 
         // Verify it was created by listing
-        let listResponse = try await client.list(domain, nil)
+        let listResponse = try await credentials.client.list(domain, nil)
 
         // The API appends the domain to the login
         let expectedLogin = "\(testLogin)@\(domain)"
@@ -56,7 +56,7 @@ struct MailgunCredentialsTests {
         #expect(createdCredential != nil)
 
         // Clean up - delete the credential (use the full login with domain)
-        let deleteResponse = try await client.delete(domain, expectedLogin)
+        let deleteResponse = try await credentials.client.delete(domain, expectedLogin)
         #expect(deleteResponse.message.contains("Deleted") || deleteResponse.message.contains("deleted"))
     }
 
@@ -72,7 +72,7 @@ struct MailgunCredentialsTests {
             password: initialPassword
         )
 
-        let createResponse = try await client.create(domain, createRequest)
+        let createResponse = try await credentials.client.create(domain, createRequest)
         #expect(createResponse.message.contains("Created") || createResponse.message.contains("added"))
 
         // The API appends the domain to the login
@@ -83,11 +83,11 @@ struct MailgunCredentialsTests {
             password: newPassword
         )
 
-        let updateResponse = try await client.update(domain, fullLogin, updateRequest)
+        let updateResponse = try await credentials.client.update(domain, fullLogin, updateRequest)
         #expect(updateResponse.message.contains("Updated") || updateResponse.message.contains("changed") || updateResponse.message.contains("Password"))
 
         // Clean up
-        _ = try await client.delete(domain, fullLogin)
+        _ = try await credentials.client.delete(domain, fullLogin)
     }
 
     @Test("Should handle mailbox update")
@@ -101,7 +101,7 @@ struct MailgunCredentialsTests {
             password: testPassword
         )
 
-        let createResponse = try await client.create(domain, createRequest)
+        let createResponse = try await credentials.client.create(domain, createRequest)
         #expect(createResponse.message.contains("Created") || createResponse.message.contains("added"))
 
         // The API appends the domain to the login
@@ -113,7 +113,7 @@ struct MailgunCredentialsTests {
         )
 
         do {
-            let updateResponse = try await client.updateMailbox(domain, fullLogin, mailboxUpdateRequest)
+            let updateResponse = try await credentials.client.updateMailbox(domain, fullLogin, mailboxUpdateRequest)
             #expect(updateResponse.message.contains("Updated") || updateResponse.message.contains("modified") || updateResponse.message.contains("Password"))
         } catch {
             // Some accounts may not support mailbox updates
@@ -121,7 +121,7 @@ struct MailgunCredentialsTests {
         }
 
         // Clean up
-        _ = try await client.delete(domain, fullLogin)
+        _ = try await credentials.client.delete(domain, fullLogin)
     }
 
     @Test("Should handle delete all credentials")
@@ -135,15 +135,15 @@ struct MailgunCredentialsTests {
          login: "bulktest\(i)",
          password: "BulkPassword\(i)!"
          )
-         _ = try await client.create(domain, createRequest)
+         _ = try await credentials.client.create(domain, createRequest)
          }
          
          // Delete all credentials
-         let deleteResponse = try await client.deleteAll(domain)
+         let deleteResponse = try await credentials.client.deleteAll(domain)
          #expect(deleteResponse.message.contains("Deleted") || deleteResponse.message.contains("removed"))
          
          // Verify all are deleted
-         let listResponse = try await client.list(domain)
+         let listResponse = try await credentials.client.list(domain)
          #expect(listResponse.totalCount == 0)
          */
 
@@ -162,12 +162,12 @@ struct MailgunCredentialsTests {
         )
 
         do {
-            let createResponse = try await client.create(domain, createRequest)
+            let createResponse = try await credentials.client.create(domain, createRequest)
             #expect(createResponse.message.contains("Created") || createResponse.message.contains("added"))
 
             // Clean up if creation succeeded
             let fullLogin = "\(testLogin)@\(domain)"
-            _ = try await client.delete(domain, fullLogin)
+            _ = try await credentials.client.delete(domain, fullLogin)
         } catch {
             // Sandbox domains may have restrictions on special characters or subdomains
             // This is expected behavior for sandbox accounts
@@ -180,7 +180,7 @@ struct MailgunCredentialsTests {
     func testListCredentialsWithPagination() async throws {
         // Test with pagination parameters
         let request = Mailgun.Credentials.List.Request(skip: 0, limit: 10)
-        let response = try await client.list(domain, request)
+        let response = try await credentials.client.list(domain, request)
 
         #expect(!response.items.isEmpty || response.totalCount == 0)
         #expect(response.totalCount >= 0)

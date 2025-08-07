@@ -10,7 +10,7 @@ import Testing
 //    .serialized
 // )
 // struct MailgunUsersTests {
-//    @Dependency(Mailgun.Users.Client.self) var client
+//    @Dependency(Mailgun.Users.self) var users
 //    
 //    @Test("Should successfully list users")
 //    func testListUsers() async throws {

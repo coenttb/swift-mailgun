@@ -49,17 +49,17 @@ extension Mailgun.Keys.Client {
     }
 }
 
-extension Mailgun.Keys.Client {
-    public typealias Authenticated = Mailgun_Shared.AuthenticatedClient<
+extension Mailgun.Keys {
+    public typealias Authenticated = Mailgun_Shared.Authenticated<
         Mailgun.Keys.API,
         Mailgun.Keys.API.Router,
         Mailgun.Keys.Client
     >
 }
 
-extension Mailgun.Keys.Client: @retroactive DependencyKey {
-    public static var liveValue: Mailgun.Keys.Client.Authenticated {
-        try! Mailgun.Keys.Client.Authenticated { .live(makeRequest: $0) }
+extension Mailgun.Keys: @retroactive DependencyKey {
+    public static var liveValue: Mailgun.Keys.Authenticated {
+        try! Mailgun.Keys.Authenticated { .live(makeRequest: $0) }
     }
 }
 

@@ -66,17 +66,17 @@ extension Mailgun.IPPools.Client {
     }
 }
 
-extension Mailgun.IPPools.Client {
-    public typealias Authenticated = Mailgun_Shared.AuthenticatedClient<
+extension Mailgun.IPPools {
+    public typealias Authenticated = Mailgun_Shared.Authenticated<
         Mailgun.IPPools.API,
         Mailgun.IPPools.API.Router,
         Mailgun.IPPools.Client
     >
 }
 
-extension Mailgun.IPPools.Client: @retroactive DependencyKey {
-    public static var liveValue: Mailgun.IPPools.Client.Authenticated {
-        try! Mailgun.IPPools.Client.Authenticated { .live(makeRequest: $0) }
+extension Mailgun.IPPools: @retroactive DependencyKey {
+    public static var liveValue: Mailgun.IPPools.Authenticated {
+        try! Mailgun.IPPools.Authenticated { .live(makeRequest: $0) }
     }
 }
 

@@ -10,7 +10,7 @@ import Testing
 //    .serialized
 // )
 // struct MailgunCustomMessageLimitTests {
-//    @Dependency(Mailgun.CustomMessageLimit.Client.self) var client
+//    @Dependency(Mailgun.CustomMessageLimit.self) var customMessageLimit
 //    
 //    @Test("Should successfully get monthly limit status")
 //    func testGetMonthlyLimit() async throws {

@@ -38,17 +38,17 @@ extension Mailgun.DynamicIPPools.Client {
     }
 }
 
-extension Mailgun.DynamicIPPools.Client {
-    public typealias Authenticated = Mailgun_Shared.AuthenticatedClient<
+extension Mailgun.DynamicIPPools {
+    public typealias Authenticated = Mailgun_Shared.Authenticated<
         Mailgun.DynamicIPPools.API,
         Mailgun.DynamicIPPools.API.Router,
         Mailgun.DynamicIPPools.Client
     >
 }
 
-extension Mailgun.DynamicIPPools.Client: @retroactive DependencyKey {
-    public static var liveValue: Mailgun.DynamicIPPools.Client.Authenticated {
-        try! Mailgun.DynamicIPPools.Client.Authenticated { .live(makeRequest: $0) }
+extension Mailgun.DynamicIPPools: @retroactive DependencyKey {
+    public static var liveValue: Mailgun.DynamicIPPools.Authenticated {
+        try! Mailgun.DynamicIPPools.Authenticated { .live(makeRequest: $0) }
     }
 }
 

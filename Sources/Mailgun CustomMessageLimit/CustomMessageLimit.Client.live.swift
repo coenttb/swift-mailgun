@@ -50,17 +50,17 @@ extension Mailgun.CustomMessageLimit.Client {
     }
 }
 
-extension Mailgun.CustomMessageLimit.Client {
-    public typealias Authenticated = Mailgun_Shared.AuthenticatedClient<
+extension Mailgun.CustomMessageLimit {
+    public typealias Authenticated = Mailgun_Shared.Authenticated<
         Mailgun.CustomMessageLimit.API,
         Mailgun.CustomMessageLimit.API.Router,
         Mailgun.CustomMessageLimit.Client
     >
 }
 
-extension Mailgun.CustomMessageLimit.Client: @retroactive DependencyKey {
-    public static var liveValue: Mailgun.CustomMessageLimit.Client.Authenticated {
-        try! Mailgun.CustomMessageLimit.Client.Authenticated { .live(makeRequest: $0) }
+extension Mailgun.CustomMessageLimit: @retroactive DependencyKey {
+    public static var liveValue: Mailgun.CustomMessageLimit.Authenticated {
+        try! Mailgun.CustomMessageLimit.Authenticated { .live(makeRequest: $0) }
     }
 }
 

@@ -32,17 +32,17 @@ extension Mailgun.Reporting.Events.Client {
     }
 }
 
-extension Mailgun.Reporting.Events.Client {
-    public typealias Authenticated = Mailgun_Shared.AuthenticatedClient<
+extension Mailgun.Reporting.Events {
+    public typealias Authenticated = Mailgun_Shared.Authenticated<
         Mailgun.Reporting.Events.API,
         Mailgun.Reporting.Events.API.Router,
         Mailgun.Reporting.Events.Client
     >
 }
 
-extension Mailgun.Reporting.Events.Client: @retroactive DependencyKey {
-    public static var liveValue: Mailgun.Reporting.Events.Client.Authenticated {
-        try! Mailgun.Reporting.Events.Client.Authenticated { .live(makeRequest: $0) }
+extension Mailgun.Reporting.Events: @retroactive DependencyKey {
+    public static var liveValue: Mailgun.Reporting.Events.Authenticated {
+        try! Mailgun.Reporting.Events.Authenticated { .live(makeRequest: $0) }
     }
 }
 

@@ -35,17 +35,17 @@ extension Mailgun.Suppressions.Client {
     }
 }
 
-extension Mailgun.Suppressions.Client {
-    public typealias Authenticated = Mailgun_Shared.AuthenticatedClient<
+extension Mailgun.Suppressions {
+    public typealias Authenticated = Mailgun_Shared.Authenticated<
         Mailgun.Suppressions.API,
         Mailgun.Suppressions.API.Router,
         Mailgun.Suppressions.Client
     >
 }
 
-extension Mailgun.Suppressions.Client: @retroactive DependencyKey {
-    public static var liveValue: Mailgun.Suppressions.Client.Authenticated {
-        try! Mailgun.Suppressions.Client.Authenticated { .live(makeRequest: $0) }
+extension Mailgun.Suppressions: @retroactive DependencyKey {
+    public static var liveValue: Mailgun.Suppressions.Authenticated {
+        try! Mailgun.Suppressions.Authenticated { .live(makeRequest: $0) }
     }
 }
 

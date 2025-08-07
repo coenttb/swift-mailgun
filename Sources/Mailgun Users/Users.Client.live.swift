@@ -55,17 +55,17 @@ extension Mailgun.Users.Client {
     }
 }
 
-extension Mailgun.Users.Client {
-    public typealias Authenticated = Mailgun_Shared.AuthenticatedClient<
+extension Mailgun.Users {
+    public typealias Authenticated = Mailgun_Shared.Authenticated<
         Mailgun.Users.API,
         Mailgun.Users.API.Router,
         Mailgun.Users.Client
     >
 }
 
-extension Mailgun.Users.Client: @retroactive DependencyKey {
-    public static var liveValue: Mailgun.Users.Client.Authenticated {
-        try! Mailgun.Users.Client.Authenticated { .live(makeRequest: $0) }
+extension Mailgun.Users: @retroactive DependencyKey {
+    public static var liveValue: Mailgun.Users.Authenticated {
+        try! Mailgun.Users.Authenticated { .live(makeRequest: $0) }
     }
 }
 

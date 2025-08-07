@@ -49,17 +49,17 @@ extension Mailgun.Domains.Domains.Tracking.Client {
     }
 }
 
-extension Mailgun.Domains.Domains.Tracking.Client {
-    public typealias Authenticated = Mailgun_Shared.AuthenticatedClient<
+extension Mailgun.Domains.Domains.Tracking {
+    public typealias Authenticated = Mailgun_Shared.Authenticated<
         Mailgun.Domains.Domains.Tracking.API,
         Mailgun.Domains.Domains.Tracking.API.Router,
         Mailgun.Domains.Domains.Tracking.Client
     >
 }
 
-extension Mailgun.Domains.Domains.Tracking.Client: @retroactive DependencyKey {
-    public static var liveValue: Mailgun.Domains.Domains.Tracking.Client.Authenticated {
-        try! Mailgun.Domains.Domains.Tracking.Client.Authenticated { .live(makeRequest: $0) }
+extension Mailgun.Domains.Domains.Tracking: @retroactive DependencyKey {
+    public static var liveValue: Mailgun.Domains.Domains.Tracking.Authenticated {
+        try! Mailgun.Domains.Domains.Tracking.Authenticated { .live(makeRequest: $0) }
     }
 }
 

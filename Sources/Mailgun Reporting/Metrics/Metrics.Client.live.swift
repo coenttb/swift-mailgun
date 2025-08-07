@@ -38,17 +38,17 @@ extension Mailgun.Reporting.Metrics.Client {
     }
 }
 
-extension Mailgun.Reporting.Metrics.Client {
-    public typealias Authenticated = Mailgun_Shared.AuthenticatedClient<
+extension Mailgun.Reporting.Metrics {
+    public typealias Authenticated = Mailgun_Shared.Authenticated<
         Mailgun.Reporting.Metrics.API,
         Mailgun.Reporting.Metrics.API.Router,
         Mailgun.Reporting.Metrics.Client
     >
 }
 
-extension Mailgun.Reporting.Metrics.Client: @retroactive DependencyKey {
-    public static var liveValue: Mailgun.Reporting.Metrics.Client.Authenticated {
-        try! Mailgun.Reporting.Metrics.Client.Authenticated { .live(makeRequest: $0) }
+extension Mailgun.Reporting.Metrics: @retroactive DependencyKey {
+    public static var liveValue: Mailgun.Reporting.Metrics.Authenticated {
+        try! Mailgun.Reporting.Metrics.Authenticated { .live(makeRequest: $0) }
     }
 }
 

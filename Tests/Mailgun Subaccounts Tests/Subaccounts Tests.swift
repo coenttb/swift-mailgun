@@ -21,13 +21,13 @@ struct MailgunSubaccountsTests {
     
     @Test("Should successfully get a subaccount")
     func testGetSubaccount() async throws {
-        @Dependency(Mailgun.Subaccounts.Client.self) var client
+        @Dependency(Mailgun.Subaccounts.self) var subaccounts
         
         // First list to get a valid subaccount ID
-        let listResponse = try await client.list(nil)
+        let listResponse = try await subaccounts.client.list(nil)
         
         if let firstSubaccount = listResponse.subaccounts.first {
-            let response = try await client.get(firstSubaccount.id)
+            let response = try await subaccounts.client.get(firstSubaccount.id)
             
             #expect(response.subaccount.id == firstSubaccount.id)
             #expect(!response.subaccount.name.isEmpty)
@@ -39,14 +39,14 @@ struct MailgunSubaccountsTests {
             )
             
             do {
-                let createResponse = try await client.create(createRequest)
+                let createResponse = try await subaccounts.client.create(createRequest)
                 
                 // Now test get
-                let getResponse = try await client.get(createResponse.subaccount.id)
+                let getResponse = try await subaccounts.client.get(createResponse.subaccount.id)
                 #expect(getResponse.subaccount.id == createResponse.subaccount.id)
                 
                 // Clean up
-                _ = try? await client.delete(createResponse.subaccount.id)
+                _ = try? await subaccounts.client.delete(createResponse.subaccount.id)
             } catch {
                 // Subaccount creation might require specific permissions
                 #expect(true, "Subaccount operations may require specific permissions")
@@ -56,10 +56,10 @@ struct MailgunSubaccountsTests {
     
     @Test("Should successfully list subaccounts")
     func testListSubaccounts() async throws {
-        @Dependency(Mailgun.Subaccounts.Client.self) var client
+        @Dependency(Mailgun.Subaccounts.self) var subaccounts
         
         // Test basic list
-        let response = try await client.list(nil)
+        let response = try await subaccounts.client.list(nil)
         
         #expect(response.total >= 0)
         
@@ -69,7 +69,7 @@ struct MailgunSubaccountsTests {
             skip: 0
         )
         
-        let paginatedResponse = try await client.list(paginatedRequest)
+        let paginatedResponse = try await subaccounts.client.list(paginatedRequest)
         #expect(paginatedResponse.subaccounts.count <= 1)
         
         // Test with sorting
@@ -77,13 +77,13 @@ struct MailgunSubaccountsTests {
             sort: .asc
         )
         
-        let sortedResponse = try await client.list(sortedRequest)
+        let sortedResponse = try await subaccounts.client.list(sortedRequest)
         #expect(sortedResponse.total >= 0)
     }
     
     @Test("Should successfully create and delete subaccount")
     func testCreateAndDeleteSubaccount() async throws {
-        @Dependency(Mailgun.Subaccounts.Client.self) var client
+        @Dependency(Mailgun.Subaccounts.self) var subaccounts
         
         let testSubaccountName = "test-\(UUID().uuidString.prefix(8))"
         
@@ -93,7 +93,7 @@ struct MailgunSubaccountsTests {
         
         do {
             // Create subaccount
-            let createResponse = try await client.create(createRequest)
+            let createResponse = try await subaccounts.client.create(createRequest)
             #expect(!createResponse.subaccount.id.isEmpty)
             #expect(createResponse.subaccount.name == testSubaccountName)
             #expect(createResponse.subaccount.status == .open || createResponse.subaccount.status == .disabled)
@@ -101,16 +101,16 @@ struct MailgunSubaccountsTests {
             let subaccountId = createResponse.subaccount.id
             
             // Verify it was created by getting it
-            let getResponse = try await client.get(subaccountId)
+            let getResponse = try await subaccounts.client.get(subaccountId)
             #expect(getResponse.subaccount.id == subaccountId)
             
             // Delete the subaccount
-            let deleteResponse = try await client.delete(subaccountId)
+            let deleteResponse = try await subaccounts.client.delete(subaccountId)
             #expect(deleteResponse.message.contains("deleted") || deleteResponse.message.contains("success"))
             
             // Verify it was deleted by trying to get it
             do {
-                _ = try await client.get(subaccountId)
+                _ = try await subaccounts.client.get(subaccountId)
                 Issue.record("Subaccount should not exist after deletion")
             } catch {
                 // Expected error - subaccount should not exist
@@ -123,14 +123,14 @@ struct MailgunSubaccountsTests {
     
     @Test("Should handle disable and enable operations")
     func testDisableEnableSubaccount() async throws {
-        @Dependency(Mailgun.Subaccounts.Client.self) var client
+        @Dependency(Mailgun.Subaccounts.self) var subaccounts
         
         // Create a test subaccount first
         let testSubaccountName = "test-enable-disable-\(UUID().uuidString.prefix(8))"
         let createRequest = Mailgun.Subaccounts.Create.Request(name: testSubaccountName)
         
         do {
-            let createResponse = try await client.create(createRequest)
+            let createResponse = try await subaccounts.client.create(createRequest)
             let subaccountId = createResponse.subaccount.id
             
             // Disable the subaccount
@@ -139,15 +139,15 @@ struct MailgunSubaccountsTests {
                 note: "Automated test"
             )
             
-            let disableResponse = try await client.disable(subaccountId, disableRequest)
+            let disableResponse = try await subaccounts.client.disable(subaccountId, disableRequest)
             #expect(disableResponse.subaccount.status == .disabled)
             
             // Enable the subaccount
-            let enableResponse = try await client.enable(subaccountId)
+            let enableResponse = try await subaccounts.client.enable(subaccountId)
             #expect(enableResponse.subaccount.status == .open)
             
             // Clean up
-            _ = try? await client.delete(subaccountId)
+            _ = try? await subaccounts.client.delete(subaccountId)
         } catch {
             // These operations might require specific permissions
             #expect(true, "Subaccount operations may require specific permissions: \(error)")
@@ -156,31 +156,31 @@ struct MailgunSubaccountsTests {
     
     @Test("Should handle custom limit operations")
     func testCustomLimitOperations() async throws {
-        @Dependency(Mailgun.Subaccounts.Client.self) var client
+        @Dependency(Mailgun.Subaccounts.self) var subaccounts
         
         // Create a test subaccount
         let testSubaccountName = "test-limits-\(UUID().uuidString.prefix(8))"
         let createRequest = Mailgun.Subaccounts.Create.Request(name: testSubaccountName)
         
         do {
-            let createResponse = try await client.create(createRequest)
+            let createResponse = try await subaccounts.client.create(createRequest)
             let subaccountId = createResponse.subaccount.id
             
             // Set a custom limit
-            let updateResponse = try await client.updateCustomLimit(subaccountId, 10000)
+            let updateResponse = try await subaccounts.client.updateCustomLimit(subaccountId, 10000)
             #expect(updateResponse.success == true)
             
             // Get the custom limit
-            let getResponse = try await client.getCustomLimit(subaccountId)
+            let getResponse = try await subaccounts.client.getCustomLimit(subaccountId)
             #expect(getResponse.limit == 10000)
             #expect(!getResponse.period.isEmpty)
             
             // Delete the custom limit
-            let deleteResponse = try await client.deleteCustomLimit(subaccountId)
+            let deleteResponse = try await subaccounts.client.deleteCustomLimit(subaccountId)
             #expect(deleteResponse.success == true)
             
             // Clean up
-            _ = try? await client.delete(subaccountId)
+            _ = try? await subaccounts.client.delete(subaccountId)
         } catch {
             // These operations might require specific permissions or not be available on all accounts
             #expect(true, "Custom limit operations may not be available: \(error)")
@@ -189,14 +189,14 @@ struct MailgunSubaccountsTests {
     
     @Test("Should handle feature updates")
     func testUpdateFeatures() async throws {
-        @Dependency(Mailgun.Subaccounts.Client.self) var client
+        @Dependency(Mailgun.Subaccounts.self) var subaccounts
         
         // Create a test subaccount
         let testSubaccountName = "test-features-\(UUID().uuidString.prefix(8))"
         let createRequest = Mailgun.Subaccounts.Create.Request(name: testSubaccountName)
         
         do {
-            let createResponse = try await client.create(createRequest)
+            let createResponse = try await subaccounts.client.create(createRequest)
             let subaccountId = createResponse.subaccount.id
             
             // Update features
@@ -206,11 +206,11 @@ struct MailgunSubaccountsTests {
                 validations: .init(enabled: false)
             )
             
-            let updateResponse = try await client.updateFeatures(subaccountId, updateRequest)
+            let updateResponse = try await subaccounts.client.updateFeatures(subaccountId, updateRequest)
             #expect(!updateResponse.features.isEmpty)
             
             // Clean up
-            _ = try? await client.delete(subaccountId)
+            _ = try? await subaccounts.client.delete(subaccountId)
         } catch {
             // Feature updates might require specific permissions
             #expect(true, "Feature updates may require specific permissions: \(error)")
@@ -219,14 +219,14 @@ struct MailgunSubaccountsTests {
     
     @Test("Should handle list filtering and sorting")
     func testListFilteringAndSorting() async throws {
-        @Dependency(Mailgun.Subaccounts.Client.self) var client
+        @Dependency(Mailgun.Subaccounts.self) var subaccounts
         
         // Test with filter
         let filterRequest = Mailgun.Subaccounts.List.Request(
             filter: "test"
         )
         
-        let filterResponse = try await client.list(filterRequest)
+        let filterResponse = try await subaccounts.client.list(filterRequest)
         #expect(filterResponse.total >= 0)
         
         // Test with enabled filter
@@ -234,7 +234,7 @@ struct MailgunSubaccountsTests {
             enabled: true
         )
         
-        let enabledResponse = try await client.list(enabledRequest)
+        let enabledResponse = try await subaccounts.client.list(enabledRequest)
         #expect(enabledResponse.total >= 0)
         
         // Test with closed filter
@@ -242,7 +242,7 @@ struct MailgunSubaccountsTests {
             closed: false
         )
         
-        let closedResponse = try await client.list(closedRequest)
+        let closedResponse = try await subaccounts.client.list(closedRequest)
         #expect(closedResponse.total >= 0)
     }
 }

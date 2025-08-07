@@ -21,9 +21,9 @@ struct MailgunUsersTests {
     
     @Test("Should successfully list users")
     func testListUsers() async throws {
-        @Dependency(Mailgun.Users.Client.self) var client
+        @Dependency(Mailgun.Users.self) var users
         
-        let response = try await client.list(nil)
+        let response = try await users.client.list(nil)
         
         // Should have at least one user (the account owner)
         #expect(response.users.count > 0)
@@ -38,7 +38,7 @@ struct MailgunUsersTests {
     
     @Test("Should successfully list users with filter")
     func testListUsersWithFilter() async throws {
-        @Dependency(Mailgun.Users.Client.self) var client
+        @Dependency(Mailgun.Users.self) var users
         
         let request = Mailgun.Users.List.Request(
             role: .admin,
@@ -46,7 +46,7 @@ struct MailgunUsersTests {
             skip: 0
         )
         
-        let response = try await client.list(request)
+        let response = try await users.client.list(request)
         
         #expect(response.users.count >= 0)
         #expect(response.total >= 0)
@@ -63,10 +63,10 @@ struct MailgunUsersTests {
     
     @Test("Should successfully get current user (me)")
     func testGetCurrentUser() async throws {
-        @Dependency(Mailgun.Users.Client.self) var client
+        @Dependency(Mailgun.Users.self) var users
         
         do {
-            let response = try await client.me()
+            let response = try await users.client.me()
             
             #expect(!response.id.isEmpty)
             #expect(!response.email.isEmpty)
@@ -90,16 +90,16 @@ struct MailgunUsersTests {
     
     @Test("Should successfully get specific user details")
     func testGetUserDetails() async throws {
-        @Dependency(Mailgun.Users.Client.self) var client
+        @Dependency(Mailgun.Users.self) var users
         
         // First list users to get a valid user ID
-        let listResponse = try await client.list(nil)
+        let listResponse = try await users.client.list(nil)
         guard let firstUser = listResponse.users.first else {
             throw TestError(message: "No users found to test with")
         }
         
         // Get details for that specific user
-        let userDetails = try await client.get(firstUser.id)
+        let userDetails = try await users.client.get(firstUser.id)
         
         #expect(userDetails.id == firstUser.id)
         #expect(!userDetails.email.isEmpty)
@@ -116,18 +116,18 @@ struct MailgunUsersTests {
     
     @Test("Should handle organization operations")
     func testOrganizationOperations() async throws {
-        @Dependency(Mailgun.Users.Client.self) var client
+        @Dependency(Mailgun.Users.self) var users
         
         // First, try to get current user ID
         // If /me fails (requires user API key), use first user from list
         var userId: String
         
         do {
-            let currentUser = try await client.me()
+            let currentUser = try await users.client.me()
             userId = currentUser.id
         } catch {
             // Fallback to using first user from list if /me requires user API key
-            let listResponse = try await client.list(nil)
+            let listResponse = try await users.client.list(nil)
             guard let firstUser = listResponse.users.first else {
                 throw TestError(message: "No users found to test with")
             }
@@ -140,7 +140,7 @@ struct MailgunUsersTests {
         // Test adding to organization (might fail with permissions)
         do {
             let testOrgId = "test-org-\(UUID().uuidString.prefix(8))"
-            let addResponse = try await client.addToOrganization(userId, testOrgId)
+            let addResponse = try await users.client.addToOrganization(userId, testOrgId)
             #expect(addResponse.message.contains("success") || addResponse.message.contains("error"))
         } catch {
             // Expected if user doesn't have permissions or org doesn't exist
@@ -160,7 +160,7 @@ struct MailgunUsersTests {
         // Test removing from organization
         do {
             let testOrgId = "test-org-\(UUID().uuidString.prefix(8))"
-            let removeResponse = try await client.removeFromOrganization(userId, testOrgId)
+            let removeResponse = try await users.client.removeFromOrganization(userId, testOrgId)
             #expect(removeResponse.message.contains("success") || removeResponse.message.contains("error"))
         } catch {
             // Expected if user doesn't have permissions or org doesn't exist
@@ -180,7 +180,7 @@ struct MailgunUsersTests {
     
     @Test("Should handle pagination when listing users")
     func testListUsersWithPagination() async throws {
-        @Dependency(Mailgun.Users.Client.self) var client
+        @Dependency(Mailgun.Users.self) var users
         
         // Test with limit
         let request1 = Mailgun.Users.List.Request(
@@ -188,7 +188,7 @@ struct MailgunUsersTests {
             skip: 0
         )
         
-        let response1 = try await client.list(request1)
+        let response1 = try await users.client.list(request1)
         
         if response1.total > 1 {
             #expect(response1.users.count <= 1)
@@ -201,7 +201,7 @@ struct MailgunUsersTests {
                 skip: 1
             )
             
-            let response2 = try await client.list(request2)
+            let response2 = try await users.client.list(request2)
             
             if response2.users.count > 0 && response1.users.count > 0 {
                 // Should get different users
@@ -212,14 +212,14 @@ struct MailgunUsersTests {
     
     @Test("Should handle all user roles correctly")
     func testUserRoles() async throws {
-        @Dependency(Mailgun.Users.Client.self) var client
+        @Dependency(Mailgun.Users.self) var users
         
         // Test each role filter
         let roles: [Mailgun.Users.Role] = [.basic, .billing, .support, .developer, .admin]
         
         for role in roles {
             let request = Mailgun.Users.List.Request(role: role, limit: 10)
-            let response = try await client.list(request)
+            let response = try await users.client.list(request)
             
             // Response should be valid regardless of whether users with that role exist
             #expect(response.users.count >= 0)

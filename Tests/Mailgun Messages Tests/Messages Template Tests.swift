@@ -18,7 +18,7 @@ struct MessagesTemplateTests {
 
     @Test("Send email with template")
     func testSendEmailWithTemplate() async throws {
-        @Dependency(Mailgun.Messages.Client.self) var client
+        @Dependency(Mailgun.Messages.self) var messages
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
 
@@ -30,7 +30,7 @@ struct MessagesTemplateTests {
             testMode: true
         )
 
-        let response = try await client.send(request)
+        let response = try await messages.client.send(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
@@ -38,7 +38,7 @@ struct MessagesTemplateTests {
 
     @Test("Send email with template and variables")
     func testSendEmailWithTemplateVariables() async throws {
-        @Dependency(Mailgun.Messages.Client.self) var client
+        @Dependency(Mailgun.Messages.self) var messages
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
 
@@ -60,7 +60,7 @@ struct MessagesTemplateTests {
             testMode: true
         )
 
-        let response = try await client.send(request)
+        let response = try await messages.client.send(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
@@ -68,7 +68,7 @@ struct MessagesTemplateTests {
 
     @Test("Send email with template version")
     func testSendEmailWithTemplateVersion() async throws {
-        @Dependency(Mailgun.Messages.Client.self) var client
+        @Dependency(Mailgun.Messages.self) var messages
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
 
@@ -87,7 +87,7 @@ struct MessagesTemplateTests {
             testMode: true
         )
 
-        let response = try await client.send(request)
+        let response = try await messages.client.send(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
@@ -95,7 +95,7 @@ struct MessagesTemplateTests {
 
     @Test("Send email with template and generate text version")
     func testSendEmailWithTemplateText() async throws {
-        @Dependency(Mailgun.Messages.Client.self) var client
+        @Dependency(Mailgun.Messages.self) var messages
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
 
@@ -114,7 +114,7 @@ struct MessagesTemplateTests {
             testMode: true
         )
 
-        let response = try await client.send(request)
+        let response = try await messages.client.send(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
@@ -122,7 +122,7 @@ struct MessagesTemplateTests {
 
     @Test("Send MIME email with template")
     func testSendMimeWithTemplate() async throws {
-        @Dependency(Mailgun.Messages.Client.self) var client
+        @Dependency(Mailgun.Messages.self) var messages
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
 
@@ -148,7 +148,7 @@ struct MessagesTemplateTests {
             testMode: true
         )
 
-        let response = try await client.sendMime(request)
+        let response = try await messages.client.sendMime(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
@@ -156,7 +156,7 @@ struct MessagesTemplateTests {
 
     @Test("Send email with template and custom variables")
     func testSendEmailWithTemplateAndCustomVars() async throws {
-        @Dependency(Mailgun.Messages.Client.self) var client
+        @Dependency(Mailgun.Messages.self) var messages
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
 
@@ -179,7 +179,7 @@ struct MessagesTemplateTests {
             ]
         )
 
-        let response = try await client.send(request)
+        let response = try await messages.client.send(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
@@ -187,7 +187,7 @@ struct MessagesTemplateTests {
 
     @Test("Send email with template override subject")
     func testSendEmailTemplateOverrideSubject() async throws {
-        @Dependency(Mailgun.Messages.Client.self) var client
+        @Dependency(Mailgun.Messages.self) var messages
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
 
@@ -204,7 +204,7 @@ struct MessagesTemplateTests {
             testMode: true
         )
 
-        let response = try await client.send(request)
+        let response = try await messages.client.send(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
@@ -212,7 +212,7 @@ struct MessagesTemplateTests {
 
     @Test("Send batch email with template and recipient variables")
     func testSendBatchTemplateEmail() async throws {
-        @Dependency(Mailgun.Messages.Client.self) var client
+        @Dependency(Mailgun.Messages.self) var messages
         @Dependency(\.envVars.mailgunFrom) var from
         @Dependency(\.envVars.mailgunTo) var to
 
@@ -240,7 +240,7 @@ struct MessagesTemplateTests {
             recipientVariables: recipientVariables
         )
 
-        let response = try await client.send(request)
+        let response = try await messages.client.send(request)
 
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))

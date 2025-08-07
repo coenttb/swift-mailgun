@@ -10,7 +10,7 @@ import Testing
 //    .serialized
 // )
 // struct MailgunDomainKeysTests {
-//    @Dependency(Mailgun.Domains.DomainKeys.Client.self) var client
+//    @Dependency(Mailgun.Domains.DomainKeys.self) var domainKeys
 //    @Dependency(\.envVars.mailgunDomain) var domain
 //    
 //    @Test("Should successfully list DKIM keys")

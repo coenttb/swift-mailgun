@@ -21,9 +21,9 @@ struct MailgunTemplatesTests {
     
     @Test("Should successfully list templates")
     func testListTemplates() async throws {
-        @Dependency(Mailgun.Templates.Client.self) var client
+        @Dependency(Mailgun.Templates.self) var templates
         
-        let response = try await client.list(nil)
+        let response = try await templates.client.list(nil)
         
         #expect(response.paging.first.contains("/templates"))
         #expect(response.paging.last.contains("/templates"))
@@ -36,7 +36,7 @@ struct MailgunTemplatesTests {
     
     @Test("Should successfully create and delete template")
     func testCreateAndDeleteTemplate() async throws {
-        @Dependency(Mailgun.Templates.Client.self) var client
+        @Dependency(Mailgun.Templates.self) var templates
         
         let testTemplateName = "test-template-\(UUID().uuidString.prefix(8))".lowercased()
         
@@ -49,7 +49,7 @@ struct MailgunTemplatesTests {
         )
         
         // Create template
-        let createResponse = try await client.create(createRequest)
+        let createResponse = try await templates.client.create(createRequest)
         #expect(createResponse.message.contains("stored"))
         
         if let template = createResponse.template {
@@ -57,7 +57,7 @@ struct MailgunTemplatesTests {
             #expect(template.description == "Test template for automated testing")
             
             // Delete the template
-            let deleteResponse = try await client.delete(testTemplateName)
+            let deleteResponse = try await templates.client.delete(testTemplateName)
             #expect(deleteResponse.message.contains("deleted"))
             #expect(deleteResponse.template.name == testTemplateName)
         }
@@ -65,7 +65,7 @@ struct MailgunTemplatesTests {
     
     @Test("Should successfully get template")
     func testGetTemplate() async throws {
-        @Dependency(Mailgun.Templates.Client.self) var client
+        @Dependency(Mailgun.Templates.self) var templates
         
         let testTemplateName = "test-get-template-\(UUID().uuidString.prefix(8))".lowercased()
         
@@ -75,11 +75,11 @@ struct MailgunTemplatesTests {
             description: "Template for get test"
         )
         
-        let createResponse = try await client.create(createRequest)
+        let createResponse = try await templates.client.create(createRequest)
         
         if createResponse.template != nil {
             // Get the template
-            let getResponse = try await client.get(testTemplateName, nil)
+            let getResponse = try await templates.client.get(testTemplateName, nil)
             
             if let template = getResponse.template {
                 #expect(template.name == testTemplateName)
@@ -87,7 +87,7 @@ struct MailgunTemplatesTests {
             }
             
             // Get with active version
-            let getActiveResponse = try await client.get(
+            let getActiveResponse = try await templates.client.get(
                 testTemplateName, 
                 Mailgun.Templates.Get.Request(active: "yes")
             )
@@ -97,13 +97,13 @@ struct MailgunTemplatesTests {
             }
             
             // Clean up
-            _ = try? await client.delete(testTemplateName)
+            _ = try? await templates.client.delete(testTemplateName)
         }
     }
     
     @Test("Should successfully update template")
     func testUpdateTemplate() async throws {
-        @Dependency(Mailgun.Templates.Client.self) var client
+        @Dependency(Mailgun.Templates.self) var templates
         
         let testTemplateName = "test-update-template-\(UUID().uuidString.prefix(8))".lowercased()
         
@@ -113,7 +113,7 @@ struct MailgunTemplatesTests {
             description: "Original description"
         )
         
-        let createResponse = try await client.create(createRequest)
+        let createResponse = try await templates.client.create(createRequest)
         
         if createResponse.template != nil {
             // Update template
@@ -121,24 +121,24 @@ struct MailgunTemplatesTests {
                 description: "Updated description"
             )
             
-            let updateResponse = try await client.update(testTemplateName, updateRequest)
+            let updateResponse = try await templates.client.update(testTemplateName, updateRequest)
             #expect(updateResponse.message.contains("updated"))
             #expect(updateResponse.template.name == testTemplateName)
             
             // Verify update
-            let getResponse = try await client.get(testTemplateName, nil)
+            let getResponse = try await templates.client.get(testTemplateName, nil)
             if let template = getResponse.template {
                 #expect(template.description == "Updated description")
             }
             
             // Clean up
-            _ = try? await client.delete(testTemplateName)
+            _ = try? await templates.client.delete(testTemplateName)
         }
     }
     
     @Test("Should successfully manage template versions")
     func testTemplateVersions() async throws {
-        @Dependency(Mailgun.Templates.Client.self) var client
+        @Dependency(Mailgun.Templates.self) var templates
         
         let testTemplateName = "test-versions-template-\(UUID().uuidString.prefix(8))".lowercased()
         
@@ -151,7 +151,7 @@ struct MailgunTemplatesTests {
             comment: "Initial version"
         )
         
-        let createResponse = try await client.create(createRequest)
+        let createResponse = try await templates.client.create(createRequest)
         
         if createResponse.template != nil {
             // Create a new version
@@ -162,11 +162,11 @@ struct MailgunTemplatesTests {
                 active: "yes"
             )
             
-            let versionResponse = try await client.createVersion(testTemplateName, versionRequest)
+            let versionResponse = try await templates.client.createVersion(testTemplateName, versionRequest)
             #expect(versionResponse.message.contains("stored"))
             
             // List versions
-            let versionsResponse = try await client.versions(testTemplateName, nil)
+            let versionsResponse = try await templates.client.versions(testTemplateName, nil)
             
             if let template = versionsResponse.template,
                let versions = template.versions {
@@ -176,7 +176,7 @@ struct MailgunTemplatesTests {
             }
             
             // Get specific version
-            let getVersionResponse = try await client.getVersion(testTemplateName, "v2")
+            let getVersionResponse = try await templates.client.getVersion(testTemplateName, "v2")
             if let template = getVersionResponse.template,
                let version = template.version {
                 #expect(version.tag == "v2")
@@ -189,7 +189,7 @@ struct MailgunTemplatesTests {
                 active: "no"  // Make it inactive before deletion
             )
             
-            let updateVersionResponse = try await client.updateVersion(
+            let updateVersionResponse = try await templates.client.updateVersion(
                 testTemplateName,
                 "v2",
                 updateVersionRequest
@@ -197,17 +197,17 @@ struct MailgunTemplatesTests {
             #expect(updateVersionResponse.message.contains("updated"))
             
             // Delete version (should work now that it's inactive)
-            let deleteVersionResponse = try await client.deleteVersion(testTemplateName, "v1")  // Delete v1 instead since v2 might still be active
+            let deleteVersionResponse = try await templates.client.deleteVersion(testTemplateName, "v1")  // Delete v1 instead since v2 might still be active
             #expect(deleteVersionResponse.message.contains("deleted"))
             
             // Clean up
-            _ = try? await client.delete(testTemplateName)
+            _ = try? await templates.client.delete(testTemplateName)
         }
     }
     
     @Test("Should successfully copy template version")
     func testCopyVersion() async throws {
-        @Dependency(Mailgun.Templates.Client.self) var client
+        @Dependency(Mailgun.Templates.self) var templates
         
         let testTemplateName = "test-copy-template-\(UUID().uuidString.prefix(8))".lowercased()
         
@@ -220,7 +220,7 @@ struct MailgunTemplatesTests {
             comment: "Original version"
         )
         
-        let createResponse = try await client.create(createRequest)
+        let createResponse = try await templates.client.create(createRequest)
         
         if createResponse.template != nil {
             // Copy the version
@@ -228,7 +228,7 @@ struct MailgunTemplatesTests {
                 comment: "Copied from original"
             )
             
-            let copyResponse = try await client.copyVersion(
+            let copyResponse = try await templates.client.copyVersion(
                 testTemplateName,
                 "original",
                 "copied",
@@ -243,20 +243,20 @@ struct MailgunTemplatesTests {
             }
             
             // Clean up
-            _ = try? await client.delete(testTemplateName)
+            _ = try? await templates.client.delete(testTemplateName)
         }
     }
     
     @Test("Should handle listing with pagination")
     func testListWithPagination() async throws {
-        @Dependency(Mailgun.Templates.Client.self) var client
+        @Dependency(Mailgun.Templates.self) var templates
         
         let request = Mailgun.Templates.List.Request(
             page: .first,
             limit: 1
         )
         
-        let response = try await client.list(request)
+        let response = try await templates.client.list(request)
         
         #expect(response.paging.first.contains("limit=1"))
         
@@ -267,7 +267,7 @@ struct MailgunTemplatesTests {
     
     @Test("Should handle version listing with pagination")
     func testVersionsWithPagination() async throws {
-        @Dependency(Mailgun.Templates.Client.self) var client
+        @Dependency(Mailgun.Templates.self) var templates
         
         let testTemplateName = "test-pagination-template-\(UUID().uuidString.prefix(8))".lowercased()
         
@@ -277,7 +277,7 @@ struct MailgunTemplatesTests {
             description: "Template for pagination testing"
         )
         
-        let createResponse = try await client.create(createRequest)
+        let createResponse = try await templates.client.create(createRequest)
         
         if createResponse.template != nil {
             // List versions with pagination
@@ -286,12 +286,12 @@ struct MailgunTemplatesTests {
                 limit: 1
             )
             
-            let versionsResponse = try await client.versions(testTemplateName, versionsRequest)
+            let versionsResponse = try await templates.client.versions(testTemplateName, versionsRequest)
             
             #expect(versionsResponse.paging.first.contains("limit=1"))
             
             // Clean up
-            _ = try? await client.delete(testTemplateName)
+            _ = try? await templates.client.delete(testTemplateName)
         }
     }
 }

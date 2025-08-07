@@ -66,3 +66,21 @@ extension Mailgun.Suppressions.Allowlist.Client {
         )
     }
 }
+
+extension Mailgun.Suppressions.Allowlist {
+    public typealias Authenticated = Mailgun_Shared.Authenticated<
+        Mailgun.Suppressions.Allowlist.API,
+        Mailgun.Suppressions.Allowlist.API.Router,
+        Mailgun.Suppressions.Allowlist.Client
+    >
+}
+
+extension Mailgun.Suppressions.Allowlist: @retroactive DependencyKey {
+    public static var liveValue: Mailgun.Suppressions.Allowlist.Authenticated {
+        try! Mailgun.Suppressions.Allowlist.Authenticated { .live(makeRequest: $0) }
+    }
+}
+
+extension Mailgun.Suppressions.Allowlist.API.Router: @retroactive DependencyKey {
+    public static let liveValue: Mailgun.Suppressions.Allowlist.API.Router = .init()
+}

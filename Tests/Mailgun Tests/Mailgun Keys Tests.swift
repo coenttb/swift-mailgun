@@ -10,7 +10,7 @@ import Testing
 //    .serialized
 // )
 // struct MailgunKeysTests {
-//    @Dependency(Mailgun.Keys.Client.self) var client
+//    @Dependency(Mailgun.Keys.self) var keys
 //    
 ////    @Test("Should successfully list API keys")
 ////    func testListKeys() async throws {

@@ -18,12 +18,12 @@ import Testing
     .serialized
 )
 struct MailgunCustomMessageLimitTests {
-    @Dependency(Mailgun.CustomMessageLimit.Client.self) var client
+    @Dependency(Mailgun.CustomMessageLimit.self) var customMessageLimit
 
     @Test("Should successfully get monthly limit status")
     func testGetMonthlyLimit() async throws {
         do {
-            let response = try await client.getMonthlyLimit()
+            let response = try await customMessageLimit.client.getMonthlyLimit()
 
             // Check response structure
             #expect(response.limit >= 0)
@@ -52,19 +52,19 @@ struct MailgunCustomMessageLimitTests {
             limit: testLimit
         )
         
-        let setResponse = try await client.setMonthlyLimit(setRequest)
+        let setResponse = try await customMessageLimit.client.setMonthlyLimit(setRequest)
         #expect(setResponse.success == true)
         
         // Get the limit to verify it was set
-        let getResponse = try await client.getMonthlyLimit()
+        let getResponse = try await customMessageLimit.client.getMonthlyLimit()
         #expect(getResponse.limit == testLimit)
         
         // Delete the limit (restore default)
-        let deleteResponse = try await client.deleteMonthlyLimit()
+        let deleteResponse = try await customMessageLimit.client.deleteMonthlyLimit()
         #expect(deleteResponse.success == true)
         
         // Verify it was deleted
-        let finalResponse = try await client.getMonthlyLimit()
+        let finalResponse = try await customMessageLimit.client.getMonthlyLimit()
         #expect(finalResponse.limit != testLimit)
         */
 
@@ -86,7 +86,7 @@ struct MailgunCustomMessageLimitTests {
     @Test("Should get current usage vs limit")
     func testGetCurrentUsageVsLimit() async throws {
         do {
-            let response = try await client.getMonthlyLimit()
+            let response = try await customMessageLimit.client.getMonthlyLimit()
 
             // Current usage should not exceed limit (unless no limit is set)
             if response.limit > 0 {
@@ -110,7 +110,7 @@ struct MailgunCustomMessageLimitTests {
     func testLimitExceededScenario() async throws {
         // This test verifies how to check if limit is exceeded
         do {
-            let response = try await client.getMonthlyLimit()
+            let response = try await customMessageLimit.client.getMonthlyLimit()
 
             if response.limit > 0 {
                 let percentageUsed = Double(response.current) / Double(response.limit) * 100

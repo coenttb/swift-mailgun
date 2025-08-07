@@ -13,9 +13,9 @@ import Foundation
 struct WebhooksClientTests {
     @Test("Should successfully list webhooks")
     func testListWebhooks() async throws {
-        @Dependency(Mailgun.Webhooks.Client.self) var client
+        @Dependency(Mailgun.Webhooks.self) var webhooks
         
-        let response = try await client.list()
+        let response = try await webhooks.client.list()
         
         // Check if any webhooks are configured
         let _ = response.webhooks.accepted != nil ||
@@ -33,7 +33,7 @@ struct WebhooksClientTests {
     
     @Test("Should successfully create webhook")
     func testCreateWebhook() async throws {
-        @Dependency(Mailgun.Webhooks.Client.self) var client
+        @Dependency(Mailgun.Webhooks.self) var webhooks
         
         let testUrl = "https://webhook.site/\(UUID().uuidString)"
         let request = Mailgun.Webhooks.Create.Request(
@@ -42,7 +42,7 @@ struct WebhooksClientTests {
         )
         
         do {
-            let response = try await client.create(request)
+            let response = try await webhooks.client.create(request)
             
             #expect(response.message.contains("created") || response.message.contains("updated"))
             #expect(response.webhook.urls.contains(testUrl))
@@ -59,7 +59,7 @@ struct WebhooksClientTests {
     
     @Test("Should successfully get webhook by type")
     func testGetWebhook() async throws {
-        @Dependency(Mailgun.Webhooks.Client.self) var client
+        @Dependency(Mailgun.Webhooks.self) var webhooks
         
         // First ensure a webhook exists
         let testUrl = "https://webhook.site/\(UUID().uuidString)"
@@ -69,14 +69,14 @@ struct WebhooksClientTests {
         )
         
         do {
-            _ = try await client.create(createRequest)
+            _ = try await webhooks.client.create(createRequest)
         } catch {
             // Ignore creation errors, webhook might already exist
         }
         
         // Now get the webhook
         do {
-            let response = try await client.get(.clicked)
+            let response = try await webhooks.client.get(.clicked)
             #expect(response.webhook.urls.count >= 0)
         } catch {
             // Webhook might not exist
@@ -91,7 +91,7 @@ struct WebhooksClientTests {
     
     @Test("Should successfully update webhook")
     func testUpdateWebhook() async throws {
-        @Dependency(Mailgun.Webhooks.Client.self) var client
+        @Dependency(Mailgun.Webhooks.self) var webhooks
         
         // First create a webhook to update
         let initialUrl = "https://webhook.site/\(UUID().uuidString)"
@@ -101,7 +101,7 @@ struct WebhooksClientTests {
         )
         
         do {
-            _ = try await client.create(createRequest)
+            _ = try await webhooks.client.create(createRequest)
         } catch {
             // Ignore creation errors
         }
@@ -110,7 +110,7 @@ struct WebhooksClientTests {
         let updatedUrl = "https://webhook.site/\(UUID().uuidString)"
         let updateRequest = Mailgun.Webhooks.Update.Request(url: updatedUrl)
         
-        let response = try await client.update(.delivered, updateRequest)
+        let response = try await webhooks.client.update(.delivered, updateRequest)
         
         #expect(response.message.contains("updated") || response.message.contains("stored"))
         // The update operation replaces all URLs with the new ones
@@ -119,7 +119,7 @@ struct WebhooksClientTests {
     
     @Test("Should successfully delete webhook")
     func testDeleteWebhook() async throws {
-        @Dependency(Mailgun.Webhooks.Client.self) var client
+        @Dependency(Mailgun.Webhooks.self) var webhooks
         
         // First create a webhook to delete
         let testUrl = "https://webhook.site/\(UUID().uuidString)"
@@ -129,14 +129,14 @@ struct WebhooksClientTests {
         )
         
         do {
-            _ = try await client.create(createRequest)
+            _ = try await webhooks.client.create(createRequest)
         } catch {
             // Ignore creation errors
         }
         
         // Delete the webhook
         do {
-            let response = try await client.delete(.unsubscribed)
+            let response = try await webhooks.client.delete(.unsubscribed)
             #expect(response.message.contains("deleted") || response.message.contains("removed"))
         } catch {
             // Webhook might not exist
@@ -151,10 +151,10 @@ struct WebhooksClientTests {
     
     @Test("Should handle multiple URLs per webhook type")
     func testMultipleURLsPerWebhook() async throws {
-        @Dependency(Mailgun.Webhooks.Client.self) var client
+        @Dependency(Mailgun.Webhooks.self) var webhooks
         
         // First clear any existing webhook
-        _ = try? await client.delete(.temporaryFail)
+        _ = try? await webhooks.client.delete(.temporaryFail)
         
         // Create webhook with multiple URLs
         let urls = [
@@ -169,7 +169,7 @@ struct WebhooksClientTests {
         )
         
         do {
-            let response = try await client.create(request)
+            let response = try await webhooks.client.create(request)
             
             // API supports up to 3 URLs per webhook type
             #expect(response.webhook.urls.count <= 3)
@@ -178,7 +178,7 @@ struct WebhooksClientTests {
             #expect(response.webhook.urls.count > 0)
             
             // Clean up
-            _ = try? await client.delete(.temporaryFail)
+            _ = try? await webhooks.client.delete(.temporaryFail)
         } catch {
             // Handle API limitations or existing webhooks
             let errorMessage = "\(error)".lowercased()
@@ -193,7 +193,7 @@ struct WebhooksClientTests {
     
     @Test("Should test all webhook types")
     func testAllWebhookTypes() async throws {
-        @Dependency(Mailgun.Webhooks.Client.self) var client
+        @Dependency(Mailgun.Webhooks.self) var webhooks
         
         let webhookTypes: [Mailgun.Webhooks.WebhookType] = [
             .accepted, .delivered, .opened, .clicked,
@@ -208,11 +208,11 @@ struct WebhooksClientTests {
             )
             
             do {
-                let response = try await client.create(request)
+                let response = try await webhooks.client.create(request)
                 #expect(response.message.contains("created") || response.message.contains("updated"))
                 
                 // Clean up
-                _ = try? await client.delete(webhookType)
+                _ = try? await webhooks.client.delete(webhookType)
             } catch {
                 // Some webhook types might have restrictions
                 let errorMessage = "\(error)".lowercased()

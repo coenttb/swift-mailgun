@@ -18,12 +18,12 @@ import Testing
     .serialized
 )
 struct MailgunKeysTests {
-    @Dependency(Mailgun.Keys.Client.self) var client
+    @Dependency(Mailgun.Keys.self) var keys
 
     @Test("Should successfully list API keys")
     func testListKeys() async throws {
         do {
-            let response = try await client.list()
+            let response = try await keys.client.list()
 
             // Should have at least one key (the one we're using for authentication)
             #expect(response.totalCount >= 0)
@@ -68,7 +68,7 @@ struct MailgunKeysTests {
                 kind: "user"
             )
 
-            let createResponse = try await client.create(createRequest)
+            let createResponse = try await keys.client.create(createRequest)
 
             // Verify response
             #expect(!createResponse.key.id.isEmpty)
@@ -80,16 +80,16 @@ struct MailgunKeysTests {
             let createdKeyId = createResponse.key.id
 
             // List keys to verify it was created
-            let listResponse = try await client.list()
+            let listResponse = try await keys.client.list()
             let createdKey = listResponse.items.first { $0.id == createdKeyId }
             #expect(createdKey != nil)
 
             // Delete the key
-            let deleteResponse = try await client.delete(createdKeyId)
+            let deleteResponse = try await keys.client.delete(createdKeyId)
             #expect(deleteResponse.message.contains("deleted") || deleteResponse.message.contains("Deleted") || deleteResponse.message.contains("removed"))
 
             // Verify it was deleted
-            let finalListResponse = try await client.list()
+            let finalListResponse = try await keys.client.list()
             let deletedKey = finalListResponse.items.first { $0.id == createdKeyId }
             #expect(deletedKey == nil)
         } catch {
@@ -115,7 +115,7 @@ struct MailgunKeysTests {
                 kind: nil
             )
 
-            let createResponse = try await client.create(createRequest)
+            let createResponse = try await keys.client.create(createRequest)
 
             // Verify response
             #expect(!createResponse.key.id.isEmpty)
@@ -130,7 +130,7 @@ struct MailgunKeysTests {
             }
 
             // Clean up
-            _ = try await client.delete(createResponse.key.id)
+            _ = try await keys.client.delete(createResponse.key.id)
         } catch {
             // Handle cases where Keys API might not be accessible
             let errorString = String(describing: error).lowercased()
@@ -159,7 +159,7 @@ struct MailgunKeysTests {
 
             let request = Mailgun.Keys.PublicKey.Request(publicKey: testPublicKey)
 
-            let response = try await client.addPublicKey(request)
+            let response = try await keys.client.addPublicKey(request)
             #expect(response.message.contains("added") || response.message.contains("Added") || response.message.contains("success"))
         } catch {
             // Handle cases where public key operations might not be supported
@@ -188,7 +188,7 @@ struct MailgunKeysTests {
                     kind: "user"
                 )
 
-                let createResponse = try await client.create(createRequest)
+                let createResponse = try await keys.client.create(createRequest)
                 createdKeyIds.append(createResponse.key.id)
 
                 // Verify the key was created with correct properties
@@ -197,7 +197,7 @@ struct MailgunKeysTests {
             }
 
             // List all keys to verify they were created
-            let listResponse = try await client.list()
+            let listResponse = try await keys.client.list()
             for keyId in createdKeyIds {
                 let foundKey = listResponse.items.first { $0.id == keyId }
                 #expect(foundKey != nil)
@@ -205,12 +205,12 @@ struct MailgunKeysTests {
 
             // Clean up all created keys
             for keyId in createdKeyIds {
-                let deleteResponse = try await client.delete(keyId)
+                let deleteResponse = try await keys.client.delete(keyId)
                 #expect(deleteResponse.message.contains("deleted") || deleteResponse.message.contains("Deleted"))
             }
 
             // Verify all keys were deleted
-            let finalListResponse = try await client.list()
+            let finalListResponse = try await keys.client.list()
             for keyId in createdKeyIds {
                 let deletedKey = finalListResponse.items.first { $0.id == keyId }
                 #expect(deletedKey == nil)
@@ -239,7 +239,7 @@ struct MailgunKeysTests {
                 kind: "user"
             )
 
-            let createResponse = try await client.create(createRequest)
+            let createResponse = try await keys.client.create(createRequest)
 
             // Verify all properties
             let key = createResponse.key
@@ -253,7 +253,7 @@ struct MailgunKeysTests {
             #expect(createResponse.key.secret.rangeOfCharacter(from: .alphanumerics) != nil)
 
             // Clean up
-            _ = try await client.delete(key.id)
+            _ = try await keys.client.delete(key.id)
         } catch {
             // Handle cases where Keys API might not be accessible
             let errorString = String(describing: error).lowercased()

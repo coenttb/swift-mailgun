@@ -17,12 +17,12 @@ import Testing
     .serialized
 )
 struct MailgunIPPoolsTests {
-    @Dependency(Mailgun.IPPools.Client.self) var client
+    @Dependency(Mailgun.IPPools.self) var ipPools
 
     @Test("Should successfully list IP pools")
     func testListIPPools() async throws {
         do {
-            let response = try await client.list()
+            let response = try await ipPools.client.list()
 
             // Check response structure
             #expect(!response.message.isEmpty || response.message.isEmpty)
@@ -63,7 +63,7 @@ struct MailgunIPPoolsTests {
         )
 
         do {
-            let response = try await client.create(createRequest)
+            let response = try await ipPools.client.create(createRequest)
             #expect(!response.poolId.isEmpty)
             #expect(!response.message.isEmpty)
 
@@ -71,7 +71,7 @@ struct MailgunIPPoolsTests {
             Task {
                 do {
                     let deleteRequest = Mailgun.IPPools.Delete.Request(poolId: response.poolId)
-                    _ = try await client.delete(response.poolId, deleteRequest)
+                    _ = try await ipPools.client.delete(response.poolId, deleteRequest)
                 } catch {
                     // Silently ignore cleanup errors
                 }
@@ -111,7 +111,7 @@ struct MailgunIPPoolsTests {
     func testIPPoolUpdate() async throws {
         // First, try to list pools to get a valid pool ID
         do {
-            let listResponse = try await client.list()
+            let listResponse = try await ipPools.client.list()
 
             if let firstPool = listResponse.ipPools.first {
                 // Test update request
@@ -122,7 +122,7 @@ struct MailgunIPPoolsTests {
                     removeIps: nil
                 )
 
-                let updateResponse = try await client.update(firstPool.poolId, updateRequest)
+                let updateResponse = try await ipPools.client.update(firstPool.poolId, updateRequest)
                 #expect(!updateResponse.message.isEmpty)
             } else {
                 // No pools available to update
@@ -163,11 +163,11 @@ struct MailgunIPPoolsTests {
     func testGetIPPoolDetails() async throws {
         do {
             // First list pools to get a valid pool ID
-            let listResponse = try await client.list()
+            let listResponse = try await ipPools.client.list()
 
             if let firstPool = listResponse.ipPools.first {
                 // Get pool details
-                let poolDetails = try await client.get(firstPool.poolId)
+                let poolDetails = try await ipPools.client.get(firstPool.poolId)
 
                 #expect(poolDetails.poolId == firstPool.poolId)
                 #expect(!poolDetails.name.isEmpty)
@@ -202,11 +202,11 @@ struct MailgunIPPoolsTests {
     func testListDomainsForIPPool() async throws {
         do {
             // Get pools first
-            let listResponse = try await client.list()
+            let listResponse = try await ipPools.client.list()
 
             if let firstPool = listResponse.ipPools.first {
                 // List domains for this pool
-                let domainsResponse = try await client.listDomains(firstPool.poolId)
+                let domainsResponse = try await ipPools.client.listDomains(firstPool.poolId)
 
                 #expect(!domainsResponse.message.isEmpty || domainsResponse.message.isEmpty)
                 #expect(domainsResponse.domains.isEmpty || !domainsResponse.domains.isEmpty)

@@ -10,7 +10,7 @@ import Testing
 //    .serialized
 // )
 // struct MailgunReportingTests {
-//    @Dependency(Mailgun.Reporting.Client.self) var client
+//    @Dependency(Mailgun.Reporting.self) var reporting
 //    @Dependency(\.envVars.mailgunDomain) var domain
 //    
 //    @Test("Should successfully access reporting subclients")

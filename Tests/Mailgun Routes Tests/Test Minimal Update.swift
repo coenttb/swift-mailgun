@@ -18,7 +18,7 @@ struct TestMinimalUpdate {
     
     @Test("Update only priority")
     func testUpdatePriorityOnly() async throws {
-        @Dependency(Mailgun.Routes.Client.self) var client
+        @Dependency(Mailgun.Routes.self) var routes
         
         // Create a route
         let testEmail = "minimal-\(UUID().uuidString.prefix(8))@example.com"
@@ -29,7 +29,7 @@ struct TestMinimalUpdate {
             action: ["stop()"]
         )
         
-        let createResponse = try await client.create(createRequest)
+        let createResponse = try await routes.client.create(createRequest)
         let routeId = createResponse.route.id
         
         // Update ONLY priority - send minimal request
@@ -41,11 +41,11 @@ struct TestMinimalUpdate {
             action: nil
         )
         
-        let updateResponse = try await client.update(routeId, updateRequest)
+        let updateResponse = try await routes.client.update(routeId, updateRequest)
         print("Update message: \(updateResponse.message)")
         
         // Verify the change
-        let getResponse = try await client.get(routeId)
+        let getResponse = try await routes.client.get(routeId)
         print("Priority after update: \(getResponse.route.priority)")
         print("Description after update: \(getResponse.route.description)")
         
@@ -53,6 +53,6 @@ struct TestMinimalUpdate {
         #expect(getResponse.route.description == "Keep this description", "Description should remain unchanged")
         
         // Clean up
-        _ = try? await client.delete(routeId)
+        _ = try? await routes.client.delete(routeId)
     }
 }

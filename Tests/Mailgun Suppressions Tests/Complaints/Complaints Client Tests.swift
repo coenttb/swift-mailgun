@@ -19,34 +19,34 @@
 // struct ComplaintsClientTests {
 //    @Test("Should successfully create complaint record")
 //    func testCreateComplaintRecord() async throws {
-//        @Dependency(Mailgun.Suppressions.Client.self) var client
+//        @Dependency(Mailgun.Suppressions.self) var suppressions
 //
 //        let request = Mailgun.Suppressions.Complaints.Create.Request(
 //            address: try .init("test@example.com")
 //        )
 //
-//        let response = try await client.complaints.create(request)
+//        let response = try await suppressions.client.complaints.create(request)
 //
 //        #expect(response.message == "Address has been added to the complaints table")
 //    }
 //
 //    @Test("Should successfully import complaints list")
 //    func testImportComplaintsList() async throws {
-//        @Dependency(Mailgun.Suppressions.Client.self) var client
+//        @Dependency(Mailgun.Suppressions.self) var suppressions
 //        let csvContent = """
 //        address, created_at
 //        test@example.com,
 //        another@example.com,
 //        """
 //
-//        let response = try await client.complaints.importList(Data(csvContent.utf8))
+//        let response = try await suppressions.client.complaints.importList(Data(csvContent.utf8))
 //
 //        #expect(response.message == "file uploaded successfully for processing. standby...")
 //    }
 //
 //    @Test("Should successfully get complaint record")
 //    func testGetComplaintRecord() async throws {
-//        @Dependency(Mailgun.Suppressions.Client.self) var client
+//        @Dependency(Mailgun.Suppressions.self) var suppressions
 //
 //        let complaint = try await client.complaints.get(try .init("test@example.com"))
 //
@@ -56,7 +56,7 @@
 //
 //    @Test("Should successfully list complaint records")
 //    func testListComplaintRecords() async throws {
-//        @Dependency(Mailgun.Suppressions.Client.self) var client
+//        @Dependency(Mailgun.Suppressions.self) var suppressions
 //
 //        let request = Mailgun.Suppressions.Complaints.List.Request(
 //            address: try .init("test@example.com"),
@@ -65,7 +65,7 @@
 //            page: nil
 //        )
 //
-//        let response = try await client.complaints.list(request)
+//        let response = try await suppressions.client.complaints.list(request)
 //
 //        #expect(!response.items.isEmpty)
 //        #expect(!response.paging.first.isEmpty)
@@ -74,9 +74,9 @@
 //
 //    @Test("Should successfully delete complaint record")
 //    func testDeleteComplaintRecord() async throws {
-//        @Dependency(Mailgun.Suppressions.Client.self) var client
+//        @Dependency(Mailgun.Suppressions.self) var suppressions
 //
-//        let response = try await client.complaints.delete(try .init("test@example.com"))
+//        let response = try await suppressions.client.complaints.delete(try .init("test@example.com"))
 //
 //        #expect(response.message == "Spam complaint has been removed")
 //        #expect(response.address.address == "test@example.com")
@@ -84,9 +84,9 @@
 //
 //    @Test("Should successfully delete all complaint records")
 //    func testDeleteAllComplaintRecords() async throws {
-//        @Dependency(Mailgun.Suppressions.Client.self) var client
+//        @Dependency(Mailgun.Suppressions.self) var suppressions
 //
-//        let response = try await client.complaints.deleteAll()
+//        let response = try await suppressions.client.complaints.deleteAll()
 //
 //        #expect(response.message == "Complaint addresses for this domain have been removed")
 //    }

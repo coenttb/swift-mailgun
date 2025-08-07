@@ -49,17 +49,17 @@ extension Mailgun.IPAllowlist.Client {
     }
 }
 
-extension Mailgun.IPAllowlist.Client {
-    public typealias Authenticated = Mailgun_Shared.AuthenticatedClient<
+extension Mailgun.IPAllowlist {
+    public typealias Authenticated = Mailgun_Shared.Authenticated<
         Mailgun.IPAllowlist.API,
         Mailgun.IPAllowlist.API.Router,
         Mailgun.IPAllowlist.Client
     >
 }
 
-extension Mailgun.IPAllowlist.Client: @retroactive DependencyKey {
-    public static var liveValue: Mailgun.IPAllowlist.Client.Authenticated {
-        try! Mailgun.IPAllowlist.Client.Authenticated { .live(makeRequest: $0) }
+extension Mailgun.IPAllowlist: @retroactive DependencyKey {
+    public static var liveValue: Mailgun.IPAllowlist.Authenticated {
+        try! Mailgun.IPAllowlist.Authenticated { .live(makeRequest: $0) }
     }
 }
 

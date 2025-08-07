@@ -18,7 +18,7 @@ struct DebugUpdateTest {
     
     @Test("Debug update with all fields")
     func testDebugUpdate() async throws {
-        @Dependency(Mailgun.Routes.Client.self) var client
+        @Dependency(Mailgun.Routes.self) var routes
         
         // Create a route first
         let testEmail = "debug-\(UUID().uuidString.prefix(8))@example.com"
@@ -29,7 +29,7 @@ struct DebugUpdateTest {
             action: ["stop()"]
         )
         
-        let createResponse = try await client.create(createRequest)
+        let createResponse = try await routes.client.create(createRequest)
         let routeId = createResponse.route.id
         print("Created route: \(routeId)")
         print("Initial priority: \(createResponse.route.priority)")
@@ -45,7 +45,7 @@ struct DebugUpdateTest {
             action: ["forward('https://example.com/webhook')"]
         )
         
-        let updateResponse = try await client.update(routeId, updateRequest)
+        let updateResponse = try await routes.client.update(routeId, updateRequest)
         print("\nUpdate response:")
         print("Message: \(updateResponse.message)")
         print("Priority in response: \(updateResponse.priority)")
@@ -53,7 +53,7 @@ struct DebugUpdateTest {
         print("Actions in response: \(updateResponse.actions)")
         
         // Fetch to verify
-        let getResponse = try await client.get(routeId)
+        let getResponse = try await routes.client.get(routeId)
         print("\nFetched after update:")
         print("Priority: \(getResponse.route.priority)")
         print("Description: \(getResponse.route.description)")
@@ -64,6 +64,6 @@ struct DebugUpdateTest {
         #expect(getResponse.route.actions == ["forward('https://example.com/webhook')"])
         
         // Clean up
-        _ = try? await client.delete(routeId)
+        _ = try? await routes.client.delete(routeId)
     }
 }

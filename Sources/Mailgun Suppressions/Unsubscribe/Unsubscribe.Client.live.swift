@@ -67,17 +67,17 @@ extension Mailgun.Suppressions.Unsubscribe.Client {
     }
 }
 
-extension Mailgun.Suppressions.Unsubscribe.Client {
-    public typealias Authenticated = Mailgun_Shared.AuthenticatedClient<
+extension Mailgun.Suppressions.Unsubscribe {
+    public typealias Authenticated = Mailgun_Shared.Authenticated<
         Mailgun.Suppressions.Unsubscribe.API,
         Mailgun.Suppressions.Unsubscribe.API.Router,
         Mailgun.Suppressions.Unsubscribe.Client
     >
 }
 
-extension Mailgun.Suppressions.Unsubscribe.Client: @retroactive DependencyKey {
-    public static var liveValue: Mailgun.Suppressions.Unsubscribe.Client.Authenticated {
-        try! Mailgun.Suppressions.Unsubscribe.Client.Authenticated { .live(makeRequest: $0) }
+extension Mailgun.Suppressions.Unsubscribe: @retroactive DependencyKey {
+    public static var liveValue: Mailgun.Suppressions.Unsubscribe.Authenticated {
+        try! Mailgun.Suppressions.Unsubscribe.Authenticated { .live(makeRequest: $0) }
     }
 }
 
