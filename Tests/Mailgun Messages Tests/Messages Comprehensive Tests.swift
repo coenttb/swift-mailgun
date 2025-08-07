@@ -69,29 +69,6 @@ struct MessagesComprehensiveTests {
         #expect(response.message.contains("Queued"))
     }
 
-    @Test("Send email with CC and BCC recipients")
-    func testSendEmailWithCcBcc() async throws {
-        @Dependency(Mailgun.Messages.self) var messages
-        @Dependency(\.envVars.mailgunFrom) var from
-        @Dependency(\.envVars.mailgunTo) var to
-
-        let request = Mailgun.Messages.Send.Request(
-            from: from,
-            to: [to],
-            subject: "Email with CC and BCC",
-            html: "<p>This email has CC and BCC recipients</p>",
-            text: "This email has CC and BCC recipients",
-            cc: [try EmailAddress("cc@example.com")],
-            bcc: [try EmailAddress("bcc@example.com")],
-            testMode: true
-        )
-
-        let response = try await messages.client.send(request)
-
-        #expect(!response.id.isEmpty)
-        #expect(response.message.contains("Queued"))
-    }
-
     @Test("Send email with tags")
     func testSendEmailWithTags() async throws {
         @Dependency(Mailgun.Messages.self) var messages

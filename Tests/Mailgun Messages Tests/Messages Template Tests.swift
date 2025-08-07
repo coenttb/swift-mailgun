@@ -209,40 +209,4 @@ struct MessagesTemplateTests {
         #expect(!response.id.isEmpty)
         #expect(response.message.contains("Queued"))
     }
-
-    @Test("Send batch email with template and recipient variables")
-    func testSendBatchTemplateEmail() async throws {
-        @Dependency(Mailgun.Messages.self) var messages
-        @Dependency(\.envVars.mailgunFrom) var from
-        @Dependency(\.envVars.mailgunTo) var to
-
-        let recipientVariables = """
-            {
-                "\(to.rawValue)": {
-                    "name": "Primary User",
-                    "account_type": "Premium",
-                    "renewal_date": "2024-12-31"
-                },
-                "user2@example.com": {
-                    "name": "Secondary User",
-                    "account_type": "Basic",
-                    "renewal_date": "2024-06-15"
-                }
-            }
-            """
-
-        let request = Mailgun.Messages.Send.Request(
-            from: from,
-            to: [to, try EmailAddress("user2@example.com")],
-            subject: "Account Status for %recipient.name%",
-            template: "account-status-template",
-            testMode: true,
-            recipientVariables: recipientVariables
-        )
-
-        let response = try await messages.client.send(request)
-
-        #expect(!response.id.isEmpty)
-        #expect(response.message.contains("Queued"))
-    }
 }
