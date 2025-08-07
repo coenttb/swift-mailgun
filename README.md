@@ -16,7 +16,7 @@
 
 ## Overview
 
-**coenttb-mailgun** is a modern, type-safe Swift SDK for Mailgun that brings the full power of Swift 6's concurrency model to email automation. Built on top of [swift-mailgun-types](https://github.com/coenttb/swift-mailgun-types), it provides production-ready implementations with comprehensive API coverage.
+**coenttb-mailgun** is a modern, type-safe Swift SDK for Mailgun that brings the full power of Swift 6's concurrency model to email automation. Built on top of [swift-mailgun-types](https://github.com/coenttb/swift-mailgun-types), it provides production-ready implementations with exhaustive API coverage.
 
 ```swift
 import Dependencies
