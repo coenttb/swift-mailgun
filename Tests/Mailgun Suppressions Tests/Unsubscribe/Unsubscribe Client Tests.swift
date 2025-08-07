@@ -183,11 +183,16 @@ struct UnsubscribeClientTests {
             #expect(firstPage.items.count <= 5)
             #expect(!firstPage.paging.first.isEmpty)
             
-            // If there's a next page, verify it's different
-            if firstPage.paging.next != nil {
+            // If there's a next page and we have items to use as cursor
+            if firstPage.paging.next != nil && !firstPage.items.isEmpty {
+                // Mailgun pagination requires an address as a cursor/divider
+                // Use the last item's address from the first page as the cursor
+                let lastAddress = firstPage.items.last?.address
+                
                 let secondPageRequest = Mailgun.Suppressions.Unsubscribe.List.Request(
+                    address: lastAddress,  // Required: address serves as cursor
                     limit: 5,
-                    page: "next"
+                    page: "next"  // Direction relative to the address
                 )
                 
                 let secondPage = try await client.list(secondPageRequest)
@@ -195,9 +200,12 @@ struct UnsubscribeClientTests {
                 #expect(secondPage.items.count <= 5)
                 
                 // Verify we got different records
-                if !firstPage.items.isEmpty && !secondPage.items.isEmpty {
-                    #expect(firstPage.items.first?.address != secondPage.items.first?.address)
+                if !secondPage.items.isEmpty {
+                    // The second page should not contain the cursor address
+                    #expect(!secondPage.items.contains(where: { $0.address == lastAddress }))
                 }
+            } else if firstPage.items.isEmpty {
+                #expect(Bool(true), "No items to paginate through")
             }
         } catch {
             // Handle pagination errors gracefully
