@@ -21,34 +21,34 @@ extension Mailgun.Users.Client {
         @Dependency(URLRequest.Handler.Mailgun.self) var handleRequest
 
         return Self(
-            list: {
+            list: { request in
                 try await handleRequest(
-                    for: makeRequest(.list),
+                    for: makeRequest(.list(request: request)),
                     decodingTo: Mailgun.Users.List.Response.self
                 )
             },
             get: { userId in
                 try await handleRequest(
                     for: makeRequest(.get(userId: userId)),
-                    decodingTo: Mailgun.Users.User.self
+                    decodingTo: Mailgun.Users.Get.Response.self
                 )
             },
             me: {
                 try await handleRequest(
                     for: makeRequest(.me),
-                    decodingTo: Mailgun.Users.User.self
+                    decodingTo: Mailgun.Users.Me.Response.self
                 )
             },
-            addToOrganization: { userId, orgId, request in
+            addToOrganization: { userId, orgId in
                 try await handleRequest(
-                    for: makeRequest(.addToOrganization(userId: userId, orgId: orgId, request: request)),
-                    decodingTo: Mailgun.Users.Organization.Response.self
+                    for: makeRequest(.addToOrganization(userId: userId, orgId: orgId)),
+                    decodingTo: Mailgun.Users.Organization.Add.Response.self
                 )
             },
             removeFromOrganization: { userId, orgId in
                 try await handleRequest(
                     for: makeRequest(.removeFromOrganization(userId: userId, orgId: orgId)),
-                    decodingTo: Mailgun.Users.Organization.Response.self
+                    decodingTo: Mailgun.Users.Organization.Remove.Response.self
                 )
             }
         )
