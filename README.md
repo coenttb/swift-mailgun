@@ -109,32 +109,6 @@ targets: [
 ]
 ```
 
-## Recent Updates 🎉
-
-### Version 0.0.1 (February 2025) - Initial Release
-- ✅ **All 238 Tests Passing**: 100% test success rate across all modules
-- ✅ **Complete API Implementation**: Every Mailgun API endpoint implemented
-- ✅ **Production Ready**: Battle-tested in production at coenttb.com
-- ✅ **Swift 6.0 Support**: Full language mode with strict concurrency
-- ✅ **Updated Dependencies**: 
-  - swift-mailgun-types 0.1.0 (with all test fixes)
-  - swift-authenticating 0.0.2
-- ✅ **Code Quality**: SwiftLint applied across entire codebase
-- ✅ **Test Improvements**:
-  - Fixed Events API date parameter ordering
-  - Added proper delays for tag data propagation
-  - Sandbox recipient authorization handling
-- ✅ **Comprehensive Features**:
-  - Messages, Templates, Suppressions, Domains
-  - Reporting (Events, Stats, Tags, Metrics)
-  - Lists, Routes, Webhooks, IP management
-  - Subaccounts, Users, and more
-  - Fixed Suppressions Allowlist API paths
-- ✅ **New Features**:
-  - Sandbox reset utility for test cleanup
-  - Authorized recipients helper for sandbox testing
-  - Comprehensive integration tests
-
 ## Quick Start
 
 ### Environment Configuration
@@ -319,6 +293,8 @@ func routes(_ app: Application) throws {
     app.post("send-welcome") { req async throws -> HTTPStatus in
         let user = try req.content.decode(User.self)
         
+        @Dependency(\.mailgun) var mailgun
+        
         let email = Mailgun.Messages.Send.Request(
             from: .init("welcome@app.com"),
             to: [.init(user.email)],
@@ -330,7 +306,7 @@ func routes(_ app: Application) throws {
             ]
         )
         
-        try await req.mailgun.client.messages.send(email)
+        try await mailgun.client.messages.send(email)
         return .ok
     }
 }
@@ -396,19 +372,6 @@ The SDK includes comprehensive test coverage with **238 tests** - all passing! �
 | **Other Features** | 28 | ✅ |
 | **Total** | **238** | **100% Passing** |
 
-### Running Tests
-
-```bash
-# Run all tests
-swift test
-
-# Run specific test suite
-swift test --filter MessagesTests
-
-# Run with verbose output
-swift test --verbose
-```
-
 ### Test Configuration
 
 Tests use environment variables for configuration. Create a `.env.development` file:
@@ -427,7 +390,7 @@ The SDK uses Swift Testing framework with dependency injection:
 
 ```swift
 import Testing
-import Dependencies
+import DependenciesTestSupport
 import Mailgun
 
 @Suite(
@@ -456,7 +419,7 @@ struct EmailTests {
 
 ### Sandbox Testing
 
-For sandbox domains, ensure recipients are authorized:
+For sandbox domains, ensure you've added authorized recipients:
 
 ```swift
 // Helper to get authorized sandbox recipients
@@ -465,8 +428,8 @@ func getAuthorizedRecipients() async throws -> [EmailAddress] {
     
     let response = try await mailgun.client.accountManagement.getSandboxAuthRecipients()
     return response.recipients
-        .filter { $0.activated }
-        .map { try EmailAddress($0.email) }
+        .filter(\.activated)
+        .map(\.email)
 }
 ```
 
@@ -476,7 +439,6 @@ The package includes helpful test utilities:
 
 - **Sandbox Reset Test**: Clean up test data while preserving authorized recipients
 - **Integration Tests**: Real API tests with authorized recipients
-- **Mock Support**: Use `@DependencyClient` for easy mocking
 
 ## Architecture
 
