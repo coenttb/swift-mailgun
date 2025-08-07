@@ -1,0 +1,18 @@
+{
+  "configurations" : [
+    {
+      "id" : "CAD330DF-0EDD-4966-9694-AFA7B0638D22",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+
+  ],
+  "version" : 1
+}

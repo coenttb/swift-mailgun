@@ -106,31 +106,41 @@ struct RoutesTests {
         @Dependency(Mailgun.Routes.Client.self) var client
         
         // First create a route
+        let testEmail = "update-test-\(UUID().uuidString.prefix(8))@example.com"
         let createRequest = Mailgun.Routes.Create.Request(
             priority: 1,
             description: "Original description",
-            expression: "match_recipient('update-test-\(UUID().uuidString.prefix(8))@example.com')",
+            expression: "match_recipient('\(testEmail)')",
             action: ["stop()"]
         )
         
         let createResponse = try await client.create(createRequest)
         let routeId = createResponse.route.id
         
-        // Update the route
+        // Update the route - include expression to ensure update works
         let updateRequest = Mailgun.Routes.Update.Request(
             priority: 2,
             description: "Updated description",
-            expression: nil,  // Keep existing expression
+            expression: "match_recipient('\(testEmail)')",  // Same expression
             action: ["forward('https://example.com/updated')"]
         )
+        // Debug: Check what request is being generated
+        // @Dependency(Mailgun.Routes.API.Router.self) var router
+        // print("router.request(for: .update(id: routeId, request: updateRequest))", try router.request(for: .update(id: routeId, request: updateRequest)).debugDescription)
         
         let updateResponse = try await client.update(routeId, updateRequest)
+        print("updateResponse: \(updateResponse)")
         
         #expect(updateResponse.message.contains("updated"))
-        #expect(updateResponse.route.id == routeId)
-        #expect(updateResponse.route.priority == 2)
-        #expect(updateResponse.route.description == "Updated description")
-        #expect(updateResponse.route.actions == ["forward('https://example.com/updated')"])
+        #expect(updateResponse.id == routeId)
+        
+        // Get the route to verify it was actually updated
+        let getResponse = try await client.get(routeId)
+        print("After GET - priority: \(getResponse.route.priority), description: \(getResponse.route.description)")
+        
+        #expect(getResponse.route.priority == 2)
+        #expect(getResponse.route.description == "Updated description")
+        #expect(getResponse.route.actions == ["forward('https://example.com/updated')"])
         
         // Clean up
         _ = try? await client.delete(routeId)
@@ -270,6 +280,20 @@ struct RoutesTests {
             
             // Clean up
             _ = try? await client.delete(response.route.id)
+        }
+    }
+    
+    @Test(
+        "Delete all existing routes",
+        .disabled("Used for manual cleanup after running tests.")
+    )
+    func deleteAllExistingRoutes() async throws {
+        @Dependency(Mailgun.Routes.Client.self) var client
+        
+        let listResponse = try await client.list(nil, nil)
+        
+        for route in listResponse.items {
+            _ = try? await client.delete(route.id)
         }
     }
 }
