@@ -20,7 +20,7 @@ extension URLRequest.Handler.Mailgun: DependencyKey {
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.timeZone = TimeZone(abbreviation: "GMT")
         decoder.dateDecodingStrategy = .formatted(formatter)
-        
+
         return .init(
             debug: false,
             decoder: decoder

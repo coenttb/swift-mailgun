@@ -5,11 +5,11 @@
 //  Created by Coen ten Thije Boonkkamp on 27/12/2024.
 //
 
-import Testing
 import Dependencies
 import DependenciesTestSupport
-import Mailgun_Suppressions
 import Foundation
+import Mailgun_Suppressions
+import Testing
 
 @Suite(
    "Bounces Client Tests",
@@ -26,7 +26,7 @@ struct SuppressionsBouncesClientTests {
         // Note: Using test-bounces.com domain to avoid conflicts with Allowlisted example.com
         let timestamp = Date().timeIntervalSince1970
         let uniqueEmail = "bounce-test-\(Int(timestamp))@test-bounces.com"
-        
+
         let request = Mailgun.Suppressions.Bounces.Create.Request(
             address: try .init(uniqueEmail),
             code: "550",
@@ -36,7 +36,7 @@ struct SuppressionsBouncesClientTests {
         let response = try await suppressions.client.bounces.create(request)
 
         #expect(response.message == "Address has been added to the bounces table")
-        
+
         // Clean up - delete the bounce record we just created
         _ = try? await suppressions.client.bounces.delete(try .init(uniqueEmail))
     }
@@ -62,22 +62,22 @@ struct SuppressionsBouncesClientTests {
         // First create a bounce record to ensure it exists
         let timestamp = Date().timeIntervalSince1970
         let uniqueEmail = "bounce-get-test-\(Int(timestamp))@test-bounces.com"
-        
+
         let createRequest = Mailgun.Suppressions.Bounces.Create.Request(
             address: try .init(uniqueEmail),
             code: "550",
             error: "Test error for get"
         )
-        
+
         _ = try await suppressions.client.bounces.create(createRequest)
-        
+
         // Now get the bounce record
         let bounce = try await suppressions.client.bounces.get(try .init(uniqueEmail))
 
         #expect(bounce.address.address == uniqueEmail)
         #expect(!bounce.code.isEmpty)
         #expect(!bounce.createdAt.isEmpty)
-        
+
         // Clean up
         _ = try? await suppressions.client.bounces.delete(try .init(uniqueEmail))
     }
@@ -88,13 +88,13 @@ struct SuppressionsBouncesClientTests {
         // First create a bounce record to ensure there's something to list
         let timestamp = Date().timeIntervalSince1970
         let uniqueEmail = "bounce-list-test-\(Int(timestamp))@test-bounces.com"
-        
+
         let createRequest = Mailgun.Suppressions.Bounces.Create.Request(
             address: try .init(uniqueEmail),
             code: "550",
             error: "Test error for list"
         )
-        
+
         _ = try await suppressions.client.bounces.create(createRequest)
 
         // Now list the bounce records
@@ -109,7 +109,7 @@ struct SuppressionsBouncesClientTests {
         #expect(!response.items.isEmpty)
         #expect(!response.paging.first.isEmpty)
         #expect(!response.paging.last.isEmpty)
-        
+
         // Clean up
         _ = try? await suppressions.client.bounces.delete(try .init(uniqueEmail))
     }
@@ -120,15 +120,15 @@ struct SuppressionsBouncesClientTests {
         // First create a bounce record to delete
         let timestamp = Date().timeIntervalSince1970
         let uniqueEmail = "bounce-delete-test-\(Int(timestamp))@test-bounces.com"
-        
+
         let createRequest = Mailgun.Suppressions.Bounces.Create.Request(
             address: try .init(uniqueEmail),
             code: "550",
             error: "Test error for deletion"
         )
-        
+
         _ = try await suppressions.client.bounces.create(createRequest)
-        
+
         // Now delete it
         let response = try await suppressions.client.bounces.delete(try .init(uniqueEmail))
 

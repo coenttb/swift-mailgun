@@ -33,7 +33,7 @@ extension Authenticated {
     ) throws where Auth == BasicAuth, AuthRouter == BasicAuth.Router {
         @Dependency(\.envVars.mailgun.baseUrl) var baseUrl
         @Dependency(\.envVars.mailgun.apiKey) var apiKey
-        
+
         self = .init(
             baseURL: baseUrl,
             auth: try .init(username: "api", password: apiKey.rawValue),
