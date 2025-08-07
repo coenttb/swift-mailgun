@@ -22,10 +22,17 @@ extension Mailgun.Suppressions.Unsubscribe.Client {
         @Dependency(\.envVars.mailgunDomain) var domain
 
         return Self(
+            importList: { request in
+                try await handleRequest(
+                    for: makeRequest(.importList(domain: domain, request: request)),
+                    decodingTo: Mailgun.Suppressions.Unsubscribe.Import.Response.self
+                )
+            },
+            
             get: { address in
                 try await handleRequest(
                     for: makeRequest(.get(domain: domain, address: address)),
-                    decodingTo: Mailgun.Suppressions.Unsubscribe.Record.self
+                    decodingTo: Mailgun.Suppressions.Unsubscribe.Get.Response.self
                 )
             },
 
@@ -53,16 +60,27 @@ extension Mailgun.Suppressions.Unsubscribe.Client {
             deleteAll: {
                 try await handleRequest(
                     for: makeRequest(.deleteAll(domain: domain)),
-                    decodingTo: Mailgun.Suppressions.Unsubscribe.Delete.All.Response.self
-                )
-            },
-
-            importList: { request in
-                try await handleRequest(
-                    for: makeRequest(.importList(domain: domain, request: request)),
-                    decodingTo: Mailgun.Suppressions.Unsubscribe.Import.Response.self
+                    decodingTo: Mailgun.Suppressions.Unsubscribe.DeleteAll.Response.self
                 )
             }
         )
     }
+}
+
+extension Mailgun.Suppressions.Unsubscribe.Client {
+    public typealias Authenticated = Mailgun_Shared.AuthenticatedClient<
+        Mailgun.Suppressions.Unsubscribe.API,
+        Mailgun.Suppressions.Unsubscribe.API.Router,
+        Mailgun.Suppressions.Unsubscribe.Client
+    >
+}
+
+extension Mailgun.Suppressions.Unsubscribe.Client: @retroactive DependencyKey {
+    public static var liveValue: Mailgun.Suppressions.Unsubscribe.Client.Authenticated {
+        try! Mailgun.Suppressions.Unsubscribe.Client.Authenticated { .live(makeRequest: $0) }
+    }
+}
+
+extension Mailgun.Suppressions.Unsubscribe.API.Router: @retroactive DependencyKey {
+    public static let liveValue: Mailgun.Suppressions.Unsubscribe.API.Router = .init()
 }
