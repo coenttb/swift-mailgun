@@ -154,8 +154,8 @@ struct MessagesIntegrationTests {
                 </ul>
                 """,
             text: "Email with TO: \(toRecipient.rawValue), CC: \(ccRecipient.rawValue), BCC: \(bccRecipient.rawValue)",
-            cc: [ccRecipient.rawValue],
-            bcc: [bccRecipient.rawValue],
+            cc: [ccRecipient],
+            bcc: [bccRecipient],
             testMode: true
         )
 

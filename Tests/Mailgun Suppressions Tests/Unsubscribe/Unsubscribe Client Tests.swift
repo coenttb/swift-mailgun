@@ -6,7 +6,7 @@ import Foundation
 import EmailAddress
 
 @Suite(
-    "Unsubscribe Client Tests",
+    "Mailgun Unsubscribe Client Tests",
     .dependency(\.context, .live),
     .dependency(\.envVars, .development),
     .serialized

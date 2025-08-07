@@ -81,8 +81,8 @@ struct MessagesComprehensiveTests {
             subject: "Email with CC and BCC",
             html: "<p>This email has CC and BCC recipients</p>",
             text: "This email has CC and BCC recipients",
-            cc: ["cc@example.com"],
-            bcc: ["bcc@example.com"],
+            cc: [try EmailAddress("cc@example.com")],
+            bcc: [try EmailAddress("bcc@example.com")],
             testMode: true
         )
 
