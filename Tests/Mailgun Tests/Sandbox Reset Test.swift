@@ -19,12 +19,14 @@ import EnvironmentVariables
 @Suite(
     "Sandbox Reset Tests",
     .dependency(\.context, .live),
-    .dependency(\.envVars, .development),
-    .disabled("Only run manually to reset sandbox")
+    .dependency(\.envVars, .development)
 )
 struct SandboxResetTests {
     
-    @Test("Reset entire sandbox (deletes all test data except authorized recipients)")
+    @Test(
+        "Reset entire sandbox (deletes all test data except authorized recipients)",
+        .disabled("Only run manually to reset sandbox")
+    )
     func testResetSandbox() async throws {
         @Dependency(\.mailgun) var mailgun
         @Dependency(\.envVars.mailgunDomain) var domain
