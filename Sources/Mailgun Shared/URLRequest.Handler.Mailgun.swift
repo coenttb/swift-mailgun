@@ -6,7 +6,12 @@
 //
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
+
 import URLRequestHandler
+
 
 extension URLRequest.Handler {
     package enum Mailgun {}
