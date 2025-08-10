@@ -6,5 +6,5 @@
 //
 
 @_exported import Mailgun_Messages_Live
-
-
+@_exported import Mailgun_Shared
+@_exported import HTML

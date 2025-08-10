@@ -6,3 +6,4 @@
 //
 
 @_exported import Mailgun_Lists_Live
+@_exported import Mailgun_Shared

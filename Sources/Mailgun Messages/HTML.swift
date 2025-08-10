@@ -42,18 +42,18 @@ extension Mailgun.Messages.Send.Request {
         headers: [String: String]? = nil,
         variables: [String: String]? = nil,
         recipientVariables: String? = nil,
-        @HTMLBuilder html: () -> String? =  { nil },
-        @HTMLBuilder ampHtml: () -> String? = { nil }
-    ) {
-        self = .init(
+        @HTMLBuilder html: () -> any HTML,
+        @HTMLBuilder ampHtml: () -> (any HTML)? = { nil }
+    ) throws {
+        self = try .init(
             from: from,
             to: to,
             subject: subject,
-            html: html(),
+            html: String.init(AnyHTML(html())),
             text: text,
             cc: cc,
             bcc: bcc,
-            ampHtml: ampHtml(),
+            ampHtml: ampHtml().map(AnyHTML.init).map { html in try String(html) },
             template: template,
             templateVersion: templateVersion,
             templateText: templateText,

@@ -11,27 +11,51 @@
 </p>
 
 <p align="center">
-  <strong>Modern, type-safe Swift SDK for Mailgun</strong><br>
-  Production-ready implementation with comprehensive API coverage
+  <strong>Complete Swift SDK for Mailgun with Integrations</strong><br>
+  User-friendly package with SwiftUI, HTML templates, and more
 </p>
 
 ## Overview
 
-**coenttb-mailgun** is a modern, type-safe Swift SDK for Mailgun that brings the full power of Swift 6's concurrency model to email automation. Built on top of [swift-mailgun-types](https://github.com/coenttb/swift-mailgun-types), it provides production-ready implementations with exhaustive API coverage.
+**coenttb-mailgun** is the complete, user-friendly Swift SDK for Mailgun that combines the power of [swift-mailgun-live](https://github.com/coenttb/swift-mailgun-live) with additional integrations for SwiftUI, HTML email templates, and more. It's the recommended entry point for using Mailgun in your Swift applications.
+
+This package is part of a modular three-package architecture:
+- **coenttb-mailgun** (this package): User-facing SDK with integrations
+- **[swift-mailgun-live](https://github.com/coenttb/swift-mailgun-live)**: Live implementations with URLSession networking
+- **[swift-mailgun-types](https://github.com/coenttb/swift-mailgun-types)**: Type definitions and interfaces
 
 ```swift
 // github.com/coenttb/coenttb-mailgun
-import Mailgun
+import Mailgun  // Complete SDK with integrations
 
 @Dependency(\.mailgun) var mailgun
 
-// Send a simple email
-let request = Mailgun.Messages.Send.Request(
-    from: try .init("hello@yourdomain.com"),
+// Send email with type-safe HTML using swift-html integration
+let request = try Mailgun.Messages.Send.Request(
+    from: .init("hello@yourdomain.com"),
     to: [try .init("user@example.com")],
-    subject: "Modern, type-safe Swift SDK for Mailgun!",
-    html: "<h1>Production-ready</h1><p>Fully tested</p>"
-)
+    subject: "Welcome to Our Service!"
+) {
+    div {
+        h1 { "Welcome!" }
+            .color(.blue)
+            .textAlign(.center)
+        
+        p { "We're excited to have you on board." }
+            .fontSize(.rem(1.1))
+            .lineHeight(1.6)
+        
+        a(href: "https://example.com/get-started") {
+            "Get Started"
+        }
+        .display(.inlineBlock)
+        .padding(.rem(0.75), .rem(1.5))
+        .backgroundColor(.blue)
+        .color(.white)
+        .borderRadius(.px(5))
+    }
+    .padding(.rem(2))
+}
 
 let response = try await mailgun.client.messages.send(request)
 print("Email sent: \(response.id) ✅")
@@ -97,13 +121,13 @@ Add coenttb-mailgun to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/coenttb/coenttb-mailgun", from: "0.0.1")
+    .package(url: "https://github.com/coenttb/coenttb-mailgun", from: "0.1.0")
 ],
 targets: [
     .target(
         name: "YourTarget",
         dependencies: [
-            .product(name: "Mailgun", package: "coenttb-mailgun")
+            .product(name: "CoenttbMailgun", package: "coenttb-mailgun")
         ]
     )
 ]
@@ -137,18 +161,48 @@ import Mailgun
 // Access the client via dependency injection
 @Dependency(\.mailgun) var mailgun
 
-// Send a simple email
-func sendWelcomeEmail(to email: EmailAddress) async throws {
-    let request = Mailgun.Messages.Send.Request(
+// Send email with type-safe HTML and CSS styling
+func sendWelcomeEmail(to email: EmailAddress, name: String) async throws {
+    let request = try Mailgun.Messages.Send.Request(
         from: .init("welcome@yourdomain.com"),
         to: [.init(email)],
-        subject: "Welcome!",
-        html: """
-            <h1>Welcome to our service!</h1>
-            <p>We're excited to have you on board.</p>
-        """,
-        text: "Welcome to our service! We're excited to have you on board."
-    )
+        subject: "Welcome, \(name)!"
+    ) {
+        VStack(alignment: .center) {
+            h1 { "Welcome, \(name)!" }
+                .color(.black)
+                .marginBottom(.rem(1))
+            
+            p { "Thanks for joining us. Here's what you can do next:" }
+                .fontSize(.rem(1.1))
+                .color(.gray)
+                .marginBottom(.rem(2))
+            
+            VStack(alignment: .left) {
+                div { "✓ Complete your profile" }
+                div { "✓ Explore our features" }
+                div { "✓ Join the community" }
+            }
+            .fontSize(.rem(1))
+            .lineHeight(1.8)
+            .marginBottom(.rem(2))
+            
+            a(href: "https://app.com/profile") {
+                "Complete Profile"
+            }
+            .display(.inlineBlock)
+            .padding(.rem(1), .rem(2))
+            .backgroundColor(.blue)
+            .color(.white)
+            .textDecoration(.none)
+            .borderRadius(.px(8))
+            .fontWeight(.semibold)
+        }
+        .fontFamily(.systemUI)
+        .padding(.rem(3))
+        .maxWidth(.rem(30))
+        .margin(.auto)
+    }
     
     let response = try await mailgun.client.messages.send(request)
     print("Welcome email sent: \(response.id)")
@@ -156,6 +210,43 @@ func sendWelcomeEmail(to email: EmailAddress) async throws {
 ```
 
 ### Advanced Features
+
+#### Type-Safe HTML Email Building
+
+Use swift-html DSL for compile-time safe HTML generation:
+
+```swift
+let request = try Mailgun.Messages.Send.Request(
+    from: .init("newsletter@yourdomain.com"),
+    to: [.init("subscriber@example.com")],
+    subject: "Your Weekly Newsletter"
+) {
+    div {
+        h1 { "This Week's Highlights" }
+    }
+    div {
+        h2 { "Top Stories" }
+        ul {
+            li { "New Swift 6 features announced" }
+            li { "SwiftUI improvements in iOS 18" }
+            li { "Server-side Swift adoption growing" }
+        }
+        
+        h2 { "Community Updates" }
+        p {
+            "Join us for the upcoming "
+            a(href: "https://swift.org/conference") { "Swift Conference" }
+            " next month!"
+        }
+    }
+    div {
+        p {
+            "You're receiving this because you subscribed. "
+            a(href: "{{unsubscribe}}") { "Unsubscribe" }
+        }
+    }
+}
+```
 
 #### Templates with Variables
 
@@ -295,16 +386,23 @@ func routes(_ app: Application) throws {
         
         @Dependency(\.mailgun) var mailgun
         
-        let email = Mailgun.Messages.Send.Request(
+        let email = try Mailgun.Messages.Send.Request(
             from: .init("welcome@app.com"),
             to: [.init(user.email)],
-            subject: "Welcome to our app!",
-            template: "welcome",
-            templateVariables: [
-                "name": user.name,
-                "activation_link": "https://app.com/activate/\(user.id)"
-            ]
-        )
+            subject: "Welcome to our app!"
+        ) {
+            h1 { "Welcome, \(user.name)!" }
+            p { "Thanks for signing up. We're excited to have you on board!" }
+            div(style: "margin: 20px 0;") {
+                a(
+                    href: "https://app.com/activate/\(user.id)",
+                    style: "background: #007AFF; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;"
+                ) {
+                    "Activate Your Account"
+                }
+            }
+            p { "If you have any questions, just reply to this email." }
+        }
         
         try await mailgun.client.messages.send(email)
         return .ok
@@ -316,7 +414,6 @@ func routes(_ app: Application) throws {
 
 ```swift
 import SwiftUI
-import Dependencies
 import Mailgun
 
 @MainActor
@@ -334,13 +431,56 @@ class ContactViewModel {
         defer { isLoading = false }
         
         do {
-            let request = Mailgun.Messages.Send.Request(
+            let request = try Mailgun.Messages.Send.Request(
                 from: .init(email),
                 to: [.init("contact@company.com")],
                 subject: "Contact Form: \(name)",
-                text: message,
                 replyTo: .init(email)
-            )
+            ) {
+                div {
+                    h2 { "New Contact Form Submission" }
+                        .marginBottom(.rem(1))
+                    
+                    table {
+                        tr {
+                            td { "Name:" }
+                                .padding(.rem(0.625))
+                                .borderBottom(.px(1), .solid, .lightGray)
+                                .fontWeight(.semibold)
+                            td { name }
+                                .padding(.rem(0.625))
+                                .borderBottom(.px(1), .solid, .lightGray)
+                        }
+                        tr {
+                            td { "Email:" }
+                                .padding(.rem(0.625))
+                                .borderBottom(.px(1), .solid, .lightGray)
+                                .fontWeight(.semibold)
+                            td { 
+                                a(href: "mailto:\(email)") { String(email) }
+                                    .color(.blue)
+                            }
+                            .padding(.rem(0.625))
+                            .borderBottom(.px(1), .solid, .lightGray)
+                        }
+                        tr {
+                            td { "Message:" }
+                                .padding(.rem(0.625))
+                                .verticalAlign(.top)
+                                .fontWeight(.semibold)
+                            td {
+                                p { message }
+                                    .whiteSpace(.preWrap)
+                            }
+                            .padding(.rem(0.625))
+                        }
+                    }
+                    .width(.percent(100))
+                    .borderCollapse(.collapse)
+                }
+                .fontFamily(.systemUI)
+                .padding(.rem(1.25))
+            }
             
             let response = try await mailgun.client.messages.send(request)
             self.message = "Message sent successfully!"
@@ -442,28 +582,105 @@ The package includes helpful test utilities:
 
 ## Architecture
 
-coenttb-mailgun implements the types and interfaces defined in [swift-mailgun-types](https://github.com/coenttb/swift-mailgun-types):
+**coenttb-mailgun** is the top-level package in a three-tier architecture:
 
 ```
-swift-mailgun-types              coenttb-mailgun
-       │                               │
-       ├─ Types & Models ─────────────►├─ Live Implementations
-       ├─ Client Interfaces ──────────►├─ URLSession Networking
-       ├─ API Routes ─────────────────►├─ Authentication
-       └─ Test Support ───────────────►└─ Production Features
+┌─────────────────────────────────────────────────────────┐
+│                   coenttb-mailgun                       │
+│         (User-facing package with integrations)         │
+│                                                         │
+│  • SwiftUI components & views                           │
+│  • HTML email templates (via swift-html)               │
+│  • Re-exports swift-mailgun-live functionality         │
+│  • High-level convenience APIs                          │
+│  • Integration helpers for common frameworks            │
+└─────────────────────────────────────────────────────────┘
+                            │
+                      imports/uses
+                            ▼
+┌─────────────────────────────────────────────────────────┐
+│                  swift-mailgun-live                     │
+│              (Live implementation layer)                │
+│                                                         │
+│  • URLSession-based networking                          │
+│  • Authentication handling                              │
+│  • Environment configuration                            │
+│  • Dependency injection setup                           │
+│  • Production-ready client implementations              │
+└─────────────────────────────────────────────────────────┘
+                            │
+                       implements
+                            ▼
+┌─────────────────────────────────────────────────────────┐
+│                  swift-mailgun-types                    │
+│            (Type definitions & interfaces)              │
+│                                                         │
+│  • Domain models & data structures                      │
+│  • Client protocol definitions                          │
+│  • API route specifications                             │
+│  • Error types & utilities                              │
+│  • Test value implementations                           │
+└─────────────────────────────────────────────────────────┘
 ```
 
-### Key Components
+### What This Package Provides
 
-- **Modular Features**: Each API feature (Messages, Domains, etc.) is a separate module
-- **Dependency Injection**: Deep integration with swift-dependencies
-- **Type Safety**: All API interactions validated at compile time
-- **Error Handling**: Comprehensive error types with detailed messages
-- **Testing**: Real API integration tests with test mode support
+#### Core Mailgun Functionality
+- Re-exports all features from swift-mailgun-live
+- Complete API coverage for all Mailgun endpoints
+- Production-ready with comprehensive testing
+
+#### Additional Integrations
+- **Type-Safe HTML Emails**: Build HTML emails using swift-html DSL instead of strings
+- **SwiftUI Components**: Ready-to-use views for email composition and management
+- **Vapor Integration**: Seamless integration with server-side Swift
+- **Convenience APIs**: Higher-level abstractions for common tasks
+
+#### Key Benefits
+- **Single Import**: One package for all Mailgun needs
+- **Type Safety**: Compile-time validation across all layers
+- **Dependency Injection**: Built-in swift-dependencies support
+- **Modular Architecture**: Use only what you need
+- **Production Ready**: Battle-tested in real applications
 
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Migration Guide
+
+### From swift-mailgun-live
+
+If you're currently using swift-mailgun-live directly, migration is simple:
+
+1. Update your Package.swift:
+```swift
+// Before
+.package(url: "https://github.com/coenttb/swift-mailgun-live", from: "0.0.1")
+
+// After
+.package(url: "https://github.com/coenttb/coenttb-mailgun", from: "0.1.0")
+```
+
+2. Update your imports:
+```swift
+// Before
+import Mailgun
+
+// After
+import Mailgun
+```
+
+3. All existing code continues to work - coenttb-mailgun is a superset of swift-mailgun-live.
+
+### Additional Features Available
+
+After migrating, you gain access to:
+- **Type-safe HTML emails**: Build emails with swift-html DSL instead of error-prone strings
+- **SwiftUI components**: Ready-to-use email UI components
+- **Enhanced template builders**: Reusable email template functions
+- **Additional helper functions**: High-level convenience APIs
+- **Framework integrations**: Better Vapor, SwiftUI integration
 
 ## Example Projects
 

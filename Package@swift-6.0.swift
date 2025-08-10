@@ -1,4 +1,4 @@
-// swift-tools-version:5.10
+// swift-tools-version:6.0
 
 import Foundation
 import PackageDescription
@@ -382,7 +382,8 @@ let package = Package(
             name: .webhooks.tests,
             dependencies: [.webhooks, .shared, .dependenciesTestSupport]
         )
-    ]
+    ],
+    swiftLanguageModes: [.v6]
 )
 
 extension String {
