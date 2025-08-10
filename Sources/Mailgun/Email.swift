@@ -7,6 +7,9 @@
 
 import Foundation
 import Mailgun_Messages_Types
-import Mailgun_Types_Shared
 
-public typealias Email = Mailgun.Messages.Send.Request
+extension Mailgun {
+    public typealias Email = Mailgun.Messages.Send.Request
+}
+
+
