@@ -6,3 +6,4 @@
 //
 
 @_exported import Mailgun_Routes_Live
+@_exported import Mailgun_Shared

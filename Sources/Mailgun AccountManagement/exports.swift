@@ -6,3 +6,4 @@
 //
 
 @_exported import Mailgun_AccountManagement_Live
+@_exported import Mailgun_Shared

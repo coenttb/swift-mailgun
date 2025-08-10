@@ -5,8 +5,11 @@
 Package.resolved
 
 # Environment files
-.env*
-!.env.example
+.env.development
+.env.production
+.env.test
+# Track .env but not other env files
+!.env
 
 # Xcode
 *.xcodeproj

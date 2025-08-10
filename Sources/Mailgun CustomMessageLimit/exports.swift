@@ -6,3 +6,4 @@
 //
 
 @_exported import Mailgun_CustomMessageLimit_Live
+@_exported import Mailgun_Shared
