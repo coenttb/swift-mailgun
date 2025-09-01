@@ -1,6 +1,6 @@
 //
 //  Dynamic IP Pools Tests.swift
-//  coenttb-mailgun
+//  swift-mailgun
 //
 //  Created by Coen ten Thije Boonkkamp on 06/08/2025.
 //

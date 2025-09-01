@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  coenttb-mailgun
+//  swift-mailgun
 //
 //  Created by Coen ten Thije Boonkkamp on 10/08/2025.
 //

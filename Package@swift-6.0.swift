@@ -3,15 +3,13 @@
 import Foundation
 import PackageDescription
 
-let useLocalPackages = (try? String(contentsOfFile: "\(Context.packageDirectory)/.env.development", encoding: .utf8).contains("USE_LOCAL_PACKAGES=true")) == true
-
 extension String {
     static let mailgun: Self = "Mailgun"
     static let accountManagement: Self = "Mailgun AccountManagement"
     static let credentials: Self = "Mailgun Credentials"
     static let customMessageLimit: Self = "Mailgun CustomMessageLimit"
     static let domains: Self = "Mailgun Domains"
-    static let iPAllowlist: Self = "Mailgun IPAllowlist"
+    static let ipAllowlist: Self = "Mailgun IPAllowlist"
     static let ipPools: Self = "Mailgun IPPools"
     static let ips: Self = "Mailgun IPs"
     static let keys: Self = "Mailgun Keys"
@@ -33,7 +31,7 @@ extension Target.Dependency {
     static var credentials: Self { .target(name: .credentials) }
     static var customMessageLimit: Self { .target(name: .customMessageLimit) }
     static var domains: Self { .target(name: .domains) }
-    static var iPAllowlist: Self { .target(name: .iPAllowlist) }
+    static var ipAllowlist: Self { .target(name: .ipAllowlist) }
     static var ipPools: Self { .target(name: .ipPools) }
     static var ips: Self { .target(name: .ips) }
     static var keys: Self { .target(name: .keys) }
@@ -80,7 +78,7 @@ extension Target.Dependency {
 }
 
 let package = Package(
-    name: "coenttb-mailgun",
+    name: "swift-mailgun",
     platforms: [
         .macOS(.v14),
         .iOS(.v17)
@@ -91,7 +89,7 @@ let package = Package(
         .library(name: .credentials, targets: [.credentials]),
         .library(name: .customMessageLimit, targets: [.customMessageLimit]),
         .library(name: .domains, targets: [.domains]),
-        .library(name: .iPAllowlist, targets: [.iPAllowlist]),
+        .library(name: .ipAllowlist, targets: [.ipAllowlist]),
         .library(name: .ipPools, targets: [.ipPools]),
         .library(name: .ips, targets: [.ips]),
         .library(name: .keys, targets: [.keys]),
@@ -107,14 +105,8 @@ let package = Package(
         .library(name: .shared, targets: [.shared])
     ],
     dependencies: [
-        useLocalPackages
-        ? .package(path: "../swift-mailgun-types")
-        : .package(url: "https://github.com/coenttb/swift-mailgun-types", from: "0.1.0"),
-        
-        useLocalPackages
-        ? .package(path: "../swift-mailgun-live")
-        : .package(url: "https://github.com/coenttb/swift-mailgun-live", from: "0.1.0"),
-        
+        .package(url: "https://github.com/coenttb/swift-mailgun-types", from: "0.1.0"),
+        .package(url: "https://github.com/coenttb/swift-mailgun-live", from: "0.1.0"),
         .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.9.2"),
         .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "1.4.3"),
         .package(url: "https://github.com/coenttb/swift-html", from: "0.0.1"),
@@ -134,23 +126,23 @@ let package = Package(
                 .mailgunLiveShared,
                 .mailgunLive,
                 .issueReporting,
-                .accountManagementLive,
-                .credentialsLive,
-                .customMessageLimitLive,
-                .domainsLive,
-                .ipAllowlistLive,
-                .ipPoolsLive,
-                .ipsLive,
-                .keysLive,
-                .listsLive,
-                .messagesLive,
-                .reportingLive,
-                .routesLive,
-                .subaccountsLive,
-                .suppressionsLive,
-                .templatesLive,
-                .usersLive,
-                .webhooksLive
+                .accountManagement,
+                .credentials,
+                .customMessageLimit,
+                .domains,
+                .ipAllowlist,
+                .ipPools,
+                .ips,
+                .keys,
+                .lists,
+                .messages,
+                .reporting,
+                .routes,
+                .subaccounts,
+                .suppressions,
+                .templates,
+                .users,
+                .webhooks
             ]
         ),
         .testTarget(
@@ -213,7 +205,7 @@ let package = Package(
             dependencies: [.domains, .shared, .dependenciesTestSupport]
         ),
         .target(
-            name: .iPAllowlist,
+            name: .ipAllowlist,
             dependencies: [
                 .shared,
                 .mailgunLiveShared,
@@ -222,8 +214,8 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: .iPAllowlist.tests,
-            dependencies: [.iPAllowlist, .shared, .dependenciesTestSupport]
+            name: .ipAllowlist.tests,
+            dependencies: [.ipAllowlist, .shared, .dependenciesTestSupport]
         ),
         .target(
             name: .ipPools,
