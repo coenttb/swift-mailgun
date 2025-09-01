@@ -1,4 +1,4 @@
-# coenttb-mailgun
+# swift-mailgun
 
 <p align="center">
   <img src="https://img.shields.io/badge/Swift-6.0-orange.svg" alt="Swift 6.0">
@@ -7,7 +7,7 @@
   <img src="https://img.shields.io/badge/Coverage-100%25%20APIs-brightgreen.svg" alt="API Coverage">
   <img src="https://img.shields.io/badge/License-AGPL--3.0%20|%20Commercial-blue.svg" alt="License">
   <img src="https://img.shields.io/badge/Status-Production%20Ready-green.svg" alt="Status">
-  <img src="https://img.shields.io/badge/Version-0.0.1-brightgreen.svg" alt="Version">
+  <img src="https://img.shields.io/badge/Version-0.1.0-brightgreen.svg" alt="Version">
 </p>
 
 <p align="center">
@@ -17,15 +17,15 @@
 
 ## Overview
 
-**coenttb-mailgun** is the complete, user-friendly Swift SDK for Mailgun that combines the power of [swift-mailgun-live](https://github.com/coenttb/swift-mailgun-live) with additional integrations for SwiftUI, HTML email templates, and more. It's the recommended entry point for using Mailgun in your Swift applications.
+**swift-mailgun** is the complete, user-friendly Swift SDK for Mailgun that combines the power of [swift-mailgun-live](https://github.com/coenttb/swift-mailgun-live) with additional integrations for SwiftUI, HTML email templates, and more. It's the recommended entry point for using Mailgun in your Swift applications.
 
 This package is part of a modular three-package architecture:
-- **coenttb-mailgun** (this package): User-facing SDK with integrations
+- **swift-mailgun** (this package): User-facing SDK with integrations
 - **[swift-mailgun-live](https://github.com/coenttb/swift-mailgun-live)**: Live implementations with URLSession networking
 - **[swift-mailgun-types](https://github.com/coenttb/swift-mailgun-types)**: Type definitions and interfaces
 
 ```swift
-// github.com/coenttb/coenttb-mailgun
+// github.com/coenttb/swift-mailgun
 import Mailgun  // Complete SDK with integrations
 
 @Dependency(\.mailgun) var mailgun
@@ -117,17 +117,17 @@ print("Email sent: \(response.id) ✅")
 
 ## Installation
 
-Add coenttb-mailgun to your `Package.swift`:
+Add swift-mailgun to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/coenttb/coenttb-mailgun", from: "0.1.0")
+    .package(url: "https://github.com/coenttb/swift-mailgun", from: "0.1.0")
 ],
 targets: [
     .target(
         name: "YourTarget",
         dependencies: [
-            .product(name: "CoenttbMailgun", package: "coenttb-mailgun")
+            .product(name: "CoenttbMailgun", package: "swift-mailgun")
         ]
     )
 ]
@@ -200,7 +200,7 @@ func sendWelcomeEmail(to email: EmailAddress, name: String) async throws {
         }
         .fontFamily(.systemUI)
         .padding(.rem(3))
-        .maxWidth(.rem(30))
+        .maxWidth(.identityComponentDesktop)
         .margin(.auto)
     }
     
@@ -582,11 +582,11 @@ The package includes helpful test utilities:
 
 ## Architecture
 
-**coenttb-mailgun** is the top-level package in a three-tier architecture:
+**swift-mailgun** is the top-level package in a three-tier architecture:
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                   coenttb-mailgun                       │
+│                   swift-mailgun                       │
 │         (User-facing package with integrations)         │
 │                                                         │
 │  • SwiftUI components & views                           │
@@ -656,10 +656,10 @@ If you're currently using swift-mailgun-live directly, migration is simple:
 1. Update your Package.swift:
 ```swift
 // Before
-.package(url: "https://github.com/coenttb/swift-mailgun-live", from: "0.0.1")
+.package(url: "https://github.com/coenttb/swift-mailgun-live", from: "0.1.0")
 
 // After
-.package(url: "https://github.com/coenttb/coenttb-mailgun", from: "0.1.0")
+.package(url: "https://github.com/coenttb/swift-mailgun", from: "0.1.0")
 ```
 
 2. Update your imports:
@@ -671,7 +671,7 @@ import Mailgun
 import Mailgun
 ```
 
-3. All existing code continues to work - coenttb-mailgun is a superset of swift-mailgun-live.
+3. All existing code continues to work - swift-mailgun is a superset of swift-mailgun-live.
 
 ### Additional Features Available
 
@@ -684,15 +684,15 @@ After migrating, you gain access to:
 
 ## Example Projects
 
-See coenttb-mailgun in action:
+See swift-mailgun in action:
 
-- [coenttb.com](https://github.com/coenttb/coenttb-com-server) - Production website using coenttb-mailgun
-- [coenttb-newsletter](https://github.com/coenttb/coenttb-newsletter) - Newsletter system built with coenttb-mailgun
+- [coenttb.com](https://github.com/coenttb/coenttb-com-server) - Production website using swift-mailgun
+- [coenttb-newsletter](https://github.com/coenttb/coenttb-newsletter) - Newsletter system built with swift-mailgun
 
 ## Support
 
-- 🐛 [Issues](https://github.com/coenttb/coenttb-mailgun/issues) - Report bugs or request features
-- 💬 [Discussions](https://github.com/coenttb/coenttb-mailgun/discussions) - Ask questions
+- 🐛 [Issues](https://github.com/coenttb/swift-mailgun/issues) - Report bugs or request features
+- 💬 [Discussions](https://github.com/coenttb/swift-mailgun/discussions) - Ask questions
 - 📧 [Newsletter](http://coenttb.com/en/newsletter/subscribe) - Get updates
 - 🐦 [X (Twitter)](http://x.com/coenttb) - Follow for news
 - 💼 [LinkedIn](https://www.linkedin.com/in/tenthijeboonkkamp) - Connect

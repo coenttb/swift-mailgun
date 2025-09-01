@@ -1,6 +1,6 @@
 //
 //  Sandbox Reset Test.swift
-//  coenttb-mailgun
+//  swift-mailgun
 //
 //  Created by Claude on 07/08/2025.
 //
