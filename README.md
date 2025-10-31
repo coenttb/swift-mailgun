@@ -697,6 +697,25 @@ See swift-mailgun in action:
 - 🐦 [X (Twitter)](http://x.com/coenttb) - Follow for news
 - 💼 [LinkedIn](https://www.linkedin.com/in/tenthijeboonkkamp) - Connect
 
+## Related Packages
+
+### Dependencies
+
+- [swift-html](https://github.com/coenttb/swift-html): The Swift library for domain-accurate and type-safe HTML & CSS.
+- [swift-mailgun-live](https://github.com/coenttb/swift-mailgun-live): A Swift package with live implementations for Mailgun.
+- [swift-mailgun-types](https://github.com/coenttb/swift-mailgun-types): A Swift package with foundational types for Mailgun.
+
+### Used By
+
+- [coenttb-com-server](https://github.com/coenttb/coenttb-com-server): Production server for coenttb.com built with Boiler.
+- [coenttb-newsletter](https://github.com/coenttb/coenttb-newsletter): A Swift package for newsletter subscription and email management.
+- [swift-identities-mailgun](https://github.com/coenttb/swift-identities-mailgun): A Swift package integrating Mailgun with swift-identities.
+
+### Third-Party Dependencies
+
+- [pointfreeco/swift-dependencies](https://github.com/pointfreeco/swift-dependencies): A dependency management library for controlling dependencies in Swift.
+- [pointfreeco/xctest-dynamic-overlay](https://github.com/pointfreeco/xctest-dynamic-overlay): Define XCTest assertion helpers directly in production code.
+
 ## License
 
 This project is available under **dual licensing**:
