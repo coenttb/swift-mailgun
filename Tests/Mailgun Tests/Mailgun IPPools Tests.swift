@@ -11,5 +11,5 @@ import Testing
 // )
 // struct MailgunIPPoolsTests {
 //    @Dependency(Mailgun.IPPools.self) var ipPools
-//    
+//
 // }

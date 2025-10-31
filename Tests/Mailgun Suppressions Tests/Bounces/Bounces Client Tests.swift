@@ -12,10 +12,10 @@ import Mailgun_Suppressions
 import Testing
 
 @Suite(
-   "Bounces Client Tests",
-   .dependency(\.context, .live),
-   .dependency(\.envVars, .development),
-   .serialized
+  "Bounces Client Tests",
+  .dependency(\.context, .live),
+  .dependency(\.envVars, .development),
+  .serialized
 )
 struct SuppressionsBouncesClientTests {
-    }
+}

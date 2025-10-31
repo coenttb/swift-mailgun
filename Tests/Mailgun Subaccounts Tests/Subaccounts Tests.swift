@@ -12,10 +12,10 @@ import Mailgun_Subaccounts
 import Testing
 
 @Suite(
-    "Mailgun Subaccounts Tests",
-    .dependency(\.context, .live),
-    .dependency(\.envVars, .development),
-    .serialized
+  "Mailgun Subaccounts Tests",
+  .dependency(\.context, .live),
+  .dependency(\.envVars, .development),
+  .serialized
 )
 struct MailgunSubaccountsTests {
 }

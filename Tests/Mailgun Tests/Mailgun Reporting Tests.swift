@@ -9,13 +9,12 @@ import Mailgun_Reporting_Types
 import Testing
 
 @Suite(
-    "Mailgun Reporting Tests",
-    .dependency(\.context, .live),
-    .dependency(\.envVars, .development),
-    .serialized
+  "Mailgun Reporting Tests",
+  .dependency(\.context, .live),
+  .dependency(\.envVars, .development),
+  .serialized
 )
 struct MailgunReportingTests {
-    @Dependency(\.mailgun) var mailgun
-    
-    
+  @Dependency(\.mailgun) var mailgun
+
 }

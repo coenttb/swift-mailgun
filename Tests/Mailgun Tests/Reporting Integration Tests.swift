@@ -8,15 +8,15 @@ import Mailgun_Reporting_Types
 import Testing
 
 #if canImport(FoundationNetworking)
-import FoundationNetworking
+  import FoundationNetworking
 #endif
 
 @Suite(
-    "Reporting Integration Tests",
-    .dependency(\.context, .live),
-    .dependency(\.envVars, .development),
-    .serialized
+  "Reporting Integration Tests",
+  .dependency(\.context, .live),
+  .dependency(\.envVars, .development),
+  .serialized
 )
 struct ReportingIntegrationTests {
 
-    }
+}

@@ -11,13 +11,12 @@ import Mailgun_Shared
 import Testing
 
 @Suite(
-    "Domain Tracking Client Tests",
-    .dependency(\.context, .live),
-    .dependency(\.envVars, .development),
-    .serialized
+  "Domain Tracking Client Tests",
+  .dependency(\.context, .live),
+  .dependency(\.envVars, .development),
+  .serialized
 )
 struct DomainTrackingClientTests {
-    @Dependency(Mailgun.Domains.Domains.Tracking.self) var domainTracking
-    
+  @Dependency(Mailgun.Domains.Domains.Tracking.self) var domainTracking
 
-    }
+}

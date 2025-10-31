@@ -12,13 +12,12 @@ import Mailgun_Shared
 import Testing
 
 @Suite(
-    "DKIM Security Client Tests",
-    .dependency(\.context, .live),
-    .dependency(\.envVars, .development),
-    .serialized
+  "DKIM Security Client Tests",
+  .dependency(\.context, .live),
+  .dependency(\.envVars, .development),
+  .serialized
 )
 struct DKIMSecurityClientTests {
-    @Dependency(Mailgun.Domains.DKIM_Security.self) var dkimSecurity
-    
+  @Dependency(Mailgun.Domains.DKIM_Security.self) var dkimSecurity
 
-    }
+}

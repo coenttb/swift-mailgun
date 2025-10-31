@@ -11,6 +11,6 @@ import Testing
 // )
 // struct mailgun.domainsTests {
 //    @Dependency(Mailgun.Domains.self) var domains
-//    
-//    
+//
+//
 // }

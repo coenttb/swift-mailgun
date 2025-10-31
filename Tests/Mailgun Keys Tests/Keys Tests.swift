@@ -12,12 +12,12 @@ import Mailgun_Keys
 import Testing
 
 @Suite(
-    "Mailgun Keys Tests",
-    .dependency(\.context, .live),
-    .dependency(\.envVars, .development),
-    .serialized
+  "Mailgun Keys Tests",
+  .dependency(\.context, .live),
+  .dependency(\.envVars, .development),
+  .serialized
 )
 struct MailgunKeysTests {
-    @Dependency(Mailgun.Keys.self) var keys
+  @Dependency(Mailgun.Keys.self) var keys
 
-    }
+}

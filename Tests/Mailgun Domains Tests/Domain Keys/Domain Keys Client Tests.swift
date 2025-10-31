@@ -12,13 +12,12 @@ import Mailgun_Shared
 import Testing
 
 @Suite(
-    "Domain Keys Client Tests",
-    .dependency(\.context, .live),
-    .dependency(\.envVars, .development),
-    .serialized
+  "Domain Keys Client Tests",
+  .dependency(\.context, .live),
+  .dependency(\.envVars, .development),
+  .serialized
 )
 struct DomainKeysClientTests {
-    @Dependency(Mailgun.Domains.DomainKeys.self) var domainKeys
-    
+  @Dependency(Mailgun.Domains.DomainKeys.self) var domainKeys
 
-    }
+}

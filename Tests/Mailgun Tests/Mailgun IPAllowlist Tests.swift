@@ -11,5 +11,5 @@ import Testing
 // )
 // struct MailgunIPAllowlistTests {
 //    @Dependency(Mailgun.IPAllowlist.self) var ipAllowlist
-//    
+//
 // }
