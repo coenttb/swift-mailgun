@@ -11,12 +11,12 @@ import Mailgun_Suppressions
 import Testing
 
 @Suite(
-    "Mailgun Suppressions Complaints Tests",
-    .dependency(\.context, .live),
-    .dependency(\.envVars, .development),
-    .serialized
+  "Mailgun Suppressions Complaints Tests",
+  .dependency(\.context, .live),
+  .dependency(\.envVars, .development),
+  .serialized
 )
 struct MailgunSuppressionsComplaintsTests {
-    @Dependency(Mailgun.Suppressions.Complaints.self) var complaints
+  @Dependency(Mailgun.Suppressions.Complaints.self) var complaints
 
- }
+}

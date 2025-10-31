@@ -11,6 +11,6 @@ import Testing
 // )
 // struct MailgunCredentialsTests {
 //    @Dependency(Mailgun.Credentials.self) var credentials
-//    
-//    
+//
+//
 // }

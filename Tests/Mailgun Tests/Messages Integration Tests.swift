@@ -7,14 +7,14 @@ import Mailgun_Messages
 import Testing
 
 #if canImport(FoundationNetworking)
-import FoundationNetworking
+  import FoundationNetworking
 #endif
 
 @Suite(
-    "Messages Integration Tests",
-    .dependency(\.context, .live),
-    .dependency(\.envVars, .development),
-    .serialized
+  "Messages Integration Tests",
+  .dependency(\.context, .live),
+  .dependency(\.envVars, .development),
+  .serialized
 )
 struct MessagesIntegrationTests {
 

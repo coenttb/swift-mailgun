@@ -12,11 +12,11 @@ import Mailgun_Users
 import Testing
 
 @Suite(
-    "Mailgun Users Tests",
-    .dependency(\.context, .live),
-    .dependency(\.envVars, .development),
-    .serialized
+  "Mailgun Users Tests",
+  .dependency(\.context, .live),
+  .dependency(\.envVars, .development),
+  .serialized
 )
 struct MailgunUsersTests {
-    
+
 }

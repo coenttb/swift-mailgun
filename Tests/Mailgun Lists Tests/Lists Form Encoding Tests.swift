@@ -8,4 +8,4 @@ import URLRouting
 @Suite("Lists Form Encoding Tests")
 struct ListsFormEncodingTests {
 
-    }
+}

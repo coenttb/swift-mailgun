@@ -12,13 +12,12 @@ import Mailgun_Shared
 import Testing
 
 @Suite(
-    "Mailgun CustomMessageLimit Tests",
-    .dependency(\.context, .live),
-    .dependency(\.envVars, .development),
-    .serialized
+  "Mailgun CustomMessageLimit Tests",
+  .dependency(\.context, .live),
+  .dependency(\.envVars, .development),
+  .serialized
 )
 struct MailgunCustomMessageLimitTests {
-    @Dependency(Mailgun.CustomMessageLimit.self) var customMessageLimit
+  @Dependency(Mailgun.CustomMessageLimit.self) var customMessageLimit
 
-    
 }

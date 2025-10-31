@@ -6,10 +6,10 @@ import Mailgun_Suppressions
 import Testing
 
 @Suite(
-    "Mailgun Unsubscribe Client Tests",
-    .dependency(\.context, .live),
-    .dependency(\.envVars, .development),
-    .serialized
+  "Mailgun Unsubscribe Client Tests",
+  .dependency(\.context, .live),
+  .dependency(\.envVars, .development),
+  .serialized
 )
 struct UnsubscribeClientTests {
-    }
+}

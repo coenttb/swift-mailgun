@@ -12,13 +12,12 @@ import Mailgun_Shared
 import Testing
 
 @Suite(
-    "Mailgun Domains Aggregation Tests",
-    .dependency(\.context, .live),
-    .dependency(\.envVars, .development),
-    .serialized
+  "Mailgun Domains Aggregation Tests",
+  .dependency(\.context, .live),
+  .dependency(\.envVars, .development),
+  .serialized
 )
 struct MailgunDomainsAggregationTests {
-    @Dependency(Mailgun.Domains.self) var domains
-    
+  @Dependency(Mailgun.Domains.self) var domains
 
-    }
+}

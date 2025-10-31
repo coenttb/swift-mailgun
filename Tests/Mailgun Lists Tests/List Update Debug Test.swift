@@ -8,4 +8,4 @@ import URLRouting
 @Suite("List Update Debug")
 struct ListUpdateDebugTest {
 
-    }
+}

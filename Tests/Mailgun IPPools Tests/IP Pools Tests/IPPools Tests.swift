@@ -11,12 +11,12 @@ import Mailgun_IPPools
 import Testing
 
 @Suite(
-    "Mailgun IPPools Tests",
-    .dependency(\.context, .live),
-    .dependency(\.envVars, .development),
-    .serialized
+  "Mailgun IPPools Tests",
+  .dependency(\.context, .live),
+  .dependency(\.envVars, .development),
+  .serialized
 )
 struct MailgunIPPoolsTests {
-    @Dependency(Mailgun.IPPools.self) var ipPools
+  @Dependency(Mailgun.IPPools.self) var ipPools
 
-    }
+}

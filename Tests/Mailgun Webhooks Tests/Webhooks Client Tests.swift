@@ -5,10 +5,10 @@ import Mailgun_Webhooks
 import Testing
 
 @Suite(
-    "Mailgun Webhooks Tests",
-    .dependency(\.context, .live),
-    .dependency(\.envVars, .development),
-    .serialized
+  "Mailgun Webhooks Tests",
+  .dependency(\.context, .live),
+  .dependency(\.envVars, .development),
+  .serialized
 )
 struct WebhooksClientTests {
 }

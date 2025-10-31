@@ -13,13 +13,12 @@ import Testing
 import TypesFoundation
 
 @Suite(
-    "Domains Domains Client Tests",
-    .dependency(\.context, .live),
-    .dependency(\.envVars, .development),
-    .serialized
+  "Domains Domains Client Tests",
+  .dependency(\.context, .live),
+  .dependency(\.envVars, .development),
+  .serialized
 )
 struct DomainsDomainsClientTests {
-    @Dependency(Mailgun.Domains.Domains.self) var domainsDomains
-    
+  @Dependency(Mailgun.Domains.Domains.self) var domainsDomains
 
-    }
+}
