@@ -18,9 +18,9 @@ import Testing
 @testable import Mailgun
 
 @Suite(
-  "Sandbox Reset Tests",
-  .dependency(\.context, .live),
-  .dependency(\.envVars, .development)
+    "Sandbox Reset Tests",
+    .dependency(\.context, .live),
+    .dependency(\.envVars, .development)
 )
 struct SandboxResetTests {
 

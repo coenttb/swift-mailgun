@@ -82,5 +82,3 @@ extension Mailgun.Messages.Send.Request {
         )
     }
 }
-
-

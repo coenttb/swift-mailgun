@@ -9,18 +9,18 @@ import EnvironmentVariables
 @_exported import Mailgun_Shared_Live
 
 extension EnvVars {
-  package static var development: Self {
-    let projectRoot = URL(fileURLWithPath: #filePath)
-      .deletingLastPathComponent()
-      .deletingLastPathComponent()
-      .deletingLastPathComponent()
+    package static var development: Self {
+        let projectRoot = URL(fileURLWithPath: #filePath)
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
 
-    return try! .live(
-      environmentConfiguration: .projectRoot(
-        projectRoot,
-        environment: "development"
-      ),
-      requiredKeys: []
-    )
-  }
+        return try! .live(
+            environmentConfiguration: .projectRoot(
+                projectRoot,
+                environment: "development"
+            ),
+            requiredKeys: []
+        )
+    }
 }

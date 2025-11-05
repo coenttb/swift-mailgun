@@ -9,5 +9,5 @@ import Foundation
 import Mailgun_Messages_Types
 
 extension Mailgun {
-  public typealias Email = Mailgun.Messages.Send.Request
+    public typealias Email = Mailgun.Messages.Send.Request
 }

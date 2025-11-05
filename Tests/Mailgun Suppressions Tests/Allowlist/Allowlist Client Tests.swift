@@ -11,10 +11,10 @@ import Mailgun_Suppressions
 import Testing
 
 @Suite(
-  "Allowlist Client Tests",
-  .dependency(\.context, .live),
-  .dependency(\.envVars, .development),
-  .serialized
+    "Allowlist Client Tests",
+    .dependency(\.context, .live),
+    .dependency(\.envVars, .development),
+    .serialized
 )
 struct SuppressionsAllowlistClientTests {
 }
