@@ -8,6 +8,6 @@
 import Foundation
 import Mailgun_Messages_Types
 
-extension Mailgun {
-    public typealias Email = Mailgun.Messages.Send.Request
-}
+//extension Mailgun {
+//    public typealias Email = Mailgun.Messages.Send.Request
+//}

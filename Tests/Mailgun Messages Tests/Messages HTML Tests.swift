@@ -22,30 +22,26 @@ struct MessagesHTMLEmailTests {
         let email = try Email(
             to: [.init("info@coenttb.com")],
             from: .init("info@coenttb.com"),
-            subject: "Simple HTML Email",
-            html: {
-                h1 { "Hello World!" }
-            }
-        )
+            subject: "Simple HTML Email"
+        ) {
+            h1 { "Hello World!" }
+        }
+        
 
         let response = try await messages.client.send(email: email)
 
         print(response)
     }
-
-    @Test("Email with HTML builder")
-    func emailWithHtml() async throws {
+    
+    @Test("Email with text and HTML")
+    func emailWithText() async throws {
         let email = try Email(
             to: [.init("info@coenttb.com")],
             from: .init("info@coenttb.com"),
-            subject: "Email with HTML builder",
-            html: {
-                div {
-                    h1 { "Welcome!" }
-                    p { "This email was created using the Email type with HTML builder." }
-                }
-            }
-        )
+            subject: "Multipart Email"
+        ) {
+            "This is the plain text version."
+        }
 
         let response = try await messages.client.send(email: email)
 
@@ -57,15 +53,15 @@ struct MessagesHTMLEmailTests {
         let email = try Email(
             to: [.init("info@coenttb.com")],
             from: .init("info@coenttb.com"),
-            subject: "Multipart Email",
-            text: "This is the plain text version.",
-            html: {
-                div {
-                    h1 { "HTML Version" }
-                    p { "This is the HTML version with formatting." }
-                }
+            subject: "Multipart Email"
+        ) {
+            div {
+                h1 { "HTML Version" }
+                p { "This is the HTML version with formatting." }
             }
-        )
+        } text: {
+            "This is the plain text version."
+        }
 
         let response = try await messages.client.send(email: email)
 
