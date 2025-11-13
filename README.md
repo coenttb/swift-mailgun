@@ -3,13 +3,13 @@
 [![CI](https://github.com/coenttb/swift-mailgun/workflows/CI/badge.svg)](https://github.com/coenttb/swift-mailgun/actions/workflows/ci.yml)
 ![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
 
-A Swift SDK for Mailgun that combines [swift-mailgun-live](https://github.com/coenttb/swift-mailgun-live) with HTML templating and SwiftUI integrations.
+A Swift SDK for Mailgun that combines [swift-mailgun-live](https://github.com/coenttb/swift-mailgun-live) with [swift-email](https://github.com/coenttb/swift-email) for provider-agnostic email composition.
 
 ## Overview
 
-**swift-mailgun** provides Swift interfaces to the Mailgun API with additional integrations for HTML email templates via [swift-html](https://github.com/coenttb/swift-html). This package is part of a three-tier architecture:
+**swift-mailgun** provides Swift interfaces to the Mailgun API with seamless integration for the provider-agnostic `Email` type. This package is part of a three-tier architecture:
 
-- **swift-mailgun** (this package): SDK with HTML and SwiftUI integrations
+- **swift-mailgun** (this package): SDK with Email type integration
 - **[swift-mailgun-live](https://github.com/coenttb/swift-mailgun-live)**: Live implementations with URLSession networking
 - **[swift-mailgun-types](https://github.com/coenttb/swift-mailgun-types)**: Type definitions and interfaces
 
@@ -19,10 +19,10 @@ import Dependencies
 
 @Dependency(\.mailgun) var mailgun
 
-// Send email with type-safe HTML
-let request = try Mailgun.Messages.Send.Request(
+// Send HTML email using the provider-agnostic Email type
+let email = try Email(
+    to: [.init("user@example.com")],
     from: .init("hello@yourdomain.com"),
-    to: [try .init("user@example.com")],
     subject: "Welcome!"
 ) {
     div {
@@ -36,13 +36,15 @@ let request = try Mailgun.Messages.Send.Request(
     .padding(.rem(2))
 }
 
-let response = try await mailgun.client.messages.send(request)
+let response = try await mailgun.client.messages.send(email: email)
 ```
 
 ## Features
 
 - URLSession-based networking with async/await
-- Type-safe HTML email generation via swift-html DSL
+- Provider-agnostic `Email` type for portable email composition
+- Type-safe HTML email generation via [swift-html](https://github.com/coenttb/swift-html) DSL
+- Seamless Mailgun-specific options (tags, tracking, scheduling)
 - Dependency injection via swift-dependencies
 - Swift 6 language mode with complete concurrency support
 - Complete API coverage for Mailgun endpoints
@@ -85,27 +87,28 @@ import Mailgun
 
 @Dependency(\.mailgun) var mailgun
 
-func sendEmail(to email: EmailAddress) async throws {
-    let request = try Mailgun.Messages.Send.Request(
+// Simple text email
+func sendEmail(to recipient: EmailAddress) async throws {
+    let email = try Email(
+        to: [recipient],
         from: .init("noreply@yourdomain.com"),
-        to: [.init(email)],
         subject: "Hello",
-        text: "Hello from Mailgun!"
+        body: .text("Hello from Mailgun!")
     )
 
-    let response = try await mailgun.client.messages.send(request)
+    let response = try await mailgun.client.messages.send(email: email)
     print("Email sent: \(response.id)")
 }
 ```
 
 ### HTML Email Templates
 
-Build type-safe HTML emails with swift-html:
+Build type-safe HTML emails with swift-html via the `Email` type:
 
 ```swift
-let request = try Mailgun.Messages.Send.Request(
-    from: .init("newsletter@yourdomain.com"),
+let email = try Email(
     to: [.init("subscriber@example.com")],
+    from: .init("newsletter@yourdomain.com"),
     subject: "Weekly Newsletter"
 ) {
     div {
@@ -125,71 +128,75 @@ let request = try Mailgun.Messages.Send.Request(
     .fontFamily(.systemUI)
     .padding(.rem(2))
 }
+
+let response = try await mailgun.client.messages.send(email: email)
 ```
 
-### Template Variables
+### Multipart Emails (Text + HTML)
+
+Send emails with both plain text and HTML versions:
 
 ```swift
-let templateVars = """
-{
-    "customer_name": "John Doe",
-    "order_id": "12345",
-    "total": "$99.99"
-}
-"""
-
-let request = try Mailgun.Messages.Send.Request(
-    from: .init("noreply@yourdomain.com"),
+let email = try Email(
     to: [.init("user@example.com")],
-    subject: "Order #{{order_id}}",
-    template: "order-confirmation",
-    templateVariables: templateVars
+    from: .init("newsletter@yourdomain.com"),
+    subject: "Newsletter",
+    text: "This is the plain text version."
 ) {
-    div { "Order confirmation" }
+    div {
+        h1 { "HTML Version" }
+        p { "This is the HTML version with formatting." }
+    }
 }
+
+let response = try await mailgun.client.messages.send(email: email)
 ```
 
-### Batch Sending
+### Mailgun-Specific Options
+
+Add Mailgun features like tracking, tags, and scheduling:
 
 ```swift
-let recipientVars = """
-{
-    "alice@example.com": {"name": "Alice", "code": "ALICE20"},
-    "bob@example.com": {"name": "Bob", "code": "BOB15"}
-}
-"""
-
-let request = try Mailgun.Messages.Send.Request(
+let email = try Email(
+    to: [.init("user@example.com")],
     from: .init("newsletter@yourdomain.com"),
-    to: [
-        .init("alice@example.com"),
-        .init("bob@example.com")
-    ],
-    subject: "Hello %recipient.name%!",
-    text: "Special code: %recipient.code%",
-    recipientVariables: recipientVars
+    subject: "Weekly Update"
 ) {
-    div { "Hello %recipient.name%!" }
+    div { h1 { "Your Weekly Update" } }
 }
+
+let response = try await mailgun.client.messages.send(
+    email: email,
+    tags: ["newsletter", "weekly"],
+    tracking: .yes,
+    trackingClicks: .yes,
+    testMode: false
+)
 ```
 
 ### Scheduled Delivery
 
+Schedule emails for future delivery:
+
 ```swift
+let email = try Email(
+    to: [.init("user@example.com")],
+    from: .init("reminder@yourdomain.com"),
+    subject: "Meeting Reminder",
+    body: .text("Meeting in 1 hour")
+)
+
 let deliveryTime = Date().addingTimeInterval(3600) // 1 hour from now
 
-let request = try Mailgun.Messages.Send.Request(
-    from: .init("reminder@yourdomain.com"),
-    to: [.init("user@example.com")],
-    subject: "Meeting Reminder",
-    text: "Meeting in 1 hour",
+let response = try await mailgun.client.messages.send(
+    email: email,
     deliveryTime: deliveryTime
-) {
-    div { "Meeting reminder" }
-}
+)
 ```
 
 ### Attachments
+
+Send emails with file attachments:
 
 ```swift
 let attachment = Mailgun.Messages.Attachment.Data(
@@ -198,15 +205,23 @@ let attachment = Mailgun.Messages.Attachment.Data(
     contentType: "application/pdf"
 )
 
-let request = try Mailgun.Messages.Send.Request(
+let email = try Email(
+    to: [.init("manager@example.com")],
+    from: .init("reports@yourdomain.com"),
+    subject: "Monthly Report",
+    body: .text("See attached report")
+)
+
+// Note: Attachments require using Mailgun.Messages.Send.Request directly
+let request = Mailgun.Messages.Send.Request(
     from: .init("reports@yourdomain.com"),
     to: [.init("manager@example.com")],
     subject: "Monthly Report",
-    text: "Report attached",
+    text: "See attached report",
     attachments: [attachment]
-) {
-    div { "Report attached" }
-}
+)
+
+let response = try await mailgun.client.messages.send(request: request)
 ```
 
 ### Suppressions
@@ -276,9 +291,10 @@ swift test
 
 ### Dependencies
 
-- [swift-html](https://github.com/coenttb/swift-html): The Swift library for domain-accurate and type-safe HTML & CSS.
-- [swift-mailgun-live](https://github.com/coenttb/swift-mailgun-live): A Swift package with live implementations for Mailgun.
-- [swift-mailgun-types](https://github.com/coenttb/swift-mailgun-types): A Swift package with foundational types for Mailgun.
+- [swift-email](https://github.com/coenttb/swift-email): Provider-agnostic email composition with HTML builder support
+- [swift-html](https://github.com/coenttb/swift-html): Type-safe HTML & CSS generation
+- [swift-mailgun-live](https://github.com/coenttb/swift-mailgun-live): Live implementations for Mailgun API
+- [swift-mailgun-types](https://github.com/coenttb/swift-mailgun-types): Foundational types for Mailgun
 
 ### Used By
 

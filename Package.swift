@@ -1,4 +1,4 @@
-// swift-tools-version:5.10
+// swift-tools-version:6.0
 
 import Foundation
 import PackageDescription
@@ -50,7 +50,7 @@ extension Target.Dependency {
 extension Target.Dependency {
     static var dependenciesTestSupport: Self { .product(name: "DependenciesTestSupport", package: "swift-dependencies") }
     static var issueReporting: Self { .product(name: "IssueReporting", package: "xctest-dynamic-overlay") }
-    static var html: Self { .product(name: "HTML", package: "swift-html") }
+    static var email: Self { .product(name: "Email", package: "swift-email") }
 }
 
 extension Target.Dependency {
@@ -109,7 +109,7 @@ let package = Package(
         .package(url: "https://github.com/coenttb/swift-mailgun-live", from: "0.1.0"),
         .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.9.2"),
         .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "1.4.3"),
-        .package(url: "https://github.com/coenttb/swift-html", from: "0.0.1"),
+        .package(url: "https://github.com/coenttb/swift-email", from: "0.1.0"),
     ],
     targets: [
         .target(
@@ -276,7 +276,7 @@ let package = Package(
                 .shared,
                 .mailgunLiveShared,
                 .issueReporting,
-                .html
+                .email
             ]
         ),
         .testTarget(
