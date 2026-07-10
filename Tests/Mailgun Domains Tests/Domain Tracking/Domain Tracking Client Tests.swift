@@ -5,7 +5,7 @@
 //  Created by Coen ten Thije Boonkkamp on 27/12/2024.
 //
 import Dependencies
-import DependenciesTestSupport
+import Dependencies_Test_Support
 import Mailgun_Domains
 import Mailgun_Shared
 import Testing
