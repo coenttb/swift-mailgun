@@ -1,4 +1,4 @@
-// swift-tools-version:6.1
+// swift-tools-version: 6.3.1
 
 import Foundation
 import PackageDescription
@@ -48,7 +48,7 @@ extension Target.Dependency {
 }
 
 extension Target.Dependency {
-    static var dependenciesTestSupport: Self { .product(name: "DependenciesTestSupport", package: "swift-dependencies") }
+    static var dependenciesTestSupport: Self { .product(name: "Dependencies Test Support", package: "swift-dependencies") }
     static var issueReporting: Self { .product(name: "IssueReporting", package: "xctest-dynamic-overlay") }
     static var email: Self { .product(name: "Email", package: "swift-email") }
 }
@@ -80,8 +80,8 @@ extension Target.Dependency {
 let package = Package(
     name: "swift-mailgun",
     platforms: [
-        .macOS(.v14),
-        .iOS(.v17)
+        .macOS(.v26),
+        .iOS(.v26)
     ],
     products: [
         .library(name: .mailgun, targets: [.mailgun]),
@@ -105,11 +105,10 @@ let package = Package(
         .library(name: .shared, targets: [.shared])
     ],
     dependencies: [
-        .package(url: "https://github.com/coenttb/swift-mailgun-types", from: "0.1.0"),
-        .package(url: "https://github.com/coenttb/swift-mailgun-live", from: "0.1.0"),
-        .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.9.2"),
+        .package(url: "https://github.com/swift-foundations/swift-mailgun-live.git", branch: "main"),
+        .package(url: "https://github.com/swift-foundations/swift-dependencies.git", branch: "main"),
         .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "1.4.3"),
-        .package(url: "https://github.com/coenttb/swift-email", from: "0.1.0"),
+        .package(url: "https://github.com/swift-foundations/swift-email.git", branch: "main"),
     ],
     targets: [
         .target(
