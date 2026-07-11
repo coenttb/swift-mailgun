@@ -49,7 +49,6 @@ extension Target.Dependency {
 
 extension Target.Dependency {
     static var dependenciesTestSupport: Self { .product(name: "Dependencies Test Support", package: "swift-dependencies") }
-    static var issueReporting: Self { .product(name: "IssueReporting", package: "xctest-dynamic-overlay") }
     static var email: Self { .product(name: "Email", package: "swift-email") }
 }
 
@@ -107,14 +106,12 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/swift-foundations/swift-mailgun-live.git", branch: "main"),
         .package(url: "https://github.com/swift-foundations/swift-dependencies.git", branch: "main"),
-        .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "1.4.3"),
         .package(url: "https://github.com/swift-foundations/swift-email.git", branch: "main"),
     ],
     targets: [
         .target(
             name: .shared,
             dependencies: [
-                .issueReporting,
                 .mailgunLiveShared,
             ]
         ),
@@ -124,7 +121,6 @@ let package = Package(
                 .shared,
                 .mailgunLiveShared,
                 .mailgunLive,
-                .issueReporting,
                 .accountManagement,
                 .credentialsLive,
                 .customMessageLimit,
@@ -156,8 +152,7 @@ let package = Package(
             dependencies: [
                 .shared,
                 .mailgunLiveShared,
-                .accountManagementLive,
-                .issueReporting
+                .accountManagementLive
             ]
         ),
         .testTarget(
@@ -169,8 +164,7 @@ let package = Package(
             dependencies: [
                 .shared,
                 .mailgunLiveShared,
-                .credentialsLive,
-                .issueReporting
+                .credentialsLive
             ]
         ),
         .testTarget(
@@ -182,8 +176,7 @@ let package = Package(
             dependencies: [
                 .shared,
                 .mailgunLiveShared,
-                .customMessageLimitLive,
-                .issueReporting
+                .customMessageLimitLive
             ]
         ),
         .testTarget(
@@ -195,8 +188,7 @@ let package = Package(
             dependencies: [
                 .shared,
                 .mailgunLiveShared,
-                .domainsLive,
-                .issueReporting
+                .domainsLive
             ]
         ),
         .testTarget(
@@ -208,8 +200,7 @@ let package = Package(
             dependencies: [
                 .shared,
                 .mailgunLiveShared,
-                .ipAllowlistLive,
-                .issueReporting
+                .ipAllowlistLive
             ]
         ),
         .testTarget(
@@ -221,8 +212,7 @@ let package = Package(
             dependencies: [
                 .ipPoolsLive,
                 .shared,
-                .mailgunLiveShared,
-                .issueReporting
+                .mailgunLiveShared
             ]
         ),
         .testTarget(
@@ -234,8 +224,7 @@ let package = Package(
             dependencies: [
                 .ipsLive,
                 .shared,
-                .mailgunLiveShared,
-                .issueReporting
+                .mailgunLiveShared
             ]
         ),
         .testTarget(
@@ -247,8 +236,7 @@ let package = Package(
             dependencies: [
                 .keysLive,
                 .shared,
-                .mailgunLiveShared,
-                .issueReporting
+                .mailgunLiveShared
             ]
         ),
         .testTarget(
@@ -260,8 +248,7 @@ let package = Package(
             dependencies: [
                 .listsLive,
                 .shared,
-                .mailgunLiveShared,
-                .issueReporting
+                .mailgunLiveShared
             ]
         ),
         .testTarget(
@@ -274,7 +261,6 @@ let package = Package(
                 .messagesLive,
                 .shared,
                 .mailgunLiveShared,
-                .issueReporting,
                 .email
             ]
         ),
@@ -287,8 +273,7 @@ let package = Package(
             dependencies: [
                 .reportingLive,
                 .shared,
-                .mailgunLiveShared,
-                .issueReporting
+                .mailgunLiveShared
             ]
         ),
         .testTarget(
@@ -300,8 +285,7 @@ let package = Package(
             dependencies: [
                 .routesLive,
                 .shared,
-                .mailgunLiveShared,
-                .issueReporting
+                .mailgunLiveShared
             ]
         ),
         .testTarget(
@@ -313,8 +297,7 @@ let package = Package(
             dependencies: [
                 .subaccountsLive,
                 .shared,
-                .mailgunLiveShared,
-                .issueReporting
+                .mailgunLiveShared
             ]
         ),
         .testTarget(
@@ -326,8 +309,7 @@ let package = Package(
             dependencies: [
                 .suppressionsLive,
                 .shared,
-                .mailgunLiveShared,
-                .issueReporting
+                .mailgunLiveShared
             ]
         ),
         .testTarget(
@@ -339,8 +321,7 @@ let package = Package(
             dependencies: [
                 .templatesLive,
                 .shared,
-                .mailgunLiveShared,
-                .issueReporting
+                .mailgunLiveShared
             ]
         ),
         .testTarget(
@@ -352,8 +333,7 @@ let package = Package(
             dependencies: [
                 .usersLive,
                 .shared,
-                .mailgunLiveShared,
-                .issueReporting
+                .mailgunLiveShared
             ]
         ),
         .testTarget(
@@ -365,8 +345,7 @@ let package = Package(
             dependencies: [
                 .webhooksLive,
                 .shared,
-                .mailgunLiveShared,
-                .issueReporting
+                .mailgunLiveShared
             ]
         ),
         .testTarget(
