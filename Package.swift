@@ -50,6 +50,7 @@ extension Target.Dependency {
 extension Target.Dependency {
     static var dependenciesTestSupport: Self { .product(name: "Dependencies Test Support", package: "swift-dependencies") }
     static var email: Self { .product(name: "Email", package: "swift-email") }
+    static var serverEnvVars: Self { .product(name: "ServerFoundationEnvVars", package: "swift-server-foundation") }
 }
 
 extension Target.Dependency {
@@ -107,12 +108,14 @@ let package = Package(
         .package(url: "https://github.com/swift-foundations/swift-mailgun-live.git", branch: "main"),
         .package(url: "https://github.com/swift-foundations/swift-dependencies.git", branch: "main"),
         .package(url: "https://github.com/swift-foundations/swift-email.git", branch: "main"),
+        .package(url: "https://github.com/swift-foundations/swift-server-foundation.git", branch: "main"),
     ],
     targets: [
         .target(
             name: .shared,
             dependencies: [
                 .mailgunLiveShared,
+                .serverEnvVars,
             ]
         ),
         .target(
@@ -144,7 +147,8 @@ let package = Package(
             name: .mailgun.tests,
             dependencies: [
                 .mailgun,
-                .dependenciesTestSupport
+                .dependenciesTestSupport,
+                .serverEnvVars
             ]
         ),
         .target(

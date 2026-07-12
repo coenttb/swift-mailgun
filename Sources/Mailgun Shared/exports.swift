@@ -5,7 +5,8 @@
 //  Created by Coen ten Thije Boonkkamp on 23/01/2025.
 //
 
-import EnvironmentVariables
+import Foundation
+import ServerFoundationEnvVars
 @_exported import Mailgun_Shared_Live
 
 extension EnvVars {
@@ -19,8 +20,7 @@ extension EnvVars {
             environmentConfiguration: .projectRoot(
                 projectRoot,
                 environment: "development"
-            ),
-            requiredKeys: []
+            )
         )
     }
 }
