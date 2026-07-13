@@ -10,7 +10,6 @@ import Dependencies_Test_Support
 import Foundation
 import Mailgun_AccountManagement
 import Testing
-import TypesFoundation
 
 @Suite(
     "Mailgun AccountManagement Tests",

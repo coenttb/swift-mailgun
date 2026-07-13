@@ -18,18 +18,9 @@ struct ReadmeVerificationTests {
         let request = try Mailgun.Messages.Send.Request(
             from: .init("hello@yourdomain.com"),
             to: [try .init("user@example.com")],
-            subject: "Welcome!"
-        ) {
-            div {
-                h1 { "Welcome!" }
-                    .color(.blue)
-                    .textAlign(.center)
-
-                p { "We're excited to have you on board." }
-                    .fontSize(.rem(1.1))
-            }
-            .padding(.rem(2))
-        }
+            subject: "Welcome!",
+            html: "<div><h1>Welcome!</h1><p>We're excited to have you on board.</p></div>"
+        )
 
         // Verify request structure
         #expect(request.from.description == "hello@yourdomain.com")
@@ -44,10 +35,9 @@ struct ReadmeVerificationTests {
             from: .init("noreply@yourdomain.com"),
             to: [.init("test@example.com")],
             subject: "Hello",
+            html: "<div>HTML body</div>",
             text: "Hello from Mailgun!"
-        ) {
-            div { "HTML body" }
-        }
+        )
 
         #expect(request.from.description == "noreply@yourdomain.com")
         #expect(request.subject == "Hello")
@@ -60,24 +50,21 @@ struct ReadmeVerificationTests {
         let request = try Mailgun.Messages.Send.Request(
             from: .init("newsletter@yourdomain.com"),
             to: [.init("subscriber@example.com")],
-            subject: "Weekly Newsletter"
-        ) {
-            div {
-                h1 { "This Week's Highlights" }
-                    .marginBottom(.rem(1))
+            subject: "Weekly Newsletter",
+            html: """
 
-                ul {
-                    li { "New Swift 6 features" }
-                    li { "SwiftUI improvements" }
-                    li { "Server-side Swift updates" }
-                }
+                <div>
+                <h1>This Week's Highlights</h1>
+                <ul>
+                <li>New Swift 6 features</li>
+                <li>SwiftUI improvements</li>
+                <li>Server-side Swift updates</li>
+                </ul>
+                <a href="{{unsubscribe}}">Unsubscribe</a>
+                </div>
+                """
 
-                a(href: "{{unsubscribe}}") { "Unsubscribe" }
-                    .fontSize(.px(12))
-                    .color(.gray)
-            }
-            .padding(.rem(2))
-        }
+        )
 
         #expect(request.from.description == "newsletter@yourdomain.com")
         #expect(request.to.count == 1)
@@ -99,11 +86,10 @@ struct ReadmeVerificationTests {
             from: .init("noreply@yourdomain.com"),
             to: [.init("user@example.com")],
             subject: "Order #{{order_id}}",
+            html: "<div>Fallback HTML</div>",
             template: "order-confirmation",
             templateVariables: templateVars
-        ) {
-            div { "Fallback HTML" }
-        }
+        )
 
         #expect(request.template == "order-confirmation")
         #expect(request.templateVariables != nil)
@@ -126,11 +112,10 @@ struct ReadmeVerificationTests {
                 .init("bob@example.com"),
             ],
             subject: "Hello %recipient.name%!",
+            html: "<div>Hello %recipient.name%!</div>",
             text: "Special code: %recipient.code%",
             recipientVariables: recipientVars
-        ) {
-            div { "Hello %recipient.name%!" }
-        }
+        )
 
         #expect(request.to.count == 2)
         #expect(request.recipientVariables != nil)
@@ -145,11 +130,10 @@ struct ReadmeVerificationTests {
             from: .init("reminder@yourdomain.com"),
             to: [.init("user@example.com")],
             subject: "Meeting Reminder",
+            html: "<div>Meeting reminder</div>",
             text: "Meeting in 1 hour",
             deliveryTime: deliveryTime
-        ) {
-            div { "Meeting reminder" }
-        }
+        )
 
         #expect(request.deliveryTime != nil)
         #expect(request.subject == "Meeting Reminder")
@@ -170,11 +154,10 @@ struct ReadmeVerificationTests {
             from: .init("reports@yourdomain.com"),
             to: [.init("manager@example.com")],
             subject: "Monthly Report",
+            html: "<div>Monthly report attached</div>",
             text: "Report attached",
             attachments: [attachment]
-        ) {
-            div { "Monthly report attached" }
-        }
+        )
 
         #expect(request.attachments?.count == 1)
         #expect(request.attachments?.first?.filename == "report.pdf")

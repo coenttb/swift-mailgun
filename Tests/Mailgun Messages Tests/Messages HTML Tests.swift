@@ -22,26 +22,25 @@ struct MessagesHTMLEmailTests {
         let email = try Email(
             to: [.init("info@coenttb.com")],
             from: .init("info@coenttb.com"),
-            subject: "Simple HTML Email"
-        ) {
-            h1 { "Hello World!" }
-        }
-        
+            subject: "Simple HTML Email",
+            html: "<h1>Hello World!</h1>",
+            date: RFC_5322.DateTime(secondsSinceEpoch: 1_609_459_200)
+        )
 
         let response = try await messages.client.send(email: email)
 
         print(response)
     }
-    
+
     @Test("Email with text and HTML")
     func emailWithText() async throws {
         let email = try Email(
             to: [.init("info@coenttb.com")],
             from: .init("info@coenttb.com"),
-            subject: "Multipart Email"
-        ) {
-            "This is the plain text version."
-        }
+            subject: "Multipart Email",
+            text: "This is the plain text version.",
+            date: RFC_5322.DateTime(secondsSinceEpoch: 1_609_459_200)
+        )
 
         let response = try await messages.client.send(email: email)
 
@@ -53,15 +52,11 @@ struct MessagesHTMLEmailTests {
         let email = try Email(
             to: [.init("info@coenttb.com")],
             from: .init("info@coenttb.com"),
-            subject: "Multipart Email"
-        ) {
-            div {
-                h1 { "HTML Version" }
-                p { "This is the HTML version with formatting." }
-            }
-        } text: {
-            "This is the plain text version."
-        }
+            subject: "Multipart Email",
+            text: "This is the plain text version.",
+            html: "<div><h1>HTML Version</h1><p>This is the HTML version with formatting.</p></div>",
+            date: RFC_5322.DateTime(secondsSinceEpoch: 1_609_459_200)
+        )
 
         let response = try await messages.client.send(email: email)
 
@@ -74,12 +69,8 @@ struct MessagesHTMLEmailTests {
             to: [.init("info@coenttb.com")],
             from: .init("info@coenttb.com"),
             subject: "Email with Mailgun options",
-            html: {
-                div {
-                    h1 { "Newsletter" }
-                    p { "This email uses both Email HTML builder and Mailgun-specific options." }
-                }
-            }
+            html: "<div><h1>Newsletter</h1><p>This email uses both Email HTML content and Mailgun-specific options.</p></div>",
+            date: RFC_5322.DateTime(secondsSinceEpoch: 1_609_459_200)
         )
 
         let response = try await messages.client.send(

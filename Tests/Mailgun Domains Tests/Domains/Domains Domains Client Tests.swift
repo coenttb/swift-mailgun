@@ -10,7 +10,6 @@ import Dependencies_Test_Support
 import Mailgun_Domains
 import Mailgun_Shared
 import Testing
-import TypesFoundation
 
 @Suite(
     "Domains Domains Client Tests",
