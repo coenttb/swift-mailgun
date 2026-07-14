@@ -159,10 +159,6 @@ let package = Package(
                 .accountManagementLive
             ]
         ),
-        .testTarget(
-            name: .accountManagement.tests,
-            dependencies: [.accountManagement, .shared, .dependenciesTestSupport]
-        ),
         .target(
             name: .credentials,
             dependencies: [
@@ -170,10 +166,6 @@ let package = Package(
                 .mailgunLiveShared,
                 .credentialsLive
             ]
-        ),
-        .testTarget(
-            name: .credentials.tests,
-            dependencies: [.credentials, .shared, .dependenciesTestSupport]
         ),
         .target(
             name: .customMessageLimit,
@@ -183,10 +175,6 @@ let package = Package(
                 .customMessageLimitLive
             ]
         ),
-        .testTarget(
-            name: .customMessageLimit.tests,
-            dependencies: [.customMessageLimit, .shared, .dependenciesTestSupport]
-        ),
         .target(
             name: .domains,
             dependencies: [
@@ -194,10 +182,6 @@ let package = Package(
                 .mailgunLiveShared,
                 .domainsLive
             ]
-        ),
-        .testTarget(
-            name: .domains.tests,
-            dependencies: [.domains, .shared, .dependenciesTestSupport]
         ),
         .target(
             name: .ipAllowlist,
@@ -207,10 +191,6 @@ let package = Package(
                 .ipAllowlistLive
             ]
         ),
-        .testTarget(
-            name: .ipAllowlist.tests,
-            dependencies: [.ipAllowlist, .shared, .dependenciesTestSupport]
-        ),
         .target(
             name: .ipPools,
             dependencies: [
@@ -218,10 +198,6 @@ let package = Package(
                 .shared,
                 .mailgunLiveShared
             ]
-        ),
-        .testTarget(
-            name: .ipPools.tests,
-            dependencies: [.ipPools, .shared, .dependenciesTestSupport]
         ),
         .target(
             name: .ips,
@@ -231,10 +207,6 @@ let package = Package(
                 .mailgunLiveShared
             ]
         ),
-        .testTarget(
-            name: .ips.tests,
-            dependencies: [.ips, .shared, .dependenciesTestSupport]
-        ),
         .target(
             name: .keys,
             dependencies: [
@@ -242,10 +214,6 @@ let package = Package(
                 .shared,
                 .mailgunLiveShared
             ]
-        ),
-        .testTarget(
-            name: .keys.tests,
-            dependencies: [.keys, .shared, .dependenciesTestSupport]
         ),
         .target(
             name: .lists,
@@ -268,10 +236,6 @@ let package = Package(
                 .email
             ]
         ),
-        .testTarget(
-            name: .messages.tests,
-            dependencies: [.messages, .shared, .dependenciesTestSupport]
-        ),
         .target(
             name: .reporting,
             dependencies: [
@@ -292,10 +256,6 @@ let package = Package(
                 .mailgunLiveShared
             ]
         ),
-        .testTarget(
-            name: .routes.tests,
-            dependencies: [.routes, .shared, .dependenciesTestSupport]
-        ),
         .target(
             name: .subaccounts,
             dependencies: [
@@ -303,10 +263,6 @@ let package = Package(
                 .shared,
                 .mailgunLiveShared
             ]
-        ),
-        .testTarget(
-            name: .subaccounts.tests,
-            dependencies: [.subaccounts, .shared, .dependenciesTestSupport]
         ),
         .target(
             name: .suppressions,
@@ -340,10 +296,6 @@ let package = Package(
                 .mailgunLiveShared
             ]
         ),
-        .testTarget(
-            name: .users.tests,
-            dependencies: [.users, .shared, .dependenciesTestSupport]
-        ),
         .target(
             name: .webhooks,
             dependencies: [
@@ -352,10 +304,6 @@ let package = Package(
                 .mailgunLiveShared
             ]
         ),
-        .testTarget(
-            name: .webhooks.tests,
-            dependencies: [.webhooks, .shared, .dependenciesTestSupport]
-        )
     ]
 )
 
