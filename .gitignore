@@ -8,8 +8,7 @@ Package.resolved
 .env.development
 .env.production
 .env.test
-# Track .env but not other env files
-!.env
+.env
 
 # Xcode
 *.xcodeproj
