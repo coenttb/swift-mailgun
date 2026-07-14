@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import ServerFoundationEnvVars
+import Environment_Dependencies
 @_exported import Mailgun_Shared_Live
 
 extension EnvVars {

@@ -7,7 +7,7 @@
 
 import Dependencies
 import Foundation
-import ServerFoundationEnvVars
+import Environment_Dependencies
 import Mailgun_Lists_Types
 import Mailgun_Messages_Types
 import Mailgun_Suppressions_Types
