@@ -3,3 +3,21 @@ builder:
   configs:
   - documentation_targets:
     - Mailgun
+    - Mailgun AccountManagement
+    - Mailgun Credentials
+    - Mailgun CustomMessageLimit
+    - Mailgun Domains
+    - Mailgun IPAllowlist
+    - Mailgun IPPools
+    - Mailgun IPs
+    - Mailgun Keys
+    - Mailgun Lists
+    - Mailgun Messages
+    - Mailgun Reporting
+    - Mailgun Routes
+    - Mailgun Subaccounts
+    - Mailgun Suppressions
+    - Mailgun Templates
+    - Mailgun Users
+    - Mailgun Webhooks
+    - Mailgun Shared
