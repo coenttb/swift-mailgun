@@ -1,0 +1,9 @@
+# .github/metadata.yaml
+description: "A Swift SDK for Mailgun combining live networking with provider-agnostic email composition."
+topics:
+  - foundations
+  - mailgun
+  - email
+homepage: "https://swift-institute.org"
+readme:
+  family: E
