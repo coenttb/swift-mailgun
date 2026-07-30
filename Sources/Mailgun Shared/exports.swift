@@ -5,8 +5,8 @@
 //  Created by Coen ten Thije Boonkkamp on 23/01/2025.
 //
 
-import Foundation
 import Environment_Dependencies
+import Foundation
 @_exported import Mailgun_Shared_Live
 
 extension EnvVars {
@@ -16,6 +16,7 @@ extension EnvVars {
             .deletingLastPathComponent()
             .deletingLastPathComponent()
 
+        // swiftlint:disable:next force_try
         return try! .live(
             environmentConfiguration: .projectRoot(
                 projectRoot,
