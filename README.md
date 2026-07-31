@@ -1,17 +1,17 @@
 # swift-mailgun
 
-[![CI](https://github.com/coenttb/swift-mailgun/workflows/CI/badge.svg)](https://github.com/coenttb/swift-mailgun/actions/workflows/ci.yml)
+[![CI](https://github.com/swift-foundations/swift-mailgun/workflows/CI/badge.svg)](https://github.com/swift-foundations/swift-mailgun/actions/workflows/ci.yml)
 ![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
 
-A Swift SDK for Mailgun that combines [swift-mailgun-live](https://github.com/coenttb/swift-mailgun-live) with [swift-email](https://github.com/coenttb/swift-email) for provider-agnostic email composition.
+A Swift SDK for Mailgun that combines [swift-mailgun-http](https://github.com/swift-foundations/swift-mailgun-http) with [swift-email](https://github.com/coenttb/swift-email) for provider-agnostic email composition.
 
 ## Overview
 
 **swift-mailgun** provides Swift interfaces to the Mailgun API with seamless integration for the provider-agnostic `Email` type. This package is part of a three-tier architecture:
 
 - **swift-mailgun** (this package): SDK with Email type integration
-- **[swift-mailgun-live](https://github.com/coenttb/swift-mailgun-live)**: Live implementations with URLSession networking
-- **[swift-mailgun-types](https://github.com/coenttb/swift-mailgun-types)**: Type definitions and interfaces
+- **[swift-mailgun-http](https://github.com/swift-foundations/swift-mailgun-http)**: Live implementations with URLSession networking
+- **[swift-mailgun-standard](https://github.com/swift-standards/swift-mailgun-standard)**: Type definitions and interfaces
 
 ```swift
 import Mailgun
@@ -55,7 +55,7 @@ Add to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/coenttb/swift-mailgun", from: "0.1.0")
+    .package(url: "https://github.com/swift-foundations/swift-mailgun", from: "0.1.0")
 ],
 targets: [
     .target(
@@ -293,8 +293,8 @@ swift test
 
 - [swift-email](https://github.com/coenttb/swift-email): Provider-agnostic email composition with HTML builder support
 - [swift-html](https://github.com/coenttb/swift-html): Type-safe HTML & CSS generation
-- [swift-mailgun-live](https://github.com/coenttb/swift-mailgun-live): Live implementations for Mailgun API
-- [swift-mailgun-types](https://github.com/coenttb/swift-mailgun-types): Foundational types for Mailgun
+- [swift-mailgun-http](https://github.com/swift-foundations/swift-mailgun-http): Live implementations for Mailgun API
+- [swift-mailgun-standard](https://github.com/swift-standards/swift-mailgun-standard): Foundational types for Mailgun
 
 ### Used By
 
