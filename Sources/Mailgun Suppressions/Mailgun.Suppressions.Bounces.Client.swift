@@ -1,5 +1,5 @@
-import Mailgun_Standard
 import EmailAddress_Standard
+import Mailgun_Standard
 
 extension Mailgun.Suppressions.Bounces {
     public struct Client<Failure: Swift.Error>: Sendable {

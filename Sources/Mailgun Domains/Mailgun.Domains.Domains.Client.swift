@@ -1,5 +1,5 @@
-import Mailgun_Standard
 import Domain_Standard
+import Mailgun_Standard
 
 extension Mailgun.Domains.Domains {
     public struct Client<Failure: Swift.Error>: Sendable {

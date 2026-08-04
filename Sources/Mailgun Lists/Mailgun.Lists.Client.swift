@@ -1,5 +1,5 @@
-import Mailgun_Standard
 import EmailAddress_Standard
+import Mailgun_Standard
 
 extension Mailgun.Lists {
     public struct Client<Failure: Swift.Error>: Sendable {

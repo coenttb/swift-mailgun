@@ -5,8 +5,6 @@
 // re-export of `GitHub Standard`.
 @_exported public import Domain_Standard
 @_exported public import EmailAddress_Standard
-@_exported public import Mailgun_Standard
-
 // The umbrella `Mailgun` target composes one client per resource (see `Mailgun.Client.swift`).
 // Re-exporting each resource target keeps `import Mailgun` sufficient for consumers, mirroring
 // the pre-existing `Mailgun Standard` re-export above.
@@ -24,6 +22,7 @@
 @_exported public import Mailgun_Messages
 @_exported public import Mailgun_Reporting
 @_exported public import Mailgun_Routes
+@_exported public import Mailgun_Standard
 @_exported public import Mailgun_Subaccounts
 @_exported public import Mailgun_Suppressions
 @_exported public import Mailgun_Templates
