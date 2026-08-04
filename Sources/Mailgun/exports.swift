@@ -6,3 +6,26 @@
 @_exported public import Domain_Standard
 @_exported public import EmailAddress_Standard
 @_exported public import Mailgun_Standard
+
+// The umbrella `Mailgun` target composes one client per resource (see `Mailgun.Client.swift`).
+// Re-exporting each resource target keeps `import Mailgun` sufficient for consumers, mirroring
+// the pre-existing `Mailgun Standard` re-export above.
+@_exported public import Mailgun_AccountManagement
+@_exported public import Mailgun_Credentials
+@_exported public import Mailgun_CustomMessageLimit
+@_exported public import Mailgun_Domains
+@_exported public import Mailgun_DynamicIPPools
+@_exported public import Mailgun_IPAddressWarmup
+@_exported public import Mailgun_IPAllowlist
+@_exported public import Mailgun_IPPools
+@_exported public import Mailgun_IPs
+@_exported public import Mailgun_Keys
+@_exported public import Mailgun_Lists
+@_exported public import Mailgun_Messages
+@_exported public import Mailgun_Reporting
+@_exported public import Mailgun_Routes
+@_exported public import Mailgun_Subaccounts
+@_exported public import Mailgun_Suppressions
+@_exported public import Mailgun_Templates
+@_exported public import Mailgun_Users
+@_exported public import Mailgun_Webhooks
