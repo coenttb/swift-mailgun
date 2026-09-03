@@ -2,62 +2,6 @@
 
 import PackageDescription
 
-extension String {
-    static let mailgun: Self = "Mailgun"
-    static let accountManagement: Self = "Mailgun AccountManagement"
-    static let credentials: Self = "Mailgun Credentials"
-    static let customMessageLimit: Self = "Mailgun CustomMessageLimit"
-    static let domains: Self = "Mailgun Domains"
-    static let dynamicIPPools: Self = "Mailgun DynamicIPPools"
-    static let ipAddressWarmup: Self = "Mailgun IPAddressWarmup"
-    static let ipAllowlist: Self = "Mailgun IPAllowlist"
-    static let ipPools: Self = "Mailgun IPPools"
-    static let ips: Self = "Mailgun IPs"
-    static let keys: Self = "Mailgun Keys"
-    static let lists: Self = "Mailgun Lists"
-    static let messages: Self = "Mailgun Messages"
-    static let reporting: Self = "Mailgun Reporting"
-    static let routes: Self = "Mailgun Routes"
-    static let subaccounts: Self = "Mailgun Subaccounts"
-    static let suppressions: Self = "Mailgun Suppressions"
-    static let templates: Self = "Mailgun Templates"
-    static let users: Self = "Mailgun Users"
-    static let webhooks: Self = "Mailgun Webhooks"
-}
-
-extension String {
-    var tests: Self { self + " Tests" }
-}
-
-extension Target.Dependency {
-    static var mailgun: Self { .target(name: .mailgun) }
-    static var accountManagement: Self { .target(name: .accountManagement) }
-    static var credentials: Self { .target(name: .credentials) }
-    static var customMessageLimit: Self { .target(name: .customMessageLimit) }
-    static var domains: Self { .target(name: .domains) }
-    static var dynamicIPPools: Self { .target(name: .dynamicIPPools) }
-    static var ipAddressWarmup: Self { .target(name: .ipAddressWarmup) }
-    static var ipAllowlist: Self { .target(name: .ipAllowlist) }
-    static var ipPools: Self { .target(name: .ipPools) }
-    static var ips: Self { .target(name: .ips) }
-    static var keys: Self { .target(name: .keys) }
-    static var lists: Self { .target(name: .lists) }
-    static var messages: Self { .target(name: .messages) }
-    static var reporting: Self { .target(name: .reporting) }
-    static var routes: Self { .target(name: .routes) }
-    static var subaccounts: Self { .target(name: .subaccounts) }
-    static var suppressions: Self { .target(name: .suppressions) }
-    static var templates: Self { .target(name: .templates) }
-    static var users: Self { .target(name: .users) }
-    static var webhooks: Self { .target(name: .webhooks) }
-}
-
-extension Target.Dependency {
-    static var mailgunStandard: Self { .product(name: "Mailgun Standard", package: "swift-mailgun-standard") }
-    static var domainStandard: Self { .product(name: "Domain Standard", package: "swift-domain-standard") }
-    static var emailAddressStandard: Self { .product(name: "EmailAddress Standard", package: "swift-emailaddress-standard") }
-}
-
 let package = Package(
     name: "swift-mailgun",
     platforms: [
@@ -68,26 +12,26 @@ let package = Package(
         .visionOS("27"),
     ],
     products: [
-        .library(name: .mailgun, targets: [.mailgun]),
-        .library(name: .accountManagement, targets: [.accountManagement]),
-        .library(name: .credentials, targets: [.credentials]),
-        .library(name: .customMessageLimit, targets: [.customMessageLimit]),
-        .library(name: .domains, targets: [.domains]),
-        .library(name: .dynamicIPPools, targets: [.dynamicIPPools]),
-        .library(name: .ipAddressWarmup, targets: [.ipAddressWarmup]),
-        .library(name: .ipAllowlist, targets: [.ipAllowlist]),
-        .library(name: .ipPools, targets: [.ipPools]),
-        .library(name: .ips, targets: [.ips]),
-        .library(name: .keys, targets: [.keys]),
-        .library(name: .lists, targets: [.lists]),
-        .library(name: .messages, targets: [.messages]),
-        .library(name: .reporting, targets: [.reporting]),
-        .library(name: .routes, targets: [.routes]),
-        .library(name: .subaccounts, targets: [.subaccounts]),
-        .library(name: .suppressions, targets: [.suppressions]),
-        .library(name: .templates, targets: [.templates]),
-        .library(name: .users, targets: [.users]),
-        .library(name: .webhooks, targets: [.webhooks]),
+        .library(name: "Mailgun", targets: ["Mailgun"]),
+        .library(name: "Mailgun AccountManagement", targets: ["Mailgun AccountManagement"]),
+        .library(name: "Mailgun Credentials", targets: ["Mailgun Credentials"]),
+        .library(name: "Mailgun CustomMessageLimit", targets: ["Mailgun CustomMessageLimit"]),
+        .library(name: "Mailgun Domains", targets: ["Mailgun Domains"]),
+        .library(name: "Mailgun DynamicIPPools", targets: ["Mailgun DynamicIPPools"]),
+        .library(name: "Mailgun IPAddressWarmup", targets: ["Mailgun IPAddressWarmup"]),
+        .library(name: "Mailgun IPAllowlist", targets: ["Mailgun IPAllowlist"]),
+        .library(name: "Mailgun IPPools", targets: ["Mailgun IPPools"]),
+        .library(name: "Mailgun IPs", targets: ["Mailgun IPs"]),
+        .library(name: "Mailgun Keys", targets: ["Mailgun Keys"]),
+        .library(name: "Mailgun Lists", targets: ["Mailgun Lists"]),
+        .library(name: "Mailgun Messages", targets: ["Mailgun Messages"]),
+        .library(name: "Mailgun Reporting", targets: ["Mailgun Reporting"]),
+        .library(name: "Mailgun Routes", targets: ["Mailgun Routes"]),
+        .library(name: "Mailgun Subaccounts", targets: ["Mailgun Subaccounts"]),
+        .library(name: "Mailgun Suppressions", targets: ["Mailgun Suppressions"]),
+        .library(name: "Mailgun Templates", targets: ["Mailgun Templates"]),
+        .library(name: "Mailgun Users", targets: ["Mailgun Users"]),
+        .library(name: "Mailgun Webhooks", targets: ["Mailgun Webhooks"]),
     ],
     dependencies: [
         .package(
@@ -105,114 +49,114 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: .accountManagement,
-            dependencies: [.mailgunStandard, .emailAddressStandard]
+            name: "Mailgun AccountManagement",
+            dependencies: [.product(name: "Mailgun Standard", package: "swift-mailgun-standard"), .product(name: "EmailAddress Standard", package: "swift-emailaddress-standard")]
         ),
         .target(
-            name: .credentials,
-            dependencies: [.mailgunStandard, .domainStandard]
+            name: "Mailgun Credentials",
+            dependencies: [.product(name: "Mailgun Standard", package: "swift-mailgun-standard"), .product(name: "Domain Standard", package: "swift-domain-standard")]
         ),
         .target(
-            name: .customMessageLimit,
-            dependencies: [.mailgunStandard]
+            name: "Mailgun CustomMessageLimit",
+            dependencies: [.product(name: "Mailgun Standard", package: "swift-mailgun-standard")]
         ),
         .target(
-            name: .domains,
+            name: "Mailgun Domains",
             // Domain Keys, Domains, Domain Tracking, DKIM Security sub-clients share this target.
-            dependencies: [.mailgunStandard, .domainStandard]
+            dependencies: [.product(name: "Mailgun Standard", package: "swift-mailgun-standard"), .product(name: "Domain Standard", package: "swift-domain-standard")]
         ),
         .target(
-            name: .dynamicIPPools,
-            dependencies: [.mailgunStandard]
+            name: "Mailgun DynamicIPPools",
+            dependencies: [.product(name: "Mailgun Standard", package: "swift-mailgun-standard")]
         ),
         .target(
-            name: .ipAddressWarmup,
-            dependencies: [.mailgunStandard]
+            name: "Mailgun IPAddressWarmup",
+            dependencies: [.product(name: "Mailgun Standard", package: "swift-mailgun-standard")]
         ),
         .target(
-            name: .ipAllowlist,
-            dependencies: [.mailgunStandard]
+            name: "Mailgun IPAllowlist",
+            dependencies: [.product(name: "Mailgun Standard", package: "swift-mailgun-standard")]
         ),
         .target(
-            name: .ipPools,
-            dependencies: [.mailgunStandard]
+            name: "Mailgun IPPools",
+            dependencies: [.product(name: "Mailgun Standard", package: "swift-mailgun-standard")]
         ),
         .target(
-            name: .ips,
-            dependencies: [.mailgunStandard]
+            name: "Mailgun IPs",
+            dependencies: [.product(name: "Mailgun Standard", package: "swift-mailgun-standard")]
         ),
         .target(
-            name: .keys,
-            dependencies: [.mailgunStandard]
+            name: "Mailgun Keys",
+            dependencies: [.product(name: "Mailgun Standard", package: "swift-mailgun-standard")]
         ),
         .target(
-            name: .lists,
-            dependencies: [.mailgunStandard, .emailAddressStandard]
+            name: "Mailgun Lists",
+            dependencies: [.product(name: "Mailgun Standard", package: "swift-mailgun-standard"), .product(name: "EmailAddress Standard", package: "swift-emailaddress-standard")]
         ),
         .target(
-            name: .messages,
-            dependencies: [.mailgunStandard]
+            name: "Mailgun Messages",
+            dependencies: [.product(name: "Mailgun Standard", package: "swift-mailgun-standard")]
         ),
         .target(
-            name: .reporting,
+            name: "Mailgun Reporting",
             // Events, Logs, Metrics, Stats, Tags sub-clients share this target.
-            dependencies: [.mailgunStandard]
+            dependencies: [.product(name: "Mailgun Standard", package: "swift-mailgun-standard")]
         ),
         .target(
-            name: .routes,
-            dependencies: [.mailgunStandard]
+            name: "Mailgun Routes",
+            dependencies: [.product(name: "Mailgun Standard", package: "swift-mailgun-standard")]
         ),
         .target(
-            name: .subaccounts,
-            dependencies: [.mailgunStandard]
+            name: "Mailgun Subaccounts",
+            dependencies: [.product(name: "Mailgun Standard", package: "swift-mailgun-standard")]
         ),
         .target(
-            name: .suppressions,
+            name: "Mailgun Suppressions",
             // Allowlist, Bounces, Complaints, Unsubscribe sub-clients share this target.
-            dependencies: [.mailgunStandard, .emailAddressStandard]
+            dependencies: [.product(name: "Mailgun Standard", package: "swift-mailgun-standard"), .product(name: "EmailAddress Standard", package: "swift-emailaddress-standard")]
         ),
         .target(
-            name: .templates,
-            dependencies: [.mailgunStandard]
+            name: "Mailgun Templates",
+            dependencies: [.product(name: "Mailgun Standard", package: "swift-mailgun-standard")]
         ),
         .target(
-            name: .users,
-            dependencies: [.mailgunStandard]
+            name: "Mailgun Users",
+            dependencies: [.product(name: "Mailgun Standard", package: "swift-mailgun-standard")]
         ),
         .target(
-            name: .webhooks,
-            dependencies: [.mailgunStandard]
+            name: "Mailgun Webhooks",
+            dependencies: [.product(name: "Mailgun Standard", package: "swift-mailgun-standard")]
         ),
         .target(
-            name: .mailgun,
+            name: "Mailgun",
             dependencies: [
-                .mailgunStandard,
-                .domainStandard,
-                .emailAddressStandard,
-                .accountManagement,
-                .credentials,
-                .customMessageLimit,
-                .domains,
-                .dynamicIPPools,
-                .ipAddressWarmup,
-                .ipAllowlist,
-                .ipPools,
-                .ips,
-                .keys,
-                .lists,
-                .messages,
-                .reporting,
-                .routes,
-                .subaccounts,
-                .suppressions,
-                .templates,
-                .users,
-                .webhooks,
+                .product(name: "Mailgun Standard", package: "swift-mailgun-standard"),
+                .product(name: "Domain Standard", package: "swift-domain-standard"),
+                .product(name: "EmailAddress Standard", package: "swift-emailaddress-standard"),
+                .target(name: "Mailgun AccountManagement"),
+                .target(name: "Mailgun Credentials"),
+                .target(name: "Mailgun CustomMessageLimit"),
+                .target(name: "Mailgun Domains"),
+                .target(name: "Mailgun DynamicIPPools"),
+                .target(name: "Mailgun IPAddressWarmup"),
+                .target(name: "Mailgun IPAllowlist"),
+                .target(name: "Mailgun IPPools"),
+                .target(name: "Mailgun IPs"),
+                .target(name: "Mailgun Keys"),
+                .target(name: "Mailgun Lists"),
+                .target(name: "Mailgun Messages"),
+                .target(name: "Mailgun Reporting"),
+                .target(name: "Mailgun Routes"),
+                .target(name: "Mailgun Subaccounts"),
+                .target(name: "Mailgun Suppressions"),
+                .target(name: "Mailgun Templates"),
+                .target(name: "Mailgun Users"),
+                .target(name: "Mailgun Webhooks"),
             ]
         ),
         .testTarget(
-            name: .mailgun.tests,
-            dependencies: [.mailgun]
+            name: "Mailgun Tests",
+            dependencies: [.target(name: "Mailgun")]
         ),
     ],
     swiftLanguageModes: [.v6]
